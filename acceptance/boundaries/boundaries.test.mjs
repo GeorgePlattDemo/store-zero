@@ -25,7 +25,17 @@ test("Store code depends only on itself and Node built-ins: no other repository,
         assert.ok(target.startsWith("src/") || target.startsWith("data/"), `${path} reaches outside src: ${spec}`);
       }
     }
-    assert.ok(!/\bfetch\s*\(|node:https?\b|node:net\b|node:child_process\b/.test(source(path)), `${path} reaches the network or a process`);
+    // Only the service listens for connections; nothing in Store calls out or starts a process.
+    const network = path.startsWith("src/service/") ? /\bfetch\s*\(|node:https\b|node:net\b|node:child_process\b/ : /\bfetch\s*\(|node:https?\b|node:net\b|node:child_process\b/;
+    assert.ok(!network.test(source(path)), `${path} reaches the network or a process`);
+  }
+});
+
+test("the service only carries requests: it imports the request layer and the catalog, nothing that computes", () => {
+  for (const path of SRC.filter((p) => p.startsWith("src/service/"))) {
+    for (const spec of imports(path).filter((s) => !s.startsWith("node:"))) {
+      assert.ok(["../requests/store-request.mjs", "../evaluation/catalog.mjs"].includes(spec), `${path} imports ${spec}`);
+    }
   }
 });
 
