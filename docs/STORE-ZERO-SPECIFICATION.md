@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.5 · 2026-10-08**
+**3D Solutions LLC · Store Zero Operational Specification 0.6 · 2026-10-08**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), and the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), and the machine side's reference lowering and virtual run added (0.6; §10.5).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -1438,7 +1438,7 @@ The current Store code already performs bounded semantic lowering inside its mod
 *Trace: `deriveOperationPlan`; `deriveBatchComponentPlan`; `operationsFor`; Store tests asserting operation kinds and absence of G-code/Cycle Start.*
 
 The full controller-specific compiler target—registered physical two-saw transforms, physical Router 1/2/3 and Spot 1/2 transforms, retained-face compensation, controller serialization, local admission and physical execution—is not present under Store `src/`. It remains **specified, not built** and is listed in Open work.  
-*Trace: the `src/` tree contains only the eighteen modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
+*Trace: the `src/` tree contains only the twenty-one modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
 
 ## 10.4 The accepted job packet
 
@@ -1462,6 +1462,22 @@ Only an accepted decision makes a packet: a decline, deferral or revision reques
 
 The complete Project 1 packet is `contracts/examples/packets/project-1.accepted.json`; `contracts/examples/packets/refused.json` holds a declined offer, a claimed physical release, a price edited after the answer, an edited receipt, a definition changed after the answer, an answer from another Store, and a refused answer, each refused with its exact reason.  
 *Trace: `src/contracts/job-packet.mjs` (`JOB_PACKET_SCHEMA`, `JOB_PACKET_SHAPE`, `packetProblems`, `verifyJobPacket`); `contracts/examples/packets/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the Project 1 packet is well formed and verifies against this Store”, “a packet that is declined, altered, changed, foreign or refused is never acted on”, “an intact packet whose Store answer is no longer current is STALE and must be re-quoted”.*
+
+## 10.5 The machine side: reference lowering and virtual run
+
+`src/machine/` is the machine-local side of the Store boundary for the D-001 reference cell. It takes an accepted job packet and produces four records, each with an exact shape (`src/contracts/machine-records.mjs`):
+
+1. **Local job** (`STB-LOCAL-JOB-1`) — `lowerJobPacket` lowers a packet only after `verifyJobPacket` answers `VERIFIED` (a `REFUSED` or `STALE` packet produces nothing). It carries the Store's operation plan unchanged, each operation tagged with its source operation and the definition's demand hash; the Store-selected board's actual dimensions, read from the catalog the packet was verified against; the miter angle and kerf; the nominal contact audit (which registered contacts lie under the retained stock before each operation); and the release blockers.
+2. **Motion records** (`STB-MOTION-RECORDS-1`) — `motionRecords` emits the ordered virtual commands (`DELAY`, `MOVE`, `MOVE_C`, `VERIFY_X`, `CAPTURE_C`, `SET_SAW`, `SET_SPOT`, `COMPLETE`), bound to the packet, demand hash and machine configuration. Every record names its source: a Store operation, or a named machine allowance (load, angle, settle, clamp, end, release).
+3. **Virtual run** — `runVirtual` executes the records in the acceleration-limited stop-to-stop model. A binding that does not match the job runs nothing; a position fault, an unconfirmed retract, or an index with the tool down stops the run before the next tool or index command.
+4. **Physical admission** — `physicalAdmission` is always `BLOCKED` with every unresolved prerequisite named and zero motion: no configuration with physical authority is registered.
+
+Every machine fact comes from the registered configuration `data/machine/d001-reference-review-0.2.json`: stations and contact points, axis velocities and accelerations, approach and clearance heights, the spot tool, allowances, the saw-stroke and rebase assumptions, and the release blockers. The lowering refuses rather than adapts when the configuration and the Store's plan disagree: a different spot tool (`SPOT_TOOL_DIFFERS_FROM_STORE_PLAN`), an unregistered station (`STATION_NOT_REGISTERED:<id>`), an operation the cell does not register (`OPERATION_NOT_REGISTERED_ON_MACHINE:<kind>`), more than one miter angle on a board (`ONE_MITER_ANGLE_PER_BOARD_REQUIRED`), or a request type the D-001 lowering does not register (`LOWERING_NOT_REGISTERED_FOR:<type>`; today only `USER_DEFINED_BOARD_V1` is lowered).
+
+**Project 1 reproduces exactly.** From the Project 1 packet the machine side produces the review's local job (every operation, the contact audit, the blockers), all 45 command records field for field, the virtual run (86.46953628299116 s, 21 axis moves, the same trace) and the `BLOCKED` admission — compared against the review's own generated files, verified against its manifest. The virtual benchmark and the Store's modeled 85.5001 s are kept as distinct values; their 0.969436 s difference is asserted, as the review explains it. Of the review's fourteen checks, thirteen are proved here, each by name; check 6 (off-range and off-grid part lengths rejected) is the System rule's (derivation, H02) and is proved in System.
+
+**A second, different job runs through the same code.** `contracts/examples/packets/second-job.accepted.json` is a three-part bracket set on SPF 2×6 at 15°, with two centred spots on one part, none on the second and one 1.5-in inset spot on the third. The Store refuses the 72-in board (the last remainder would fall below the 24-in control length) and selects the 96-in board; the machine side produces 60 records, places the spots at 2.75 and 1.5 in across the 5.5-in board, and runs in 97.632177 s. Every command traces to a Store operation or a named allowance, and every Store operation is carried into commands.  
+*Trace: `src/machine/lowering.mjs` (`loadMachineConfig`, `lowerJobPacket`, `motionRecords`); `src/machine/virtual-run.mjs` (`runVirtual`, `physicalAdmission`, `moveTimeSec`); `src/contracts/machine-records.mjs`; `data/machine/d001-reference-review-0.2.json`; `contracts/examples/machine/`. Tests: `acceptance/machine/machine.test.mjs` (all named tests).*
 
 # 11. Five library jobs, start to finish
 
@@ -1609,7 +1625,7 @@ Every row states the present defect/gap, the required end state, and the accepta
 | Parent stock over 96 in | Stage-2 refuses >96 in without declared external support. | Physical envelope must replace the fixture ceiling only with installed support/control evidence. | **new:** commissioned long-stock support test records pass/refusal conditions and updates envelope version. |
 | Special-order commerce | `supplierPath` is fixture metadata; no general supplier query/price/lead-time/payment-gated procurement exists. | Return a separate attributable special-order option without changing local `UNAVAILABLE`; order only after commercial acceptance. | **new:** supplier-option contract tests: exact conforming match, no match, source/price/lead time, no automatic purchase. |
 | Store 1 adapter | Store Zero is the callable fixture; no real dealer adapter is established here. | Real yard answers the same bounded questions from its own catalog, stock, price, suppliers, capabilities and fulfillment authority. | **new:** Store-1 contract suite against a real/test dealer adapter with source/freshness assertions. |
-| Physical compiler/postprocessor | Store models operation ledgers but has no commissioned controller-specific lowering chain for the specified physical D-001. | Implement versioned machine configuration, deterministic lowering, controller serialization, local admission and output identity. | **new:** golden lowering tests plus controller simulation/admission tests and physical proof evidence. |
+| Physical compiler/postprocessor | The reference lowering, virtual motion records and virtual run exist for the D-001 reference cell (§10.5), but only for `USER_DEFINED_BOARD_V1`, only virtually, and with the saw stroke, retained-face rebase and one-roller states as named blockers. There is no commissioned controller-specific lowering. | Register a commissioned machine configuration; resolve the blockers; lower every admitted request type; compile and exercise the controller project; bind output to the accepted packet and configuration. | Golden lowering tests per request type, controller simulation and admission tests, and physical proof evidence. |
 | Project 1 physical conformance | Existing Project 1 review is software/model evidence and is not evidence of the specified physical D-001. | Preserve it unchanged; add a separate conformed physical evidence record when a cell is commissioned. | **new:** evidence-bundle acceptance check binds definition, Store, machine config, program identity, Cycle Start and inspection. |
 | Linear/angular acceptance evidence | ±1/32 in exists only as a provisional draft criterion; angular criterion is not specified. | Establish accepted physical tolerances from engineering/commissioning and publish them only for the released configuration. | **new:** first-part metrology acceptance records; angular criterion explicitly defined before test. |
 | Catalog tie-break isolation | SKU lexical tie-break after equal length/price is implemented but lacks an isolated tie fixture. | Keep deterministic rule and add direct coverage. | **new:** `matchingBoardOfferings` equal-length/equal-price SKU tie test. |
@@ -1726,8 +1742,11 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/contracts/shape.mjs` | §3.4 |
 | `src/contracts/definitions.mjs` | §3.4 |
 | `src/contracts/job-packet.mjs` | §10.4 |
+| `src/contracts/machine-records.mjs` | §10.5 |
+| `src/machine/lowering.mjs` | §10.5 |
+| `src/machine/virtual-run.mjs` | §10.5 |
 
-`src/` contains exactly these eighteen modules. No module under `src/` is omitted from §6A.  
+`src/` contains exactly these twenty-one modules. No module under `src/` is omitted from §6A.  
 *Trace: `src/` tree; `acceptance/boundaries`.*
 
 # Appendix D. Store reason-code index

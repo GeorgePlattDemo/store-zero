@@ -1,0 +1,139 @@
+{
+  "evidenceClass": "COUNTERFACTUAL_LENGTH_CHECK_NOT_CATALOG_OFFERING",
+  "result": {
+    "status": "REFUSED",
+    "complete": false,
+    "reasons": [
+      "LAST_REMAIN_BELOW_TWO_ROLLER_CONTROL"
+    ],
+    "standard": {
+      "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
+      "version": "0.2.0",
+      "basis": "DECLARED_STAGE2_MODEL"
+    },
+    "operationPlan": [
+      {
+        "sequence": 1,
+        "opId": "OP-REF-CUT",
+        "kind": "REFERENCE_CUT",
+        "stationId": "SAW-L",
+        "datumEffect": "ESTABLISH_DATUM_C",
+        "angleDeg": 26.387799961243,
+        "indexDistanceIn": 0,
+        "timeSec": 3.0853
+      },
+      {
+        "sequence": 2,
+        "opId": "OP-INDEX-2",
+        "kind": "INDEX",
+        "purpose": "POSITION_SPOT-1",
+        "fromCIn": 0,
+        "toCIn": 27,
+        "distanceIn": 27,
+        "timeSec": 3.625
+      },
+      {
+        "sequence": 3,
+        "opId": "SPOT-1",
+        "kind": "SPOT_ON_LOCATION",
+        "stationId": "SPOT-FACE-REF",
+        "partId": "PART-1",
+        "partRelativeXIn": 9,
+        "workpieceFeatureXIn": 9,
+        "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+        "acrossWidthIn": 1.75,
+        "fullDiameterDepthIn": 0.1875,
+        "plungeIn": 0.243831,
+        "depthIsPartRequirement": true,
+        "timeSec": 1.9971
+      },
+      {
+        "sequence": 4,
+        "opId": "OP-INDEX-4",
+        "kind": "INDEX",
+        "purpose": "POSITION_SPOT-2",
+        "fromCIn": 27,
+        "toCIn": 8.875,
+        "distanceIn": 18.125,
+        "timeSec": 2.5156
+      },
+      {
+        "sequence": 5,
+        "opId": "SPOT-2",
+        "kind": "SPOT_ON_LOCATION",
+        "stationId": "SPOT-FACE-REF",
+        "partId": "PART-2",
+        "partRelativeXIn": 9,
+        "workpieceFeatureXIn": 27.125,
+        "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+        "acrossWidthIn": 1.75,
+        "fullDiameterDepthIn": 0.1875,
+        "plungeIn": 0.243831,
+        "depthIsPartRequirement": true,
+        "timeSec": 1.9971
+      },
+      {
+        "sequence": 6,
+        "opId": "OP-INDEX-CUT-1",
+        "kind": "INDEX",
+        "purpose": "POSITION_CUTOFF_PART-1",
+        "fromCIn": 8.875,
+        "toCIn": -18,
+        "distanceIn": 26.875,
+        "timeSec": 3.6094
+      },
+      {
+        "sequence": 7,
+        "opId": "OP-CUTOFF-1",
+        "kind": "MITER_CUTOFF",
+        "stationId": "SAW-L",
+        "partId": "PART-1",
+        "partLengthIn": 18,
+        "angleDeg": 26.387799961243,
+        "kerfIn": 0.125,
+        "retainedAfterIn": 41.75,
+        "controlPass": true,
+        "timeSec": 3.0853
+      },
+      {
+        "sequence": 8,
+        "opId": "OP-REBASE-C-1",
+        "kind": "REBASE_DATUM_C",
+        "stationId": "SAW-L",
+        "method": "FRESH_CUT_FACE",
+        "timeSec": 0
+      },
+      {
+        "sequence": 9,
+        "opId": "OP-INDEX-CUT-2",
+        "kind": "INDEX",
+        "purpose": "POSITION_CUTOFF_PART-2",
+        "fromCIn": 0,
+        "toCIn": -18,
+        "distanceIn": 18,
+        "timeSec": 2.5
+      },
+      {
+        "sequence": 10,
+        "opId": "OP-CUTOFF-2",
+        "kind": "MITER_CUTOFF",
+        "stationId": "SAW-L",
+        "partId": "PART-2",
+        "partLengthIn": 18,
+        "angleDeg": 26.387799961243,
+        "kerfIn": 0.125,
+        "retainedAfterIn": 23.625,
+        "controlPass": false,
+        "timeSec": 3.0853
+      },
+      {
+        "sequence": 11,
+        "opId": "OP-REBASE-C-2",
+        "kind": "REBASE_DATUM_C",
+        "stationId": "SAW-L",
+        "method": "FRESH_CUT_FACE",
+        "timeSec": 0
+      }
+    ]
+  }
+}

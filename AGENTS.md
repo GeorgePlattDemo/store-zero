@@ -16,6 +16,7 @@ This repository is Store Zero: the catalog, capability, modeled work and time, e
 - Adding or changing an offering is a data change in `data/store-zero-catalog.json`, checked with `npm run check:catalog`. It needs no code change. Do not loosen a catalog rule to admit a row; fix the row.
 - Recorded answers are evidence. Do not edit `acceptance/differential/*.gz`, `acceptance/fixtures/`, `acceptance/project-1/from-evidence/`, `docs/project-1-digital-trail/` or `docs/patents/` to make a test pass. A deliberate change to an answer needs the owner's approval in that change, and the specification must say what changed and why.
 - The contracts (`src/contracts/`, `contracts/examples/`) are what System and the machine side build against. Change them only deliberately, regenerate the examples with `npm run build:examples`, and say in the specification what changed. Never loosen a shape to admit a definition; fix the definition.
+- Machine facts live in `data/machine/` as a registered configuration. The machine side reads the accepted job packet and that configuration and nothing else; it never changes what was accepted, and it refuses when the configuration and the Store's plan disagree. Physical admission stays BLOCKED until a commissioned configuration exists.
 - Delete a replaced path in the same change. Keep comments and the specification current with the code.
 - If a check fails on untouched `main`, say so; do not fix it inside another task.
 

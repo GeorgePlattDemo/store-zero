@@ -47,8 +47,14 @@ test("evaluation never depends on the request layer", () => {
   }
 });
 
-test("evaluation is deterministic: no clock, randomness or environment inside it", () => {
-  for (const path of SRC.filter((p) => p.startsWith("src/evaluation/"))) {
+test("the machine side is downstream: evaluation, requests, contracts and the service never import it", () => {
+  for (const path of SRC.filter((p) => !p.startsWith("src/machine/"))) {
+    for (const spec of imports(path)) assert.ok(!spec.includes("machine/"), `${path} imports ${spec}`);
+  }
+});
+
+test("evaluation and the machine side are deterministic: no clock, randomness or environment inside them", () => {
+  for (const path of SRC.filter((p) => p.startsWith("src/evaluation/") || p.startsWith("src/machine/"))) {
     const text = source(path);
     for (const pattern of [/new Date\(/, /Date\.now\(/, /Math\.random\(/, /process\.env/]) {
       assert.ok(!pattern.test(text), `${path} uses ${pattern}`);
