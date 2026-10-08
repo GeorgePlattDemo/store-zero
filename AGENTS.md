@@ -1,0 +1,38 @@
+# Agent instructions — Store Zero
+
+This repository is Store Zero: the catalog, capability, modeled work and time, economics, and answers for identified job definitions. The [specification](docs/STORE-ZERO-SPECIFICATION.md) states every rule; the code, data and checks here implement it. When they disagree, that is a defect to fix, not a choice to make.
+
+## Who owns what
+
+- **System** owns every shared definition, in `docs/definitions/README.md` of `scan-to-build-system`. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here.
+- **System** owns the job's meaning and the application. Store answers the definition it is sent and never rewrites it to make it fit.
+- **Program** is the menu, not the meal: it points here for the Store, the Project 1 trail and the patents.
+
+## Rules
+
+- Clean definitions only. A request that is not one is refused with its reason. "No" is an answer. Never add a compatibility request type, a count-only price, a default, a fallback, or a second path to get a pass.
+- One request layer (`src/requests/store-request.mjs`). Evaluators never issue receipts, read the clock or environment, or import the request layer.
+- No project or tile names in shared code. The one project-shaped evaluator is `alcove-insert.mjs`, and it is scheduled to be folded into cut packages.
+- Adding or changing an offering is a data change in `data/store-zero-catalog.json`, checked with `npm run check:catalog`. It needs no code change. Do not loosen a catalog rule to admit a row; fix the row.
+- Recorded answers are evidence. Do not edit `acceptance/differential/*.gz`, `acceptance/fixtures/`, `acceptance/project-1/from-evidence/`, `docs/project-1-digital-trail/` or `docs/patents/` to make a test pass. A deliberate change to an answer needs the owner's approval in that change, and the specification must say what changed and why.
+- Delete a replaced path in the same change. Keep comments and the specification current with the code.
+- If a check fails on untouched `main`, say so; do not fix it inside another task.
+
+## Checks
+
+Run both before and after every change, on Node 22:
+
+```sh
+npm run check:catalog
+npm test
+```
+
+## Not from here
+
+The live application still answers through the predecessor Store at System's `STORE_PIN`, on Railway. Do not change System, its pin, its workflows, or any Railway setting from this repository. If a task seems to need that, stop and ask.
+
+## Working
+
+One branch per task, a few meaningful commits, one pull request. Do not create other repositories.
+
+**NO BLOOD ON WOOD.**
