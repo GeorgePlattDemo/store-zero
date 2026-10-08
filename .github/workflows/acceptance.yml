@@ -1,0 +1,21 @@
+name: Store Zero acceptance
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Catalog rules
+        run: npm run check:catalog
+      - name: Tests and acceptance
+        run: npm test
