@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.3 · 2026-10-08**
+**3D Solutions LLC · Store Zero Operational Specification 0.4 · 2026-10-08**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected. Every correction is listed in §18.
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), and the Store's own HTTP service added (0.4; §6A.14).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -70,7 +70,8 @@ System and Store are separate owners. System owns the job definition and admissi
 A Store answer names the Store that gave it. Store Zero's identity is its **release**: the identity of the code and data that answered, supplied by whoever runs this Store when it starts, and recorded in every receipt as `authority.storeRevision`. A request cannot set or claim the Store's identity; `storeRevision` and `evaluatedAt` are refused as request fields (§3.3). The application fixes which Store release it expects and rejects an answer from any other; a release, correlation, or freshness mismatch fails closed, and no prior answer or receipt authorizes a new request.  
 *Trace: `src/requests/store-request.mjs` (`evaluateStoreRequest` requires `release`; `requestProblems`); System `apps/stb/shared/contracts.mjs` (`STORE_PIN`) on the application side.*
 
-Correlation of a transmitted request with its answer — protocol version, attempt identity, payload digest, project and revision identities — belongs to the transport between System and Store. Today that transport is System's adapter; the Store service that will carry it is Open work (§17). The Store's own contract is the request in §3.1 and the answer with its receipt in §2.2.
+Store Zero's own service carries requests over HTTPS (§6A.14). Every reply names the protocol (`STORE-ZERO-REQUEST-1`), this Store's release, and the SHA-256 digest of the exact bytes received, so the caller can prove that the answer is to what it sent; the answer itself carries the request id and receipt. Correlation of the application's own identities (project, revision, attempt) stays on the application side, which binds them to the request id it sends.  
+*Trace: `src/service/server.mjs` (`PROTOCOL`, `createHandler`); `tests/service.test.mjs` — “Project 1 over HTTP: the same answer, bound to the exact bytes sent”.*
 
 ## 2.2 Fresh evaluation
 
@@ -105,7 +106,7 @@ Every question to Store Zero is one object with exactly three fields:
 The answer repeats `requestType` and `requestId`, carries the evaluator's result, and for an evaluated type carries `freshEvaluation:true` and the receipt of §2.2. A request that is not evaluated carries `freshEvaluation:false`, a `status` of `REFUSED` or `UNRESOLVED`, and `reasonCodes`.  
 *Trace: `src/requests/store-request.mjs` (`requestProblems`, `evaluateStoreRequest`, `notEvaluated`). Tests: `tests/store-request.test.mjs`.*
 
-The application side of the same exchange (protocol version, attempt identity, payload digest, expected Store release, correlation checks) is System's; it is listed with the Store service in Open work.
+Over HTTP the request is the body of `POST /v1/requests` and the answer is wrapped with the protocol, Store release, payload digest and reply time (§6A.14). The application side of the exchange (attempt identity, expected Store release, correlation checks) is System's.
 
 ## 3.2 Request types
 
@@ -1124,6 +1125,51 @@ It does not accept a Store identity or clock from the request; reuse a prior ans
 
 `src/requests/store-request.mjs`: `STORE_EVALUATION_FRESHNESS`, `MACHINE_LOCAL_LANGUAGE`, `REQUEST_TYPES`, `requestProblems`, `evaluateStoreRequest`.
 
+---
+
+## 6A.14 `src/service/server.mjs` — the Store service
+
+### What it is for
+
+Carries Store requests over HTTPS. It computes nothing: every answer comes from the request layer (§6A.13) against the catalog read for that request. It is deployed from this repository as it stands — no dependency is installed and nothing is fetched at start, so the code that was built is the code that answers.
+
+### Inputs
+
+| Endpoint | Input | Answer |
+|---|---|---|
+| `GET /health` | none | `status`, `store`, `release`, `protocol`, accepted `requestTypes`, catalog `clock` and offering count |
+| `POST /v1/requests` | a JSON body that is the request of §3.1, `Content-Type: application/json`, at most 256 KiB | `protocol`, `storeRelease`, `payloadDigest` (SHA-256 of the bytes received), `respondedAt`, `answer` |
+| `OPTIONS /v1/requests` | a browser preflight from an allowed origin | `204` with the allowed methods and headers |
+
+Configuration: `STORE_ZERO_RELEASE`, or on Railway the built commit `RAILWAY_GIT_COMMIT_SHA` (required — the service refuses to start without a release identity); `STORE_ZERO_ALLOWED_ORIGINS`, comma-separated browser origins (default `https://georgeplattdemo.github.io`); `HOST`, `PORT` (default 8080).
+
+### Decision sequence
+
+1. A request from a browser `Origin` that is not allowed → `403 ORIGIN_NOT_ALLOWED`. Callers without an `Origin` (servers, health checks) are served.
+2. `/health` answers `GET`/`HEAD` only.
+3. Any path other than `/health` and `/v1/requests` → `404 NOT_FOUND`.
+4. `/v1/requests`: `OPTIONS` → preflight; any method but `POST` → `405`; a body that is not `application/json` → `415`; over 256 KiB → `413 REQUEST_TOO_LARGE`; unreadable or not JSON → `400`.
+5. The request layer answers. A refusal or an unresolved request is an answer: `200`, with the reason in `answer.reasonCodes`.
+6. An invalid catalog → `503 STORE_CATALOG_INVALID`; any other failure → `500` with no answer. The service never answers around a failure.
+
+At start it requires a release identity and a valid catalog, or it exits. Request and header timeouts are 15 s and 10 s.
+
+### It does not do
+
+It does not calculate, cache, or retry an answer; accept a Store identity, clock or answer date from a caller; serve browsers on other sites; or reach any other service.
+
+### Verification
+
+`tests/service.test.mjs` (all named tests, over a real HTTP listener); `acceptance/boundaries` — “the service only carries requests: it imports the request layer and the catalog, nothing that computes”.
+
+### Deployment
+
+`Dockerfile` builds the image from `package.json`, `src/` and `data/` only; `railway.json` tells Railway to build that Dockerfile and to check `/health` before sending traffic. A Railway service created from this repository needs no variables.
+
+### Where it lives
+
+`src/service/server.mjs`: `PROTOCOL`, `PATHS`, `LIMITS`, `DEFAULT_ALLOWED_ORIGINS`, `releaseFromEnvironment`, `allowedOriginsFromEnvironment`, `createHandler`, `startServer`. `Dockerfile`; `railway.json`.
+
 ## 6A.12 Worked examples — one complete example per request type
 
 ### A. `USER_DEFINED_BOARD_V1` — Job 1, two 16-in SPF braces
@@ -1377,7 +1423,7 @@ The current Store code already performs bounded semantic lowering inside its mod
 *Trace: `deriveOperationPlan`; `deriveBatchComponentPlan`; `operationsFor`; Store tests asserting operation kinds and absence of G-code/Cycle Start.*
 
 The full controller-specific compiler target—registered physical two-saw transforms, physical Router 1/2/3 and Spot 1/2 transforms, retained-face compensation, controller serialization, local admission and physical execution—is not present under Store `src/`. It remains **specified, not built** and is listed in Open work.  
-*Trace: the `src/` tree contains only the fourteen modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
+*Trace: the `src/` tree contains only the fifteen modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
 
 # 11. Five library jobs, start to finish
 
@@ -1513,7 +1559,7 @@ Every row states the present defect/gap, the required end state, and the accepta
 
 | Item | What is wrong or absent today | What it must become | Test/evidence that proves closure |
 |---|---|---|---|
-| Store service | Store Zero answers through `evaluateStoreRequest` in process; no Store-owned HTTP service runs it. The hosted Store today is System's adapter loading the predecessor Store at a pinned commit. | A Store-owned service that answers the request of §3.1 over HTTPS, reports its release and protocol in a health response, carries the transport fields (protocol version, attempt, payload digest, correlation) and bounded limits, and is deployed under this repository's own release identity. | **new:** service contract tests over HTTP, including malformed, oversized and uncorrelated requests; deployed health shows this release. |
+| Store service deployment | The service (§6A.14) is built and tested here, but not yet running: the hosted Store today is System's adapter loading the predecessor Store at a pinned commit. | A Railway service built from this repository, separate from the existing one, answering at its own address under this repository's release identity. | Deployed `/health` shows the built commit; a Project 1 request to the deployed address answers $11.09. |
 | Application cutover | The application's adapter, `STORE_PIN`, hosted-Store start script and CI Store reference point at the predecessor Store. Its count-only square-stick Board (`BOARD_SQUARE_V1`) and the request fields `storeRevision`/`evaluatedAt` are refused here. | One owner change in System that points the application at this Store's service and nothing else, after System sends clean definitions for every tile. | Application acceptance through the public entry against this Store's release. |
 | Nested definition schemas | The request gate checks top-level fields; parts, features, packages, sheets and hardware requirements are checked by the evaluators as they consume them, and undeclared nested fields are ignored. | Exact field-level schemas for every definition type, with complete serialized examples, enforced before evaluation. | **new:** schema tests with one complete example and one rejected example per field. |
 | Alcove consolidation | `ALCOVE_INSERT_V1` is the one project-shaped request type, and its incomplete-answer label `PARTIAL_BUDGETARY_ESTIMATE` differs from every other evaluator. | Express Alcove parent boards, components and hardware as neutral cut-package lines, then retire the project-shaped type and label together. | Differential evidence that the consolidated answers match, and removal of the Alcove exemption in `acceptance/boundaries`. |
@@ -1638,8 +1684,9 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/requests/offering-lookup.mjs` | §6A.11 |
 | One worked example per accepted request type | §6A.12 |
 | `src/requests/store-request.mjs` | §6A.13 |
+| `src/service/server.mjs` | §6A.14 |
 
-`src/` contains exactly these fourteen modules. No module under `src/` is omitted from §6A.  
+`src/` contains exactly these fifteen modules. No module under `src/` is omitted from §6A.  
 *Trace: `src/` tree; `acceptance/boundaries`.*
 
 # Appendix D. Store reason-code index
