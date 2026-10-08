@@ -8,7 +8,8 @@
  * against the catalog read for that request. A refusal is an answer (200); an HTTP error means the request
  * could not be read at all.
  *
- * Release identity is required to start: STORE_ZERO_RELEASE, or the commit Railway built (RAILWAY_GIT_COMMIT_SHA).
+ * Release identity is required to start: STORE_ZERO_RELEASE, or the commit the host deployed (Render's RENDER_GIT_COMMIT,
+ * Railway's RAILWAY_GIT_COMMIT_SHA).
  * A Store that cannot name itself does not answer.
  */
 import http from "node:http";
@@ -23,8 +24,8 @@ export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, requestTimeoutMs
 export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(["https://georgeplattdemo.github.io"]);
 
 export function releaseFromEnvironment(env = process.env) {
-  const release = (env.STORE_ZERO_RELEASE || env.RAILWAY_GIT_COMMIT_SHA || "").trim();
-  if (!release) throw new Error("Store Zero will not start without its release identity: set STORE_ZERO_RELEASE (Railway supplies RAILWAY_GIT_COMMIT_SHA).");
+  const release = (env.STORE_ZERO_RELEASE || env.RENDER_GIT_COMMIT || env.RAILWAY_GIT_COMMIT_SHA || "").trim();
+  if (!release) throw new Error("Store Zero will not start without its release identity: set STORE_ZERO_RELEASE (Render supplies RENDER_GIT_COMMIT, Railway RAILWAY_GIT_COMMIT_SHA).");
   return release;
 }
 

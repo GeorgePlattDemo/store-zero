@@ -1,0 +1,7 @@
+{
+  "requestType": "OFFERING_LOOKUP",
+  "requestId": "EXAMPLE-SKU",
+  "demand": {
+    "storeSku": "STB-ZERO-PTAG-2X4-72-001"
+  }
+}

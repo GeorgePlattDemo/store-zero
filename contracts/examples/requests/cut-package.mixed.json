@@ -1,0 +1,207 @@
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "EXAMPLE-CUT-PACKAGE",
+  "demand": {
+    "classId": "cut_package.v1",
+    "configurationId": "CUT-EXAMPLE",
+    "configurationVersion": "1",
+    "cutPackages": [
+      {
+        "packageId": "LONG",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "ground-contact"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "L-01",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "L-02",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "L-03",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "L-04",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "L-05",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "L-06",
+            "lengthIn": 71.5,
+            "spots": [
+              {
+                "xIn": 4.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 35.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "xIn": 66.75,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "packageId": "ANGLED",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "ground-contact"
+        },
+        "endCut": {
+          "angleDeg": 25
+        },
+        "parts": [
+          {
+            "partId": "A-01",
+            "lengthIn": 31.375,
+            "spots": []
+          },
+          {
+            "partId": "A-02",
+            "lengthIn": 31.375,
+            "spots": []
+          },
+          {
+            "partId": "A-03",
+            "lengthIn": 31.375,
+            "spots": []
+          },
+          {
+            "partId": "A-04",
+            "lengthIn": 31.375,
+            "spots": []
+          }
+        ]
+      },
+      {
+        "packageId": "TOO-LONG",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "ground-contact"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "Y-01",
+            "lengthIn": 200,
+            "spots": []
+          }
+        ]
+      }
+    ],
+    "itemLines": [
+      {
+        "lineId": "BOLTS",
+        "storeSku": "STB-ZERO-HW-CARRIAGE-BOLT-PACK-001",
+        "qty": 2
+      },
+      {
+        "lineId": "SCREWS",
+        "qty": 40,
+        "requirement": {
+          "kind": "wood-screw",
+          "gauge": "#10",
+          "lengthIn": 2.5,
+          "finish": "coated",
+          "unit": "piece"
+        }
+      }
+    ]
+  }
+}

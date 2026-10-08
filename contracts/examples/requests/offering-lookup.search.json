@@ -1,0 +1,7 @@
+{
+  "requestType": "OFFERING_LOOKUP",
+  "requestId": "EXAMPLE-SEARCH",
+  "demand": {
+    "searchText": "2x4 treated 72"
+  }
+}

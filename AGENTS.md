@@ -15,6 +15,7 @@ This repository is Store Zero: the catalog, capability, modeled work and time, e
 - No project or tile names in shared code. The one project-shaped evaluator is `alcove-insert.mjs`, and it is scheduled to be folded into cut packages.
 - Adding or changing an offering is a data change in `data/store-zero-catalog.json`, checked with `npm run check:catalog`. It needs no code change. Do not loosen a catalog rule to admit a row; fix the row.
 - Recorded answers are evidence. Do not edit `acceptance/differential/*.gz`, `acceptance/fixtures/`, `acceptance/project-1/from-evidence/`, `docs/project-1-digital-trail/` or `docs/patents/` to make a test pass. A deliberate change to an answer needs the owner's approval in that change, and the specification must say what changed and why.
+- The contracts (`src/contracts/`, `contracts/examples/`) are what System and the machine side build against. Change them only deliberately, regenerate the examples with `npm run build:examples`, and say in the specification what changed. Never loosen a shape to admit a definition; fix the definition.
 - Delete a replaced path in the same change. Keep comments and the specification current with the code.
 - If a check fails on untouched `main`, say so; do not fix it inside another task.
 
