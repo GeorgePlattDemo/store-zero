@@ -104,7 +104,9 @@ export function millPassesForDepth(totalDepthIn) {
   return Math.ceil(totalDepthIn / D001_STAGE2_ENVELOPE.millLong.maxDepthPerPassIn);
 }
 
+// null, undefined and blank mean "not supplied": they are never zero.
 function finiteNumber(value) {
+  if (value == null || value === "") return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 }

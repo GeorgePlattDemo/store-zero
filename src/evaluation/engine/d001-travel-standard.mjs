@@ -347,7 +347,7 @@ function normalizedDemand(demand, item) {
     unresolved.push("DEFINED_WORKPIECE_LENGTH_REQUIRED");
   }
 
-  const angleDeg = Number(demand.cut?.angleDeg);
+  const angleDeg = demand.cut?.angleDeg == null || demand.cut.angleDeg === "" ? NaN : Number(demand.cut.angleDeg);
   if (!Number.isFinite(angleDeg)) {
     unresolved.push("MITER_ANGLE_REQUIRED");
   } else if (angleDeg < 0 || angleDeg > 45) {

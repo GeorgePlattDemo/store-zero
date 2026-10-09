@@ -49,6 +49,12 @@ const gradeNotNamed = (r) => {
   if (demand?.materialDemand?.grade != null) return false;
   return new Set(matchingBoardOfferings(catalog, { ...demand?.materialDemand, grade: null }).map((item) => item.grade)).size > 1;
 };
+// A cut package that stated no end-cut angle, or a user-defined board missing a fact, is the defaults change.
+const DEFAULTS = APPROVED.find((c) => c.id === "NO-SILENT-DEFINITION-DEFAULTS");
+const angleMissing = (pkg) => pkg?.endCut?.angleDeg == null || pkg.endCut.angleDeg === "";
+const endCutNotStated = (r) => r.name === "evaluateCutPackageJob" && (decode(r.input)[1]?.cutPackages || []).some(angleMissing);
+const boardDefinitionGap = (r) => r.name === "evaluateDimensionalTravelJob" && DEFAULTS.definitionGapCodes.includes(evaluateDimensionalTravelJob(...decode(r.input)).materialResolution?.reason);
+const defaultsChanged = (r) => endCutNotStated(r) || boardDefinitionGap(r);
 const removalFor = (r) => removals.find((c) => c.evaluators.includes(r.name) && r.output.includes(`"${c.removedReason}"`));
 
 function rebuildCatalog({ changed, removed, order, top }) {
@@ -84,7 +90,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !gradeNotNamed(r) && !removalFor(r));
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !defaultsChanged(r) && !gradeNotNamed(r) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -158,7 +164,7 @@ test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only di
 
 test("approved change GRADE-IS-THE-CUSTOMERS: Store asks for the grade, and the named grade gives the recorded board and Q", () => {
   const ceiling = APPROVED.find((c) => c.id === "NO-BOARD-LENGTH-CEILING").removedReason;
-  const affected = recordings.filter(gradeNotNamed);
+  const affected = recordings.filter((r) => gradeNotNamed(r) && !boardDefinitionGap(r));
   assert.ok(affected.length > 0);
   let repriced = 0;
   for (const r of affected) {
@@ -181,4 +187,29 @@ test("approved change GRADE-IS-THE-CUSTOMERS: Store asks for the grade, and the 
     repriced += 1;
   }
   assert.ok(repriced > 0);
+});
+
+test("approved change NO-SILENT-DEFINITION-DEFAULTS: a missing fact is asked for, and stating it gives the recorded answer", () => {
+  const cut = recordings.filter(endCutNotStated);
+  const board = recordings.filter(boardDefinitionGap);
+  assert.equal(cut.length, 5);
+  assert.equal(board.length, 6);
+  for (const r of cut) {
+    const [catalog, demand] = decode(r.input);
+    const now = evaluateCutPackageJob(catalog, demand);
+    demand.cutPackages.forEach((pkg, i) => {
+      if (angleMissing(pkg)) assert.deepEqual([now.packages[i].status, now.packages[i].reasonCodes], ["UNRESOLVED", ["END_CUT_ANGLE_REQUIRED"]]);
+    });
+    // The recording assumed a square cut; stated explicitly, the answer is the recorded one, result hash included.
+    // Only the input hash differs, because the input now states the angle.
+    const stated = { ...demand, cutPackages: demand.cutPackages.map((pkg) => (angleMissing(pkg) ? { ...pkg, endCut: { angleDeg: 0 } } : pkg)) };
+    const withoutInputHash = (text) => { const a = JSON.parse(text); delete a.calculationIdentity.inputHash; return a; };
+    assert.deepEqual(withoutInputHash(encode(evaluateCutPackageJob(catalog, stated))), withoutInputHash(translatedOutput(r.output)));
+  }
+  for (const r of board) {
+    const now = evaluateDimensionalTravelJob(...decode(r.input));
+    assert.equal(JSON.parse(translatedOutput(r.output)).status, "UNRESOLVED", "only answers that were already unresolved now name the missing fact");
+    assert.equal(now.status, "UNRESOLVED");
+    assert.equal(now.estimate, null);
+  }
 });

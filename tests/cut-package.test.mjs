@@ -74,16 +74,16 @@ assert.ok(line(mixed, "SHORT").stubs.length >= 1);
 assert.ok(line(mixed, "TEN-FOOT").stockLengthIn > 119.5);
 
 // 7. The Store does not choose a grade for the customer.
-const noGrade = job([{ packageId: "P", material: { species: "syp-treated", nominalT: 2, nominalW: 6 }, parts: many("N", 1, 20) }]);
+const noGrade = job([{ packageId: "P", material: { species: "syp-treated", nominalT: 2, nominalW: 6 }, endCut: { angleDeg: 0 }, parts: many("N", 1, 20) }]);
 assert.equal(line(noGrade, "P").status, "UNRESOLVED");
 assert.deepEqual(line(noGrade, "P").reasonCodes, ["GRADE_CHOICE_REQUIRED"]);
 assert.ok(line(noGrade, "P").offeredGrades.length > 1);
 
 // 8. Spots: 1 1/2 in and 2 in insets are timed and priced; any other inset is refused on that package only.
 const spots = job([
-  { packageId: "IN-150", material: PT(2, 6, "ground-contact"), parts: many("A", 2, 40, inset([6, 34], 1.5)) },
-  { packageId: "IN-200", material: PT(2, 6, "ground-contact"), parts: many("B", 2, 40, inset([6, 34], 2)) },
-  { packageId: "IN-175", material: PT(2, 6, "ground-contact"), parts: many("C", 2, 40, inset([6, 34], 1.75)) }
+  { packageId: "IN-150", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("A", 2, 40, inset([6, 34], 1.5)) },
+  { packageId: "IN-200", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("B", 2, 40, inset([6, 34], 2)) },
+  { packageId: "IN-175", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("C", 2, 40, inset([6, 34], 1.75)) }
 ]);
 assert.equal(line(spots, "IN-150").status, "SUPPORTABLE");
 assert.equal(line(spots, "IN-200").status, "SUPPORTABLE");
@@ -104,7 +104,7 @@ assert.deepEqual(line(items, "C").reasonCodes, ["WHOLE_QUANTITY_REQUIRED"]);
 
 // 10. Same demand, same answer; a fresh request carries a receipt bound to the Store revision.
 assert.equal(job([], []).status, "UNRESOLVED", "an empty order is not an answer");
-const demand = { configurationId: "CUT-TEST", configurationVersion: "1", cutPackages: [{ packageId: "P", material: PT(2, 4, "ground-contact"), parts: many("Q", 3, 30) }] };
+const demand = { configurationId: "CUT-TEST", configurationVersion: "1", cutPackages: [{ packageId: "P", material: PT(2, 4, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("Q", 3, 30) }] };
 const one = evaluateCutPackageJob(catalog, demand);
 const two = evaluateCutPackageJob(catalog, demand);
 assert.deepEqual(one.calculationIdentity, two.calculationIdentity);

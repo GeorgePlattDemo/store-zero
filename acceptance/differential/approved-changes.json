@@ -40,6 +40,26 @@
       "evaluator": "evaluateDimensionalTravelJob",
       "reason": "The grade is the customer's choice, never the yard's. A user-defined board names its grade; when the wood is offered in more than one grade and none is named, Store asks (GRADE_CHOICE_REQUIRED with the grades on offer) instead of choosing by length.",
       "expect": "Every recorded user-defined board answer that named no grade for wood offered in several is now UNRESOLVED with GRADE_CHOICE_REQUIRED. Sent again with the grade the recording priced, each gives the same board, estimate and Q; only boards of other grades leave the considered list."
+    },
+    {
+      "id": "NO-SILENT-DEFINITION-DEFAULTS",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "reason": "A missing manufacturing fact is never filled in. A cut package with no end-cut angle is UNRESOLVED (END_CUT_ANGLE_REQUIRED), not a square cut. A user-defined board with no miter angle, cut plane, Datum-C method or operation list, or whose declared operations disagree with the parts, is UNRESOLVED with that reason. A sheet package states that every piece is returned.",
+      "evaluators": [
+        "evaluateCutPackageJob",
+        "evaluateDimensionalTravelJob"
+      ],
+      "definitionGapCodes": [
+        "MITER_ANGLE_REQUIRED",
+        "CUT_PLANE_REQUIRED",
+        "DATUM_C_ESTABLISHMENT_METHOD_REQUIRED",
+        "REQUIRED_OPERATIONS_REQUIRED",
+        "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:SPOT_ON_LOCATION",
+        "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:MITER_LIMITED",
+        "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:CROSSCUT"
+      ],
+      "expect": "Cut-package answers that sent no end-cut angle: each such package is UNRESOLVED with END_CUT_ANGLE_REQUIRED, and with the angle the recording assumed (0) stated explicitly the whole answer is the recorded one. User-defined board answers that now name a missing or contradictory fact were already UNRESOLVED."
     }
   ]
 }

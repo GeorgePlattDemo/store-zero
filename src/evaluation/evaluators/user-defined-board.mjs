@@ -2,6 +2,10 @@
  * USER_DEFINED_BOARD_V1: one identified board job — material demand, identified parts and spot features,
  * one miter angle and plane, a Datum-C method — answered against matching Store boards.
  *
+ * Nothing the definition leaves out is filled in. A missing miter angle, cut plane, Datum-C method or operation
+ * list is UNRESOLVED with its reason, and the declared operations must agree with the work the parts define (a
+ * spot needs SPOT_ON_LOCATION, an angled cut needs MITER_LIMITED, and neither is declared without its work).
+ *
  * The grade is the customer's choice: when the wood is offered in more than one grade and none is named, the
  * answer is UNRESOLVED with GRADE_CHOICE_REQUIRED and the grades on offer. Store never picks a grade.
  *
@@ -18,34 +22,18 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
     .flatMap((part) => Array.isArray(part?.features) ? part.features : [])
     .find((feature) => feature?.kind === "SPOT_ON_LOCATION") || null;
 
-  const requiredOps = Array.isArray(demand.requiredOps) && demand.requiredOps.length
-    ? [...demand.requiredOps]
-    : ["MITER_LIMITED"];
+  const requiredOps = Array.isArray(demand.requiredOps) ? [...demand.requiredOps] : [];
 
   const materialDemand = {
     ...(demand.materialDemand || {}),
     definedWorkpieceLengthIn: demand.definedWorkpieceLengthIn
   };
+  const notSupplied = (value) => value == null || value === "";
+  const definitionGap = definitionProblem(demand, parts, requiredOps, notSupplied);
+  if (definitionGap) return unresolvedDefinition(demand, definitionGap);
+
   const grades = [...new Set(matchingBoardOfferings(catalog, { ...materialDemand, grade: null }).map((item) => item.grade))].sort();
-  if (materialDemand.grade == null && grades.length > 1) {
-    return {
-      title: demand.title || "Dimensional travel job",
-      stage: 2,
-      store: "Store Zero",
-      status: "UNRESOLVED",
-      materialResolution: {
-        status: "UNRESOLVED",
-        reason: "GRADE_CHOICE_REQUIRED",
-        offeredGrades: grades,
-        requestedMinimumWorkpieceLengthIn: Number(demand.definedWorkpieceLengthIn),
-        selectionPolicy: "SHORTEST_COMPLETE_STORE_OFFERING",
-        consideredCandidates: []
-      },
-      estimate: null,
-      calculationIdentity: null,
-      not_claimed: ["commercial quote", "physical fabrication", "live motion"]
-    };
-  }
+  if (materialDemand.grade == null && grades.length > 1) return unresolvedDefinition(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
   const candidates = matchingBoardOfferings(catalog, materialDemand);
   const candidateEvaluations = [];
   let firstIncompleteEstimate = null;
@@ -83,7 +71,7 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
         definedWorkpieceLengthIn: candidateWorkpieceLengthIn,
         sawAngleDeg: demand.sawAngleDeg,
         cutPlane: demand.cutPlane,
-        datumCMethod: demand.datumCMethod || "REFERENCE_CUT",
+        datumCMethod: demand.datumCMethod,
         parts,
         declaredSawCuts: demand.declaredSawCuts,
         declaredSpotCount: demand.declaredSpotCount,
@@ -183,6 +171,40 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
       consideredCandidates: candidateEvaluations
     },
     estimate: firstIncompleteEstimate,
+    calculationIdentity: null,
+    not_claimed: ["commercial quote", "physical fabrication", "live motion"]
+  };
+}
+
+// The first fact the definition is missing or contradicts, or null when it states everything this path reads.
+function definitionProblem(demand, parts, requiredOps, notSupplied) {
+  if (notSupplied(demand.sawAngleDeg)) return "MITER_ANGLE_REQUIRED";
+  if (notSupplied(demand.cutPlane)) return "CUT_PLANE_REQUIRED";
+  if (notSupplied(demand.datumCMethod)) return "DATUM_C_ESTABLISHMENT_METHOD_REQUIRED";
+  if (!requiredOps.length) return "REQUIRED_OPERATIONS_REQUIRED";
+  const hasSpots = parts.some((part) => (Array.isArray(part?.features) ? part.features : []).some((f) => f?.kind === "SPOT_ON_LOCATION"));
+  if (hasSpots !== requiredOps.includes("SPOT_ON_LOCATION")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:SPOT_ON_LOCATION";
+  const angled = Number(demand.sawAngleDeg) !== 0;
+  if (angled && !requiredOps.includes("MITER_LIMITED")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:MITER_LIMITED";
+  if (!requiredOps.includes("MITER_LIMITED") && !requiredOps.includes("CROSSCUT")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:CROSSCUT";
+  return null;
+}
+
+function unresolvedDefinition(demand, reason, extra = {}) {
+  return {
+    title: demand.title || "Dimensional travel job",
+    stage: 2,
+    store: "Store Zero",
+    status: "UNRESOLVED",
+    materialResolution: {
+      status: "UNRESOLVED",
+      reason,
+      ...extra,
+      requestedMinimumWorkpieceLengthIn: Number(demand.definedWorkpieceLengthIn),
+      selectionPolicy: "SHORTEST_COMPLETE_STORE_OFFERING",
+      consideredCandidates: []
+    },
+    estimate: null,
     calculationIdentity: null,
     not_claimed: ["commercial quote", "physical fabrication", "live motion"]
   };

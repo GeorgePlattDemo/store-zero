@@ -305,7 +305,7 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
 function evaluatePackage(catalog, pkg, identity) {
   const packageId = String(pkg?.packageId || "");
   const material = pkg?.material || {};
-  const angleDeg = Number(pkg?.endCut?.angleDeg ?? 0);
+  const angleDeg = pkg?.endCut?.angleDeg == null || pkg.endCut.angleDeg === "" ? NaN : Number(pkg.endCut.angleDeg);
   const hasFinishedWidth = pkg?.finishedWidthIn != null;
   const finishedWidthIn = hasFinishedWidth ? Number(pkg.finishedWidthIn) : null;
   const base = { kind: "CUT_PACKAGE", packageId, material: { ...material }, endCut: { angleDeg, plane: "miter-face", ends: "BOTH_PARALLEL" },

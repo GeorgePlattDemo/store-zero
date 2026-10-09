@@ -302,13 +302,18 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   }
 
   const sheet = demand.sheet || {};
-  const parent = { lengthIn: Number(sheet.lengthIn), widthIn: Number(sheet.widthIn), thicknessIn: Number(sheet.thicknessIn) };
+  const inches = (value) => (value == null || value === "" ? NaN : Number(value));
+  const parent = { lengthIn: inches(sheet.lengthIn), widthIn: inches(sheet.widthIn), thicknessIn: inches(sheet.thicknessIn) };
   if (![parent.lengthIn, parent.widthIn, parent.thicknessIn].every(Number.isFinite)) {
     leave("SHEET_SIZE_MISSING", "sheet", "The sheet needs a length, a width and a thickness in inches.");
   } else {
     if (parent.lengthIn !== ENV.stock.parentLengthIn || parent.widthIn !== ENV.stock.parentWidthIn) refuse("SHEET_SIZE_OUTSIDE_S001_ENVELOPE", "sheet", "The S-001 sheet cell takes a full 48 × 96 in sheet.");
     if (parent.thicknessIn > ENV.stock.maxThicknessIn + EPS || parent.thicknessIn < ENV.stock.minThicknessIn - EPS) refuse("SHEET_THICKNESS_OUTSIDE_S001_ENVELOPE", "sheet", "S-001 routes sheets from 1/4 in to 3/4 in thick.");
   }
+
+  // Every piece cut from the sheet goes back to the customer; the definition says so, and nothing else is offered.
+  if (demand.returnAllPieces == null) leave("RETURN_ALL_PIECES_REQUIRED", "definition", "A sheet package states that every piece is returned.");
+  else if (demand.returnAllPieces !== true) refuse("PIECE_DISPOSAL_NOT_OFFERED", "definition", "Store Zero returns every piece cut from the sheet; it does not keep or discard pieces.");
 
   const features = Array.isArray(demand.features) ? demand.features : [];
   if (!features.length) leave("FEATURES_REQUIRED", "definition", "A sheet package names at least one feature.");
