@@ -45,7 +45,7 @@ const removals = APPROVED.filter((c) => c.removedReason);
 // A user-defined board that names no grade for wood offered in several is the grade change.
 const gradeNotNamed = (r) => {
   if (r.name !== "evaluateDimensionalTravelJob") return false;
-  const [catalog, demand] = decode(r.input);
+  const [catalog, demand] = inputFor(r);
   if (demand?.materialDemand?.grade != null) return false;
   return new Set(matchingBoardOfferings(catalog, { ...demand?.materialDemand, grade: null }).map((item) => item.grade)).size > 1;
 };
@@ -75,6 +75,15 @@ function decode(text) {
   });
 }
 
+// The recording priced user-defined boards on parallel ends measured long-long without stating it; replay states it.
+const GEOMETRY = APPROVED.find((c) => c.id === "END-GEOMETRY-IS-STATED").pricedGeometry;
+const geometryNotStated = (demand) => demand && typeof demand === "object" && demand.endRelation == null && demand.lengthDatum == null;
+function inputFor(r) {
+  const args = decode(r.input);
+  if (r.name === "evaluateDimensionalTravelJob" && geometryNotStated(args[1])) args[1] = { ...args[1], ...GEOMETRY };
+  return args;
+}
+
 // The recorder encoded catalogs as differences; outputs are compared in the same encoding.
 const encode = (value) => JSON.stringify(value, (key, v) => (typeof v === "number" && !Number.isFinite(v) ? { $num: String(v) } : v));
 const translatedOutput = (output) => encode(JSON.parse(output, (key, v) => v));
@@ -95,7 +104,7 @@ for (const name of Object.keys(EVALUATORS)) {
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
     for (const r of cases) {
-      const args = decode(r.input);
+      const args = inputFor(r);
       const actual = encode(EVALUATORS[name](...args));
       if (actual !== translatedOutput(r.output)) mismatches.push(`${r.source} ${r.key.slice(0, 12)}`);
     }
@@ -142,7 +151,7 @@ test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only di
   const affected = recordings.filter((r) => removalFor(r) === change && !gradeNotNamed(r));
   assert.ok(affected.length > 0);
   for (const r of affected) {
-    const now = JSON.parse(encode(EVALUATORS[r.name](...decode(r.input))));
+    const now = JSON.parse(encode(EVALUATORS[r.name](...inputFor(r))));
     const was = JSON.parse(translatedOutput(r.output));
     assert.ok(!JSON.stringify(now).includes(change.removedReason), "the reason is never issued");
     if (r.name === "envelopeCheck") {
@@ -168,7 +177,7 @@ test("approved change GRADE-IS-THE-CUSTOMERS: Store asks for the grade, and the 
   assert.ok(affected.length > 0);
   let repriced = 0;
   for (const r of affected) {
-    const [catalog, demand] = decode(r.input);
+    const [catalog, demand] = inputFor(r);
     const now = evaluateDimensionalTravelJob(catalog, demand);
     assert.equal(now.status, "UNRESOLVED");
     assert.equal(now.materialResolution.reason, "GRADE_CHOICE_REQUIRED");
@@ -211,5 +220,22 @@ test("approved change NO-SILENT-DEFINITION-DEFAULTS: a missing fact is asked for
     assert.equal(JSON.parse(translatedOutput(r.output)).status, "UNRESOLVED", "only answers that were already unresolved now name the missing fact");
     assert.equal(now.status, "UNRESOLVED");
     assert.equal(now.estimate, null);
+  }
+});
+
+test("approved change END-GEOMETRY-IS-STATED: without its end geometry a board is asked for it; stated, the answer is the recorded one", () => {
+  const boards = recordings.filter((r) => r.name === "evaluateDimensionalTravelJob");
+  assert.ok(boards.length > 600);
+  assert.ok(boards.every((r) => geometryNotStated(decode(r.input)[1])), "the recording never stated geometry");
+  for (const r of boards.filter((x) => !boardDefinitionGap(x))) {
+    const now = evaluateDimensionalTravelJob(...decode(r.input));
+    assert.equal(now.materialResolution?.reason, "END_RELATION_REQUIRED", r.key.slice(0, 12));
+    assert.equal(now.estimate, null);
+  }
+  // Other geometry is refused, not priced as parallel.
+  const [catalog, demand] = inputFor(boards.find((r) => JSON.parse(r.output).status === "SUPPORTABLE" && !gradeNotNamed(r)));
+  for (const [change, reason] of [[{ endRelation: "nonparallel" }, "END_RELATION_NOT_PRICED:nonparallel"], [{ lengthDatum: "short-short-outer-edge" }, "LENGTH_DATUM_NOT_PRICED:short-short-outer-edge"], [{ endIdentity: "miter-face-long-point" }, "END_IDENTITY_NOT_PRICED"]]) {
+    const refused = evaluateDimensionalTravelJob(catalog, { ...demand, ...change });
+    assert.deepEqual([refused.status, refused.materialResolution.reason], ["REFUSED", reason]);
   }
 });

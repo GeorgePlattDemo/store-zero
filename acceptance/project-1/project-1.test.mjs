@@ -11,7 +11,7 @@ import { evaluateDimensionalTravelJob } from "../../src/evaluation/evaluators/us
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
 import { recordedCatalog, RECORDED_STORE_PIN } from "../fixtures/recorded-catalog.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../../tests/fixtures/user1-dimensional-travel-fixture.mjs";
-import { PROJECT_1_GRADE } from "../../tests/fixtures/project-1.mjs";
+import { PROJECT_1_GEOMETRY, PROJECT_1_GRADE } from "../../tests/fixtures/project-1.mjs";
 
 const evidence = (name) => readFileSync(new URL(`./from-evidence/${name}`, import.meta.url));
 const MANIFEST_SHA256 = {
@@ -20,8 +20,8 @@ const MANIFEST_SHA256 = {
   "review-summary.json": "777619ae564145ddbb92ada2140a2d3951d40d86e3f7ff23e1d30ab86b47d2ec"
 };
 const { demand: sealed } = JSON.parse(evidence("definition-and-demand.json"));
-// The review's inquiry named no grade; the board it priced is the grade the customer chooses here.
-const demand = { ...sealed, materialDemand: { ...sealed.materialDemand, grade: PROJECT_1_GRADE } };
+// The review's inquiry named no grade and carried its end geometry beside the demand; both are stated here.
+const demand = { ...sealed, ...PROJECT_1_GEOMETRY, materialDemand: { ...sealed.materialDemand, grade: PROJECT_1_GRADE } };
 const recordedAnswer = JSON.parse(evidence("store-answer.json"));
 const summary = JSON.parse(evidence("review-summary.json"));
 
@@ -31,15 +31,17 @@ test("the evidence files are the review's files, byte for byte", () => {
   }
 });
 
-test("the review's inquiry named no grade, and treated 2x4 comes in several: Store asks, it does not choose", () => {
-  const answer = evaluateDimensionalTravelJob(recordedCatalog(), { ...sealed, storeRevision: RECORDED_STORE_PIN });
+test("the review's inquiry as sealed is asked for its end geometry, then for its grade: Store does not assume either", () => {
+  const sealedAnswer = evaluateDimensionalTravelJob(recordedCatalog(), { ...sealed, storeRevision: RECORDED_STORE_PIN });
+  assert.deepEqual([sealedAnswer.status, sealedAnswer.materialResolution.reason], ["UNRESOLVED", "END_RELATION_REQUIRED"]);
+  const answer = evaluateDimensionalTravelJob(recordedCatalog(), { ...sealed, ...PROJECT_1_GEOMETRY, storeRevision: RECORDED_STORE_PIN });
   assert.equal(answer.status, "UNRESOLVED");
   assert.equal(answer.materialResolution.reason, "GRADE_CHOICE_REQUIRED");
   assert.deepEqual(answer.materialResolution.offeredGrades, ["above-ground", "ground-contact", "ground-contact-cedartone"]);
   assert.equal(answer.estimate, null);
 });
 
-test("with the grade named, the review's inquiry reproduces the review's whole Store answer", () => {
+test("with its geometry and grade stated, the review's inquiry reproduces the review's whole Store answer", () => {
   // The review evaluated against the pinned Store's catalog with that pin as the Store revision; the same
   // inputs, with the grade it priced, give the same answer in every field, including both calculation hashes.
   const answer = evaluateDimensionalTravelJob(recordedCatalog(), { ...demand, storeRevision: RECORDED_STORE_PIN });

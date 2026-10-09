@@ -47,11 +47,14 @@ test("the review's machine artifacts are the review's files, byte for byte", () 
 
 test("Project 1 lowers to the review's local job: every operation, the contact audit and the release blockers", () => {
   const review = evidence("local-job.json");
-  // The one difference: the demand now names the grade the review priced, so it hashes differently. The review's
+  // The one difference: the demand now states the grade and end geometry the review priced, so it hashes differently. The review's
   // hash is exactly the sealed demand's, this one is exactly the demand sent, and nothing else moves.
   assert.equal(review.demandHash, calculationHash(sealedProject1Demand()));
   assert.equal(p1.localJob.demandHash, calculationHash(PROJECT_1.definition.demand));
-  assert.deepEqual({ ...PROJECT_1.definition.demand, materialDemand: { ...PROJECT_1.definition.demand.materialDemand, grade: undefined } }, { ...sealedProject1Demand(), materialDemand: { ...sealedProject1Demand().materialDemand, grade: undefined } });
+  // The packet's demand is the sealed one with only the grade and the end geometry the review priced now stated.
+  const { endRelation, lengthDatum, materialDemand: { grade, ...material }, ...rest } = PROJECT_1.definition.demand;
+  assert.deepEqual([grade, endRelation, lengthDatum], ["above-ground", PROJECT_1.definition.requirements.endRelation, PROJECT_1.definition.requirements.lengthDatum]);
+  assert.deepEqual({ ...rest, materialDemand: material }, sealedProject1Demand());
   const asReview = (ops) => ops.map((op) => ({ ...op, sourceDemandHash: review.demandHash }));
   assert.deepEqual(asReview(p1.localJob.operations), review.operations);
   assert.deepEqual(p1.localJob.contacts, review.contacts);

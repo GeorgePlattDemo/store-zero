@@ -2,7 +2,7 @@
 // and why, and the Project 1 accepted job packet with the packets Store refuses. Deterministic: fixed clock,
 // the frozen recorded catalog, and the acceptance release. `npm run build:examples` writes them;
 // acceptance/contracts fails if a committed example differs from what this produces.
-import { project1Demand, sealedProject1Demand } from "../tests/fixtures/project-1.mjs";
+import { project1Demand } from "../tests/fixtures/project-1.mjs";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -39,7 +39,7 @@ const playhouse = {
 
 export const REQUEST_EXAMPLES = {
   "user-defined-board.project-1": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-PROJECT-1", demand: PROJECT_1.demand },
-  "user-defined-board.grade-not-named": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-NO-GRADE", demand: sealedProject1Demand() },
+  "user-defined-board.grade-not-named": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-NO-GRADE", demand: (({ materialDemand: { grade, ...material }, ...demand }) => ({ ...demand, materialDemand: material }))(project1Demand()) },
   "user-defined-board.default-spf": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-DEFAULT-SPF", demand: structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND) },
   "cut-package.mixed": {
     requestType: "CUT_PACKAGE_V1",
@@ -114,6 +114,8 @@ export const SECOND_JOB_DEMAND = {
   sawAngleDeg: 15,
   cutPlane: "miter-face",
   datumCMethod: "REFERENCE_CUT",
+  endRelation: "parallel",
+  lengthDatum: "long-long-outer-edge",
   declaredSawCuts: 4,
   declaredSpotCount: 3,
   unresolvedConditions: [],

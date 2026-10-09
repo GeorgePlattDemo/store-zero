@@ -20,6 +20,8 @@
     "sawAngleDeg": 30,
     "cutPlane": "miter-face",
     "datumCMethod": "REFERENCE_CUT",
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge",
     "declaredSawCuts": 3,
     "declaredSpotCount": 2,
     "unresolvedConditions": [],

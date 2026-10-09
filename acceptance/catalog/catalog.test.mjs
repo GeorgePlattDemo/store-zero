@@ -63,7 +63,7 @@ test("a new offering can legitimately change a live answer, and only through the
     configurationId: "SYO-USER1-XBRACE", configurationVersion: "0.2", classId: "app.user-defined-board.v1",
     materialDemand: { species: "syp-treated", form: "board", nominalT: 2, nominalW: 4, grade: "above-ground" },
     definedWorkpieceLengthIn: 60, requiredOps: ["MITER_LIMITED", "SPOT_ON_LOCATION"], sawAngleDeg: 26.387799961243,
-    cutPlane: "miter-face", datumCMethod: "REFERENCE_CUT", declaredSawCuts: 3, declaredSpotCount: 2, unresolvedConditions: [],
+    cutPlane: "miter-face", datumCMethod: "REFERENCE_CUT", endRelation: "parallel", lengthDatum: "long-long-outer-edge", declaredSawCuts: 3, declaredSpotCount: 2, unresolvedConditions: [],
     parts: [1, 2].map((n) => ({ partId: `PART-${n}`, lengthIn: 18, features: [{ featureId: `SPOT-${n}`, kind: "SPOT_ON_LOCATION", xIn: 9, locationRule: "CENTERED_ON_PART", acrossWidthRule: "CENTERED_ON_WIDE_FACE" }] }))
   };
   assert.equal(evaluateDimensionalTravelJob(live, demand).materialResolution.storeSku, "STB-ZERO-PTAG-2X4-72-001");

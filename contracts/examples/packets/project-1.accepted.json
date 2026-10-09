@@ -60,7 +60,9 @@
             }
           ]
         }
-      ]
+      ],
+      "endRelation": "parallel",
+      "lengthDatum": "long-long-outer-edge"
     },
     "requirements": {
       "endRelation": "parallel",
@@ -476,13 +478,13 @@
           "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
         }
       },
-      "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+      "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
         "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
         "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
       },
-      "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+      "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
     }
   },
   "decision": {

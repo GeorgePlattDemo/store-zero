@@ -63,7 +63,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -479,13 +481,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+          "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
         }
       },
       "decision": {
@@ -565,7 +567,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -981,13 +985,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+          "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
         }
       },
       "decision": {
@@ -1067,7 +1071,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -1483,13 +1489,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+          "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
         }
       },
       "decision": {
@@ -1569,7 +1575,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -1985,13 +1993,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+          "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
         }
       },
       "decision": {
@@ -2071,7 +2079,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -2487,13 +2497,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
+          "receiptHash": "6036bfbc12e76e7102e96d2c1e135b3d0be0986409c6253b95e309cd5600c824"
         }
       },
       "decision": {
@@ -2573,7 +2583,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -2989,13 +3001,13 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
+          "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
             "inputHash": "401b9317a2eaf061053f9fa567053704974ec53e88c9f448cd6cfe7bf005dae4",
             "resultHash": "5954c8e33cc195c24bc4cabd41d319e8f32e76290536b2f0cc9135ddaab2d89c"
           },
-          "receiptHash": "70dd45f9c7ab87579829d470e3f469b09830ec787b7372ffcacafefb5a1413ad"
+          "receiptHash": "f735a3380a22ab3a6439f34fe29bddf0bb92ee1e6face5efd5ad1513876e6a89"
         }
       },
       "decision": {
@@ -3075,7 +3087,9 @@
                 }
               ]
             }
-          ]
+          ],
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge"
         },
         "requirements": {
           "endRelation": "parallel",
@@ -3182,10 +3196,10 @@
               "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
             }
           },
-          "demandHash": "594412b80ac8eb794ec0401f4c7f1d8ba7b898b622d000f28ef484f8f5faf192",
+          "demandHash": "069218c8024bd6ace06f5e645081c63fa7ae325c7bb2a5a3821c9dd84cadaa6e",
           "status": "REFUSED",
           "calculationIdentity": null,
-          "receiptHash": "7d307088c238a8de1db6aa79da75b80dac549c0aee0a272d5e6d55ad0625aade"
+          "receiptHash": "9175e4bde3c2ef6e21e604a72ee843dfd452dedc51ce5e9fd9bce42cbe1193cd"
         }
       },
       "decision": {

@@ -6,12 +6,6 @@
     "configurationId": "SYO-USER1-XBRACE",
     "configurationVersion": "0.2",
     "classId": "app.user-defined-board.v1",
-    "materialDemand": {
-      "species": "syp-treated",
-      "form": "board",
-      "nominalT": 2,
-      "nominalW": 4
-    },
     "definedWorkpieceLengthIn": 60,
     "requiredOps": [
       "MITER_LIMITED",
@@ -50,6 +44,14 @@
           }
         ]
       }
-    ]
+    ],
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge",
+    "materialDemand": {
+      "species": "syp-treated",
+      "form": "board",
+      "nominalT": 2,
+      "nominalW": 4
+    }
   }
 }

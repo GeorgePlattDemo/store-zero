@@ -14,6 +14,8 @@ export const USER1_DIMENSIONAL_TRAVEL_DEMAND = Object.freeze({
   sawAngleDeg: 30,
   cutPlane: "miter-face",
   datumCMethod: "REFERENCE_CUT",
+  endRelation: "parallel",
+  lengthDatum: "long-long-outer-edge",
   declaredSawCuts: 3,
   declaredSpotCount: 2,
   unresolvedConditions: Object.freeze([]),

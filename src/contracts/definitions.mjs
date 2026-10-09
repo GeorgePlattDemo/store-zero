@@ -19,6 +19,10 @@ const USER_DEFINED_BOARD_V1 = {
     sawAngleDeg: "number",
     cutPlane: "string",
     datumCMethod: "string",
+    // How the two ends relate and where the length is measured: the geometry the price is for.
+    endRelation: "string",
+    lengthDatum: "string",
+    endIdentity: "string",
     declaredSawCuts: "integer",
     declaredSpotCount: "integer",
     unresolvedConditions: strings,

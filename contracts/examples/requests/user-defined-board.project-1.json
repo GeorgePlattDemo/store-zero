@@ -51,6 +51,8 @@
           }
         ]
       }
-    ]
+    ],
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge"
   }
 }

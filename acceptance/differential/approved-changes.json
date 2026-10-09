@@ -60,6 +60,18 @@
         "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:CROSSCUT"
       ],
       "expect": "Cut-package answers that sent no end-cut angle: each such package is UNRESOLVED with END_CUT_ANGLE_REQUIRED, and with the angle the recording assumed (0) stated explicitly the whole answer is the recorded one. User-defined board answers that now name a missing or contradictory fact were already UNRESOLVED."
+    },
+    {
+      "id": "END-GEOMETRY-IS-STATED",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "evaluator": "evaluateDimensionalTravelJob",
+      "pricedGeometry": {
+        "endRelation": "parallel",
+        "lengthDatum": "long-long-outer-edge"
+      },
+      "reason": "A user-defined board states its end relation and length datum. The travel model prices parallel ends with the length on the long-long outer edge; a missing relation or datum is asked for, and other geometry or an extra end identity is refused, instead of being priced as if it were parallel.",
+      "expect": "Every recorded user-defined board answer named no geometry: without it each is UNRESOLVED with END_RELATION_REQUIRED (or the definition gap it already had); with the priced geometry stated, each is the recorded answer, every field and both calculation hashes."
     }
   ]
 }

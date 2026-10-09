@@ -146,7 +146,7 @@ Each evaluated request type has one exact definition shape: every field it may c
 
 | Request type | Levels declared |
 |---|---|
-| `USER_DEFINED_BOARD_V1` | definition; `materialDemand` (species, form, nominal T and W, and grade — required when the wood is offered in more than one); `parts[]` (`partId`, `lengthIn`, `features[]` with `featureId`, `kind`, `xIn`, `locationRule`, `acrossWidthRule`, `insetFromEdgeIn`) |
+| `USER_DEFINED_BOARD_V1` | definition; `materialDemand` (species, form, nominal T and W, and grade — required when the wood is offered in more than one); `endRelation`, `lengthDatum`, `endIdentity` (the end geometry the price is for); `parts[]` (`partId`, `lengthIn`, `features[]` with `featureId`, `kind`, `xIn`, `locationRule`, `acrossWidthRule`, `insetFromEdgeIn`) |
 | `CUT_PACKAGE_V1` | definition; `cutPackages[]` (`packageId`, `material`, `endCut`, `finishedWidthIn`, `parts[]`, `spots[]`); `itemLines[]` (exactly one of an exact `storeSku`, a structured hardware `requirement`, or a functional `requirementId`) |
 | `SHEET_PACKAGE_V1` | definition; `sheet`; `features[]` (aperture, split and crosscut fields) |
 
@@ -325,14 +325,15 @@ This section opens the Store Zero black box. It describes every module under `sr
 
 1. **Clean request.** The request layer has already refused anything that is not a clean definition and set the Store revision to this Store’s release (§3.3).
 2. **Nothing is filled in.** A missing, null or blank miter angle, cut plane or Datum-C method, or a missing or empty operation list, is `UNRESOLVED` with `MITER_ANGLE_REQUIRED`, `CUT_PLANE_REQUIRED`, `DATUM_C_ESTABLISHMENT_METHOD_REQUIRED` or `REQUIRED_OPERATIONS_REQUIRED`, and no price is computed. The declared operations must agree with the parts: spot features if and only if `SPOT_ON_LOCATION`; a nonzero angle needs `MITER_LIMITED`; a board always declares `MITER_LIMITED` or `CROSSCUT`. Otherwise `UNRESOLVED / REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:<op>`. An explicit 0° is a real square cut. The declared saw-cut and spot counts are cross-checks: absent is not checked; a wrong count is `UNRESOLVED` with the mismatch, never overwritten.
-3. **Grade.** The grade is the customer's choice. If the wood is offered in more than one grade and the definition names none: `UNRESOLVED / GRADE_CHOICE_REQUIRED`, with `offeredGrades`. Store never picks a grade.
-4. **Material candidates.** `matchingBoardOfferings` exactly matches species/form/nominal dimensions and grade, requires offered rows, filters to `stockL_in >= demand.definedWorkpieceLengthIn`, and sorts by stock length, then selling price, then SKU.
-5. **Candidate stock.** `stockAnswer` calculates `available = onHand - allocated`; sufficient quantity is `ON_HAND_SUFFICIENT`, positive but insufficient is `ON_HAND_SHORT`, zero-or-less is `NOT_ON_HAND`. The answer is dated with the catalog’s own clock.
-6. **Candidate price.** Missing `sellingPrice` yields `MISSING_PRICE`; otherwise the catalog selling price is accepted as the Store Zero fixture price.
-7. **Candidate capability.** `capabilityAnswer` calls `envelopeCheck` with requested operations and feature facts. Hardware is treated as sourced by the envelope; board/sheet capability is evaluated against the declared cell.
-8. **Candidate travel.** A candidate with sufficient stock, a price, and `SUPPORTABLE` capability is passed to `estimateUserDefinedBoardTravel`, which calls the D-001 travel evaluator using the candidate’s **actual stock length as the workpiece length**.
-9. **First complete candidate wins.** The first candidate whose travel estimate is complete becomes `SHORTEST_COMPLETE_STORE_OFFERING`.
-10. **No complete candidate.** If no candidate exists: `UNAVAILABLE / NO_MATCHING_BOARD_OFFERING`. If any candidate is unresolved: `UNRESOLVED / DIMENSIONAL_CANDIDATE_UNRESOLVED`. Else if any candidate is refused: `REFUSED / NO_COMPLETE_DIMENSIONAL_CANDIDATE`. Else: `UNAVAILABLE / MATCHING_BOARD_NOT_AVAILABLE`.
+3. **End geometry.** The travel model prices parallel ends with the length on the long-long outer edge (`PRICED_BOARD_GEOMETRY`). Missing `endRelation` or `lengthDatum` → `UNRESOLVED / END_RELATION_REQUIRED` or `LENGTH_DATUM_REQUIRED`; another relation or datum → `REFUSED / END_RELATION_NOT_PRICED:<value>` or `LENGTH_DATUM_NOT_PRICED:<value>`; a non-null `endIdentity` (a further end name the datum does not already say) → `REFUSED / END_IDENTITY_NOT_PRICED`. Geometry the model does not price is never priced as if it were parallel. The Datum-C method must be one the plan models: `MECHANICAL_REFERENCE` and `SENSED_FACE` are admitted by the standard but have no plan, so they are `UNRESOLVED / DATUM_C_METHOD_NOT_MODELED:<method>`, never planned as a reference cut.
+4. **Grade.** The grade is the customer's choice. If the wood is offered in more than one grade and the definition names none: `UNRESOLVED / GRADE_CHOICE_REQUIRED`, with `offeredGrades`. Store never picks a grade.
+5. **Material candidates.** `matchingBoardOfferings` exactly matches species/form/nominal dimensions and grade, requires offered rows, filters to `stockL_in >= demand.definedWorkpieceLengthIn`, and sorts by stock length, then selling price, then SKU.
+6. **Candidate stock.** `stockAnswer` calculates `available = onHand - allocated`; sufficient quantity is `ON_HAND_SUFFICIENT`, positive but insufficient is `ON_HAND_SHORT`, zero-or-less is `NOT_ON_HAND`. The answer is dated with the catalog’s own clock.
+7. **Candidate price.** Missing `sellingPrice` yields `MISSING_PRICE`; otherwise the catalog selling price is accepted as the Store Zero fixture price.
+8. **Candidate capability.** `capabilityAnswer` calls `envelopeCheck` with requested operations and feature facts. Hardware is treated as sourced by the envelope; board/sheet capability is evaluated against the declared cell.
+9. **Candidate travel.** A candidate with sufficient stock, a price, and `SUPPORTABLE` capability is passed to `estimateUserDefinedBoardTravel`, which calls the D-001 travel evaluator using the candidate’s **actual stock length as the workpiece length**.
+10. **First complete candidate wins.** The first candidate whose travel estimate is complete becomes `SHORTEST_COMPLETE_STORE_OFFERING`.
+11. **No complete candidate.** If no candidate exists: `UNAVAILABLE / NO_MATCHING_BOARD_OFFERING`. If any candidate is unresolved: `UNRESOLVED / DIMENSIONAL_CANDIDATE_UNRESOLVED`. Else if any candidate is refused: `REFUSED / NO_COMPLETE_DIMENSIONAL_CANDIDATE`. Else: `UNAVAILABLE / MATCHING_BOARD_NOT_AVAILABLE`.
 
 *Trace: `matchingBoardOfferings`, `stockAnswer`, `priceAnswer`, `capabilityAnswer`, `evaluateDimensionalTravelJob`.*
 
@@ -459,7 +460,7 @@ This module converts an identified dimensional board or a set of identified comp
 
 ### Declared model constants
 
-**Datums and stations.** Datum A: fixed fence, Y=0. Datum B: table/support, Z=0. Datum C: dynamic longitudinal origin; allowed methods are `REFERENCE_CUT`, `MECHANICAL_REFERENCE`, and `SENSED_FACE`. `SAW-L` is at X=0; `SAW-R` at X=72; `MILL_LONG` at X=36; `SPOT-FACE-REF` at X=36.  
+**Datums and stations.** Datum A: fixed fence, Y=0. Datum B: table/support, Z=0. Datum C: dynamic longitudinal origin; allowed methods are `REFERENCE_CUT`, `MECHANICAL_REFERENCE`, and `SENSED_FACE`, but only `REFERENCE_CUT` has a plan and time; the other two are `UNRESOLVED / DATUM_C_METHOD_NOT_MODELED:<method>`. `SAW-L` is at X=0; `SAW-R` at X=72; `MILL_LONG` at X=36; `SPOT-FACE-REF` at X=36.  
 **Motion.** X max loaded velocity 480 in/min, acceleration 32 in/s². Y tool max velocity 240 in/min, acceleration 16 in/s².  
 **Handling.** load/seat 36 s; release/label 24 s.  
 **Saw.** 20-in diameter, 1800 rpm, 80 teeth, 0.003-in chip load/tooth, finish factor 0.5, deploy 1 s, retract 1 s.  
@@ -582,7 +583,7 @@ The travel standard does not allocate stock; select species; choose hardware; in
 - `tests/spot-inset-depth.test.mjs` — unnamed module-level assertions: point/plunge geometry, 1.5/2-in spot placement, invalid 1.75 inset refusal, out-of-component spot refusal.
 - `tests/alcove-via-cut-packages.test.mjs` — batch use through cut packages, including the rip.
 - `tests/cut-package.test.mjs` — unnamed sequence/long-part and edge-mill use.
-- Untested as isolated numeric assertions: exact X/Y triangular-vs-trapezoidal transition threshold; `MECHANICAL_REFERENCE` and `SENSED_FACE` success branches; saw invalid-angle `NaN` helper return outside evaluator validation.
+- `tests/d001-travel-helpers.test.mjs` — the X (2 in) and Y (1 in) triangular/trapezoidal thresholds from V²/A on both sides, the unmodeled Datum-C methods, and the saw helper's invalid-angle `NaN`.
 
 ### Where it lives
 
@@ -1379,7 +1380,7 @@ The accepted job packet is the one object that connects a customer's accepted jo
 | `schema` | `STB-ACCEPTED-JOB-PACKET-1` |
 | `packetId` | Identity of this packet |
 | `project` | `projectId`, `classId`, `title` — the customer's working project, distinct from the recipe or tile |
-| `definition` | `definitionId`, `revisionId`, `requestType`, the exact `demand` the Store evaluated, and `requirements` — System facts the Store does not evaluate but the machine side carries (`endRelation`, `lengthDatum`, `endIdentity`) |
+| `definition` | `definitionId`, `revisionId`, `requestType`, the exact `demand` the Store evaluated, and `requirements` — the end geometry the machine side reads (`endRelation`, `lengthDatum`, `endIdentity`). For a board these must equal the values the definition states, which Store priced; otherwise `PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION` |
 | `storeAnswer` | The answer this Store gave for that definition, with its receipt, unchanged |
 | `decision` | `decisionId`, `kind` (`ACCEPTED` only), `offerId`, `decidedAt`, `evidenceClass` (`SIMULATED`) |
 | `authority` | `physicalRelease: false`, `evidenceClass: "SIMULATED"` |
@@ -1392,7 +1393,7 @@ Only an accepted decision makes a packet: a decline, deferral or revision reques
 - `REFUSED` — with the reason: `PACKET_FIELD_REQUIRED:<path>`, `PACKET_REQUIRES_ACCEPTED_DECISION`, `PHYSICAL_RELEASE_NOT_AVAILABLE`, `PACKET_ANSWER_NOT_SUPPORTABLE`, `PACKET_RECEIPT_ALTERED`, `PACKET_ANSWER_ALTERED`, `PACKET_DEMAND_CHANGED`, `PACKET_STORE_RELEASE_MISMATCH`, among others in Appendix D.9.
 - `STALE` — intact, but this Store would now answer differently (for example the board was repriced): `PACKET_STORE_ANSWER_NOT_CURRENT`. An answer whose body differs from what this Store gives for the same calculation identity was edited after it was given, and is `REFUSED / PACKET_ANSWER_ALTERED`, not stale. A stale packet is re-quoted; a late answer never authorizes a changed job.
 
-Unsupported end relation or length datum is refused by machine admission (§10.6), even if the Store demand/answer verification succeeds. Verification of the demand is not permission to ignore System-only requirements.
+A board's end geometry is stated in its definition and priced by Store (§6A.1 step 3), so geometry Store does not price never reaches a `SUPPORTABLE` answer. The packet's `requirements` must equal the definition's values (`PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION`). The lowerer's own registration check (§10.6) remains behind both.
 
 The complete Project 1 packet is `contracts/examples/packets/project-1.accepted.json`; `contracts/examples/packets/refused.json` holds a declined offer, a claimed physical release, a price edited after the answer, an edited receipt, a definition changed after the answer, an answer from another Store, and a refused answer, each refused with its exact reason.  
 *Trace: `src/contracts/job-packet.mjs` (`JOB_PACKET_SCHEMA`, `JOB_PACKET_SHAPE`, `packetProblems`, `verifyJobPacket`); `contracts/examples/packets/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the Project 1 packet is well formed and verifies against this Store”, “a packet that is declined, altered, changed, foreign or refused is never acted on”, “an intact packet whose Store answer is no longer current is STALE and must be re-quoted”.*
@@ -1672,7 +1673,7 @@ Each type lists the top-level definition fields it declares; the exact nested sh
 
 ## B.1 `USER_DEFINED_BOARD_V1`
 
-Declared fields: `title`, `configurationId`, `configurationVersion`, `classId`, `materialDemand`, `definedWorkpieceLengthIn`, `requiredOps`, `sawAngleDeg`, `cutPlane`, `datumCMethod`, `declaredSawCuts`, `declaredSpotCount`, `parts`, `unresolvedConditions`.
+Declared fields: `title`, `configurationId`, `configurationVersion`, `classId`, `materialDemand`, `definedWorkpieceLengthIn`, `requiredOps`, `sawAngleDeg`, `cutPlane`, `datumCMethod`, `endRelation`, `lengthDatum`, `endIdentity`, `declaredSawCuts`, `declaredSpotCount`, `parts`, `unresolvedConditions`.
 
 The definition carries configuration identity, material demand, the defined workpiece length, required operations, saw angle and cut plane, the Datum-C method, declared saw-cut and spot counts, identified parts with their spot features, and unresolved conditions. System's admitted payload (`definitionKind:user_defined_board.v1`, one identified line) is System's form of the same facts; System maps it to these fields and adds no Store calculation of its own.
 *Trace: System `contracts.mjs`; `stb-store-handoff-contract.js`; System admission requirements; Store `evaluateDimensionalTravelJob`.*
@@ -1744,7 +1745,7 @@ This appendix is an index, not a substitute for §6A. The deciding condition, or
 
 ## D.1 Store state/material/disposition — §6A.1
 
-`SKU_NOT_OFFERED`; `MISSING_PRICE`; `ON_HAND_SHORT`; `NOT_ON_HAND`; `NO_OFFERING`; `SHEET_NOT_D001`; `STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`; `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `MILL_Y_EXCEEDS_TOOL_TRAVEL`; `MITER_ANGLE_REQUIRED`; `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; `MITER_PLANE_NOT_DECLARED`; `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`; `SPOT_MODE_NOT_DECLARED`; `SPOT_LOCATION_RULE_NOT_DECLARED`; `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; `SPOT_INSET_NOT_DECLARED`; `SPOT_LOCATION_REQUIRED`; `SPOT_LOCATION_OUTSIDE_WORKPIECE`; `OP_NOT_ON_OFFERING:<ops>`; `CELL_FAMILY_NOT_D001`; `NO_MATCHING_BOARD_OFFERING`; `MATCHING_BOARD_NOT_AVAILABLE`; `GRADE_CHOICE_REQUIRED`; `MITER_ANGLE_REQUIRED`; `CUT_PLANE_REQUIRED`; `DATUM_C_ESTABLISHMENT_METHOD_REQUIRED`; `REQUIRED_OPERATIONS_REQUIRED`; `REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:<op>`; `CANDIDATE_INPUT_UNRESOLVED`; `CANDIDATE_CAPABILITY_REFUSED`; `NO_COMPLETE_DIMENSIONAL_CANDIDATE`; `DIMENSIONAL_CANDIDATE_UNRESOLVED`.
+`SKU_NOT_OFFERED`; `MISSING_PRICE`; `ON_HAND_SHORT`; `NOT_ON_HAND`; `NO_OFFERING`; `SHEET_NOT_D001`; `STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`; `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `MILL_Y_EXCEEDS_TOOL_TRAVEL`; `MITER_ANGLE_REQUIRED`; `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; `MITER_PLANE_NOT_DECLARED`; `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`; `SPOT_MODE_NOT_DECLARED`; `SPOT_LOCATION_RULE_NOT_DECLARED`; `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; `SPOT_INSET_NOT_DECLARED`; `SPOT_LOCATION_REQUIRED`; `SPOT_LOCATION_OUTSIDE_WORKPIECE`; `OP_NOT_ON_OFFERING:<ops>`; `CELL_FAMILY_NOT_D001`; `NO_MATCHING_BOARD_OFFERING`; `MATCHING_BOARD_NOT_AVAILABLE`; `GRADE_CHOICE_REQUIRED`; `END_RELATION_REQUIRED`; `LENGTH_DATUM_REQUIRED`; `END_RELATION_NOT_PRICED:<value>`; `LENGTH_DATUM_NOT_PRICED:<value>`; `END_IDENTITY_NOT_PRICED`; `DATUM_C_METHOD_NOT_MODELED:<method>`; `MITER_ANGLE_REQUIRED`; `CUT_PLANE_REQUIRED`; `DATUM_C_ESTABLISHMENT_METHOD_REQUIRED`; `REQUIRED_OPERATIONS_REQUIRED`; `REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:<op>`; `CANDIDATE_INPUT_UNRESOLVED`; `CANDIDATE_CAPABILITY_REFUSED`; `NO_COMPLETE_DIMENSIONAL_CANDIDATE`; `DIMENSIONAL_CANDIDATE_UNRESOLVED`.
 
 ## D.2 D-001 travel/batch — §6A.3
 
@@ -1777,7 +1778,7 @@ The retired Alcove evaluator's codes are not issued (§6A.6, §19).
 
 ## D.9 Accepted job packet — §10.4
 
-`PACKET_MUST_BE_AN_OBJECT`; `PACKET_FIELD_REQUIRED:<path>`; `PACKET_FIELD_NOT_DECLARED:<path>`; `PACKET_FIELD_TYPE:<path>:<type>`; `PACKET_SCHEMA_NOT_ACCEPTED`; `PACKET_REQUIRES_ACCEPTED_DECISION`; `PACKET_DECISION_MUST_BE_SIMULATED`; `PHYSICAL_RELEASE_NOT_AVAILABLE`; `PACKET_AUTHORITY_MUST_BE_SIMULATED`; `PACKET_STORE_ANSWER_REQUIRED`; `PACKET_ANSWER_REQUEST_TYPE_MISMATCH`; `PACKET_ANSWER_NOT_SUPPORTABLE`; `PACKET_ANSWER_HAS_NO_RECEIPT`; `PACKET_RECEIPT_ALTERED`; `PACKET_ANSWER_ALTERED`; `PACKET_DEMAND_CHANGED`; `PACKET_STORE_RELEASE_MISMATCH`; `PACKET_DEFINITION_NOT_EVALUATED`; `PACKET_STORE_ANSWER_NOT_CURRENT` (status `STALE`); `PACKET_FIELD_NONBLANK:<path>`; `PACKET_DECISION_TIME_INVALID`; `PACKET_DECISION_PRECEDES_ANSWER`; `PACKET_STORE_AUTHORITY_NOT_CURRENT` (status `STALE`).
+`PACKET_MUST_BE_AN_OBJECT`; `PACKET_FIELD_REQUIRED:<path>`; `PACKET_FIELD_NOT_DECLARED:<path>`; `PACKET_FIELD_TYPE:<path>:<type>`; `PACKET_SCHEMA_NOT_ACCEPTED`; `PACKET_REQUIRES_ACCEPTED_DECISION`; `PACKET_DECISION_MUST_BE_SIMULATED`; `PHYSICAL_RELEASE_NOT_AVAILABLE`; `PACKET_AUTHORITY_MUST_BE_SIMULATED`; `PACKET_STORE_ANSWER_REQUIRED`; `PACKET_ANSWER_REQUEST_TYPE_MISMATCH`; `PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION`; `PACKET_ANSWER_NOT_SUPPORTABLE`; `PACKET_ANSWER_HAS_NO_RECEIPT`; `PACKET_RECEIPT_ALTERED`; `PACKET_ANSWER_ALTERED`; `PACKET_DEMAND_CHANGED`; `PACKET_STORE_RELEASE_MISMATCH`; `PACKET_DEFINITION_NOT_EVALUATED`; `PACKET_STORE_ANSWER_NOT_CURRENT` (status `STALE`); `PACKET_FIELD_NONBLANK:<path>`; `PACKET_DECISION_TIME_INVALID`; `PACKET_DECISION_PRECEDES_ANSWER`; `PACKET_STORE_AUTHORITY_NOT_CURRENT` (status `STALE`).
 ## D.10 Machine admission and virtual evidence — §10.6
 
 | Boundary | Refusal/fault reasons |
@@ -1830,6 +1831,7 @@ The recorded Store answers (`acceptance/differential`) are never edited. A delib
 | `NO-BOARD-LENGTH-CEILING` | 2026-10-09 | A board-length ceiling with no basis in the machine is removed. Every board length the Store offers is a board the cell takes, under the same rules on every path. | No selected board, status or Q changes. Envelope checks lose the reason, and user-defined board answers list the longer boards they passed over differently; the differential test proves nothing else moved. |
 | `GRADE-IS-THE-CUSTOMERS` | 2026-10-09 | A user-defined board names its grade. When the wood is offered in more than one and none is named, Store asks (`GRADE_CHOICE_REQUIRED`, with the grades on offer) instead of choosing by length. The grade is the customer's choice, never the yard's. | 93 recorded answers that named no grade now ask for one; sent again with the grade the recording priced, every supportable one gives the same board, estimate and Q. Project 1 with `above-ground` gives the review's whole answer. |
 | `NO-SILENT-DEFINITION-DEFAULTS` | 2026-10-09 | A missing manufacturing fact is never filled in. Before this, a missing or null miter angle priced as 0°, a missing end cut as a square cut, a missing Datum-C method as `REFERENCE_CUT`, a missing operation list as `MITER_LIMITED`, a missing cut plane as `miter-face`, and `returnAllPieces` was not read. Each now answers with its reason (§6A.1 step 2, §6A.5 step 3, §6A.10 step 3), and declared operations must agree with the parts. | 5 recorded cut-package answers sent no end-cut angle; each such package is now `UNRESOLVED / END_CUT_ANGLE_REQUIRED`, and with 0° stated the answer is the recorded one (result hash included). 6 recorded user-defined board answers were already `UNRESOLVED` and now name the missing fact. No published example, Project 1, $8.54 or alcove answer changes. |
+| `END-GEOMETRY-IS-STATED` | 2026-10-09 | A user-defined board states its end relation and length datum, and the price is only for geometry the travel model covers: parallel ends, long-long outer edge. Before this, the definition could not carry them and Store priced every board as parallel without saying so. A packet's machine requirements must equal what the definition states. | Every recorded user-defined board answer named no geometry: without it each is now asked for its end relation; with parallel / long-long stated, each is the recorded answer, every field and both calculation hashes. Project 1 with its geometry and grade stated still gives the review's whole answer. |
 
 ### 0.9 — runtime machine validation and evidence interface
 

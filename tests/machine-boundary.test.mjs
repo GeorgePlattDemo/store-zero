@@ -33,15 +33,20 @@ for (const [name, fn] of [
 });
 
 for (const [key, value, reason] of [
-  ["endRelation", "NONPARALLEL", "END_RELATION_NOT_REGISTERED_ON_MACHINE"],
-  ["lengthDatum", "SHORT_SHORT", "LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE"],
-  ["endIdentity", "OTHER", "END_IDENTITY_NOT_REGISTERED_ON_MACHINE"]
+  ["endRelation", "NONPARALLEL", "END_RELATION_NOT_PRICED:NONPARALLEL"],
+  ["lengthDatum", "SHORT_SHORT", "LENGTH_DATUM_NOT_PRICED:SHORT_SHORT"],
+  ["endIdentity", "OTHER", "END_IDENTITY_NOT_PRICED"]
 ]) test(`unsupported ${key} cannot silently produce the same commands`, () => {
+  // Requirements that differ from the definition Store priced are refused before lowering, and a definition that
+  // states this geometry is refused by Store itself, so no verified packet carries it. The lowerer's own
+  // *_NOT_REGISTERED_ON_MACHINE check stays behind both as a second line.
   const altered = edit(packet, (p) => { p.definition.requirements[key] = value; });
   const result = lowerJobPacket(altered, at);
   assert.equal(result.status, "REFUSED");
-  assert.ok(result.reasonCodes.includes(reason));
+  assert.deepEqual(result.reasonCodes, ["PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION"]);
   assert.equal(result.localJob, undefined);
+  const stated = evaluateStoreRequest({ requestType: "USER_DEFINED_BOARD_V1", requestId: "GEOMETRY", demand: { ...packet.definition.demand, [key]: value } }, at);
+  assert.deepEqual([stated.status, stated.materialResolution.reason], ["REFUSED", reason]);
 });
 
 test("verification is Store consistency, not authentication of System acceptance", () => {

@@ -112,6 +112,14 @@ export function verifyJobPacket(packet, { release, catalog, now } = {}) {
   const refuse = (...reasonCodes) => ({ status: "REFUSED", reasonCodes });
   if (!answer || typeof answer !== "object") return refuse("PACKET_STORE_ANSWER_REQUIRED");
   if (answer.requestType !== definition.requestType) return refuse("PACKET_ANSWER_REQUEST_TYPE_MISMATCH");
+  // A board's end geometry is priced from its definition; the machine side reads requirements. They must agree.
+  if (definition.requestType === "USER_DEFINED_BOARD_V1") {
+    const stated = definition.demand ?? {};
+    const carried = definition.requirements ?? {};
+    if (["endRelation", "lengthDatum", "endIdentity"].some((key) => (carried[key] ?? null) !== (stated[key] ?? null))) {
+      return refuse("PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION");
+    }
+  }
   if (answer.status !== "SUPPORTABLE") return refuse("PACKET_ANSWER_NOT_SUPPORTABLE");
   const receipt = answer.evaluationReceipt;
   if (answer.freshEvaluation !== true || !receipt || typeof receipt !== "object") return refuse("PACKET_ANSWER_HAS_NO_RECEIPT");

@@ -6,6 +6,10 @@
  * list is UNRESOLVED with its reason, and the declared operations must agree with the work the parts define (a
  * spot needs SPOT_ON_LOCATION, an angled cut needs MITER_LIMITED, and neither is declared without its work).
  *
+ * The end geometry is stated too. The travel model prices parallel ends with the length on the long-long outer edge
+ * (PRICED_BOARD_GEOMETRY); a missing relation or datum is asked for, and any other geometry, or an end identity the
+ * datum does not already say, is refused rather than priced as if it were parallel.
+ *
  * The grade is the customer's choice: when the wood is offered in more than one grade and none is named, the
  * answer is UNRESOLVED with GRADE_CHOICE_REQUIRED and the grades on offer. Store never picks a grade.
  *
@@ -16,6 +20,8 @@
 import { statedNumber } from "../stated-number.mjs";
 import { matchingBoardOfferings, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
 import { estimateUserDefinedBoardTravel } from "../engine/pricing.mjs";
+
+export const PRICED_BOARD_GEOMETRY = Object.freeze({ endRelation: "parallel", lengthDatum: "long-long-outer-edge" });
 
 export function evaluateDimensionalTravelJob(catalog, demand = {}) {
   const parts = Array.isArray(demand.parts) ? demand.parts : [];
@@ -31,10 +37,12 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
   };
   const notSupplied = (value) => (typeof value === "string" ? value.trim() === "" : value == null);
   const definitionGap = definitionProblem(demand, parts, requiredOps, notSupplied);
-  if (definitionGap) return unresolvedDefinition(demand, definitionGap);
+  if (definitionGap) return definitionAnswer(demand, definitionGap);
+  const geometry = geometryProblem(demand, notSupplied);
+  if (geometry) return definitionAnswer(demand, geometry.reason, {}, geometry.status);
 
   const grades = [...new Set(matchingBoardOfferings(catalog, { ...materialDemand, grade: null }).map((item) => item.grade))].sort();
-  if (materialDemand.grade == null && grades.length > 1) return unresolvedDefinition(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
+  if (materialDemand.grade == null && grades.length > 1) return definitionAnswer(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
   const candidates = matchingBoardOfferings(catalog, materialDemand);
   const candidateEvaluations = [];
   let firstIncompleteEstimate = null;
@@ -191,14 +199,24 @@ function definitionProblem(demand, parts, requiredOps, notSupplied) {
   return null;
 }
 
-function unresolvedDefinition(demand, reason, extra = {}) {
+// Missing end geometry is asked for; geometry the travel model does not price is refused.
+function geometryProblem(demand, notSupplied) {
+  if (notSupplied(demand.endRelation)) return { status: "UNRESOLVED", reason: "END_RELATION_REQUIRED" };
+  if (notSupplied(demand.lengthDatum)) return { status: "UNRESOLVED", reason: "LENGTH_DATUM_REQUIRED" };
+  if (demand.endRelation !== PRICED_BOARD_GEOMETRY.endRelation) return { status: "REFUSED", reason: `END_RELATION_NOT_PRICED:${demand.endRelation}` };
+  if (demand.lengthDatum !== PRICED_BOARD_GEOMETRY.lengthDatum) return { status: "REFUSED", reason: `LENGTH_DATUM_NOT_PRICED:${demand.lengthDatum}` };
+  if (demand.endIdentity != null) return { status: "REFUSED", reason: "END_IDENTITY_NOT_PRICED" };
+  return null;
+}
+
+function definitionAnswer(demand, reason, extra = {}, status = "UNRESOLVED") {
   return {
     title: demand.title || "Dimensional travel job",
     stage: 2,
     store: "Store Zero",
-    status: "UNRESOLVED",
+    status,
     materialResolution: {
-      status: "UNRESOLVED",
+      status,
       reason,
       ...extra,
       requestedMinimumWorkpieceLengthIn: Number(demand.definedWorkpieceLengthIn),
