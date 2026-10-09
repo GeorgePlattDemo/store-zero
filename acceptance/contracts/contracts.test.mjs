@@ -66,7 +66,7 @@ test("the Project 1 packet is well formed and verifies against this Store", () =
 const EXPECTED_PACKET_REASONS = {
   "declined offer": ["PACKET_REQUIRES_ACCEPTED_DECISION"],
   "physical release claimed": ["PHYSICAL_RELEASE_NOT_AVAILABLE"],
-  "price edited after the answer": ["PACKET_STORE_ANSWER_NOT_CURRENT"],
+  "price edited after the answer": ["PACKET_ANSWER_ALTERED"],
   "receipt edited": ["PACKET_RECEIPT_ALTERED"],
   "definition changed after the answer": ["PACKET_DEMAND_CHANGED"],
   "answer from another Store": ["PACKET_STORE_RELEASE_MISMATCH"],

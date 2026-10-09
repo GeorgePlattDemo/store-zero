@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { createHandler, PATHS, PROTOCOL, releaseFromEnvironment, allowedOriginsFromEnvironment, startServer } from "../src/service/server.mjs";
+import { createHandler, PATHS, PROTOCOL, releaseFromEnvironment, allowedOriginsFromEnvironment, startServer, sourceDigest } from "../src/service/server.mjs";
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 
 const ALLOWED = "https://georgeplattdemo.github.io";
@@ -98,7 +98,10 @@ test("the Store will not start without naming itself; the host's deployed commit
   assert.throws(() => releaseFromEnvironment({}), /release identity/);
   assert.equal(releaseFromEnvironment({ RAILWAY_GIT_COMMIT_SHA: "abc123" }), "abc123");
   assert.equal(releaseFromEnvironment({ RENDER_GIT_COMMIT: "def456" }), "def456");
-  assert.equal(releaseFromEnvironment({ STORE_ZERO_RELEASE: "v1", RAILWAY_GIT_COMMIT_SHA: "abc123" }), "v1");
+  // A label may name a release only where the host names none; it can never contradict the deployed commit.
+  assert.equal(releaseFromEnvironment({ STORE_ZERO_RELEASE: "v1" }), "v1");
+  assert.equal(releaseFromEnvironment({ STORE_ZERO_RELEASE: "abc123", RAILWAY_GIT_COMMIT_SHA: "abc123" }), "abc123");
+  assert.throws(() => releaseFromEnvironment({ STORE_ZERO_RELEASE: "v1", RAILWAY_GIT_COMMIT_SHA: "abc123" }), /contradicts the commit the host deployed/);
   await assert.rejects(startServer({ env: {}, port: 0 }), /release identity/);
   assert.deepEqual(allowedOriginsFromEnvironment({}), [ALLOWED]);
   assert.deepEqual(allowedOriginsFromEnvironment({ STORE_ZERO_ALLOWED_ORIGINS: "https://a.example, https://b.example" }), ["https://a.example", "https://b.example"]);
@@ -194,4 +197,31 @@ test("health refuses an invalid catalog rather than advertising a healthy Store"
     assert.equal(response.status, 503);
     assert.equal((await response.json()).error, "STORE_CATALOG_INVALID");
   });
+});
+
+test("health proves the code it runs: the digest of its own files, recomputable from a checkout", async () => {
+  await withService({}, async (base) => {
+    const health = await (await fetch(base + PATHS.health)).json();
+    assert.deepEqual(health.source, sourceDigest());
+    assert.match(health.source.digest, /^[0-9a-f]{64}$/);
+    assert.ok(health.source.files > 20);
+  });
+});
+
+test("the source digest covers exactly the shipped files and changes when any of them changes", async () => {
+  const { mkdtempSync, cpSync, writeFileSync, rmSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { join } = await import("node:path");
+  const root = new URL("../", import.meta.url).pathname;
+  const copy = mkdtempSync(join(tmpdir(), "store-zero-digest-"));
+  try {
+    for (const path of ["package.json", "src", "data"]) cpSync(join(root, path), join(copy, path), { recursive: true });
+    assert.deepEqual(sourceDigest(copy), sourceDigest(), "the shipped set alone gives the same digest");
+    writeFileSync(join(copy, "README.md"), "not shipped");
+    assert.deepEqual(sourceDigest(copy), sourceDigest(), "files outside the shipped set do not count");
+    writeFileSync(join(copy, "data/store-zero-catalog.json"), "{}");
+    assert.notEqual(sourceDigest(copy).digest, sourceDigest().digest, "a changed catalog is a different Store");
+  } finally {
+    rmSync(copy, { recursive: true, force: true });
+  }
 });

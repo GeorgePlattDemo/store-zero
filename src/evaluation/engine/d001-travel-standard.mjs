@@ -358,6 +358,10 @@ function normalizedDemand(demand, item) {
   const datumCMethod = demand.datumC?.method;
   if (!D001_TRAVEL_STANDARD.datums.C.allowedEstablishmentMethods.includes(datumCMethod)) {
     unresolved.push("DATUM_C_ESTABLISHMENT_METHOD_REQUIRED");
+  } else if (datumCMethod !== "REFERENCE_CUT") {
+    // The operation plan below establishes Datum C with a reference saw cut. A mechanical or sensed reference is
+    // admitted by the standard but has no plan or time here; it is never planned as a reference cut instead.
+    unresolved.push(`DATUM_C_METHOD_NOT_MODELED:${datumCMethod}`);
   }
   if (demand.datumC?.stationId !== D001_TRAVEL_STANDARD.stations.sawMiter.id) {
     unresolved.push("DATUM_C_REFERENCE_STATION_REQUIRED");

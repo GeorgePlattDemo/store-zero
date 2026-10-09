@@ -134,6 +134,10 @@ export function verifyJobPacket(packet, { release, catalog, now } = {}) {
   );
   if (current.freshEvaluation !== true) return refuse(...(current.reasonCodes ?? ["PACKET_DEFINITION_NOT_EVALUATED"]));
   if (answerIdentity(current) !== answerIdentity(answer)) {
+    // Same calculation, different answer: the answer was edited after the Store gave it. A different calculation
+    // means the Store now answers differently, which is a reason to re-quote, not an alteration.
+    const sameCalculation = calculationHash(current.calculationIdentity ?? null) === calculationHash(answer.calculationIdentity ?? null);
+    if (sameCalculation && answer.calculationIdentity != null) return refuse("PACKET_ANSWER_ALTERED");
     return { status: "STALE", reasonCodes: ["PACKET_STORE_ANSWER_NOT_CURRENT"] };
   }
   if (calculationHash(current.evaluationReceipt.authority) !== calculationHash(receipt.authority)) {

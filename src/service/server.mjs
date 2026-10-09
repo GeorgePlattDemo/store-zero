@@ -10,13 +10,19 @@
  * against the catalog read for that request. A refusal is an answer (200); an HTTP error means the request
  * could not be read at all.
  *
- * Release identity is required to start: STORE_ZERO_RELEASE, or the commit the host deployed (Render's RENDER_GIT_COMMIT,
- * Railway's RAILWAY_GIT_COMMIT_SHA).
- * A Store that cannot name itself does not answer.
+ * Release identity is required to start: the commit the host deployed (Render's RENDER_GIT_COMMIT, Railway's
+ * RAILWAY_GIT_COMMIT_SHA), or STORE_ZERO_RELEASE where the host supplies none. A label that contradicts the host's
+ * commit is refused. A Store that cannot name itself does not answer.
+ *
+ * A label is only a claim. /health also reports the digest of the files this process actually runs (package.json,
+ * src/ and data/, the set the Dockerfile copies). Anyone can recompute it from a checkout of the claimed commit
+ * (`npm run source-digest`); equal digests mean the running code is that commit's code.
  */
 import http from "node:http";
 import { createHash } from "node:crypto";
-import { pathToFileURL } from "node:url";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadCatalog, validateCatalog } from "../evaluation/catalog.mjs";
 import { evaluateStoreRequest, REQUEST_TYPES } from "../requests/store-request.mjs";
 import { evaluateMachineEvidence, machineEvidenceIdentity, MACHINE_EVIDENCE_PROTOCOL } from "../machine/evidence.mjs";
@@ -27,9 +33,28 @@ export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, requestTimeoutMs
 export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(["https://georgeplattdemo.github.io"]);
 
 export function releaseFromEnvironment(env = process.env) {
-  const release = (env.STORE_ZERO_RELEASE || env.RENDER_GIT_COMMIT || env.RAILWAY_GIT_COMMIT_SHA || "").trim();
+  const hostCommit = (env.RENDER_GIT_COMMIT || env.RAILWAY_GIT_COMMIT_SHA || "").trim();
+  const label = (env.STORE_ZERO_RELEASE || "").trim();
+  if (hostCommit && label && label !== hostCommit) {
+    throw new Error(`Store Zero will not start: STORE_ZERO_RELEASE (${label}) contradicts the commit the host deployed (${hostCommit}).`);
+  }
+  const release = hostCommit || label;
   if (!release) throw new Error("Store Zero will not start without its release identity: set STORE_ZERO_RELEASE (Render supplies RENDER_GIT_COMMIT, Railway RAILWAY_GIT_COMMIT_SHA).");
   return release;
+}
+
+const SERVICE_ROOT = fileURLToPath(new URL("../../", import.meta.url));
+export const SOURCE_DIGEST_RULE = "STORE-ZERO-SOURCE-DIGEST-1: SHA-256 over sorted lines <path> NUL <sha256 of file> LF, for package.json and every file under src/ and data/";
+
+/** The digest of the code and data a Store runs from `root`: what /health reports and a checkout recomputes. */
+export function sourceDigest(root = SERVICE_ROOT) {
+  const walk = (dir) => readdirSync(join(root, dir)).sort().flatMap((name) => {
+    const path = `${dir}/${name}`;
+    return statSync(join(root, path)).isDirectory() ? walk(path) : [path];
+  });
+  const files = ["package.json", ...walk("src"), ...walk("data")].sort();
+  const lines = files.map((path) => `${path}\0${createHash("sha256").update(readFileSync(join(root, path))).digest("hex")}\n`);
+  return { rule: SOURCE_DIGEST_RULE, digest: createHash("sha256").update(lines.join("")).digest("hex"), files: files.length };
 }
 
 export function allowedOriginsFromEnvironment(env = process.env) {
@@ -66,7 +91,7 @@ function readBody(req, limit) {
 }
 
 /** Builds the HTTP handler. `catalog` and `now` exist so tests can fix them; in service the catalog is read per request. */
-export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGINS, catalog, now = () => new Date().toISOString() }) {
+export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGINS, catalog, now = () => new Date().toISOString(), source = sourceDigest() }) {
   if (typeof release !== "string" || !release.trim()) throw new Error("createHandler needs this Store's release identity");
   const origins = new Set(allowedOrigins);
 
@@ -97,6 +122,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
         status: "ok",
         store: "Store Zero",
         release,
+        source,
         protocol: PROTOCOL,
         requestTypes: Object.keys(REQUEST_TYPES),
         catalog: { clock: current.clock, offerings: current.offerings.length },

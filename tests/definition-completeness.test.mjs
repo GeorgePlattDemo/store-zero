@@ -47,11 +47,13 @@ test("a missing, null or blank Datum-C method is asked for; it never becomes REF
   const bogus = answer(withValue("datumCMethod", "EYEBALL"));
   assert.equal(bogus.status, "UNRESOLVED");
   assert.ok(bogus.estimate.unresolved.includes("DATUM_C_ESTABLISHMENT_METHOD_REQUIRED"));
-  // Each admitted method is priced as itself.
-  for (const method of ["REFERENCE_CUT", "MECHANICAL_REFERENCE", "SENSED_FACE"]) {
+  // A reference cut is priced as itself; a mechanical or sensed reference is not modeled, so it is asked about,
+  // never planned as a reference cut.
+  assert.equal(answer(withValue("datumCMethod", "REFERENCE_CUT")).estimate.travel.datumC.establishmentMethod, "REFERENCE_CUT");
+  for (const method of ["MECHANICAL_REFERENCE", "SENSED_FACE"]) {
     const a = answer(withValue("datumCMethod", method));
-    assert.equal(a.status, "SUPPORTABLE", method);
-    assert.equal(a.estimate.travel.datumC.establishmentMethod, method);
+    assert.equal(a.status, "UNRESOLVED", method);
+    assert.ok(a.estimate.unresolved.includes(`DATUM_C_METHOD_NOT_MODELED:${method}`), method);
   }
 });
 
