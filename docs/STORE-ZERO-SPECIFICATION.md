@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.7 · 2026-10-09**
+**3D Solutions LLC · Store Zero Operational Specification 0.8 · 2026-10-09**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19), and the board-length ceiling removed (0.8; §19).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -401,7 +401,6 @@ This module states the declared dimensional-cell limits that determine whether a
 - stock thickness minimum 0.75 in;
 - saw-only maximum thickness 3.5 in;
 - milling maximum thickness 1.5 in;
-- parent length without declared external support: 96 in;
 - minimum controlled/kept length: 24 in;
 - miter 0–45 degrees inclusive, single-plane face, downstroke;
 - spot tool 0.1875 in (3/16), 118° point, 0.1875 in full-diameter depth after point;
@@ -420,16 +419,15 @@ This module states the declared dimensional-cell limits that determine whether a
 2. `form:"sheet"` → `REFUSED / SHEET_NOT_D001`.
 3. `form:"hardware"` → `SOURCED`; no D-001 geometry test.
 4. Width above 12 → `STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE`; below 1.5 → `STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE`.
-5. Parent stock over 96 → `PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT`.
-6. If any of `MILL_LONGITUDINAL_PROFILE`, `MILL_END_PROFILE`, `DADO`, `GROOVE`, `RABBET` is required, thickness max is 1.5; otherwise 3.5. Above max → `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; below 0.75 → `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`.
-7. `keptLengthIn < 24` → `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`.
-8. `millYIn > 14` → `MILL_Y_EXCEEDS_TOOL_TRAVEL`.
-9. For `MITER_LIMITED`: missing/nonfinite angle → unresolved `MITER_ANGLE_REQUIRED`; angle outside 0–45 → refusal `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; supplied plane other than `miter-face` → `MITER_PLANE_NOT_DECLARED`.
-10. Generic `DRILL` → unresolved `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`.
-11. Spot checks: wrong mode → `SPOT_MODE_NOT_DECLARED`; wrong location rule → `SPOT_LOCATION_RULE_NOT_DECLARED`; unsupported across-width rule → `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; inset not exactly 1.5 or 2 → `SPOT_INSET_NOT_DECLARED`; missing longitudinal location → unresolved `SPOT_LOCATION_REQUIRED`; location outside 0..kept length → `SPOT_LOCATION_OUTSIDE_WORKPIECE`.
-12. Any required operation absent from `item.supportedOps` → `OP_NOT_ON_OFFERING:<comma-joined-ops>`.
-13. Nonempty `cellFamily` not containing `D-001` → `CELL_FAMILY_NOT_D001`.
-14. Any refusal wins over unresolved; otherwise unresolved wins; otherwise `SUPPORTABLE`.
+5. If any of `MILL_LONGITUDINAL_PROFILE`, `MILL_END_PROFILE`, `DADO`, `GROOVE`, `RABBET` is required, thickness max is 1.5; otherwise 3.5. Above max → `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; below 0.75 → `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`.
+6. `keptLengthIn < 24` → `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`.
+7. `millYIn > 14` → `MILL_Y_EXCEEDS_TOOL_TRAVEL`.
+8. For `MITER_LIMITED`: missing/nonfinite angle → unresolved `MITER_ANGLE_REQUIRED`; angle outside 0–45 → refusal `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; supplied plane other than `miter-face` → `MITER_PLANE_NOT_DECLARED`.
+9. Generic `DRILL` → unresolved `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`.
+10. Spot checks: wrong mode → `SPOT_MODE_NOT_DECLARED`; wrong location rule → `SPOT_LOCATION_RULE_NOT_DECLARED`; unsupported across-width rule → `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; inset not exactly 1.5 or 2 → `SPOT_INSET_NOT_DECLARED`; missing longitudinal location → unresolved `SPOT_LOCATION_REQUIRED`; location outside 0..kept length → `SPOT_LOCATION_OUTSIDE_WORKPIECE`.
+11. Any required operation absent from `item.supportedOps` → `OP_NOT_ON_OFFERING:<comma-joined-ops>`.
+12. Nonempty `cellFamily` not containing `D-001` → `CELL_FAMILY_NOT_D001`.
+13. Any refusal wins over unresolved; otherwise unresolved wins; otherwise `SUPPORTABLE`.
 
 ### Formula
 
@@ -437,11 +435,11 @@ This module states the declared dimensional-cell limits that determine whether a
 
 ### It does not do
 
-It does not prove workholding; authorize live motion; claim the 96-inch parent rule as permanent physical capability; support sheets; convert generic drilling into spotting; invent external overhang support; widen miter capability; or infer an undeclared operation.
+It does not prove workholding; authorize live motion; support sheets; convert generic drilling into spotting; invent external overhang support; widen miter capability; or infer an undeclared operation.
 
 ### Verification
 
-- `tests/d001-stage2-envelope.test.mjs` — unnamed module-level assertions for 14-in Y travel, 12-in stock width, downstroke, 45° limit, 3/16 spot, two passes at 0.75 in, 30°/45° support, 46° refusal, missing angle unresolved, generic drill unresolved, width refusal, >96 parent refusal, milling thickness distinction, short kept length refusal.
+- `tests/d001-stage2-envelope.test.mjs` — unnamed module-level assertions for 14-in Y travel, 12-in stock width, downstroke, 45° limit, 3/16 spot, two passes at 0.75 in, 30°/45° support, 46° refusal, missing angle unresolved, generic drill unresolved, width refusal, every offered board length taken, milling thickness distinction, short kept length refusal.
 - `tests/spot-inset-depth.test.mjs` — unnamed module-level assertions for tool diameter, 118° point, full-diameter depth, 1.5/2-in inset options.
 - Untested as isolated boundaries: 1.5-in minimum width; 0.75-in minimum thickness; 3.5-in saw maximum thickness; exact `CELL_FAMILY_NOT_D001`; exact `SPOT_LOCATION_RULE_NOT_DECLARED`; combined missing-op formatting.
 
@@ -676,7 +674,7 @@ Each structured hardware line reads `lineId`, positive whole-number piece `qty`,
    - else if part < 24 in, refuse `COMPONENT_LENGTH_BELOW_TWO_ROLLER_CONTROL`;
    - else use one-board-per-part long-part path.
 9. Finished width: width above board → `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`. Removal up to 1 in is an edge-mill pass (`EDGE_MILL_PASS_THROUGH`). Removal over 1 in is a rip (`RIP_AT_FINISHED_WIDTH`, rule `STB-CUT-PACKAGE-RIP-0.1`, §19): the router cuts through at the finished width and the far strip is returned to the owner as an offcut, one per board, reported on the line as `edgeMill.offcut`. Either way the board is brought to width before any of its parts is cut, and the same retained-control rules apply.
-10. Run `capabilityAnswer`; for cut packages only, the envelope’s `PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT` result is filtered out because this evaluator’s explicit long-stock rule is stock/cell geometry rather than that general envelope parent ceiling.
+10. Run `capabilityAnswer`, the same envelope check every path uses.
 11. Candidate status: plan refusal first; then capability refusal; then unresolved capability/price; then unavailable stock; else `SUPPORTABLE`.
 12. Supportable material candidates are ranked by material extension, then stock length, then SKU. For each in that order, run actual D-001 package timing. Machine refusal/unresolved causes the evaluator to try the next supportable material candidate without changing material class.
 13. First machine-complete candidate returns line `SUPPORTABLE`.
@@ -697,7 +695,7 @@ Missing configuration identity → definition gap `CONFIGURATION_IDENTITY_REQUIR
 
 ### It does not do
 
-It does not recognize project names; substitute wood or grade; recommend a near hardware match; mix package sizes; create a kit-wide price that hides line status; round an unsupported spot inset; silently drop spots; apply the general 96-in parent ceiling to the cut-package rule; or treat a page input range as Store stock.
+It does not recognize project names; substitute wood or grade; recommend a near hardware match; mix package sizes; create a kit-wide price that hides line status; round an unsupported spot inset; silently drop spots; or treat a page input range as Store stock.
 
 ### Verification
 
@@ -1224,7 +1222,7 @@ The specified physical target keeps machine station identity separate from the c
 
 ## 7.4 Workpiece control and longer stock
 
-The executable Stage-2 envelope requires at least 24 in of retained control, refuses a parent longer than 96 in when external support is undeclared, and does not claim commissioned workholding. The physical target must replace those fixture assumptions only with evidence from the installed cell: support geometry, contact, restraint, roller traction/slip behavior, commanded-versus-actual positioning and the conditions under which the reference chain is valid. Until those facts are commissioned, the present Stage-2 limits remain the executable Store rules.  
+The executable Stage-2 envelope requires at least 24 in of retained control and does not claim commissioned workholding. The physical target must replace those fixture assumptions only with evidence from the installed cell: support geometry, contact, restraint, roller traction/slip behavior, commanded-versus-actual positioning and the conditions under which the reference chain is valid. Until those facts are commissioned, the present Stage-2 limits remain the executable Store rules.  
 *Trace: `D001_STAGE2_ENVELOPE.stock`; `envelopeCheck`; `D001_TRAVEL_STANDARD.control`; `STB-STORE-CELL-STAGES-0.1.md` Stage 3; `tests/d001-stage2-envelope.test.mjs` 96-in and 24-in rules.*
 
 ## 7.5 Milling and spotting boundaries
@@ -1566,7 +1564,6 @@ Every row states the present defect/gap, the required end state, and the accepta
 | Saw datum / retained-face compensation | Store model carries kerf but not the complete physical station-zero/blade/kept-face target. | Released machine configuration and lowering must bind station datum, blade identity, kerf and retained-face compensation. | **new:** `d001-saw-kept-face-lowering.test` with both retained sides and blade/kerf change. |
 | Physical Router 1/2/3 | Stage-2 has `MILL_LONG`, pass-through edge mill and `MILL_END` abstractions, not three commissioned physical router stations. | Register each installed router/tool transform and map only admitted operations to it. | **new:** machine-configuration and lowering tests for all three installed router functions. |
 | End-face spot station | Executable Store has one wide-face spot station only. | Add a separately registered end-face spot operation only after the tool/transform/workholding are engineered. | **new:** end-face spot envelope/lowering/refusal test. |
-| Parent stock over 96 in | Stage-2 refuses >96 in without declared external support. | Physical envelope must replace the fixture ceiling only with installed support/control evidence. | **new:** commissioned long-stock support test records pass/refusal conditions and updates envelope version. |
 | Special-order commerce | `supplierPath` is fixture metadata; no general supplier query/price/lead-time/payment-gated procurement exists. | Return a separate attributable special-order option without changing local `UNAVAILABLE`; order only after commercial acceptance. | **new:** supplier-option contract tests: exact conforming match, no match, source/price/lead time, no automatic purchase. |
 | Store 1 adapter | Store Zero is the callable fixture; no real dealer adapter is established here. | Real yard answers the same bounded questions from its own catalog, stock, price, suppliers, capabilities and fulfillment authority. | **new:** Store-1 contract suite against a real/test dealer adapter with source/freshness assertions. |
 | Physical compiler/postprocessor | The reference lowering, virtual motion records and virtual run exist for the D-001 reference cell (§10.5), but only for `USER_DEFINED_BOARD_V1`, only virtually, and with the saw stroke, retained-face rebase and one-roller states as named blockers. There is no commissioned controller-specific lowering. | Register a commissioned machine configuration; resolve the blockers; lower every admitted request type; compile and exercise the controller project; bind output to the accepted packet and configuration. | Golden lowering tests per request type, controller simulation and admission tests, and physical proof evidence. |
@@ -1695,7 +1692,7 @@ This appendix is an index, not a substitute for §6A. The deciding condition, or
 
 ## D.1 Store state/material/disposition — §6A.1
 
-`SKU_NOT_OFFERED`; `MISSING_PRICE`; `ON_HAND_SHORT`; `NOT_ON_HAND`; `NO_OFFERING`; `SHEET_NOT_D001`; `STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE`; `PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT`; `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`; `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `MILL_Y_EXCEEDS_TOOL_TRAVEL`; `MITER_ANGLE_REQUIRED`; `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; `MITER_PLANE_NOT_DECLARED`; `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`; `SPOT_MODE_NOT_DECLARED`; `SPOT_LOCATION_RULE_NOT_DECLARED`; `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; `SPOT_INSET_NOT_DECLARED`; `SPOT_LOCATION_REQUIRED`; `SPOT_LOCATION_OUTSIDE_WORKPIECE`; `OP_NOT_ON_OFFERING:<ops>`; `CELL_FAMILY_NOT_D001`; `NO_MATCHING_BOARD_OFFERING`; `MATCHING_BOARD_NOT_AVAILABLE`; `CANDIDATE_INPUT_UNRESOLVED`; `CANDIDATE_CAPABILITY_REFUSED`; `NO_COMPLETE_DIMENSIONAL_CANDIDATE`; `DIMENSIONAL_CANDIDATE_UNRESOLVED`.
+`SKU_NOT_OFFERED`; `MISSING_PRICE`; `ON_HAND_SHORT`; `NOT_ON_HAND`; `NO_OFFERING`; `SHEET_NOT_D001`; `STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE`; `STOCK_THICKNESS_BELOW_D001_STAGE2_ENVELOPE`; `KEPT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `MILL_Y_EXCEEDS_TOOL_TRAVEL`; `MITER_ANGLE_REQUIRED`; `MITER_ANGLE_OUTSIDE_D001_STAGE2_ENVELOPE`; `MITER_PLANE_NOT_DECLARED`; `GENERIC_DRILL_ENVELOPE_NOT_DECLARED_BEYOND_SPOT`; `SPOT_MODE_NOT_DECLARED`; `SPOT_LOCATION_RULE_NOT_DECLARED`; `SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED`; `SPOT_INSET_NOT_DECLARED`; `SPOT_LOCATION_REQUIRED`; `SPOT_LOCATION_OUTSIDE_WORKPIECE`; `OP_NOT_ON_OFFERING:<ops>`; `CELL_FAMILY_NOT_D001`; `NO_MATCHING_BOARD_OFFERING`; `MATCHING_BOARD_NOT_AVAILABLE`; `CANDIDATE_INPUT_UNRESOLVED`; `CANDIDATE_CAPABILITY_REFUSED`; `NO_COMPLETE_DIMENSIONAL_CANDIDATE`; `DIMENSIONAL_CANDIDATE_UNRESOLVED`.
 
 ## D.2 D-001 travel/batch — §6A.3
 
@@ -1762,3 +1759,4 @@ The recorded Store answers (`acceptance/differential`) are never edited. A delib
 |---|---|---|---|
 | `RIP-AT-FINISHED-WIDTH` (rule `STB-CUT-PACKAGE-RIP-0.1`) | 2026-10-08 | When a board must be brought to a finished width and more than the router's 1-in cut width comes off, the router cuts through at the finished width and the far strip is returned to the owner as an offcut, instead of the line being refused with `EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH`. Boards are brought to width before any part is cut. Common sense: the operation exists, and refusing it hid a feasible layout from the user (§6A.5 step 9). | One recorded cut-package answer changes; only lines whose refusal included that code differ, and they are now `SUPPORTABLE` rips. |
 | `ALCOVE-THROUGH-CUT-PACKAGES` | 2026-10-08 | `ALCOVE_INSERT_V1` and its evaluator are retired; an alcove is sent as cut packages and runs in the sequence the shared model decides, with no project-specific logic. The retired model packed boards to full length and ignored the 24-in two-roller control while cutting, so it underpriced: pine $382.55 then, $429.16 now for the same layout. The shelf layout is the user's choice (§11.2). | 44 recorded Alcove answers retired, not replayed; `alcove-insert.mjs` absent; no project or tile names anywhere under `src/`. |
+| `NO-BOARD-LENGTH-CEILING` | 2026-10-09 | A board-length ceiling with no basis in the machine is removed. Every board length the Store offers is a board the cell takes, under the same rules on every path. | No selected board, status or Q changes. Envelope checks lose the reason, and user-defined board answers list the longer boards they passed over differently; the differential test proves nothing else moved. |
