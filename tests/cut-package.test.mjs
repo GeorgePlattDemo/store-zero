@@ -7,9 +7,13 @@ import { millLongitudinalCycleSec } from "../src/evaluation/engine/d001-travel-s
 
 // Neutral test lines only. What a cut list means belongs to the project that sends it.
 const catalog = loadCatalog();
-const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", nominalT, nominalW, grade });
+const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", form: "board", nominalT, nominalW, grade });
+// Every spot is named by the definition; each part's spots carry their own names.
 const many = (prefix, count, lengthIn, spots = []) =>
-  Array.from({ length: count }, (_, i) => ({ partId: `${prefix}-${String(i + 1).padStart(2, "0")}`, lengthIn, spots }));
+  Array.from({ length: count }, (_, i) => {
+    const partId = `${prefix}-${String(i + 1).padStart(2, "0")}`;
+    return { partId, lengthIn, spots: spots.map((spot, n) => ({ featureId: `${partId}-SPOT-${n + 1}`, ...spot })) };
+  });
 const centered = (xs) => xs.map((xIn) => ({ xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }));
 const inset = (xs, insetFromEdgeIn) => xs.map((xIn) => ({ xIn, acrossWidthRule: "INSET_FROM_EDGE", insetFromEdgeIn }));
 const job = (cutPackages = [], itemLines = []) => evaluateCutPackageJob(catalog, { configurationId: "CUT-TEST", configurationVersion: "1", cutPackages, itemLines });
@@ -74,7 +78,7 @@ assert.ok(line(mixed, "SHORT").stubs.length >= 1);
 assert.ok(line(mixed, "TEN-FOOT").stockLengthIn > 119.5);
 
 // 7. The Store does not choose a grade for the customer.
-const noGrade = job([{ packageId: "P", material: { species: "syp-treated", nominalT: 2, nominalW: 6 }, endCut: { angleDeg: 0 }, parts: many("N", 1, 20) }]);
+const noGrade = job([{ packageId: "P", material: { species: "syp-treated", form: "board", nominalT: 2, nominalW: 6 }, endCut: { angleDeg: 0 }, parts: many("N", 1, 20) }]);
 assert.equal(line(noGrade, "P").status, "UNRESOLVED");
 assert.deepEqual(line(noGrade, "P").reasonCodes, ["GRADE_CHOICE_REQUIRED"]);
 assert.ok(line(noGrade, "P").offeredGrades.length > 1);
@@ -224,7 +228,7 @@ assert.ok(!/storeSku\s*\.\s*(includes|match|startsWith|split)|description\s*\.\s
   assert.ok(line(job([pine8("X", parts, 7.5)]), "X").reasonCodes.includes("FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH"));
   assert.deepEqual(line(job([pine8("U", parts, "seven")]), "U").reasonCodes, ["FINISHED_WIDTH_REQUIRED"]);
   // A spot centered on a milled board is centered on the finished width.
-  const spotted = line(job([pine8("K", [{ partId: "K1", lengthIn: 30, spots: [{ xIn: 10, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }] }], 7)]), "K");
+  const spotted = line(job([pine8("K", [{ partId: "K1", lengthIn: 30, spots: [{ featureId: "K1-SPOT-1", xIn: 10, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }] }], 7)]), "K");
   assert.equal(spotted.status, "SUPPORTABLE");
   // The station profile keeps its 60 in cap.
   assert.equal(millLongitudinalCycleSec({ pathLengthIn: 61, yIn: 5, totalDepthIn: 0.75 }).status, "REFUSED");

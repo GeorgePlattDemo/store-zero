@@ -20,8 +20,12 @@ export const EXAMPLE_CLOCK = "2026-10-08T12:00:00.000Z";
 const PROJECT_1 = { ...JSON.parse(readFileSync(join(ROOT, "acceptance/project-1/from-evidence/definition-and-demand.json"), "utf8")), demand: project1Demand() };
 
 const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", form: "board", nominalT, nominalW, grade });
+// Every spot is named by the definition; each part's spots carry their own names.
 const many = (prefix, count, lengthIn, spots = []) =>
-  Array.from({ length: count }, (_, i) => ({ partId: `${prefix}-${String(i + 1).padStart(2, "0")}`, lengthIn, spots }));
+  Array.from({ length: count }, (_, i) => {
+    const partId = `${prefix}-${String(i + 1).padStart(2, "0")}`;
+    return { partId, lengthIn, spots: spots.map((spot, n) => ({ featureId: `${partId}-SPOT-${n + 1}`, ...spot })) };
+  });
 const centered = (xs) => xs.map((xIn) => ({ xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }));
 
 const playhouse = {

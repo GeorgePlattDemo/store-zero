@@ -19,24 +19,21 @@ import { statedNumber } from "./stated-number.mjs";
 export const STAGE2_JOB_DISPOSITIONS = Object.freeze(["SUPPORTABLE", "UNRESOLVED", "REFUSED", "UNAVAILABLE"]);
 
 /**
- * The material a board definition must state: species, nominal thickness and nominal width. Missing or not a
- * positive number is UNRESOLVED / MATERIAL_CHOICE_REQUIRED: Store does not pick a wood or a size.
- * Both board request types (USER_DEFINED_BOARD_V1, CUT_PACKAGE_V1) are boards by definition, so a form that is not
- * supplied is "board"; a supplied form is matched exactly as given and is never replaced.
+ * The material a board definition must state: species, form, nominal thickness and nominal width. A missing species
+ * or a size that is not a positive number is UNRESOLVED / MATERIAL_CHOICE_REQUIRED: Store does not pick a wood or a
+ * size. A missing or blank form is UNRESOLVED / MATERIAL_FORM_REQUIRED: Store does not fill it in. A stated form is
+ * matched exactly as given and is never replaced.
  */
-export const BOARD_FORM = "board";
-export function boardForm(material = {}) {
-  return material.form == null || (typeof material.form === "string" && !material.form.trim()) ? BOARD_FORM : material.form;
-}
 export function materialProblem(material) {
   if (!material || typeof material !== "object") return "MATERIAL_CHOICE_REQUIRED";
   const species = typeof material.species === "string" && material.species.trim() ? material.species : null;
   const sized = [material.nominalT, material.nominalW].every((v) => Number.isFinite(statedNumber(v)) && statedNumber(v) > 0);
-  return species && sized ? null : "MATERIAL_CHOICE_REQUIRED";
+  if (!species || !sized) return "MATERIAL_CHOICE_REQUIRED";
+  return typeof material.form === "string" && material.form.trim() ? null : "MATERIAL_FORM_REQUIRED";
 }
 // A grade not supplied (absent, null or blank) is the customer's choice still to make: see offeredGrades.
 export const gradeNotStated = (grade) => grade == null || (typeof grade === "string" && !grade.trim());
-const boardQuery = (material) => ({ species: material.species, form: boardForm(material), nominalT: material.nominalT, nominalW: material.nominalW });
+const boardQuery = (material) => ({ species: material.species, form: material.form, nominalT: material.nominalT, nominalW: material.nominalW });
 
 /**
  * The grades Store offers for a wood (species, form, nominal size), sorted. The one rule for grade choice: when this

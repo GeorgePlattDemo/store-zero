@@ -359,6 +359,31 @@ test("an unstated spot location never becomes a priced spot or machine evidence,
   }
 });
 
+test("a spot with no featureId or a material with no form is asked for over HTTP; Store never names or fills it in", async () => {
+  const store = await service("release-a");
+  try {
+    const unnamed = project1Demand();
+    unnamed.parts = unnamed.parts.map((p) => ({ ...p, features: p.features.map(({ featureId, ...f }) => f) }));
+    const board = await store.ask({ ...P1(), demand: unnamed });
+    assert.equal(board.status, "UNRESOLVED");
+    assert.equal(board.estimate?.totals?.Q ?? null, null);
+    const noForm = await store.ask({ ...P1(), demand: { ...project1Demand(), materialDemand: { ...project1Demand().materialDemand, form: null } } });
+    assert.deepEqual([noForm.status, noForm.materialResolution.reason, noForm.estimate], ["UNRESOLVED", "MATERIAL_FORM_REQUIRED", null]);
+    const cut = structuredClone(REQUEST_EXAMPLES["cut-package.mixed"]);
+    const spotted = cut.demand.cutPackages.find((p) => p.parts.some((part) => part.spots?.length));
+    for (const part of spotted.parts) for (const s of part.spots ?? []) delete s.featureId;
+    const plain = cut.demand.cutPackages.find((p) => p !== spotted);
+    delete plain.material.form;
+    const answer = await store.ask(cut);
+    assert.notEqual(answer.status, "SUPPORTABLE");
+    const lineOf = (id) => answer.packages.find((p) => p.packageId === id);
+    assert.deepEqual([lineOf(spotted.packageId).status, lineOf(spotted.packageId).reasonCodes, lineOf(spotted.packageId).Q], ["UNRESOLVED", ["FEATURE_ID_REQUIRED"], null]);
+    assert.deepEqual([lineOf(plain.packageId).status, lineOf(plain.packageId).reasonCodes, lineOf(plain.packageId).Q], ["UNRESOLVED", ["MATERIAL_FORM_REQUIRED"], null]);
+  } finally {
+    await store.close();
+  }
+});
+
 test("an omitted operation, hardware fact or material is a governed gap over HTTP, never a default", async () => {
   const store = await service("release-a");
   try {

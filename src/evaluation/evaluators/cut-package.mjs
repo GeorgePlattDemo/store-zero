@@ -5,7 +5,7 @@
  *
  *   cutPackages: one wood choice plus the parts to cut from it.
  *     { packageId, material: { species, nominalT, nominalW, grade }, endCut: { angleDeg }, finishedWidthIn?,
- *       parts: [{ partId, lengthIn, spots: [{ xIn, acrossWidthRule, insetFromEdgeIn? }] }] }
+ *       parts: [{ partId, lengthIn, spots: [{ featureId, xIn, acrossWidthRule, insetFromEdgeIn? }] }] }
  *     finishedWidthIn (optional): every board in the package is brought to this width before its parts
  *     are cut. The rollers hold the board to the fence and feed it past the longitudinal router, set at the
  *     finished width from the fence; the fence edge is kept. Up to the router's 1 in cut width the far edge is
@@ -61,7 +61,7 @@ import {
   millLongitudinalCycleSec,
   storeMachineSellRate,
   featureIdProblem,
-  spotFeatureId
+  statedFeatureId
 } from "../engine/d001-travel-standard.mjs";
 
 export const CUT_PACKAGE_STANDARD = Object.freeze({
@@ -109,12 +109,11 @@ function reason(category, code, subject, explanation) {
   return Object.freeze({ category, code, subject, authority: "STORE_ZERO", explanation });
 }
 
-// A spot keeps the identity the definition gives it, or the positional one the travel standard owns (spotFeatureId).
+// A spot keeps the identity the definition gives it (statedFeatureId); validateParts has refused a spot without one.
 // Its inset is handed on as stated; the travel standard reads it with the one stated-number rule.
-const spotIdOf = (spot, partId, index) => (typeof spot?.featureId === "string" && spot.featureId.trim() ? spot.featureId : spotFeatureId(partId, index + 1));
 function spotFeatures(part) {
-  return (Array.isArray(part.spots) ? part.spots : []).map((spot, index) => ({
-    featureId: spotIdOf(spot, part.partId, index),
+  return (Array.isArray(part.spots) ? part.spots : []).map((spot) => ({
+    featureId: statedFeatureId(spot),
     kind: "SPOT_ON_LOCATION",
     xIn: statedNumber(spot.xIn),
     acrossWidthRule: spot.acrossWidthRule,
@@ -183,8 +182,9 @@ function validateParts(pkg) {
     parts.push({ partId, lengthIn, spots: Array.isArray(raw.spots) ? raw.spots : [] });
   }
   if (!parts.length && !problems.length) problems.push("PACKAGE_PARTS_REQUIRED");
-  const duplicate = featureIdProblem(parts.flatMap((part) => part.spots.map((spot, index) => spotIdOf(spot, part.partId, index))));
-  if (duplicate) problems.push(duplicate);
+  const spotIds = parts.flatMap((part) => part.spots.map(statedFeatureId));
+  if (spotIds.includes(null)) problems.push("FEATURE_ID_REQUIRED");
+  else if (featureIdProblem(spotIds)) problems.push(featureIdProblem(spotIds));
   return { parts, problems: [...new Set(problems)] };
 }
 
@@ -325,8 +325,9 @@ function evaluatePackage(catalog, pkg, identity) {
   if (hasFinishedWidth && !(Number.isFinite(finishedWidthIn) && finishedWidthIn > 0)) {
     return answerLine(base, "UNRESOLVED", "FINISHED_WIDTH_REQUIRED", "DEFINITION_GAP", "A finished width must be a positive number of inches.");
   }
-  if (materialProblem(material)) {
-    return answerLine(base, "UNRESOLVED", "MATERIAL_CHOICE_REQUIRED", "DEFINITION_GAP", "The customer's wood choice (species, thickness, width) must be sent.");
+  const materialGap = materialProblem(material);
+  if (materialGap) {
+    return answerLine(base, "UNRESOLVED", materialGap, "DEFINITION_GAP", "The customer's wood choice (species, form, thickness, width) must be sent.");
   }
 
   const matches = matchingBoardOfferings(catalog, { ...material, grade: null, definedWorkpieceLengthIn: null });

@@ -58,6 +58,29 @@ const angleMissing = (pkg) => pkg?.endCut?.angleDeg == null || pkg.endCut.angleD
 const endCutNotStated = (r) => r.name === "evaluateCutPackageJob" && (decode(r.input)[1]?.cutPackages || []).some(angleMissing);
 const boardDefinitionGap = (r) => r.name === "evaluateDimensionalTravelJob" && !materialNotStated(r) && DEFAULTS.definitionGapCodes.includes(evaluateDimensionalTravelJob(...decode(r.input)).materialResolution?.reason);
 const defaultsChanged = (r) => endCutNotStated(r) || boardDefinitionGap(r);
+// A cut package that stated no material form, or a spot with no featureId, is the identity-and-form change.
+const blank = (v) => !(typeof v === "string" && v.trim());
+const formMissing = (pkg) => blank(pkg?.material?.form);
+const spotIdMissing = (pkg) => (pkg?.parts || []).some((part) => (part?.spots || []).some((spot) => blank(spot?.featureId)));
+const identityOrFormNotStated = (r) => r.name === "evaluateCutPackageJob" && (decode(r.input)[1]?.cutPackages || []).some((pkg) => formMissing(pkg) || spotIdMissing(pkg));
+// What the recording assumed for a cut package, stated: a square cut, a board, and each spot named by its position.
+const statedAsRecorded = (pkg) => ({
+  ...pkg,
+  ...(angleMissing(pkg) ? { endCut: { angleDeg: 0 } } : {}),
+  ...(formMissing(pkg) ? { material: { ...pkg.material, form: "board" } } : {}),
+  ...(spotIdMissing(pkg) ? { parts: pkg.parts.map((part) => ({ ...part, spots: (part.spots || []).map((spot, n) => (blank(spot?.featureId) ? { ...spot, featureId: `${part.partId}-SPOT-${n + 1}` } : spot)) })) } : {})
+});
+const withoutInputHash = (text) => { const a = JSON.parse(text); delete a.calculationIdentity.inputHash; return a; };
+// The answer echoes each package's material, so a stated form is echoed and changes the result hash; every other field
+// must equal the recording.
+function asRecordedEcho(text, demand) {
+  const a = withoutInputHash(text);
+  const restated = demand.cutPackages.map(formMissing);
+  if (!restated.some(Boolean)) return a;
+  delete a.calculationIdentity.resultHash;
+  a.packages.forEach((line, i) => { if (restated[i] && line.material) delete line.material.form; });
+  return a;
+}
 const removalFor = (r) => removals.find((c) => c.evaluators.includes(r.name) && r.output.includes(`"${c.removedReason}"`));
 
 function rebuildCatalog({ changed, removed, order, top }) {
@@ -102,7 +125,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !materialNotStated(r) && !defaultsChanged(r) && !gradeNotNamed(r) && !removalFor(r));
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !materialNotStated(r) && !defaultsChanged(r) && !identityOrFormNotStated(r) && !gradeNotNamed(r) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -213,13 +236,13 @@ test("approved change NO-SILENT-DEFINITION-DEFAULTS: a missing fact is asked for
     const [catalog, demand] = decode(r.input);
     const now = evaluateCutPackageJob(catalog, demand);
     demand.cutPackages.forEach((pkg, i) => {
-      if (angleMissing(pkg)) assert.deepEqual([now.packages[i].status, now.packages[i].reasonCodes], ["UNRESOLVED", ["END_CUT_ANGLE_REQUIRED"]]);
+      // A spot with no featureId is asked for first (IDENTITY-AND-FORM-ARE-STATED).
+      if (angleMissing(pkg) && !spotIdMissing(pkg)) assert.deepEqual([now.packages[i].status, now.packages[i].reasonCodes], ["UNRESOLVED", ["END_CUT_ANGLE_REQUIRED"]]);
     });
     // The recording assumed a square cut; stated explicitly, the answer is the recorded one, result hash included.
     // Only the input hash differs, because the input now states the angle.
-    const stated = { ...demand, cutPackages: demand.cutPackages.map((pkg) => (angleMissing(pkg) ? { ...pkg, endCut: { angleDeg: 0 } } : pkg)) };
-    const withoutInputHash = (text) => { const a = JSON.parse(text); delete a.calculationIdentity.inputHash; return a; };
-    assert.deepEqual(withoutInputHash(encode(evaluateCutPackageJob(catalog, stated))), withoutInputHash(translatedOutput(r.output)));
+    const stated = { ...demand, cutPackages: demand.cutPackages.map(statedAsRecorded) };
+    assert.deepEqual(asRecordedEcho(encode(evaluateCutPackageJob(catalog, stated)), demand), asRecordedEcho(translatedOutput(r.output), demand));
   }
   for (const r of board) {
     const now = evaluateDimensionalTravelJob(...decode(r.input));
@@ -255,4 +278,27 @@ test("approved change MATERIAL-IS-STATED: a board that states no complete materi
     const now = evaluateDimensionalTravelJob(...inputFor(r));
     assert.deepEqual([now.status, now.materialResolution.reason, now.estimate], ["UNRESOLVED", "MATERIAL_CHOICE_REQUIRED", null]);
   }
+});
+
+test("approved change IDENTITY-AND-FORM-ARE-STATED: a spot with no featureId or a package with no form is asked for it; stated, the answer is the recorded one", () => {
+  const change = APPROVED.find((c) => c.id === "IDENTITY-AND-FORM-ARE-STATED");
+  const affected = recordings.filter(identityOrFormNotStated);
+  assert.equal(affected.length, change.recordedAnswers);
+  let priced = 0;
+  for (const r of affected) {
+    const [catalog, demand] = decode(r.input);
+    const now = evaluateCutPackageJob(catalog, demand);
+    demand.cutPackages.forEach((pkg, i) => {
+      const line = now.packages[i];
+      if (spotIdMissing(pkg)) assert.deepEqual([line.status, line.reasonCodes], ["UNRESOLVED", ["FEATURE_ID_REQUIRED"]], r.key.slice(0, 12));
+      else if (formMissing(pkg) && !angleMissing(pkg)) assert.deepEqual([line.status, line.reasonCodes], ["UNRESOLVED", ["MATERIAL_FORM_REQUIRED"]], r.key.slice(0, 12));
+      if (spotIdMissing(pkg) || formMissing(pkg)) assert.equal(line.Q, null, "no price for a package missing a fact");
+    });
+    assert.notEqual(now.status, "SUPPORTABLE");
+    if (JSON.parse(r.output).status === "SUPPORTABLE") priced += 1;
+    // What the recording assumed, stated explicitly, gives the recorded answer; only the input hash differs.
+    const stated = { ...demand, cutPackages: demand.cutPackages.map(statedAsRecorded) };
+    assert.deepEqual(asRecordedEcho(encode(evaluateCutPackageJob(catalog, stated)), demand), asRecordedEcho(translatedOutput(r.output), demand), r.key.slice(0, 12));
+  }
+  assert.equal(priced, change.recordedSupportable, "recorded answers that were priced and now ask for the missing fact");
 });

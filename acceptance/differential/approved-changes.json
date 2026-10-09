@@ -80,6 +80,16 @@
       "evaluator": "evaluateDimensionalTravelJob",
       "reason": "A user-defined board states its wood and size (species, nominal thickness, nominal width), as cut packages already must. A missing material constraint used to mean no constraint, so Store matched every board in the yard and chose one. It is UNRESOLVED, MATERIAL_CHOICE_REQUIRED; Store does not pick a wood or a size.",
       "expect": "Exactly the recorded user-defined board answers whose definition states no complete material change: each is now UNRESOLVED with MATERIAL_CHOICE_REQUIRED and no estimate. Every other answer replays unchanged."
+    },
+    {
+      "id": "IDENTITY-AND-FORM-ARE-STATED",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "evaluator": "evaluateCutPackageJob",
+      "reason": "Store does not name a customer's feature or fill in a material form. A spot with no featureId used to be given a positional name (<partId>-SPOT-<n>) and priced; a cut package with no material form used to be treated as board and priced. Each is UNRESOLVED: FEATURE_ID_REQUIRED or MATERIAL_FORM_REQUIRED, with no price. The same rule holds on the user-defined board and long-part paths.",
+      "recordedAnswers": 36,
+      "recordedSupportable": 17,
+      "expect": "Exactly the recorded cut-package answers that sent a spot with no featureId or a package with no material form change: each such package is UNRESOLVED with FEATURE_ID_REQUIRED (asked first) or MATERIAL_FORM_REQUIRED and no price, and no such answer is SUPPORTABLE. With what the recording assumed stated explicitly (form board, each spot named by its position, and a square cut where NO-SILENT-DEFINITION-DEFAULTS applies) the answer is the recorded one, except that the stated form is echoed. No user-defined board answer changes: the two recorded boards with no form state no material and are asked for it under MATERIAL-IS-STATED."
     }
   ]
 }

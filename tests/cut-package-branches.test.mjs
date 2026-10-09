@@ -5,8 +5,8 @@ import { evaluateCutPackageJob, RIP_RULE } from "../src/evaluation/evaluators/cu
 import { evaluateD001DimensionalBatch } from "../src/evaluation/engine/d001-travel-standard.mjs";
 
 // Neutral branch tests for the cut-package evaluator, against the frozen recorded catalog.
-const SPF_2X4 = Object.freeze({ species: "spf", nominalT: 2, nominalW: 4, grade: "construction" });
-const PINE_1X8 = Object.freeze({ species: "pine", nominalT: 1, nominalW: 8, grade: "select" });
+const SPF_2X4 = Object.freeze({ species: "spf", form: "board", nominalT: 2, nominalW: 4, grade: "construction" });
+const PINE_1X8 = Object.freeze({ species: "pine", form: "board", nominalT: 1, nominalW: 8, grade: "select" });
 const DECLARED_REQUIREMENT_ID = "ALCOVE-PINS-AND-SCREWS";
 
 const run = (cutPackages = [], itemLines = [], catalog = recordedCatalog()) =>
@@ -14,8 +14,8 @@ const run = (cutPackages = [], itemLines = [], catalog = recordedCatalog()) =>
 const onlyPackage = (pkg, catalog) => run([pkg], [], catalog).packages[0];
 const onlyItem = (itemLine, catalog) => run([], [itemLine], catalog).items[0];
 const pkg = (packageId, material, extra = {}) => ({ packageId, material, endCut: { angleDeg: 0 }, parts: [{ partId: "P1", lengthIn: 30 }], ...extra });
-const centered = (xIn) => ({ xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" });
-const inset = (xIn, insetFromEdgeIn) => ({ xIn, acrossWidthRule: "INSET_FROM_EDGE", insetFromEdgeIn });
+const centered = (xIn, featureId = "P1-SPOT-1") => ({ featureId, xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" });
+const inset = (xIn, insetFromEdgeIn, featureId = "P1-SPOT-1") => ({ featureId, xIn, acrossWidthRule: "INSET_FROM_EDGE", insetFromEdgeIn });
 
 function withRows(mutate) {
   const catalog = recordedCatalog();

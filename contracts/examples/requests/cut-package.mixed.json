@@ -24,14 +24,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-01-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-01-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-01-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
@@ -42,14 +45,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-02-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-02-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-02-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
@@ -60,14 +66,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-03-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-03-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-03-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
@@ -78,14 +87,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-04-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-04-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-04-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
@@ -96,14 +108,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-05-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-05-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-05-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
@@ -114,14 +129,17 @@
             "lengthIn": 71.5,
             "spots": [
               {
+                "featureId": "L-06-SPOT-1",
                 "xIn": 4.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-06-SPOT-2",
                 "xIn": 35.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
+                "featureId": "L-06-SPOT-3",
                 "xIn": 66.75,
                 "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }

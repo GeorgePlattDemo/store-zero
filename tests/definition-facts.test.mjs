@@ -68,21 +68,31 @@ test("an inset spot keeps its stated inset; a missing inset is asked for, never 
   assert.deepEqual([cut(null).status, cut(null).reasonCodes], ["UNRESOLVED", ["SPOT_INSET_REQUIRED"]]);
 });
 
-test("a spot without an identity keeps its own positional identity; no two requested spots can merge", () => {
+test("a spot without its featureId is asked for it, never given a name by Store; no two requested spots can merge", () => {
   const ops = (answer) => answer.estimate.travel.operationPlan.filter((o) => o.kind === "SPOT_ON_LOCATION").map((o) => o.opId);
-  const unnamed = ask("USER_DEFINED_BOARD_V1", withSpots([spot({ featureId: undefined, xIn: 4 }), spot({ featureId: undefined, xIn: 12 })], { declaredSpotCount: 3 }));
-  assert.equal(unnamed.status, "SUPPORTABLE");
-  assert.deepEqual(ops(unnamed), ["PART-1-SPOT-1", "PART-1-SPOT-2", "SPOT-2"], "each requested spot is its own operation, named by part and position");
-  for (const [label, ids] of [["the same name twice", ["S", "S"]], ["a name equal to another spot's positional name", ["PART-1-SPOT-2", undefined]]]) {
-    const answer = ask("USER_DEFINED_BOARD_V1", withSpots(ids.map((featureId, i) => spot({ featureId, xIn: 4 + i * 8 })), { declaredSpotCount: 3 }));
-    assert.equal(answer.status, "UNRESOLVED", label);
-    assert.ok(answer.materialResolution.consideredCandidates.every((c) => c.reason === "UNIQUE_FEATURE_ID_REQUIRED"), label);
-    notPriced(answer, label);
+  const named = ask("USER_DEFINED_BOARD_V1", withSpots([spot({ featureId: "S1", xIn: 4 }), spot({ featureId: "S2", xIn: 12 })], { declaredSpotCount: 3 }));
+  assert.equal(named.status, "SUPPORTABLE");
+  assert.deepEqual(ops(named), ["S1", "S2", "SPOT-2"], "each requested spot is its own operation, under the name the definition gives it");
+  for (const [label, featureId] of [["missing", undefined], ["null", null], ["blank", ""], ["whitespace", " "]]) {
+    const answer = ask("USER_DEFINED_BOARD_V1", withSpots([spot({ featureId: "S1", xIn: 4 }), spot({ featureId, xIn: 12 })], { declaredSpotCount: 3 }));
+    assert.equal(answer.status, "UNRESOLVED", `board ${label}`);
+    assert.ok(answer.materialResolution.consideredCandidates.every((c) => c.reason === "FEATURE_ID_REQUIRED"), `board ${label}`);
+    notPriced(answer, `board ${label}`);
   }
-  const cut = (ids) => line(ask("CUT_PACKAGE_V1", pkg(ids.map((featureId, i) => ({ ...(featureId ? { featureId } : {}), xIn: 5 + i * 10, acrossWidthRule: "CENTERED_ON_WIDE_FACE" })))));
-  assert.deepEqual([cut([undefined, undefined]).status, cut([undefined, undefined]).spotCount], ["SUPPORTABLE", 2], "both unnamed spots are kept");
+  const twice = ask("USER_DEFINED_BOARD_V1", withSpots([spot({ featureId: "S", xIn: 4 }), spot({ featureId: "S", xIn: 12 })], { declaredSpotCount: 3 }));
+  assert.equal(twice.status, "UNRESOLVED");
+  assert.ok(twice.materialResolution.consideredCandidates.every((c) => c.reason === "UNIQUE_FEATURE_ID_REQUIRED"));
+  notPriced(twice, "the same name twice");
+
+  const cut = (ids) => line(ask("CUT_PACKAGE_V1", pkg(ids.map((featureId, i) => ({ ...(featureId === undefined ? {} : { featureId }), xIn: 5 + i * 10, acrossWidthRule: "CENTERED_ON_WIDE_FACE" })))));
+  assert.deepEqual([cut(["S1", "S2"]).status, cut(["S1", "S2"]).spotCount], ["SUPPORTABLE", 2], "both named spots are kept");
+  for (const [label, featureId] of [["missing", undefined], ["null", null], ["blank", ""], ["whitespace", " "]]) {
+    const answer = line(ask("CUT_PACKAGE_V1", pkg([{ featureId: "S1", xIn: 5, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }, { ...(featureId === undefined ? {} : { featureId }), xIn: 15, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }])));
+    assert.deepEqual([answer.status, answer.reasonCodes, answer.Q], ["UNRESOLVED", ["FEATURE_ID_REQUIRED"], null], `cut ${label}`);
+  }
   assert.deepEqual(cut(["S", "S"]).reasonCodes, ["UNIQUE_FEATURE_ID_REQUIRED"]);
-  assert.deepEqual(cut(["A-SPOT-2", undefined]).reasonCodes, ["UNIQUE_FEATURE_ID_REQUIRED"]);
+  // A name that once collided with a Store-made positional name is now just a name.
+  assert.equal(cut(["A-SPOT-2", "S2"]).status, "SUPPORTABLE");
 });
 
 test("Store never picks a wood or a size: missing material is asked for on both board paths", () => {
@@ -99,14 +109,29 @@ test("Store never picks a wood or a size: missing material is asked for on both 
   }
 });
 
-test("material form: a board request is a board; a stated form is matched as given, never replaced", () => {
+test("material form: a form that is not stated is asked for; a stated form is matched as given, never replaced", () => {
   const priced = (form) => ask("USER_DEFINED_BOARD_V1", board((d) => {
     const materialDemand = { ...d.materialDemand };
     if (form === undefined) delete materialDemand.form; else materialDemand.form = form;
     return { ...d, materialDemand };
   }));
-  // Not supplied (absent, null, blank) is the request type's own form; stated "board" is the same answer.
-  for (const form of [undefined, null, "", "board"]) assert.equal(priced(form).estimate?.totals?.Q, 8.54, JSON.stringify(form));
+  assert.equal(priced("board").estimate?.totals?.Q, 8.54);
+  // Not stated (absent, null, blank, whitespace) is UNRESOLVED; Store does not fill in board.
+  for (const form of [undefined, null, "", " "]) {
+    const answer = priced(form);
+    assert.deepEqual([answer.status, answer.materialResolution.reason, answer.estimate], ["UNRESOLVED", "MATERIAL_FORM_REQUIRED", null], JSON.stringify(form));
+  }
+  const cutForm = (form) => {
+    const demand = pkg([]);
+    if (form === undefined) delete demand.cutPackages[0].material.form; else demand.cutPackages[0].material.form = form;
+    return ask("CUT_PACKAGE_V1", demand);
+  };
+  assert.equal(line(cutForm("board")).status, "SUPPORTABLE");
+  for (const form of [undefined, null, "", " "]) {
+    const answer = cutForm(form);
+    assert.deepEqual([line(answer).status, line(answer).reasonCodes, line(answer).Q], ["UNRESOLVED", ["MATERIAL_FORM_REQUIRED"], null], `cut ${JSON.stringify(form)}`);
+    assert.notEqual(answer.status, "SUPPORTABLE");
+  }
   // A contradictory stated form is honoured, and no board answers it.
   notPriced(priced("sheet"), "board request stating sheet");
   assert.equal(priced("sheet").materialResolution.reason, "NO_MATCHING_BOARD_OFFERING");

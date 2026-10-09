@@ -301,26 +301,22 @@ function refusedResult(codes, details = {}) {
 }
 
 /**
- * Spot identity. A spot the definition names keeps its name. A spot it does not name is identified by its part and
- * its position among that part's spots (<partId>-SPOT-<n>, n from 1), which is the order the definition lists it in:
- * a positional name for a stated feature, never a new feature. Within one job every spot identity is unique; a
- * repeat (two spots named alike, or a name equal to another spot's positional name) is UNIQUE_FEATURE_ID_REQUIRED,
- * so no two requested spots can merge into one operation.
+ * Spot identity. Every spot carries the featureId the definition gives it. A spot without one (absent, not a string,
+ * or blank) is UNRESOLVED / FEATURE_ID_REQUIRED: Store does not name a customer's feature. Within one job every spot
+ * identity is unique; a repeat is UNIQUE_FEATURE_ID_REQUIRED, so no two requested spots can merge into one operation.
  */
-export function spotFeatureId(partId, position) {
-  return `${partId}-SPOT-${position}`;
-}
+export const statedFeatureId = (feature) => (typeof feature?.featureId === "string" && feature.featureId.trim() ? feature.featureId : null);
 
 export function featureIdProblem(ids) {
   return new Set(ids).size === ids.length ? null : "UNIQUE_FEATURE_ID_REQUIRED";
 }
 
-const statedFeatureId = (feature) => (typeof feature?.featureId === "string" && feature.featureId.trim() ? feature.featureId : null);
-
-function normalizedFeature(feature, part, widthIn, position) {
+function normalizedFeature(feature, part, widthIn) {
   if (!feature || feature.kind !== "SPOT_ON_LOCATION") {
     return { error: "UNSUPPORTED_OR_MISSING_FEATURE_KIND" };
   }
+  const featureId = statedFeatureId(feature);
+  if (!featureId) return { error: "FEATURE_ID_REQUIRED" };
   const xIn = statedNumber(feature.xIn);
   if (!Number.isFinite(xIn)) {
     return { error: "SPOT_LOCATION_REQUIRED" };
@@ -331,7 +327,7 @@ function normalizedFeature(feature, part, widthIn, position) {
   const placement = spotPlacement(feature, widthIn);
   if (placement.error) return { error: placement.error };
   return {
-    featureId: statedFeatureId(feature) ?? spotFeatureId(part.partId, position),
+    featureId,
     kind: "SPOT_ON_LOCATION",
     xIn,
     ...placement
@@ -406,8 +402,8 @@ function normalizedDemand(demand, item) {
     if (!Number.isFinite(lengthIn) || lengthIn <= 0) unresolved.push("PART_LENGTH_REQUIRED");
     const part = { partId, lengthIn, features: [] };
     const features = Array.isArray(raw?.features) ? raw.features : [];
-    for (const [index, feature] of features.entries()) {
-      const normalized = normalizedFeature(feature, part, widthIn, index + 1);
+    for (const feature of features) {
+      const normalized = normalizedFeature(feature, part, widthIn);
       if (normalized.error) {
         if (normalized.error.includes("OUTSIDE") || normalized.error.includes("NOT_DECLARED")) refused.push(normalized.error);
         else unresolved.push(normalized.error);
@@ -755,10 +751,13 @@ function normalizeBatchComponent(raw, item) {
   const features = Array.isArray(raw.features) ? raw.features : [];
   const normalizedFeatures = [];
   const spotFeatures = [];
-  let spotPosition = 0;
   for (const feature of features) {
     if (feature && feature.kind === "SPOT_ON_LOCATION") {
-      spotPosition += 1;
+      const featureId = statedFeatureId(feature);
+      if (!featureId) {
+        unresolved.push("FEATURE_ID_REQUIRED");
+        continue;
+      }
       if (!(item.supportedOps || []).includes("SPOT_ON_LOCATION")) {
         refused.push("OP_NOT_ON_OFFERING:SPOT_ON_LOCATION");
         continue;
@@ -779,7 +778,7 @@ function normalizeBatchComponent(raw, item) {
         continue;
       }
       spotFeatures.push({
-        featureId: statedFeatureId(feature) ?? spotFeatureId(componentId, spotPosition),
+        featureId,
         kind: "SPOT_ON_LOCATION",
         xIn,
         ...placement,
