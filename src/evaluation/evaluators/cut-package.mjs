@@ -51,7 +51,7 @@
  */
 import { statedNumber } from "../stated-number.mjs";
 import { findSku, offerMaterial, offeringForRequirement } from "../catalog.mjs";
-import { capabilityAnswer, priceAnswer, stockAnswer } from "../store-state.mjs";
+import { capabilityAnswer, offeredGrades, priceAnswer, stockAnswer } from "../store-state.mjs";
 import { D001_STAGE2_ENVELOPE } from "../envelopes/d001-stage2-envelope.mjs";
 import {
   calculationHash,
@@ -323,9 +323,9 @@ function evaluatePackage(catalog, pkg, identity) {
   }
 
   const matches = offerMaterial(catalog, { species: material.species, form: material.form || "board", nominalT: material.nominalT, nominalW: material.nominalW });
-  const grades = [...new Set(matches.map((item) => item.grade))];
+  const grades = offeredGrades(catalog, material);
   if (!material.grade && grades.length > 1) {
-    return answerLine(base, "UNRESOLVED", "GRADE_CHOICE_REQUIRED", "DEFINITION_GAP", "More than one grade is offered for this wood; the customer's grade must be sent.", { offeredGrades: grades.sort() });
+    return answerLine(base, "UNRESOLVED", "GRADE_CHOICE_REQUIRED", "DEFINITION_GAP", "More than one grade is offered for this wood; the customer's grade must be sent.", { offeredGrades: grades });
   }
   const candidates = matches
     .filter((item) => !material.grade || item.grade === material.grade)

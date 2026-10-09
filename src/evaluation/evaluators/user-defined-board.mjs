@@ -7,7 +7,7 @@
  * spot needs SPOT_ON_LOCATION, an angled cut needs MITER_LIMITED, and neither is declared without its work).
  *
  * The end geometry is stated too. The travel model prices parallel ends with the length on the long-long outer edge
- * (PRICED_BOARD_GEOMETRY); a missing relation or datum is asked for, and any other geometry, or an end identity the
+ * (BOARD_END_GEOMETRY); a missing relation or datum is asked for, and any other geometry, or an end identity the
  * datum does not already say, is refused rather than priced as if it were parallel.
  *
  * The grade is the customer's choice: when the wood is offered in more than one grade and none is named, the
@@ -18,10 +18,9 @@
  * angle and spot locations are never changed to make a candidate fit.
  */
 import { statedNumber } from "../stated-number.mjs";
-import { matchingBoardOfferings, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
+import { matchingBoardOfferings, offeredGrades, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
 import { estimateUserDefinedBoardTravel } from "../engine/pricing.mjs";
-
-export const PRICED_BOARD_GEOMETRY = Object.freeze({ endRelation: "parallel", lengthDatum: "long-long-outer-edge" });
+import { BOARD_END_GEOMETRY } from "../engine/d001-travel-standard.mjs";
 
 export function evaluateDimensionalTravelJob(catalog, demand = {}) {
   const parts = Array.isArray(demand.parts) ? demand.parts : [];
@@ -41,7 +40,7 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
   const geometry = geometryProblem(demand, notSupplied);
   if (geometry) return definitionAnswer(demand, geometry.reason, {}, geometry.status);
 
-  const grades = [...new Set(matchingBoardOfferings(catalog, { ...materialDemand, grade: null }).map((item) => item.grade))].sort();
+  const grades = offeredGrades(catalog, materialDemand);
   if (materialDemand.grade == null && grades.length > 1) return definitionAnswer(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
   const candidates = matchingBoardOfferings(catalog, materialDemand);
   const candidateEvaluations = [];
@@ -203,9 +202,9 @@ function definitionProblem(demand, parts, requiredOps, notSupplied) {
 function geometryProblem(demand, notSupplied) {
   if (notSupplied(demand.endRelation)) return { status: "UNRESOLVED", reason: "END_RELATION_REQUIRED" };
   if (notSupplied(demand.lengthDatum)) return { status: "UNRESOLVED", reason: "LENGTH_DATUM_REQUIRED" };
-  if (demand.endRelation !== PRICED_BOARD_GEOMETRY.endRelation) return { status: "REFUSED", reason: `END_RELATION_NOT_PRICED:${demand.endRelation}` };
-  if (demand.lengthDatum !== PRICED_BOARD_GEOMETRY.lengthDatum) return { status: "REFUSED", reason: `LENGTH_DATUM_NOT_PRICED:${demand.lengthDatum}` };
-  if (demand.endIdentity != null) return { status: "REFUSED", reason: "END_IDENTITY_NOT_PRICED" };
+  if (demand.endRelation !== BOARD_END_GEOMETRY.endRelation) return { status: "REFUSED", reason: `END_RELATION_NOT_PRICED:${demand.endRelation}` };
+  if (demand.lengthDatum !== BOARD_END_GEOMETRY.lengthDatum) return { status: "REFUSED", reason: `LENGTH_DATUM_NOT_PRICED:${demand.lengthDatum}` };
+  if ((demand.endIdentity ?? null) !== BOARD_END_GEOMETRY.endIdentity) return { status: "REFUSED", reason: "END_IDENTITY_NOT_PRICED" };
   return null;
 }
 

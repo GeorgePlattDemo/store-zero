@@ -209,3 +209,23 @@ test("a null sheet thickness is UNRESOLVED as SHEET_SIZE_MISSING, never treated 
   delete twoGaps.returnAllPieces;
   assert.deepEqual(evaluate(twoGaps).reasonCodes, ["SHEET_SIZE_MISSING", "RETURN_ALL_PIECES_REQUIRED"]);
 });
+
+test("a sheet that matches more than one offered material is asked for it, never given the cheapest", () => {
+  // Rule: two 3/4 in 48 x 96 materials are offered (fir ACX-sanded, OSB square-edge); the material is the customer's.
+  const unnamed = playhouse();
+  unnamed.sheet.thicknessIn = 0.75;
+  const asked = evaluate(unnamed);
+  assert.equal(asked.status, "UNRESOLVED");
+  assert.deepEqual(asked.reasonCodes, ["SHEET_MATERIAL_CHOICE_REQUIRED"]);
+  assert.equal(asked.totals?.Q ?? null, null);
+  // Named, each material is priced as itself.
+  const osb = evaluate({ ...unnamed, sheet: { ...unnamed.sheet, species: "osb", grade: "square-edge" } });
+  const fir = evaluate({ ...unnamed, sheet: { ...unnamed.sheet, species: "fir", grade: "ACX-sanded" } });
+  assert.equal(osb.status, "SUPPORTABLE");
+  assert.equal(fir.status, "SUPPORTABLE");
+  assert.equal(osb.material.storeSku, "STB-ZERO-OSB-075-48X96-001");
+  assert.equal(fir.material.storeSku, "STB-ZERO-PLY-075-48X96-001");
+  assert.ok(fir.totals.Q > osb.totals.Q);
+  // A thickness with one material on offer needs no naming: the canonical 1/2 in sheet.
+  assert.equal(evaluate(playhouse()).status, "SUPPORTABLE");
+});

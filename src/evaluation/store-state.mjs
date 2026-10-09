@@ -17,6 +17,15 @@ import { offerMaterial } from "./catalog.mjs";
 
 export const STAGE2_JOB_DISPOSITIONS = Object.freeze(["SUPPORTABLE", "UNRESOLVED", "REFUSED", "UNAVAILABLE"]);
 
+/**
+ * The grades Store offers for a wood (species, form, nominal size), sorted. The one rule for grade choice: when this
+ * lists more than one grade and the definition names none, the answer asks for it (GRADE_CHOICE_REQUIRED).
+ */
+export function offeredGrades(catalog, material = {}) {
+  const rows = offerMaterial(catalog, { species: material.species, form: material.form || "board", nominalT: material.nominalT, nominalW: material.nominalW });
+  return [...new Set(rows.map((item) => item.grade))].sort();
+}
+
 export function matchingBoardOfferings(catalog, demand = {}) {
   const minimumWorkpieceLengthIn = Number(demand.definedWorkpieceLengthIn);
   return offerMaterial(catalog, {

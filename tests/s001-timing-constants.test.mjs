@@ -65,7 +65,7 @@ test("pass depth is 0.5 in: a 1/2 in sheet routes in one pass, a 3/4 in sheet in
   const half = evaluate();
   assert.equal(half.time.passes, 1);
   const demand = playhouse();
-  demand.sheet.thicknessIn = 0.75;
+  demand.sheet = { ...demand.sheet, thicknessIn: 0.75, species: "fir", grade: "ACX-sanded" }; // two 3/4 in materials are offered
   const threeQuarter = evaluate(demand);
   assert.equal(threeQuarter.status, "SUPPORTABLE");
   assert.equal(threeQuarter.time.passes, 2); // ceil(0.75 / 0.5) = 2

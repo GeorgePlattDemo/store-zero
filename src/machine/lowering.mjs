@@ -9,7 +9,7 @@
  */
 import { loadMachineConfig, machineConfigHash, machineConfigProblems, registeredMachineProblems } from "./configuration.mjs";
 import { localJobProblems, localJobContentHash, motionContentHash } from "../contracts/machine-records.mjs";
-import { D001_TRAVEL_STANDARD, calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
+import { BOARD_END_GEOMETRY, D001_TRAVEL_STANDARD, calculationHash, spotPointLengthIn as storeSpotPointLengthIn } from "../evaluation/engine/d001-travel-standard.mjs";
 import { findSku, loadCatalog } from "../evaluation/catalog.mjs";
 import { verifyJobPacket } from "../contracts/job-packet.mjs";
 
@@ -18,7 +18,8 @@ export { loadMachineConfig } from "./configuration.mjs";
 export const LOCAL_JOB_SCHEMA = "STB-LOCAL-JOB-2";
 export const MOTION_RECORDS_SCHEMA = "STB-MOTION-RECORDS-2";
 const LOWERED_KINDS = new Set(["REFERENCE_CUT", "INDEX", "SPOT_ON_LOCATION", "MITER_CUTOFF", "REBASE_DATUM_C"]);
-const spotPointLengthIn = (tool) => tool.diameterIn / 2 / Math.tan((tool.pointAngleDeg * Math.PI) / 360);
+// The registered tool, read through the Store's own drill-point formula: one formula for plan and lowering.
+const spotPointLengthIn = (tool) => storeSpotPointLengthIn({ toolDiameterIn: tool.diameterIn, pointAngleDeg: tool.pointAngleDeg });
 
 // This lowerer implements one reference cut, all spots, then index/cut/rebase for each part.
 // A well-typed local job still needs that ordering and the declared station transforms.
@@ -68,9 +69,10 @@ export function lowerJobPacket(packet, { release, catalog, now, machine = loadMa
   if (configProblems.length) return refuse(...configProblems);
   const { definition, storeAnswer: answer } = packet;
   if (definition.requestType !== "USER_DEFINED_BOARD_V1") return refuse(`LOWERING_NOT_REGISTERED_FOR:${definition.requestType}`);
-  if (definition.requirements.endRelation !== "parallel") return refuse("END_RELATION_NOT_REGISTERED_ON_MACHINE");
-  if (definition.requirements.lengthDatum !== "long-long-outer-edge") return refuse("LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE");
-  if (definition.requirements.endIdentity != null) return refuse("END_IDENTITY_NOT_REGISTERED_ON_MACHINE");
+  // The geometry this lowerer implements is the travel model's (BOARD_END_GEOMETRY); nothing else is lowered.
+  if (definition.requirements.endRelation !== BOARD_END_GEOMETRY.endRelation) return refuse("END_RELATION_NOT_REGISTERED_ON_MACHINE");
+  if (definition.requirements.lengthDatum !== BOARD_END_GEOMETRY.lengthDatum) return refuse("LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE");
+  if ((definition.requirements.endIdentity ?? null) !== BOARD_END_GEOMETRY.endIdentity) return refuse("END_IDENTITY_NOT_REGISTERED_ON_MACHINE");
   const plan = answer.estimate?.travel?.operationPlan;
   if (!Array.isArray(plan) || !plan.length) return refuse("STORE_OPERATION_PLAN_REQUIRED");
   const unknown = [...new Set(plan.filter((op) => !LOWERED_KINDS.has(op.kind)).map((op) => op.kind))];

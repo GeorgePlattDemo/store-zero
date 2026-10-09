@@ -20,7 +20,7 @@ import { envelopeCheck } from "../../src/evaluation/envelopes/d001-stage2-envelo
 import { evaluateCircularSegment } from "../../src/evaluation/engine/circular-segment.mjs";
 import { archedAperturePerimeter, planArchedStencilTabs, planSplitStencilTabs } from "../../src/evaluation/engine/stencil-tab-policy.mjs";
 import { recordedCatalogAsRead, toCurrentSchema } from "../fixtures/recorded-catalog.mjs";
-import { matchingBoardOfferings } from "../../src/evaluation/store-state.mjs";
+import { offeredGrades } from "../../src/evaluation/store-state.mjs";
 
 const EVALUATORS = {
   evaluateDimensionalTravelJob,
@@ -47,7 +47,7 @@ const gradeNotNamed = (r) => {
   if (r.name !== "evaluateDimensionalTravelJob") return false;
   const [catalog, demand] = inputFor(r);
   if (demand?.materialDemand?.grade != null) return false;
-  return new Set(matchingBoardOfferings(catalog, { ...demand?.materialDemand, grade: null }).map((item) => item.grade)).size > 1;
+  return offeredGrades(catalog, demand?.materialDemand ?? {}).length > 1;
 };
 // A cut package that stated no end-cut angle, or a user-defined board missing a fact, is the defaults change.
 const DEFAULTS = APPROVED.find((c) => c.id === "NO-SILENT-DEFINITION-DEFAULTS");

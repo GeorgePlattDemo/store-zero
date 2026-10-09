@@ -181,6 +181,10 @@ export function sawCycleSec(widthIn, angleDeg = 0, saw = D001_TRAVEL_STANDARD.sa
   return saw.deploySec + cutSec + saw.retractSec;
 }
 
+// The board end geometry this travel model plans and times: parallel ends, length on the long-long outer edge.
+// The one definition of it; the user-defined board evaluator prices only this and the reference lowerer lowers only this.
+export const BOARD_END_GEOMETRY = Object.freeze({ endRelation: "parallel", lengthDatum: "long-long-outer-edge", endIdentity: null });
+
 export function spotPointLengthIn(spot = D001_TRAVEL_STANDARD.spot) {
   return (Number(spot.toolDiameterIn) / 2) / Math.tan(((Number(spot.pointAngleDeg) / 2) * Math.PI) / 180);
 }

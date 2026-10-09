@@ -67,6 +67,10 @@ function resolveSheet(catalog, sheet, neededOps) {
   if (!matches.length) return { status: "REFUSED", code: "NO_MATCHING_SHEET_OFFERING" };
   const offered = matches.filter((item) => item.offered === true);
   if (!offered.length) return { status: "REFUSED", code: "SHEET_NOT_OFFERED" };
+  // The material is the customer's: when the stated sheet matches more than one species or grade, Store asks
+  // rather than taking the cheapest.
+  const materials = [...new Set(offered.map((item) => `${item.species}/${item.grade}`))].sort();
+  if (materials.length > 1) return { status: "UNRESOLVED", code: "SHEET_MATERIAL_CHOICE_REQUIRED", offeredMaterials: materials };
   const capable = offered.filter((item) =>
     (item.cellFamily || []).includes(ENV.cellFamily) &&
     neededOps.every((op) => (item.supportedOps || []).includes(op))
@@ -360,7 +364,11 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   const neededOps = [...new Set(features.map((f) => ENV.requiredOps[f?.kind]).filter(Boolean))];
   const material = Number.isFinite(parent.thicknessIn) ? resolveSheet(catalog, { ...sheet, thicknessIn: parent.thicknessIn }, neededOps) : null;
   if (material && material.status === "REFUSED") refuse(material.code, "sheet", materialText(material.code), "MATERIAL_GAP");
-  if (material && material.status === "UNRESOLVED") leave(material.code, "sheet", "Store Zero has no selling price for this sheet.");
+  if (material && material.status === "UNRESOLVED") {
+    leave(material.code, "sheet", material.code === "SHEET_MATERIAL_CHOICE_REQUIRED"
+      ? `More than one sheet material matches (${material.offeredMaterials.join(", ")}); the customer's species and grade must be sent.`
+      : "Store Zero has no selling price for this sheet.");
+  }
   if (demand.exteriorRatingRequested === true && material?.item && !/exterior/i.test(String(material.item.grade))) {
     leave("EXTERIOR_RATING_NOT_ESTABLISHED_BY_SKU", "sheet", "This sheet is not sold as exterior rated.");
   }
