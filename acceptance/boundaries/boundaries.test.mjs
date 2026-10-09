@@ -31,10 +31,10 @@ test("Store code depends only on itself and Node built-ins: no other repository,
   }
 });
 
-test("the service only carries requests: it imports the request layer and the catalog, nothing that computes", () => {
+test("the service only carries requests: evaluation and evidence use their bounded entry points", () => {
   for (const path of SRC.filter((p) => p.startsWith("src/service/"))) {
     for (const spec of imports(path).filter((s) => !s.startsWith("node:"))) {
-      assert.ok(["../requests/store-request.mjs", "../evaluation/catalog.mjs"].includes(spec), `${path} imports ${spec}`);
+      assert.ok(["../requests/store-request.mjs", "../evaluation/catalog.mjs", "../machine/evidence.mjs"].includes(spec), `${path} imports ${spec}`);
     }
   }
 });
@@ -47,8 +47,8 @@ test("evaluation never depends on the request layer", () => {
   }
 });
 
-test("the machine side is downstream: evaluation, requests, contracts and the service never import it", () => {
-  for (const path of SRC.filter((p) => !p.startsWith("src/machine/"))) {
+test("the machine side is downstream: only the service may call the evidence entry point", () => {
+  for (const path of SRC.filter((p) => !p.startsWith("src/machine/") && !p.startsWith("src/service/"))) {
     for (const spec of imports(path)) assert.ok(!spec.includes("machine/"), `${path} imports ${spec}`);
   }
 });

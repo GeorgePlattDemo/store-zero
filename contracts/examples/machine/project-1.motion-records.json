@@ -1,9 +1,13 @@
 {
-  "schema": "STB-MOTION-RECORDS-1",
+  "schema": "STB-MOTION-RECORDS-2",
   "binding": {
     "packetId": "PACKET-PROJECT-1-0001",
     "demandHash": "b3e55a4e7ef3afad407f96aa00ae59da904eaa9580b433daa1b6238b0cf5cc86",
-    "machineConfigId": "D001-REFERENCE-REVIEW-0.2"
+    "packetHash": "abdc2bfd9eb1685b9078b7e777d0578d145ac84a41752615e8077bca086693ae",
+    "machineConfigId": "D001-REFERENCE-REVIEW-0.2",
+    "machineConfigHash": "467fac4bf43503b7d694826e00a0158acc70f90ab884886d7f2ddfc3dbbb5ecc",
+    "localJobHash": "c19b0d61265400b2ee31a9f4d694d5bf312112b9459523c10c95aa1e86b31daa",
+    "motionHash": "3bcc7599d90aee0d1debfa015284b1279f67ca9fbb38f853ec20f567b9e1b378"
   },
   "units": {
     "linear": "in",

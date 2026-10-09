@@ -19,7 +19,7 @@
  * Only an accepted decision makes a packet; a decline, deferral or revision request does not.
  */
 import { calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
-import { evaluateStoreRequest } from "../requests/store-request.mjs";
+import { evaluateStoreRequest, STORE_EVALUATION_FRESHNESS } from "../requests/store-request.mjs";
 import { shapeProblems } from "./shape.mjs";
 
 export const JOB_PACKET_SCHEMA = "STB-ACCEPTED-JOB-PACKET-1";
@@ -69,9 +69,24 @@ const at = (value, path) => path.reduce((v, key) => (v == null ? undefined : v[k
 /** Shape and required fields of a packet; empty when it is a well-formed accepted packet. */
 export function packetProblems(packet) {
   if (!packet || typeof packet !== "object" || Array.isArray(packet)) return ["PACKET_MUST_BE_AN_OBJECT"];
-  const missing = REQUIRED.filter((path) => at(packet, path) == null).map((path) => `PACKET_FIELD_REQUIRED:${path.join(".")}`);
-  return [...missing, ...shapeProblems(packet, JOB_PACKET_SHAPE, "PACKET")];
+  const required = [...REQUIRED];
+  if (packet.definition?.requestType === "USER_DEFINED_BOARD_V1") {
+    required.push(["definition", "requirements", "endRelation"], ["definition", "requirements", "lengthDatum"]);
+  }
+  const missing = required.filter((path) => at(packet, path) == null).map((path) => `PACKET_FIELD_REQUIRED:${path.join(".")}`);
+  const blank = required.filter((path) => typeof at(packet, path) === "string" && !at(packet, path).trim())
+    .map((path) => `PACKET_FIELD_NONBLANK:${path.join(".")}`);
+  const timestamp = packet.decision?.decidedAt;
+  const invalidTime = typeof timestamp === "string" && !validTimestamp(timestamp) ? ["PACKET_DECISION_TIME_INVALID"] : [];
+  return [...missing, ...blank, ...invalidTime, ...shapeProblems(packet, JOB_PACKET_SHAPE, "PACKET")];
 }
+
+// Require a real UTC instant, not Date.parse's normalization of an impossible date.
+const validTimestamp = (value) => {
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(value)) return false;
+  const time = Date.parse(value);
+  return Number.isFinite(time) && new Date(time).toISOString() === value.replace(/Z$/, value.includes(".") ? "Z" : ".000Z");
+};
 
 // A packet is a saved file: compare answers as they serialize, so a field that does not survive JSON
 // (an undefined value) never makes an intact packet look altered.
@@ -82,10 +97,12 @@ const answerIdentity = (answer) => {
 
 /**
  * Whether this packet may be acted on, checked against this Store. Answers
- *   { status: "VERIFIED" }                         the packet is intact and its Store answer is still current
+ *   { status: "VERIFIED" }                         the demand/answer agree and the Store answer is still current
  *   { status: "REFUSED", reasonCodes }             the packet is malformed, altered, or names another Store
  *   { status: "STALE", reasonCodes }               intact, but this Store would now answer differently: re-quote
  * `release` is the Store release the packet must name; `catalog` defaults to the catalog on disk.
+ * This is content consistency, not authentication of a user's acceptance or project membership. System
+ * binds the frozen packet to its saved decision. Machine requirements are checked by the registered lowerer.
  */
 export function verifyJobPacket(packet, { release, catalog, now } = {}) {
   const problems = packetProblems(packet);
@@ -101,6 +118,10 @@ export function verifyJobPacket(packet, { release, catalog, now } = {}) {
 
   const { receiptHash, ...receiptCore } = receipt;
   if (calculationHash(receiptCore) !== receiptHash) return refuse("PACKET_RECEIPT_ALTERED");
+  const receiptFields = ["freshnessRule", "requestType", "requestId", "evaluatedAt", "authority", "demandHash", "status", "calculationIdentity", "receiptHash"];
+  if (Object.keys(receipt).some((key) => !receiptFields.includes(key)) || receiptFields.some((key) => !Object.hasOwn(receipt, key))) return refuse("PACKET_RECEIPT_ALTERED");
+  if (receipt.freshnessRule !== STORE_EVALUATION_FRESHNESS.id || receipt.status !== answer.status || typeof receipt.evaluatedAt !== "string" || !validTimestamp(receipt.evaluatedAt)) return refuse("PACKET_RECEIPT_ALTERED");
+  if (Date.parse(packet.decision.decidedAt) < Date.parse(receipt.evaluatedAt)) return refuse("PACKET_DECISION_PRECEDES_ANSWER");
   if (receipt.requestId !== answer.requestId || receipt.requestType !== answer.requestType) return refuse("PACKET_RECEIPT_ALTERED");
   if (calculationHash(answer.calculationIdentity ?? null) !== calculationHash(receipt.calculationIdentity ?? null)) return refuse("PACKET_ANSWER_ALTERED");
   if (receipt.demandHash !== calculationHash(definition.demand)) return refuse("PACKET_DEMAND_CHANGED");
@@ -114,6 +135,9 @@ export function verifyJobPacket(packet, { release, catalog, now } = {}) {
   if (current.freshEvaluation !== true) return refuse(...(current.reasonCodes ?? ["PACKET_DEFINITION_NOT_EVALUATED"]));
   if (answerIdentity(current) !== answerIdentity(answer)) {
     return { status: "STALE", reasonCodes: ["PACKET_STORE_ANSWER_NOT_CURRENT"] };
+  }
+  if (calculationHash(current.evaluationReceipt.authority) !== calculationHash(receipt.authority)) {
+    return { status: "STALE", reasonCodes: ["PACKET_STORE_AUTHORITY_NOT_CURRENT"] };
   }
   return { status: "VERIFIED", reasonCodes: [] };
 }

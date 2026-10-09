@@ -36,6 +36,6 @@ The live application still answers through the predecessor Store at System's `ST
 
 ## Working
 
-One branch per task, a few meaningful commits, one pull request. Do not create other repositories.
+Keep authorized work on `main`, in a few meaningful commits after the checks pass. Publish only a fast-forward from the reviewed main head; if main changes, inspect and retest before publishing. Do not create task branches or other repositories.
 
 **NO BLOOD ON WOOD.**

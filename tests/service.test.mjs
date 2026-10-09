@@ -112,3 +112,85 @@ test("the started service answers on its port", async () => {
     await new Promise((resolve) => server.close(resolve));
   }
 });
+
+const packetExample = (name) => JSON.parse(readFileSync(new URL(`../contracts/examples/packets/${name}.accepted.json`, import.meta.url)));
+const packetRelease = packetExample("project-1").storeAnswer.evaluationReceipt.authority.storeRevision;
+const evidencePost = (base, body, origin = ALLOWED) => fetch(base + PATHS.machineEvidence, { method: "POST", headers: { "Content-Type": "application/json", Origin: origin }, body: typeof body === "string" ? body : JSON.stringify(body) });
+
+test("machine evidence over HTTP binds exact request bytes, release, configuration and both independent jobs", async () => {
+  await withService({ release: packetRelease, catalog: recordedCatalog() }, async (base) => {
+    const health = await (await fetch(base + PATHS.health)).json();
+    const identity = health.machineEvidence;
+    assert.equal(identity.protocol, "STORE-ZERO-MACHINE-EVIDENCE-1");
+    assert.deepEqual(identity.requestTypes, ["USER_DEFINED_BOARD_V1"]);
+    assert.equal(identity.physicalAuthority, false);
+    for (const name of ["project-1", "second-job"]) {
+      const raw = JSON.stringify({ packet: packetExample(name), expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash });
+      const response = await evidencePost(base, raw);
+      assert.equal(response.status, 200);
+      assert.equal(response.headers.get("access-control-allow-origin"), ALLOWED);
+      const reply = await response.json();
+      assert.equal(reply.protocol, identity.protocol);
+      assert.equal(reply.storeRelease, packetRelease);
+      assert.equal(reply.payloadDigest, createHash("sha256").update(raw).digest("hex"));
+      assert.equal(reply.answer.status, "VIRTUAL_EVIDENCE_READY");
+      assert.equal(reply.answer.records.binding.machineConfigHash, identity.machineConfigHash);
+      assert.equal(reply.answer.run.status, "VIRTUAL_MODEL_COMPLETE");
+      assert.equal(reply.answer.admission.status, "BLOCKED");
+      assert.equal(reply.answer.admission.motionCommands, 0);
+      assert.equal(reply.answer.physicalAuthority, false);
+    }
+  });
+});
+
+test("machine evidence refuses incomplete packets, changed demands, wrong releases and unsupported lowering over HTTP", async () => {
+  await withService({ release: packetRelease, catalog: recordedCatalog() }, async (base) => {
+    const { machineEvidence: identity } = await (await fetch(base + PATHS.health)).json();
+    const request = () => ({ packet: packetExample("project-1"), expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash });
+    const cases = [
+      (r) => { delete r.packet.definition.requirements; },
+      (r) => { r.packet.definition.requirements.endRelation = "nonparallel"; },
+      (r) => { r.packet.definition.demand.parts[0].lengthIn = 16; },
+      (r) => { r.expectedMachineConfigHash = "0".repeat(64); },
+      (r) => { r.storeRelease = packetRelease; }
+    ];
+    for (const modify of cases) {
+      const body = request(); modify(body);
+      const reply = await (await evidencePost(base, body)).json();
+      assert.equal(reply.answer.status, "REFUSED");
+      assert.equal(reply.answer.records, undefined);
+      assert.equal(reply.answer.physicalAuthority, false);
+    }
+    const sheet = JSON.parse(readFileSync(new URL("../contracts/examples/requests/sheet-package.playhouse.json", import.meta.url)));
+    const sheetReply = await (await post(base, sheet)).json();
+    const body = request();
+    body.packet.definition = { definitionId: "SHEET", revisionId: "SHEET-1", requestType: sheet.requestType, demand: sheet.demand };
+    body.packet.storeAnswer = sheetReply.answer;
+    const reply = await (await evidencePost(base, body)).json();
+    assert.deepEqual(reply.answer.reasonCodes, ["LOWERING_NOT_REGISTERED_FOR:SHEET_PACKAGE_V1"]);
+  });
+  await withService({ release: "another-release", catalog: recordedCatalog() }, async (base) => {
+    const identity = (await (await fetch(base + PATHS.health)).json()).machineEvidence;
+    const reply = await (await evidencePost(base, { packet: packetExample("project-1"), expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash })).json();
+    assert.deepEqual(reply.answer.reasonCodes, ["PACKET_STORE_RELEASE_MISMATCH"]);
+  });
+});
+
+test("candidate origin and machine evidence preflight obey configured origin policy", async () => {
+  const candidate = "https://system-candidate.example";
+  await withService({ allowedOrigins: [candidate] }, async (base) => {
+    assert.equal((await evidencePost(base, {}, ALLOWED)).status, 403);
+    const preflight = await fetch(base + PATHS.machineEvidence, { method: "OPTIONS", headers: { Origin: candidate } });
+    assert.equal(preflight.status, 204);
+    assert.equal(preflight.headers.get("access-control-allow-origin"), candidate);
+    assert.equal((await evidencePost(base, {}, candidate)).status, 200);
+  });
+});
+
+test("health refuses an invalid catalog rather than advertising a healthy Store", async () => {
+  await withService({ catalog: { ...recordedCatalog(), skuCount: 1 } }, async (base) => {
+    const response = await fetch(base + PATHS.health);
+    assert.equal(response.status, 503);
+    assert.equal((await response.json()).error, "STORE_CATALOG_INVALID");
+  });
+});

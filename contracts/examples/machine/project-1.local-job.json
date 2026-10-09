@@ -1,5 +1,5 @@
 {
-  "schema": "STB-LOCAL-JOB-1",
+  "schema": "STB-LOCAL-JOB-2",
   "packetId": "PACKET-PROJECT-1-0001",
   "projectId": "PROJECT-1-SPECIMEN",
   "definitionId": "SYO-USER1-XBRACE-0.1",
@@ -14,6 +14,8 @@
     "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
     "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
   },
+  "packetHash": "abdc2bfd9eb1685b9078b7e777d0578d145ac84a41752615e8077bca086693ae",
+  "machineConfigHash": "467fac4bf43503b7d694826e00a0158acc70f90ab884886d7f2ddfc3dbbb5ecc",
   "machineConfigId": "D001-REFERENCE-REVIEW-0.2",
   "executionClass": "NOMINAL_COORDINATE_MODEL",
   "physicalAuthority": false,
@@ -278,5 +280,6 @@
     "KERF_FACE_AND_REBASE_UNRESOLVED",
     "SAW_STROKE_GEOMETRY_UNRESOLVED",
     "COMMISSIONING_ABSENT"
-  ]
+  ],
+  "localJobHash": "c19b0d61265400b2ee31a9f4d694d5bf312112b9459523c10c95aa1e86b31daa"
 }

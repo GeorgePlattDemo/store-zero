@@ -7,27 +7,53 @@
  *
  * Nothing here issues physical motion. Commands are virtual records for the reference model only.
  */
-import { readFileSync } from "node:fs";
-import { calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
+import { loadMachineConfig, machineConfigHash, machineConfigProblems, registeredMachineProblems } from "./configuration.mjs";
+import { localJobProblems, localJobContentHash, motionContentHash } from "../contracts/machine-records.mjs";
+import { D001_TRAVEL_STANDARD, calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
 import { findSku, loadCatalog } from "../evaluation/catalog.mjs";
 import { verifyJobPacket } from "../contracts/job-packet.mjs";
 
-export const LOCAL_JOB_SCHEMA = "STB-LOCAL-JOB-1";
-export const MOTION_RECORDS_SCHEMA = "STB-MOTION-RECORDS-1";
-const REFERENCE_MACHINE_URL = new URL("../../data/machine/d001-reference-review-0.2.json", import.meta.url);
+export { loadMachineConfig } from "./configuration.mjs";
 
-/** The registered reference machine configuration. A configuration that claims physical authority is refused. */
-export function loadMachineConfig(url = REFERENCE_MACHINE_URL) {
-  const machine = JSON.parse(readFileSync(url, "utf8"));
-  if (machine.physicalAuthority !== false) throw new Error("A machine configuration with physical authority is not registered here.");
-  for (const key of ["machineConfigId", "stations", "axes", "tooling", "allowancesSec", "assumptions", "releaseBlockers"]) {
-    if (machine[key] == null) throw new Error(`Machine configuration is missing ${key}.`);
-  }
-  return machine;
-}
-
+export const LOCAL_JOB_SCHEMA = "STB-LOCAL-JOB-2";
+export const MOTION_RECORDS_SCHEMA = "STB-MOTION-RECORDS-2";
 const LOWERED_KINDS = new Set(["REFERENCE_CUT", "INDEX", "SPOT_ON_LOCATION", "MITER_CUTOFF", "REBASE_DATUM_C"]);
 const spotPointLengthIn = (tool) => tool.diameterIn / 2 / Math.tan((tool.pointAngleDeg * Math.PI) / 360);
+
+// This lowerer implements one reference cut, all spots, then index/cut/rebase for each part.
+// A well-typed local job still needs that ordering and the declared station transforms.
+function planProblems(job, machine) {
+  const problems = [];
+  // The Store rounds operands independently to six decimals; allow their combined rounding error.
+  const close = (a, b) => Math.abs(a - b) <= 2e-6;
+  let c = 0;
+  let remaining = job.selectedMaterial.parentLengthIn - job.kerfIn;
+  let phase = "SPOTS";
+  for (let i = 1; i < job.operations.length;) {
+    const index = job.operations[i];
+    const op = job.operations[i + 1];
+    if (index?.kind !== "INDEX" || !op || !["SPOT_ON_LOCATION", "MITER_CUTOFF"].includes(op.kind)) return ["LOCAL_JOB_OPERATION_ORDER_INVALID"];
+    if (!close(index.fromCIn, c) || !close(index.distanceIn, Math.abs(index.toCIn - c))) problems.push("LOCAL_JOB_INDEX_GEOMETRY_INVALID");
+    c = index.toCIn;
+    if (op.kind === "SPOT_ON_LOCATION") {
+      if (phase !== "SPOTS") problems.push("LOCAL_JOB_OPERATION_ORDER_INVALID");
+      if (op.stationId !== machine.stations.spot.id || !close(c + op.workpieceFeatureXIn, machine.stations.spot.xIn)) problems.push("LOCAL_JOB_SPOT_TRANSFORM_INVALID");
+      if (!close(op.plungeIn, spotPointLengthIn(machine.tooling.spot) + op.fullDiameterDepthIn) || op.fullDiameterDepthIn !== D001_TRAVEL_STANDARD.spot.fullDiameterDepthIn) problems.push("SPOT_TOOL_DIFFERS_FROM_STORE_PLAN");
+      i += 2;
+    } else {
+      phase = "CUTS";
+      if (op.stationId !== machine.stations.saw.id || !close(c + op.partLengthIn, machine.stations.saw.xIn)) problems.push("LOCAL_JOB_CUTOFF_TRANSFORM_INVALID");
+      remaining -= op.partLengthIn + job.kerfIn;
+      if (!close(remaining, op.retainedAfterIn)) problems.push("LOCAL_JOB_RETAINED_LENGTH_INVALID");
+      const rebase = job.operations[i + 2];
+      if (rebase?.kind !== "REBASE_DATUM_C" || rebase.stationId !== machine.stations.saw.id) return ["LOCAL_JOB_OPERATION_ORDER_INVALID"];
+      c = 0;
+      i += 3;
+    }
+  }
+  if (phase !== "CUTS" || job.operations[0].stationId !== machine.stations.saw.id) problems.push("LOCAL_JOB_OPERATION_ORDER_INVALID");
+  return problems;
+}
 
 /**
  * Lowers a packet to a local job for this machine. Answers { status: "LOWERED", localJob } or
@@ -38,8 +64,13 @@ export function lowerJobPacket(packet, { release, catalog, now, machine = loadMa
   if (verified.status !== "VERIFIED") return verified;
   const refuse = (...reasonCodes) => ({ status: "REFUSED", reasonCodes });
 
+  const configProblems = machineConfigProblems(machine);
+  if (configProblems.length) return refuse(...configProblems);
   const { definition, storeAnswer: answer } = packet;
   if (definition.requestType !== "USER_DEFINED_BOARD_V1") return refuse(`LOWERING_NOT_REGISTERED_FOR:${definition.requestType}`);
+  if (definition.requirements.endRelation !== "parallel") return refuse("END_RELATION_NOT_REGISTERED_ON_MACHINE");
+  if (definition.requirements.lengthDatum !== "long-long-outer-edge") return refuse("LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE");
+  if (definition.requirements.endIdentity != null) return refuse("END_IDENTITY_NOT_REGISTERED_ON_MACHINE");
   const plan = answer.estimate?.travel?.operationPlan;
   if (!Array.isArray(plan) || !plan.length) return refuse("STORE_OPERATION_PLAN_REQUIRED");
   const unknown = [...new Set(plan.filter((op) => !LOWERED_KINDS.has(op.kind)).map((op) => op.kind))];
@@ -54,9 +85,10 @@ export function lowerJobPacket(packet, { release, catalog, now, machine = loadMa
   const kerfs = [...new Set(plan.filter((op) => op.kerfIn != null).map((op) => op.kerfIn))];
   if (kerfs.length !== 1) return refuse("BLADE_KERF_NOT_STATED_BY_STORE_PLAN");
   const kerfIn = kerfs[0];
+  if (machine.stations.saw.xIn !== D001_TRAVEL_STANDARD.stations.sawMiter.xIn || machine.stations.spot.xIn !== D001_TRAVEL_STANDARD.stations.spotFace.xIn) return refuse("STATION_TRANSFORM_DIFFERS_FROM_STORE_PLAN");
   const pointIn = spotPointLengthIn(machine.tooling.spot);
   for (const op of plan.filter((o) => o.kind === "SPOT_ON_LOCATION")) {
-    if (Math.abs(pointIn + op.fullDiameterDepthIn - op.plungeIn) > 1e-6) return refuse("SPOT_TOOL_DIFFERS_FROM_STORE_PLAN");
+    if (machine.tooling.spot.diameterIn !== D001_TRAVEL_STANDARD.spot.toolDiameterIn || machine.tooling.spot.pointAngleDeg !== D001_TRAVEL_STANDARD.spot.pointAngleDeg || Math.abs(pointIn + op.fullDiameterDepthIn - op.plungeIn) > 1e-6) return refuse("SPOT_TOOL_DIFFERS_FROM_STORE_PLAN");
     if (op.stationId !== machine.stations.spot.id) return refuse(`STATION_NOT_REGISTERED:${op.stationId}`);
   }
   for (const op of plan.filter((o) => o.kind === "REFERENCE_CUT" || o.kind === "MITER_CUTOFF" || o.kind === "REBASE_DATUM_C")) {
@@ -65,6 +97,8 @@ export function lowerJobPacket(packet, { release, catalog, now, machine = loadMa
   const angles = [...new Set(plan.filter((o) => o.angleDeg != null).map((o) => o.angleDeg))];
   if (angles.length !== 1) return refuse("ONE_MITER_ANGLE_PER_BOARD_REQUIRED");
 
+  const registryProblems = registeredMachineProblems(machine);
+  if (registryProblems.length) return refuse(...registryProblems);
   const demandHash = calculationHash(definition.demand);
   const operations = plan.map((op) => ({ ...op, sourceStoreOperationId: op.opId, sourceDemandHash: demandHash }));
 
@@ -82,34 +116,43 @@ export function lowerJobPacket(packet, { release, catalog, now, machine = loadMa
     if (op.kind === "MITER_CUTOFF") remaining = op.retainedAfterIn;
   }
 
-  return {
-    status: "LOWERED",
-    localJob: {
-      schema: LOCAL_JOB_SCHEMA,
-      packetId: packet.packetId,
-      projectId: packet.project.projectId,
-      definitionId: definition.definitionId,
-      definitionRevision: definition.revisionId,
-      requirements: definition.requirements ?? {},
-      demandHash,
-      storeRelease: answer.evaluationReceipt.authority.storeRevision,
-      storeCalculationIdentity: answer.calculationIdentity,
-      machineConfigId: machine.machineConfigId,
-      executionClass: machine.executionClass,
-      physicalAuthority: false,
-      selectedMaterial: { storeSku: item.storeSku, actualT: item.actualT, actualW: item.actualW, stockL_in: item.stockL_in, parentLengthIn },
-      miterAngleDeg: angles[0],
-      kerfIn,
-      operations,
-      contacts,
-      releaseBlockers: [...machine.releaseBlockers]
-    }
+  const localJob = {
+    schema: LOCAL_JOB_SCHEMA,
+    packetId: packet.packetId,
+    projectId: packet.project.projectId,
+    definitionId: definition.definitionId,
+    definitionRevision: definition.revisionId,
+    requirements: { ...definition.requirements },
+    demandHash,
+    storeRelease: answer.evaluationReceipt.authority.storeRevision,
+    storeCalculationIdentity: answer.calculationIdentity,
+    packetHash: calculationHash(packet),
+    machineConfigHash: machineConfigHash(machine),
+    machineConfigId: machine.machineConfigId,
+    executionClass: machine.executionClass,
+    physicalAuthority: false,
+    selectedMaterial: { storeSku: item.storeSku, actualT: item.actualT, actualW: item.actualW, stockL_in: item.stockL_in, parentLengthIn },
+    miterAngleDeg: angles[0],
+    kerfIn,
+    operations,
+    contacts,
+    releaseBlockers: [...machine.releaseBlockers]
   };
+  localJob.localJobHash = localJobContentHash(localJob);
+  const problems = localJobProblems(localJob);
+  if (problems.length) return refuse(...problems);
+  const geometryProblems = planProblems(localJob, machine);
+  if (geometryProblems.length) return refuse(...geometryProblems);
+  return { status: "LOWERED", localJob };
 }
 
 /** The virtual command records for a local job: every record names its source operation or allowance. */
 export function motionRecords(localJob, machine = loadMachineConfig()) {
-  if (localJob?.machineConfigId !== machine.machineConfigId) throw new Error("Motion records need the machine the job was lowered for.");
+  const problems = [...registeredMachineProblems(machine), ...localJobProblems(localJob)];
+  if (problems.length) throw new Error(`Motion records refused: ${problems.join(", ")}`);
+  if (localJob.machineConfigId !== machine.machineConfigId || localJob.machineConfigHash !== machineConfigHash(machine)) throw new Error("Motion records need the exact machine configuration the job was lowered for.");
+  const geometryProblems = planProblems(localJob, machine);
+  if (geometryProblems.length) throw new Error(`Motion records refused: ${geometryProblems.join(", ")}`);
   const { axes, allowancesSec: wait, assumptions } = machine;
   const { actualT: topIn, actualW: widthIn } = localJob.selectedMaterial;
   const plungeBase = spotPointLengthIn(machine.tooling.spot);
@@ -162,9 +205,9 @@ export function motionRecords(localJob, machine = loadMachineConfig()) {
   delay(wait.releaseLabel, "STORE_HANDLING_RELEASE");
   add("COMPLETE", null, 0, null, null, "REFERENCE_END");
 
-  return {
+  const records = {
     schema: MOTION_RECORDS_SCHEMA,
-    binding: { packetId: localJob.packetId, demandHash: localJob.demandHash, machineConfigId: localJob.machineConfigId },
+    binding: { packetId: localJob.packetId, demandHash: localJob.demandHash, packetHash: localJob.packetHash, machineConfigId: localJob.machineConfigId, machineConfigHash: localJob.machineConfigHash, localJobHash: localJob.localJobHash },
     units: { ...machine.units },
     executionClass: "VIRTUAL_BENCH_ONLY",
     physicalAuthority: false,
@@ -172,4 +215,6 @@ export function motionRecords(localJob, machine = loadMachineConfig()) {
     toolClearZ: clearZ,
     sequence
   };
+  records.binding.motionHash = motionContentHash(records);
+  return records;
 }

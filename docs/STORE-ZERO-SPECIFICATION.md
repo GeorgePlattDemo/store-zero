@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.8 · 2026-10-09**
+**3D Solutions LLC · Store Zero Operational Specification 0.9 · 2026-10-09**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19), and the board-length ceiling removed (0.8; §19).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19), the board-length ceiling removed (0.8; §19), and runtime machine validation and the bounded virtual-evidence service completed (0.9; §10.6).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -1073,15 +1073,16 @@ It does not accept a Store identity or clock from the request; reuse a prior ans
 
 ### What it is for
 
-Carries Store requests over HTTPS. It computes nothing: every answer comes from the request layer (§6A.13) against the catalog read for that request. It is deployed from this repository as it stands — no dependency is installed and nothing is fetched at start, so the code that was built is the code that answers.
+Carries Store requests and bounded virtual-evidence requests over HTTPS. It computes no evaluation or machine model itself: evaluation comes from the request layer (§6A.13) against the catalog read for that request; machine evidence comes from the downstream entry point (§10.6). It is deployed from this repository as it stands — no dependency is installed and nothing is fetched at start, so the code that was built is the code that answers.
 
 ### Inputs
 
 | Endpoint | Input | Answer |
 |---|---|---|
-| `GET /health` | none | `status`, `store`, `release`, `protocol`, accepted `requestTypes`, catalog `clock` and offering count |
+| `GET /health` | none | `status`, `store`, `release`, `protocol`, accepted `requestTypes`, catalog `clock` and offering count, and registered `machineEvidence` identity (§10.6) |
 | `POST /v1/requests` | a JSON body that is the request of §3.1, `Content-Type: application/json`, at most 256 KiB | `protocol`, `storeRelease`, `payloadDigest` (SHA-256 of the bytes received), `respondedAt`, `answer` |
-| `OPTIONS /v1/requests` | a browser preflight from an allowed origin | `204` with the allowed methods and headers |
+| `POST /v1/machine-evidence` | an accepted packet and expected configuration ID/hash (§10.6), same body limits | a correlated virtual-evidence answer, or explicit refusal/staleness |
+| `OPTIONS /v1/requests` or `/v1/machine-evidence` | a browser preflight from an allowed origin | `204` with the allowed methods and headers |
 
 Configuration: `STORE_ZERO_RELEASE`, or the commit the host deployed — Render's `RENDER_GIT_COMMIT` or Railway's `RAILWAY_GIT_COMMIT_SHA` (required — the service refuses to start without a release identity); `STORE_ZERO_ALLOWED_ORIGINS`, comma-separated browser origins (default `https://georgeplattdemo.github.io`); `HOST`, `PORT` (default 8080).
 
@@ -1089,12 +1090,12 @@ Configuration: `STORE_ZERO_RELEASE`, or the commit the host deployed — Render'
 
 1. A request from a browser `Origin` that is not allowed → `403 ORIGIN_NOT_ALLOWED`. Callers without an `Origin` (servers, health checks) are served.
 2. `/health` answers `GET`/`HEAD` only.
-3. Any path other than `/health` and `/v1/requests` → `404 NOT_FOUND`.
-4. `/v1/requests`: `OPTIONS` → preflight; any method but `POST` → `405`; a body that is not `application/json` → `415`; over 256 KiB → `413 REQUEST_TOO_LARGE`; unreadable or not JSON → `400`.
-5. The request layer answers. A refusal or an unresolved request is an answer: `200`, with the reason in `answer.reasonCodes`.
+3. Any path other than `/health`, `/v1/requests` and `/v1/machine-evidence` → `404 NOT_FOUND`.
+4. Both POST endpoints: `OPTIONS` → preflight; any method but `POST` → `405`; a body that is not `application/json` → `415`; over 256 KiB → `413 REQUEST_TOO_LARGE`; unreadable or not JSON → `400`.
+5. The request layer or bounded machine-evidence entry point answers. A refusal, stale packet or unresolved request is an answer: `200`, with the reason in `answer.reasonCodes`.
 6. An invalid catalog → `503 STORE_CATALOG_INVALID`; any other failure → `500` with no answer. The service never answers around a failure.
 
-At start it requires a release identity and a valid catalog, or it exits. Request and header timeouts are 15 s and 10 s.
+At start it requires a release identity, valid catalog and registered reference machine configuration, or it exits. Health validates the catalog and configuration; an invalid one returns `503` rather than claiming health. Request and header timeouts are 15 s and 10 s.
 
 ### It does not do
 
@@ -1102,11 +1103,11 @@ It does not calculate, cache, or retry an answer; accept a Store identity, clock
 
 ### Verification
 
-`tests/service.test.mjs` (all named tests, over a real HTTP listener); `acceptance/boundaries` — “the service only carries requests: it imports the request layer and the catalog, nothing that computes”.
+`tests/service.test.mjs` (all named tests, over a real HTTP listener); `acceptance/boundaries` — “the service only carries requests: evaluation and evidence use their bounded entry points”.
 
 ### Deployment
 
-`Dockerfile` builds the image from `package.json`, `src/` and `data/` only. `render.yaml` is a Render Blueprint (New → Blueprint → this repository → Apply) and `railway.json` the equivalent for Railway; each builds that Dockerfile and checks `/health` before sending traffic, and neither needs variables.
+`Dockerfile` builds the image from `package.json`, `src/` and `data/` only. `render.yaml` is a Render Blueprint (New → Blueprint → this repository → Apply) and `railway.json` the equivalent for Railway; each builds that Dockerfile and checks `/health` before sending traffic, and the host supplies the release identity. Set `STORE_ZERO_ALLOWED_ORIGINS` when the candidate System uses a different browser origin; the default does not admit a new origin automatically.
 
 ### Where it lives
 
@@ -1381,11 +1382,15 @@ The accepted job packet is the one object that connects a customer's accepted jo
 | `decision` | `decisionId`, `kind` (`ACCEPTED` only), `offerId`, `decidedAt`, `evidenceClass` (`SIMULATED`) |
 | `authority` | `physicalRelease: false`, `evidenceClass: "SIMULATED"` |
 
+Required identities are nonblank. `decision.decidedAt` is a valid UTC ISO instant (`YYYY-MM-DDTHH:mm:ssZ` or with three fractional digits); impossible calendar dates are refused. For `USER_DEFINED_BOARD_V1`, `requirements.endRelation` and `requirements.lengthDatum` are required nonblank values. Other request types have their own lowerer admission; these board facts are not invented for a sheet. A non-null supplied `endIdentity` remains a declared System fact; no mapping for it is registered in this reference lowerer, so it is refused before commands.
+
 Only an accepted decision makes a packet: a decline, deferral or revision request does not. A packet is acted on only after `verifyJobPacket` checks it against this Store, which answers:
 
-- `VERIFIED` — well formed; the answer is `SUPPORTABLE` and of the definition's request type; its receipt hash recomputes; its calculation identity matches its receipt; the receipt's demand hash is the hash of the packet's definition; the receipt names the expected Store release; and this Store, asked again now, gives exactly the same answer.
+- `VERIFIED` — Store content consistency only, not authentication of the user decision or project membership. System must bind the packet to its saved acceptance of this exact revision and answer. Well formed; the answer is `SUPPORTABLE` and of the definition's request type; its receipt hash recomputes; its calculation identity matches its receipt; the receipt's demand hash is the hash of the packet's definition; the receipt names the expected Store release; the receipt has the exact declared fields, registered freshness rule, valid evaluation time and matching status; acceptance does not precede the answer; and this Store, asked again now, gives exactly the same answer and authority content.
 - `REFUSED` — with the reason: `PACKET_FIELD_REQUIRED:<path>`, `PACKET_REQUIRES_ACCEPTED_DECISION`, `PHYSICAL_RELEASE_NOT_AVAILABLE`, `PACKET_ANSWER_NOT_SUPPORTABLE`, `PACKET_RECEIPT_ALTERED`, `PACKET_ANSWER_ALTERED`, `PACKET_DEMAND_CHANGED`, `PACKET_STORE_RELEASE_MISMATCH`, among others in Appendix D.9.
 - `STALE` — intact, but this Store would now answer differently (for example the board was repriced): `PACKET_STORE_ANSWER_NOT_CURRENT`. A stale packet is re-quoted; a late answer never authorizes a changed job.
+
+Unsupported end relation or length datum is refused by machine admission (§10.6), even if the Store demand/answer verification succeeds. Verification of the demand is not permission to ignore System-only requirements.
 
 The complete Project 1 packet is `contracts/examples/packets/project-1.accepted.json`; `contracts/examples/packets/refused.json` holds a declined offer, a claimed physical release, a price edited after the answer, an edited receipt, a definition changed after the answer, an answer from another Store, and a refused answer, each refused with its exact reason.  
 *Trace: `src/contracts/job-packet.mjs` (`JOB_PACKET_SCHEMA`, `JOB_PACKET_SHAPE`, `packetProblems`, `verifyJobPacket`); `contracts/examples/packets/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the Project 1 packet is well formed and verifies against this Store”, “a packet that is declined, altered, changed, foreign or refused is never acted on”, “an intact packet whose Store answer is no longer current is STALE and must be re-quoted”.*
@@ -1394,8 +1399,8 @@ The complete Project 1 packet is `contracts/examples/packets/project-1.accepted.
 
 `src/machine/` is the machine-local side of the Store boundary for the D-001 reference cell. It takes an accepted job packet and produces four records, each with an exact shape (`src/contracts/machine-records.mjs`):
 
-1. **Local job** (`STB-LOCAL-JOB-1`) — `lowerJobPacket` lowers a packet only after `verifyJobPacket` answers `VERIFIED` (a `REFUSED` or `STALE` packet produces nothing). It carries the Store's operation plan unchanged, each operation tagged with its source operation and the definition's demand hash; the Store-selected board's actual dimensions, read from the catalog the packet was verified against; the miter angle and kerf; the nominal contact audit (which registered contacts lie under the retained stock before each operation); and the release blockers.
-2. **Motion records** (`STB-MOTION-RECORDS-1`) — `motionRecords` emits the ordered virtual commands (`DELAY`, `MOVE`, `MOVE_C`, `VERIFY_X`, `CAPTURE_C`, `SET_SAW`, `SET_SPOT`, `COMPLETE`), bound to the packet, demand hash and machine configuration. Every record names its source: a Store operation, or a named machine allowance (load, angle, settle, clamp, end, release).
+1. **Local job** (`STB-LOCAL-JOB-2`) — `lowerJobPacket` lowers a packet only after `verifyJobPacket` answers `VERIFIED` (a `REFUSED` or `STALE` packet produces nothing). It carries the Store's operation plan unchanged, each operation tagged with its source operation and the definition's demand hash; the Store-selected board's actual dimensions, read from the catalog the packet was verified against; the miter angle and kerf; the nominal contact audit (which registered contacts lie under the retained stock before each operation); and the release blockers.
+2. **Motion records** (`STB-MOTION-RECORDS-2`) — `motionRecords` emits the ordered virtual commands (`DELAY`, `MOVE`, `MOVE_C`, `VERIFY_X`, `CAPTURE_C`, `SET_SAW`, `SET_SPOT`, `COMPLETE`), bound to the complete accepted packet hash, demand hash, machine configuration ID and content hash, local-job content hash and motion-record content hash. Every record names its source: a Store operation, or a named machine allowance (load, angle, settle, clamp, end, release).
 3. **Virtual run** — `runVirtual` executes the records in the acceleration-limited stop-to-stop model. A binding that does not match the job runs nothing; a position fault, an unconfirmed retract, or an index with the tool down stops the run before the next tool or index command.
 4. **Physical admission** — `physicalAdmission` is always `BLOCKED` with every unresolved prerequisite named and zero motion: no configuration with physical authority is registered.
 
@@ -1405,6 +1410,48 @@ Every machine fact comes from the registered configuration `data/machine/d001-re
 
 **A second, different job runs through the same code.** `contracts/examples/packets/second-job.accepted.json` is a three-part bracket set on SPF 2×6 at 15°, with two centred spots on one part, none on the second and one 1.5-in inset spot on the third. The Store refuses the 72-in board (the last remainder would fall below the 24-in control length) and selects the 96-in board; the machine side produces 60 records, places the spots at 2.75 and 1.5 in across the 5.5-in board, and runs in 97.632177 s. Every command traces to a Store operation or a named allowance, and every Store operation is carried into commands.  
 *Trace: `src/machine/lowering.mjs` (`loadMachineConfig`, `lowerJobPacket`, `motionRecords`); `src/machine/virtual-run.mjs` (`runVirtual`, `physicalAdmission`, `moveTimeSec`); `src/contracts/machine-records.mjs`; `data/machine/d001-reference-review-0.2.json`; `contracts/examples/machine/`. Tests: `acceptance/machine/machine.test.mjs` (all named tests).*
+
+## 10.6 Runtime validation and callable virtual evidence (0.9)
+
+### Required meaning before commands
+
+The current reference lowerer implements the same geometry as the two committed specimens: parallel ends, length measured on the long-long outer edge, one miter-face angle per board, reference-cut establishment of Datum C, registered spotting, and index/cut/fresh-face rebase for each part. It does not reinterpret nonparallel ends or short-short length as that geometry. Missing required facts are packet errors; unsupported values return `END_RELATION_NOT_REGISTERED_ON_MACHINE`, `LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE` or `END_IDENTITY_NOT_REGISTERED_ON_MACHINE`. The registered request type remains only `USER_DEFINED_BOARD_V1`. A supportable cut or sheet package remains commercially evaluable and receives `LOWERING_NOT_REGISTERED_FOR:<type>` at this machine boundary. Unsupported lowering neither invalidates a valid Store Q nor creates machine evidence.
+
+Packet consistency does not authenticate a user's decision. System owns the saved acceptance event, binds its project/definition revision and presented Store answer to the packet, and checks that binding before submission and before attaching returned evidence. Store hashes and re-evaluation cannot prove that an unauthenticated caller actually obtained that acceptance.
+
+### Configuration and local-job validation
+
+`src/machine/configuration.mjs` checks the same exact shape for a disk-loaded or injected configuration. Every declared field is required; text is nonblank, numbers finite, station coordinates and allowances nonnegative, motion/tool dimensions positive, drill point angle less than 180 degrees, units exactly inches/degrees/seconds, and contacts exactly one each of R1/M1/R2. Only D-001, the nominal coordinate execution class, reference-selection evidence class and `physicalAuthority:false` are registered. Assumption rules/labels are required; contact and blocker lists cannot be absent or empty. Unknown fields are refused. A loaded invalid configuration throws; an injected invalid configuration produces refusal at lowering and an error at direct motion generation.
+
+An ID cannot stand in for the configuration's facts. Only the full configuration in `data/machine/d001-reference-review-0.2.json` is registered. Same-ID content changes are refused (`MACHINE_CONFIGURATION_CONTENT_CHANGED`); another ID is unregistered. Saw/spot station coordinates must agree with the Store standard, and spotting tool diameter, point angle and resulting plunge must agree with the Store plan. A changed station transform returns `STATION_TRANSFORM_DIFFERS_FROM_STORE_PLAN`; a changed tool returns `SPOT_TOOL_DIFFERS_FROM_STORE_PLAN`. Configuration changes are deliberate registered data revisions, with a new ID and regenerated evidence; they are never caller overrides.
+
+Before motion generation, a local job must have the exact version-2 shape and required identities, content hashes, material dimensions, calculation hashes, requirements, cut geometry, ordered operations, contact audit and blockers. The parent cannot exceed the selected stock length. Each operation names its own Store source and demand hash, has a nonnegative time, and supplies its kind's required operands. Parts/stations are identified. Cutoffs preserve angle/kerf, positive part length and retained-control compliance; spotting preserves depth and wide-face bounds. The first operation is the reference cut, spots precede cutoffs, and every part cutoff has its index and fresh-face rebase. Index distance/from coordinates, forward feature-to-station placement and retained lengths are checked, not inferred from an ID. An incomplete, reordered, changed or unsupported local job emits no commands.
+
+`packetHash` hashes the full accepted packet, including requirements, project and decision; `machineConfigHash` hashes the full registered configuration. `localJobHash` hashes the local job excluding that field. `binding.motionHash` hashes the records excluding that binding field. Hashing uses the same `calculationHash` serialization as Store; exact HTTP payload correlation separately uses raw-byte SHA-256. These hashes detect content changes; they are not digital signatures. The new required bindings deliberately advance local-job and motion schemas to `STB-LOCAL-JOB-2` and `STB-MOTION-RECORDS-2`. The unaltered published review retains its original schemas; the new contract examples carry version 2. Operation records, 45/60 command sequences, modeled traces, Q and published evidence remain unchanged.
+
+### Virtual runner admission and faults
+
+`motionRecordProblems` validates the complete input before the first command. Required schema, units, execution class, false physical authority, full binding, finite initial positions and tool clearance cannot be omitted or null. Sequence numbers are consecutive from one; sources are nonblank; commands and axes are registered. MOVE/MOVE_C need finite target, positive velocity and acceleration; MOVE_C uses X only. DELAY has a nonnegative duration equal to its target. VERIFY_X needs a finite target. Tool-state commands use 0 or 1. CAPTURE_C and COMPLETE use zero; non-motion commands do not carry motion axes/rates. A completion marker is required and must be final. Absent, null, empty, unknown, reordered, incomplete, nonfinite or content-altered records return `REFUSED`, the first reason and zero executed moves. The expected binding must include all version-2 fields; the three earlier IDs alone are insufficient.
+
+After admission the runner starts with saw stroke retracted and spot at clearance. It faults before a saw stroke with the saw command off, a spot plunge with the spindle command off, Y travel with the spot down, angle change with the saw down, datum capture or X indexing with tools down, a modeled position/retract fault, or numerical overflow. COMPLETE requires a modeled saw stroke and both tool commands off with tools retracted; a terminal marker alone is not a completed job. Faults retain only the trace before the failing command. These checks constrain the nominal virtual model; the named physical commissioning/kerf/workholding/stroke blockers remain.
+
+### HTTP evidence contract
+
+`GET /health` adds `machineEvidence`: protocol `STORE-ZERO-MACHINE-EVIDENCE-1`, supported lowering `requestTypes`, `machineConfigId`, `machineConfigHash`, and `physicalAuthority:false`. This publishes reference identity, not a commissioned-machine capability claim.
+
+`POST /v1/machine-evidence` accepts exactly three fields:
+
+| Field | Meaning |
+|---|---|
+| `packet` | Complete accepted packet of §10.4, with its unchanged Store answer |
+| `expectedMachineConfigId` | Reference configuration selected by the caller |
+| `expectedMachineConfigHash` | Content identity of that configuration |
+
+No caller-supplied release, machine configuration, local job, motion sequence, clock or physical authority is accepted. The service selects its registered configuration and own release. A configuration mismatch is `MACHINE_CONFIGURATION_IDENTITY_MISMATCH`. It verifies/re-evaluates the packet through the existing Store request layer, then lowers, generates records, runs the validated virtual model and produces blocked physical admission. REFUSED/STALE produces reasons and no machine artifacts. A failed virtual run cannot become successful evidence. Success is `VIRTUAL_EVIDENCE_READY`, not fabrication completion: it carries `localJob`, `records`, `run`, `admission` and `physicalAuthority:false`.
+
+The response wrapper contains the evidence protocol, `storeRelease`, raw request-byte `payloadDigest`, `respondedAt` and `answer`. The caller checks the exact bytes sent, expected release/configuration and full packet binding before attaching evidence to its saved revision. The same 256-KiB limit, origin policy, content type, timeout and non-2xx rules apply as for evaluation. A business refusal/staleness is HTTP 200; invalid catalog is 503, unexpected evidence failure 500. Transport-error bodies use the service protocol and contain no answer. No-origin server calls are allowed; CORS is a browser-origin restriction, not user authentication. Only published reference virtual records are returned; real controller, PLC, commissioning, private tooling and physical-release interfaces are not provided.
+
+*Trace: `src/machine/configuration.mjs`; `src/machine/evidence.mjs`; `src/contracts/machine-records.mjs`; `src/contracts/job-packet.mjs`; `src/service/server.mjs`. Verification: `tests/machine-boundary.test.mjs`, `tests/service.test.mjs`, `acceptance/machine/machine.test.mjs` and unchanged differential/Project 1 evidence checks.*
 
 # 11. Five library jobs, start to finish
 
@@ -1680,7 +1727,9 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/contracts/definitions.mjs` | §3.4 |
 | `src/contracts/job-packet.mjs` | §10.4 |
 | `src/contracts/machine-records.mjs` | §10.5 |
-| `src/machine/lowering.mjs` | §10.5 |
+| `src/machine/configuration.mjs` | §10.6; exact registered configuration validation and content identity |
+| `src/machine/evidence.mjs` | §10.6; one bounded virtual-evidence entry point |
+| `src/machine/lowering.mjs` | §§10.5–10.6 |
 | `src/machine/virtual-run.mjs` | §10.5 |
 
 `src/` contains exactly these twenty modules. No module under `src/` is omitted from §6A.  
@@ -1725,7 +1774,23 @@ The retired Alcove evaluator's codes are not issued (§6A.6, §19).
 
 ## D.9 Accepted job packet — §10.4
 
-`PACKET_MUST_BE_AN_OBJECT`; `PACKET_FIELD_REQUIRED:<path>`; `PACKET_FIELD_NOT_DECLARED:<path>`; `PACKET_FIELD_TYPE:<path>:<type>`; `PACKET_SCHEMA_NOT_ACCEPTED`; `PACKET_REQUIRES_ACCEPTED_DECISION`; `PACKET_DECISION_MUST_BE_SIMULATED`; `PHYSICAL_RELEASE_NOT_AVAILABLE`; `PACKET_AUTHORITY_MUST_BE_SIMULATED`; `PACKET_STORE_ANSWER_REQUIRED`; `PACKET_ANSWER_REQUEST_TYPE_MISMATCH`; `PACKET_ANSWER_NOT_SUPPORTABLE`; `PACKET_ANSWER_HAS_NO_RECEIPT`; `PACKET_RECEIPT_ALTERED`; `PACKET_ANSWER_ALTERED`; `PACKET_DEMAND_CHANGED`; `PACKET_STORE_RELEASE_MISMATCH`; `PACKET_DEFINITION_NOT_EVALUATED`; `PACKET_STORE_ANSWER_NOT_CURRENT` (status `STALE`).
+`PACKET_MUST_BE_AN_OBJECT`; `PACKET_FIELD_REQUIRED:<path>`; `PACKET_FIELD_NOT_DECLARED:<path>`; `PACKET_FIELD_TYPE:<path>:<type>`; `PACKET_SCHEMA_NOT_ACCEPTED`; `PACKET_REQUIRES_ACCEPTED_DECISION`; `PACKET_DECISION_MUST_BE_SIMULATED`; `PHYSICAL_RELEASE_NOT_AVAILABLE`; `PACKET_AUTHORITY_MUST_BE_SIMULATED`; `PACKET_STORE_ANSWER_REQUIRED`; `PACKET_ANSWER_REQUEST_TYPE_MISMATCH`; `PACKET_ANSWER_NOT_SUPPORTABLE`; `PACKET_ANSWER_HAS_NO_RECEIPT`; `PACKET_RECEIPT_ALTERED`; `PACKET_ANSWER_ALTERED`; `PACKET_DEMAND_CHANGED`; `PACKET_STORE_RELEASE_MISMATCH`; `PACKET_DEFINITION_NOT_EVALUATED`; `PACKET_STORE_ANSWER_NOT_CURRENT` (status `STALE`); `PACKET_FIELD_NONBLANK:<path>`; `PACKET_DECISION_TIME_INVALID`; `PACKET_DECISION_PRECEDES_ANSWER`; `PACKET_STORE_AUTHORITY_NOT_CURRENT` (status `STALE`).
+## D.10 Machine admission and virtual evidence — §10.6
+
+| Boundary | Refusal/fault reasons |
+|---|---|
+| Configuration shape/completeness | `MACHINE_FIELD_REQUIRED:<path>`, `MACHINE_FIELD_TYPE:<path>:<type>`, `MACHINE_FIELD_NOT_DECLARED:<path>`, `MACHINE_FIELD_VALUE:<path>`, `MACHINE_FIELD_NONBLANK:<path>`, `MACHINE_LIST_REQUIRED:<path>`, `MACHINE_VALUE_OUT_OF_RANGE:<path>`, `MACHINE_CONTACTS_NOT_REGISTERED` |
+| Configuration authority/content | `MACHINE_CONFIGURATION_NOT_REGISTERED`, `MACHINE_CONFIGURATION_CONTENT_CHANGED`, `MACHINE_CONFIGURATION_IDENTITY_MISMATCH`, `STATION_TRANSFORM_DIFFERS_FROM_STORE_PLAN`, `SPOT_TOOL_DIFFERS_FROM_STORE_PLAN`, `STATION_NOT_REGISTERED:<id>` |
+| Definition admission | `END_RELATION_NOT_REGISTERED_ON_MACHINE`, `LENGTH_DATUM_NOT_REGISTERED_ON_MACHINE`, `END_IDENTITY_NOT_REGISTERED_ON_MACHINE`, `LOWERING_NOT_REGISTERED_FOR:<type>`, `STORE_OPERATION_PLAN_REQUIRED`, `OPERATION_NOT_REGISTERED_ON_MACHINE:<kind>`, `SELECTED_BOARD_NOT_IN_CATALOG`, `BLADE_KERF_NOT_STATED_BY_STORE_PLAN`, `ONE_MITER_ANGLE_PER_BOARD_REQUIRED` |
+| Local-job completeness and content | `LOCAL_JOB_MUST_BE_AN_OBJECT`, exact shape errors prefixed `LOCAL_JOB`, `LOCAL_JOB_FIELD_REQUIRED:<key>`, `LOCAL_JOB_IDENTITY_REQUIRED:<key>`, `LOCAL_JOB_HASH_REQUIRED:<key>`, `LOCAL_JOB_EXECUTION_CLASS_NOT_REGISTERED`, `LOCAL_JOB_REQUIREMENTS_NOT_REGISTERED`, `LOCAL_JOB_CALCULATION_HASH_REQUIRED:<key>`, `LOCAL_JOB_MATERIAL_ID_REQUIRED`, `LOCAL_JOB_MATERIAL_DIMENSION_REQUIRED:<key>`, `LOCAL_JOB_PARENT_EXCEEDS_STOCK`, `LOCAL_JOB_CUT_GEOMETRY_INVALID`, `LOCAL_JOB_OPERATIONS_REQUIRED`, `LOCAL_JOB_RELEASE_BLOCKERS_REQUIRED`, `LOCAL_JOB_CONTENT_CHANGED` |
+| Local operations/audit | Indexed reasons `LOCAL_JOB_OPERATION_REQUIRED`, `LOCAL_JOB_OPERATION_IDENTITY_INVALID`, `LOCAL_JOB_OPERATION_SOURCE_MISMATCH`, `LOCAL_JOB_OPERATION_TIME_INVALID`, `LOCAL_JOB_OPERATION_VALUE_REQUIRED`, `LOCAL_JOB_PART_ID_REQUIRED`, `LOCAL_JOB_STATION_ID_REQUIRED`, `LOCAL_JOB_CUTOFF_INVALID`, `LOCAL_JOB_REFERENCE_ANGLE_MISMATCH`, `LOCAL_JOB_REBASE_NOT_REGISTERED`, `LOCAL_JOB_SPOT_INVALID`, `LOCAL_JOB_CONTACT_INVALID`; also `LOCAL_JOB_CONTACT_AUDIT_REQUIRED`, `LOCAL_JOB_OPERATION_ORDER_INVALID`, `LOCAL_JOB_INDEX_GEOMETRY_INVALID`, `LOCAL_JOB_SPOT_TRANSFORM_INVALID`, `LOCAL_JOB_CUTOFF_TRANSFORM_INVALID`, `LOCAL_JOB_RETAINED_LENGTH_INVALID` |
+| Motion completeness/binding | `MOTION_MUST_BE_AN_OBJECT`, exact shape errors prefixed `MOTION`, `MOTION_FIELD_REQUIRED:<key>`, `MOTION_BINDING_REQUIRED:<key>`, `MOTION_BINDING_HASH_REQUIRED:<key>`, `MOTION_UNITS_INVALID:<key>`, `MOTION_INITIAL_POSITION_REQUIRED:<axis>`, `MOTION_TOOL_CLEARANCE_REQUIRED`, `MOTION_SEQUENCE_REQUIRED`, `MOTION_CONTENT_CHANGED`, `JOB_IDENTITY_MISMATCH` |
+| Motion commands | Indexed reasons `MOTION_COMMAND_REQUIRED`, `MOTION_SEQUENCE_ORDER_INVALID`, `MOTION_SOURCE_REQUIRED`, `MOTION_DELAY_INVALID`, `MOTION_OPERANDS_INVALID`, `MOTION_DATUM_AXIS_INVALID`, `MOTION_FIELD_NOT_APPLICABLE`, `MOTION_TARGET_REQUIRED`, `MOTION_TOOL_STATE_INVALID`, `MOTION_DATUM_TARGET_INVALID`; also `MOTION_COMMAND_NOT_REGISTERED:<kind>`, `MOTION_COMPLETE_MUST_BE_FINAL`, `MOTION_COMPLETE_REQUIRED` |
+| Runtime faults | `INITIAL_TOOL_POSITION_INVALID`, `TOOL_RETRACT_UNCONFIRMED`, `INDEX_WITH_TOOL_DOWN`, `SAW_STROKE_WITH_TOOL_OFF`, `SPOT_PLUNGE_WITH_TOOL_OFF`, `TRAVERSE_WITH_SPOT_DOWN`, `ANGLE_CHANGE_WITH_SAW_DOWN`, `DATUM_CAPTURE_WITH_TOOL_DOWN`, `POSITION_INVALID`, `MOTION_MODEL_OVERFLOW`, `COMPLETE_WITH_TOOL_ACTIVE`, `COMPLETE_WITHOUT_WORK` |
+| Evidence request | `MACHINE_EVIDENCE_REQUEST_REQUIRED`, exact shape errors prefixed `MACHINE_EVIDENCE`, `MACHINE_EVIDENCE_FIELD_REQUIRED:<key>`, `VIRTUAL_EVIDENCE_NOT_COMPLETE:<reason>`; packet/configuration/lowering reasons pass through |
+
+Indexed reasons carry the zero-based input index and, where applicable, the offending key. Direct motion generation throws with the reasons and emits no record; the service accepts packets only and translates unexpected failures into HTTP errors. Physical admission always produces `BLOCKED`, zero commands and declared blockers; absent/invalid blocker lists use `PHYSICAL_AUTHORITY_NOT_REGISTERED`.
+
 # 18. Corrections made on load
 
 Specification 0.2 was loaded into this repository on 2026-10-08. It described the predecessor Store, so each statement was checked against the code and data adopted here, and the following were corrected. Behavior is unchanged except where a row says a path was removed or refused; `acceptance/differential` is the evidence that everything else answers exactly as before.
@@ -1760,3 +1825,7 @@ The recorded Store answers (`acceptance/differential`) are never edited. A delib
 | `RIP-AT-FINISHED-WIDTH` (rule `STB-CUT-PACKAGE-RIP-0.1`) | 2026-10-08 | When a board must be brought to a finished width and more than the router's 1-in cut width comes off, the router cuts through at the finished width and the far strip is returned to the owner as an offcut, instead of the line being refused with `EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH`. Boards are brought to width before any part is cut. Common sense: the operation exists, and refusing it hid a feasible layout from the user (§6A.5 step 9). | One recorded cut-package answer changes; only lines whose refusal included that code differ, and they are now `SUPPORTABLE` rips. |
 | `ALCOVE-THROUGH-CUT-PACKAGES` | 2026-10-08 | `ALCOVE_INSERT_V1` and its evaluator are retired; an alcove is sent as cut packages and runs in the sequence the shared model decides, with no project-specific logic. The retired model packed boards to full length and ignored the 24-in two-roller control while cutting, so it underpriced: pine $382.55 then, $429.16 now for the same layout. The shelf layout is the user's choice (§11.2). | 44 recorded Alcove answers retired, not replayed; `alcove-insert.mjs` absent; no project or tile names anywhere under `src/`. |
 | `NO-BOARD-LENGTH-CEILING` | 2026-10-09 | A board-length ceiling with no basis in the machine is removed. Every board length the Store offers is a board the cell takes, under the same rules on every path. | No selected board, status or Q changes. Envelope checks lose the reason, and user-defined board answers list the longer boards they passed over differently; the differential test proves nothing else moved. |
+
+### 0.9 — runtime machine validation and evidence interface
+
+Completed the runtime gaps described in §10.6: missing required board semantics and blank identities/date values are refused; unsupported semantics cannot produce the original commands; configuration contents are validated and bound; local jobs and full virtual sequences are validated before use; completion requires actual modeled work and safe final tool states. Added the bounded virtual-evidence endpoint and its HTTP acceptance checks. The service remains independent; no live System pin, deployment, README, price rule, catalog row or published evidence was changed. Structural tests now permit only the service to call the single downstream evidence entry point; evaluation/request/contracts still cannot import the machine side. The owner directs authorized changes to remain on main, with fast-forward publication after checks.

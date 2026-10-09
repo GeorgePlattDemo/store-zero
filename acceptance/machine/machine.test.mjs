@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { lowerJobPacket, motionRecords, loadMachineConfig } from "../../src/machine/lowering.mjs";
 import { physicalAdmission, runVirtual } from "../../src/machine/virtual-run.mjs";
 import { shapeProblems } from "../../src/contracts/shape.mjs";
-import { LOCAL_JOB_SHAPE, MOTION_RECORDS_SHAPE, PHYSICAL_ADMISSION_SHAPE, VIRTUAL_RUN_SHAPE } from "../../src/contracts/machine-records.mjs";
+import { LOCAL_JOB_SHAPE, MOTION_RECORDS_SHAPE, PHYSICAL_ADMISSION_SHAPE, VIRTUAL_RUN_SHAPE, motionContentHash } from "../../src/contracts/machine-records.mjs";
 import { evaluateD001UserDefinedBoard } from "../../src/evaluation/engine/d001-travel-standard.mjs";
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
 import { findSku } from "../../src/evaluation/catalog.mjs";
@@ -189,7 +189,11 @@ test("check 14 — physical admission remains blocked with zero motion", () => {
 test("a tool-down index is rejected by the model", () => {
   const records = structuredClone(p1.records);
   const firstIndex = records.sequence.findIndex((r) => r.kind === "MOVE_C");
-  records.sequence.splice(firstIndex, 0, { seq: 0, kind: "MOVE", axis: "Z", target: 1.4, velocity: 2, acceleration: 16, source: "INJECTED" });
+  records.sequence.splice(firstIndex, 0,
+    { seq: 0, kind: "SET_SPOT", target: 1, source: "INJECTED" },
+    { seq: 0, kind: "MOVE", axis: "Z", target: 1.4, velocity: 2, acceleration: 16, source: "INJECTED" });
+  records.sequence.forEach((r, i) => { r.seq = i + 1; });
+  records.binding.motionHash = motionContentHash(records);
   assert.equal(runVirtual(records, { expected: records.binding }).reason, "INDEX_WITH_TOOL_DOWN");
 });
 

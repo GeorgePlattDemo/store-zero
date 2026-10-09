@@ -1,9 +1,13 @@
 {
-  "schema": "STB-MOTION-RECORDS-1",
+  "schema": "STB-MOTION-RECORDS-2",
   "binding": {
     "packetId": "PACKET-BRACKET-SET-0001",
     "demandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b",
-    "machineConfigId": "D001-REFERENCE-REVIEW-0.2"
+    "packetHash": "3ad242d8dbb7934939474edd834a5b213bb0f124e841993587d0f6c67dedcf7f",
+    "machineConfigId": "D001-REFERENCE-REVIEW-0.2",
+    "machineConfigHash": "467fac4bf43503b7d694826e00a0158acc70f90ab884886d7f2ddfc3dbbb5ecc",
+    "localJobHash": "e253b83360e637d462fde109da7d495a0c078d34f596a23477f59a3d8d814978",
+    "motionHash": "48dd0cffad9299e0046200ac9764db4e1c0ccc89cb639e5a4f93b8dbcb0beb57"
   },
   "units": {
     "linear": "in",

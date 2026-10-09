@@ -4,7 +4,9 @@
  *   GET  /health        this Store's release, protocol, catalog clock and accepted request types
  *   POST /v1/requests   { requestType, requestId, demand }  →  { protocol, storeRelease, payloadDigest, respondedAt, answer }
  *
- * The service only carries requests. It computes nothing itself: every answer comes from the request layer,
+ *   POST /v1/machine-evidence  accepted packet and expected configuration identity → virtual evidence only
+ *
+ * The service only carries requests. It computes nothing itself: evaluation comes from the request layer,
  * against the catalog read for that request. A refusal is an answer (200); an HTTP error means the request
  * could not be read at all.
  *
@@ -15,11 +17,12 @@
 import http from "node:http";
 import { createHash } from "node:crypto";
 import { pathToFileURL } from "node:url";
-import { loadCatalog } from "../evaluation/catalog.mjs";
+import { loadCatalog, validateCatalog } from "../evaluation/catalog.mjs";
 import { evaluateStoreRequest, REQUEST_TYPES } from "../requests/store-request.mjs";
+import { evaluateMachineEvidence, machineEvidenceIdentity, MACHINE_EVIDENCE_PROTOCOL } from "../machine/evidence.mjs";
 
 export const PROTOCOL = "STORE-ZERO-REQUEST-1";
-export const PATHS = Object.freeze({ health: "/health", requests: "/v1/requests" });
+export const PATHS = Object.freeze({ health: "/health", requests: "/v1/requests", machineEvidence: "/v1/machine-evidence" });
 export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, requestTimeoutMs: 15_000, headersTimeoutMs: 10_000 });
 export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(["https://georgeplattdemo.github.io"]);
 
@@ -82,18 +85,26 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
 
     if (pathname === PATHS.health) {
       if (req.method !== "GET" && req.method !== "HEAD") return httpError(res, 405, "METHOD_NOT_ALLOWED", { Allow: "GET, HEAD", ...cors });
-      const current = catalog ?? loadCatalog();
+      let current;
+      let machineEvidence;
+      try {
+        current = validateCatalog(catalog ?? loadCatalog());
+        machineEvidence = machineEvidenceIdentity();
+      } catch (error) {
+        return httpError(res, 503, error.code === "STORE_CATALOG_INVALID" ? "STORE_CATALOG_INVALID" : "STORE_MACHINE_CONFIGURATION_INVALID", cors);
+      }
       return send(res, 200, {
         status: "ok",
         store: "Store Zero",
         release,
         protocol: PROTOCOL,
         requestTypes: Object.keys(REQUEST_TYPES),
-        catalog: { clock: current.clock, offerings: current.offerings.length }
+        catalog: { clock: current.clock, offerings: current.offerings.length },
+        machineEvidence
       }, cors);
     }
 
-    if (pathname !== PATHS.requests) return httpError(res, 404, "NOT_FOUND", cors);
+    if (![PATHS.requests, PATHS.machineEvidence].includes(pathname)) return httpError(res, 404, "NOT_FOUND", cors);
     if (req.method === "OPTIONS") {
       res.writeHead(204, cors);
       return res.end();
@@ -118,12 +129,14 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
     const payloadDigest = createHash("sha256").update(body).digest("hex");
     let answer;
     try {
-      answer = evaluateStoreRequest(request, { release, catalog, now });
+      answer = pathname === PATHS.machineEvidence
+        ? evaluateMachineEvidence(request, { release, catalog, now })
+        : evaluateStoreRequest(request, { release, catalog, now });
     } catch (error) {
       if (error.code === "STORE_CATALOG_INVALID") return httpError(res, 503, "STORE_CATALOG_INVALID", cors);
-      return httpError(res, 500, "STORE_EVALUATION_FAILED", cors);
+      return httpError(res, 500, pathname === PATHS.machineEvidence ? "STORE_MACHINE_EVIDENCE_FAILED" : "STORE_EVALUATION_FAILED", cors);
     }
-    return send(res, 200, { protocol: PROTOCOL, storeRelease: release, payloadDigest, respondedAt: now(), answer }, cors);
+    return send(res, 200, { protocol: pathname === PATHS.machineEvidence ? MACHINE_EVIDENCE_PROTOCOL : PROTOCOL, storeRelease: release, payloadDigest, respondedAt: now(), answer }, cors);
   };
 }
 
@@ -131,6 +144,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
 export async function startServer({ env = process.env, host = env.HOST?.trim() || "0.0.0.0", port = Number(env.PORT || 8080) } = {}) {
   const release = releaseFromEnvironment(env);
   loadCatalog(); // fail at start, not on the first request
+  machineEvidenceIdentity(); // an invalid reference configuration must not be advertised
   const handle = createHandler({ release, allowedOrigins: allowedOriginsFromEnvironment(env) });
   const server = http.createServer((req, res) => {
     handle(req, res).catch(() => (res.headersSent ? res.destroy() : httpError(res, 500, "INTERNAL_ERROR")));
