@@ -25,9 +25,7 @@ export const D001_STAGE2_ENVELOPE = {
     minThicknessIn: 0.75,
     maxThicknessSawIn: 3.5,
     maxThicknessMillIn: 1.5,
-    maxParentLengthWithoutExternalSupportIn: 96,
-    minControlledLengthIn: 24,
-    externalSupport: "UNRESOLVED"
+    minControlledLengthIn: 24
   },
   saw: {
     motion: "DOWNSTROKE",
@@ -124,15 +122,11 @@ export function envelopeCheck(item, req = {}) {
 
   const w = item.actualW;
   const t = item.actualT;
-  const L = item.stockL_in;
   const e = D001_STAGE2_ENVELOPE.stock;
   const ops = req.requiredOps || [];
 
   if (w != null && w > e.maxWidthIn) reasons.push("STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE");
   if (w != null && w < e.minWidthIn) reasons.push("STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE");
-  if (L != null && L > e.maxParentLengthWithoutExternalSupportIn) {
-    reasons.push("PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT");
-  }
 
   const needsMill = ops.some((op) =>
     ["MILL_LONGITUDINAL_PROFILE", "MILL_END_PROFILE", "DADO", "GROOVE", "RABBET"].includes(op)

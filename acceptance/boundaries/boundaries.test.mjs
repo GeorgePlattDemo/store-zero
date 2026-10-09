@@ -74,7 +74,7 @@ test("no project or tile names anywhere in Store code", () => {
 test("no count-only or compatibility pricing path exists", () => {
   for (const path of SRC) {
     const text = source(path);
-    for (const retired of ["estimateJob", "estimateBoardSequence", "estimatePineAlcove", "estimateCut001", "estimatePicnic", "TRAVEL_STANDARD_INPUT_REQUIRED", "BOARD_SQUARE", "LEGACY_EXPLICIT_STORE_SKU", "LOCAL_UNPINNED_STORE_REVISION", "STB_STORE_REVISION", "ALCOVE_INSERT", "evaluateAlcoveJob", "PARTIAL_BUDGETARY_ESTIMATE"]) {
+    for (const retired of ["estimateJob", "estimateBoardSequence", "estimatePineAlcove", "estimateCut001", "estimatePicnic", "TRAVEL_STANDARD_INPUT_REQUIRED", "BOARD_SQUARE", "LEGACY_EXPLICIT_STORE_SKU", "LOCAL_UNPINNED_STORE_REVISION", "STB_STORE_REVISION", "ALCOVE_INSERT", "evaluateAlcoveJob", "PARTIAL_BUDGETARY_ESTIMATE", "PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT", "WithoutExternalSupport"]) {
       assert.ok(!text.includes(retired), `${path} still carries ${retired}`);
     }
   }

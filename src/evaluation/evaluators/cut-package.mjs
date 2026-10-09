@@ -342,8 +342,7 @@ function evaluatePackage(catalog, pkg, identity) {
     if (edgeMill?.refused) plan.refusals.push(edgeMill.refused);
     const ops = edgeMill && !edgeMill.refused ? [...requiredOps, "MILL_LONGITUDINAL_PROFILE"] : requiredOps;
     const capability = capabilityAnswer(item, ops, { sawAngleDeg: angleDeg, cutPlane: "miter-face", ...(edgeMill && !edgeMill.refused ? { millYIn: edgeMill.finishedWidthIn } : {}) });
-    // Rule 5: the envelope's board-length support note is not applied to cut packages.
-    const capabilityMissing = (capability.missing || []).filter((code) => code !== "PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT");
+    const capabilityMissing = capability.missing || [];
     const stock = stockAnswer(item, Math.max(plan.qty, 1), catalog.clock);
     const price = priceAnswer(item, catalog.clock);
     let status = "SUPPORTABLE";

@@ -77,9 +77,7 @@ assert.equal(envelopeCheck(wide, { requiredOps: ["CROSSCUT"] }).status, "REFUSED
 assert.ok(envelopeCheck(wide, { requiredOps: ["CROSSCUT"] }).reasons.includes("STOCK_WIDTH_EXCEEDS_D001_STAGE2_ENVELOPE"));
 
 const long = findSku(catalog, "STB-ZERO-SPF-2X4-144-001");
-const longCap = capabilityAnswer(long, ["CROSSCUT"]);
-assert.equal(longCap.status, "REFUSED");
-assert.ok(longCap.missing.includes("PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT"));
+assert.equal(capabilityAnswer(long, ["CROSSCUT"]).status, "SUPPORTABLE", "every offered board length is a board the cell takes");
 
 const post = findSku(catalog, "STB-ZERO-SPF-4X4-96-001");
 assert.equal(capabilityAnswer(post, ["CROSSCUT"]).status, "SUPPORTABLE");

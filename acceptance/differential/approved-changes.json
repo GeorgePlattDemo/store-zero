@@ -8,7 +8,9 @@
       "rule": "STB-CUT-PACKAGE-RIP-0.1",
       "reason": "Common sense: when a board must be brought to a finished width and more than the router's 1 in cut width comes off, the router cuts through at the finished width (a rip) and the far strip is returned as an offcut, instead of the request being refused. Boards are brought to width before any part is cut.",
       "evaluator": "evaluateCutPackageJob",
-      "keys": ["8e2234ae92b76954389c963535a920f088d3ac072f49418b7ed7310e301b1c04"],
+      "keys": [
+        "8e2234ae92b76954389c963535a920f088d3ac072f49418b7ed7310e301b1c04"
+      ],
       "expect": "Every package or item line the recording answered is answered identically, except lines whose refusal included EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH, which are now SUPPORTABLE rips."
     },
     {
@@ -18,6 +20,18 @@
       "retiredEvaluator": "evaluateAlcoveJob",
       "reason": "Alcove runs in the logical sequence the shared cut-package model determines, with no project-specific evaluator: boards are brought to width first, then cut, under the same retained-control rule as every other job. The project-shaped ALCOVE_INSERT_V1 request type and its evaluator are retired; an alcove is sent as cut packages.",
       "expect": "No evaluator named evaluateAlcoveJob exists; every recorded Alcove answer is retired, not replayed."
+    },
+    {
+      "id": "NO-BOARD-LENGTH-CEILING",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "removedReason": "PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT",
+      "evaluators": [
+        "envelopeCheck",
+        "evaluateDimensionalTravelJob"
+      ],
+      "reason": "The board-length ceiling had no basis in the machine and is removed. Every board length the Store offers is a board the cell takes, under the same rules on every path.",
+      "expect": "envelopeCheck answers differ only by losing that reason (and passing when it was the only one); user-defined board answers differ only in the boards they list as considered and passed over. No selected board, status or Q changes."
     }
   ]
 }

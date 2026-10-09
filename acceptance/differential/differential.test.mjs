@@ -40,6 +40,8 @@ const recordings = read("pin-9c62d9d-answers.jsonl.gz").trim().split("\n").map((
 const APPROVED = JSON.parse(readFileSync(new URL("approved-changes.json", import.meta.url), "utf8")).changes;
 const changedKeys = new Map(APPROVED.filter((c) => c.keys).flatMap((c) => c.keys.map((k) => [k, c])));
 const retired = new Set(APPROVED.filter((c) => c.retiredEvaluator).map((c) => c.retiredEvaluator));
+const removals = APPROVED.filter((c) => c.removedReason);
+const removalFor = (r) => removals.find((c) => c.evaluators.includes(r.name) && r.output.includes(`"${c.removedReason}"`));
 
 function rebuildCatalog({ changed, removed, order, top }) {
   const bySku = new Map(recordedAsRead.offerings.map((o) => [o.storeSku, o]));
@@ -74,7 +76,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key));
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -119,3 +121,29 @@ test("approved change RIP-AT-FINISHED-WIDTH: the only difference is that over-wi
   }
 });
 
+
+test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only difference, and no price changes", () => {
+  const change = APPROVED.find((c) => c.id === "NO-BOARD-LENGTH-CEILING");
+  const without = (reasons) => reasons.filter((code) => code !== change.removedReason);
+  const affected = recordings.filter((r) => removalFor(r) === change);
+  assert.ok(affected.length > 0);
+  for (const r of affected) {
+    const now = JSON.parse(encode(EVALUATORS[r.name](...decode(r.input))));
+    const was = JSON.parse(translatedOutput(r.output));
+    assert.ok(!JSON.stringify(now).includes(change.removedReason), "the reason is never issued");
+    if (r.name === "envelopeCheck") {
+      assert.deepEqual(now.reasons, without(was.reasons));
+      if (now.reasons.length) assert.equal(now.status, was.status);
+      else assert.notEqual(now.status, "REFUSED", "a board refused for that reason alone is now taken");
+      assert.deepEqual({ ...now, status: null, reasons: null }, { ...was, status: null, reasons: null });
+    } else {
+      // The chosen board, status and Q are unchanged; only boards passed over for that reason read differently.
+      const strip = (a) => ({ ...a, materialResolution: { ...a.materialResolution, consideredCandidates: null } });
+      assert.deepEqual(strip(now), strip(was));
+      const before = was.materialResolution.consideredCandidates;
+      const after = now.materialResolution.consideredCandidates;
+      assert.deepEqual(after.map((c) => c.storeSku), before.map((c) => c.storeSku));
+      before.forEach((c, i) => { if (c.reason !== change.removedReason) assert.deepEqual(after[i], c); });
+    }
+  }
+});
