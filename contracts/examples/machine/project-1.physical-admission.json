@@ -1,0 +1,11 @@
+{
+  "status": "BLOCKED",
+  "physicalAuthority": false,
+  "reasons": [
+    "ONE_ROLLER_CONTROL_UNRESOLVED",
+    "KERF_FACE_AND_REBASE_UNRESOLVED",
+    "SAW_STROKE_GEOMETRY_UNRESOLVED",
+    "COMMISSIONING_ABSENT"
+  ],
+  "motionCommands": 0
+}

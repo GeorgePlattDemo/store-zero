@@ -9,8 +9,8 @@ const at = { release: "STORE-ZERO-TEST", now: () => "2026-10-08T12:00:00.000Z" }
 const board = (demand = structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND), requestId = "REQ-BOARD") =>
   evaluateStoreRequest({ requestType: "USER_DEFINED_BOARD_V1", requestId, demand }, at);
 
-test("the accepted request types are exactly the four definitions and catalog lookup", () => {
-  assert.deepEqual(Object.keys(REQUEST_TYPES).sort(), ["ALCOVE_INSERT_V1", "CUT_PACKAGE_V1", "OFFERING_LOOKUP", "SHEET_PACKAGE_V1", "USER_DEFINED_BOARD_V1"]);
+test("the accepted request types are exactly the three definitions and catalog lookup", () => {
+  assert.deepEqual(Object.keys(REQUEST_TYPES).sort(), ["CUT_PACKAGE_V1", "OFFERING_LOOKUP", "SHEET_PACKAGE_V1", "USER_DEFINED_BOARD_V1"]);
 });
 
 test("a count-only Board ticket is not a clean definition and is refused, never partially priced", () => {
@@ -42,24 +42,15 @@ test("a definition field the Store does not declare is refused by name rather th
 });
 
 test("machine-local language is refused for every request type", () => {
-  for (const requestType of ["USER_DEFINED_BOARD_V1", "ALCOVE_INSERT_V1", "CUT_PACKAGE_V1", "SHEET_PACKAGE_V1"]) {
+  for (const requestType of ["USER_DEFINED_BOARD_V1", "CUT_PACKAGE_V1", "SHEET_PACKAGE_V1"]) {
     const answer = evaluateStoreRequest({ requestType, requestId: "R", demand: { configurationId: "X", configurationVersion: "1", gcode: "G0 X0" } }, at);
     assert.deepEqual(answer.reasonCodes, ["MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED"], requestType);
   }
 });
 
-test("a project may not name a Store SKU for a functional hardware requirement", () => {
-  const answer = evaluateStoreRequest({
-    requestType: "ALCOVE_INSERT_V1", requestId: "R",
-    demand: { configurationId: "A", configurationVersion: "1", hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", qty: 1, storeSku: "STB-ZERO-HW-ALCOVE-PACK-001" } }
-  }, at);
-  assert.equal(answer.status, "REFUSED");
-  assert.deepEqual(answer.reasonCodes, ["PROJECT_MAY_NOT_NAME_A_STORE_SKU"]);
-  const authority = requestProblems({
-    requestType: "ALCOVE_INSERT_V1", requestId: "R",
-    demand: { configurationId: "A", configurationVersion: "1", hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", qty: 1, selectionAuthority: "CUSTOMER" } }
-  });
-  assert.deepEqual(authority.reasonCodes, ["HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO"]);
+test("the retired project-shaped Alcove request type is refused like any undeclared type", () => {
+  const answer = evaluateStoreRequest({ requestType: "ALCOVE_INSERT_V1", requestId: "R", demand: { configurationId: "A", configurationVersion: "1" } }, at);
+  assert.deepEqual([answer.status, answer.reasonCodes], ["REFUSED", ["REQUEST_TYPE_NOT_ACCEPTED"]]);
 });
 
 test("a missing request identity or definition is UNRESOLVED and nothing is evaluated", () => {

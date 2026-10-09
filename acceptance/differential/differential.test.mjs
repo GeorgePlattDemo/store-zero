@@ -13,7 +13,7 @@ import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { evaluateDimensionalTravelJob } from "../../src/evaluation/evaluators/user-defined-board.mjs";
 import { evaluateCutPackageJob } from "../../src/evaluation/evaluators/cut-package.mjs";
-import { evaluateAlcoveJob } from "../../src/evaluation/evaluators/alcove-insert.mjs";
+import { existsSync } from "node:fs";
 import { evaluateSheetPackageJob } from "../../src/evaluation/evaluators/sheet-package.mjs";
 import { evaluateD001UserDefinedBoard, evaluateD001DimensionalBatch } from "../../src/evaluation/engine/d001-travel-standard.mjs";
 import { envelopeCheck } from "../../src/evaluation/envelopes/d001-stage2-envelope.mjs";
@@ -24,7 +24,6 @@ import { recordedCatalogAsRead, toCurrentSchema } from "../fixtures/recorded-cat
 const EVALUATORS = {
   evaluateDimensionalTravelJob,
   evaluateCutPackageJob,
-  evaluateAlcoveJob,
   evaluateSheetPackageJob,
   evaluateD001UserDefinedBoard,
   evaluateD001DimensionalBatch,
@@ -38,6 +37,9 @@ const EVALUATORS = {
 const read = (name) => gunzipSync(readFileSync(new URL(name, import.meta.url))).toString("utf8");
 const recordedAsRead = recordedCatalogAsRead();
 const recordings = read("pin-9c62d9d-answers.jsonl.gz").trim().split("\n").map((line) => JSON.parse(line));
+const APPROVED = JSON.parse(readFileSync(new URL("approved-changes.json", import.meta.url), "utf8")).changes;
+const changedKeys = new Map(APPROVED.filter((c) => c.keys).flatMap((c) => c.keys.map((k) => [k, c])));
+const retired = new Set(APPROVED.filter((c) => c.retiredEvaluator).map((c) => c.retiredEvaluator));
 
 function rebuildCatalog({ changed, removed, order, top }) {
   const bySku = new Map(recordedAsRead.offerings.map((o) => [o.storeSku, o]));
@@ -72,7 +74,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name);
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -84,3 +86,36 @@ for (const name of Object.keys(EVALUATORS)) {
     assert.deepEqual(mismatches, [], `${mismatches.length} of ${cases.length} answers differ from the recorded Store`);
   });
 }
+
+test("every recorded evaluator is either replayed or retired by an approved change", () => {
+  for (const name of new Set(recordings.map((r) => r.name))) {
+    assert.ok(Object.hasOwn(EVALUATORS, name) || retired.has(name), `${name} is neither replayed nor retired`);
+    assert.ok(!(Object.hasOwn(EVALUATORS, name) && retired.has(name)), `${name} is both replayed and retired`);
+  }
+  assert.ok(!existsSync(new URL("../../src/evaluation/evaluators/alcove-insert.mjs", import.meta.url)), "the retired Alcove evaluator is gone");
+  assert.equal(recordings.filter((r) => retired.has(r.name)).length, 44, "the 44 recorded Alcove answers are the retired ones");
+});
+
+test("approved change RIP-AT-FINISHED-WIDTH: the only difference is that over-width removals are now rips", () => {
+  const changed = recordings.filter((r) => changedKeys.get(r.key)?.id === "RIP-AT-FINISHED-WIDTH");
+  assert.equal(changed.length, 1);
+  for (const r of changed) {
+    const actual = JSON.parse(encode(evaluateCutPackageJob(...decode(r.input))));
+    const recorded = JSON.parse(r.output);
+    const lines = (answer) => [...answer.packages, ...answer.items];
+    let ripped = 0;
+    lines(recorded).forEach((was, i) => {
+      const now = lines(actual)[i];
+      // A line refused because its only boards able to hold the parts needed more than 1 in off now rips them.
+      if (was.status === "REFUSED" && was.reasonCodes.includes("EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH")) {
+        assert.equal(now.status, "SUPPORTABLE", was.packageId);
+        assert.equal(now.edgeMill.mode, "RIP_AT_FINISHED_WIDTH");
+        ripped += 1;
+      } else {
+        assert.deepEqual(now, was, `${was.packageId ?? was.lineId} is unchanged`);
+      }
+    });
+    assert.ok(ripped > 0);
+  }
+});
+

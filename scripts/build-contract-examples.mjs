@@ -7,8 +7,11 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { evaluateStoreRequest } from "../src/requests/store-request.mjs";
 import { JOB_PACKET_SCHEMA } from "../src/contracts/job-packet.mjs";
+import { lowerJobPacket, motionRecords } from "../src/machine/lowering.mjs";
+import { physicalAdmission, runVirtual } from "../src/machine/virtual-run.mjs";
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../tests/fixtures/user1-dimensional-travel-fixture.mjs";
+import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const EXAMPLE_RELEASE = "store-zero-acceptance";
@@ -19,41 +22,6 @@ const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", form: "boar
 const many = (prefix, count, lengthIn, spots = []) =>
   Array.from({ length: count }, (_, i) => ({ partId: `${prefix}-${String(i + 1).padStart(2, "0")}`, lengthIn, spots }));
 const centered = (xs) => xs.map((xIn) => ({ xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }));
-
-function alcoveDemand() {
-  const programs = [];
-  for (let i = 0; i < 4; i += 1) {
-    programs.push({ componentId: `ALCOVE-UPRIGHT-${String(i + 1).padStart(2, "0")}`, requirementId: "ALCOVE-UPRIGHT-PARENTS", finishedLengthIn: 65, finishedWidthIn: 5.5, features: [] });
-  }
-  for (let shelf = 0; shelf < 5; shelf += 1) {
-    for (let strip = 0; strip < 3; strip += 1) {
-      const w = Math.min(5.5, 14 - 5.5 * strip);
-      programs.push({
-        componentId: `ALCOVE-SHELF-${String(shelf + 1).padStart(2, "0")}-STRIP-${String(strip + 1).padStart(2, "0")}`,
-        requirementId: "ALCOVE-SHELF-PARENTS",
-        finishedLengthIn: 44,
-        finishedWidthIn: w,
-        features: w < 5.5 ? [{ featureId: `ALCOVE-SHELF-${String(shelf + 1).padStart(2, "0")}-RIP`, kind: "MILL_LONGITUDINAL_PROFILE", pathLengthIn: 44, yIn: w, totalDepthIn: 0.75 }] : []
-      });
-    }
-  }
-  return {
-    title: "Alcove insert",
-    classId: "alcove.insert.square_shelves",
-    configurationId: "ALCOVE-EXAMPLE",
-    configurationVersion: "1",
-    materialDemand: { species: "pine", form: "board", nominalT: 1, nominalW: 6, grade: "select" },
-    boardRequirements: [
-      { requirementId: "ALCOVE-UPRIGHT-PARENTS", role: "UPRIGHTS", requiredOps: ["CROSSCUT"], carriesSpotDemand: false, selectionAuthority: "STORE_ZERO" },
-      { requirementId: "ALCOVE-SHELF-PARENTS", role: "SHELVES", requiredOps: ["CROSSCUT"], carriesSpotDemand: false, selectionAuthority: "STORE_ZERO" }
-    ],
-    componentPrograms: programs,
-    hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", description: "pins + screws", qty: 1, selectionAuthority: "STORE_ZERO" },
-    spotDemand: null,
-    unresolvedConditions: [],
-    materialSource: "STORE_ZERO"
-  };
-}
 
 const playhouse = {
   configurationId: "PLAYHOUSE-ARCHED-WINDOW",
@@ -89,7 +57,7 @@ export const REQUEST_EXAMPLES = {
       ]
     }
   },
-  "alcove-insert.pine": { requestType: "ALCOVE_INSERT_V1", requestId: "EXAMPLE-ALCOVE", demand: alcoveDemand() },
+  "cut-package.alcove-pine": { requestType: "CUT_PACKAGE_V1", requestId: "EXAMPLE-ALCOVE", demand: alcoveCutPackages() },
   "sheet-package.playhouse": { requestType: "SHEET_PACKAGE_V1", requestId: "EXAMPLE-SHEET", demand: playhouse },
   "offering-lookup.search": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SEARCH", demand: { searchText: "2x4 treated 72" } },
   "offering-lookup.sku": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SKU", demand: { storeSku: "STB-ZERO-PTAG-2X4-72-001" } }
@@ -103,7 +71,7 @@ export const REFUSED_EXAMPLES = [
   ["undeclared part field", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R4", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, finish: "stain" })) } }],
   ["part length as text", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R5", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, lengthIn: "18" })) } }],
   ["machine-local language", { requestType: "SHEET_PACKAGE_V1", requestId: "R6", demand: { ...playhouse, toolpath: "G1 X10" } }],
-  ["project naming a Store SKU", { requestType: "ALCOVE_INSERT_V1", requestId: "R7", demand: { ...alcoveDemand(), hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", qty: 1, storeSku: "STB-ZERO-HW-ALCOVE-PACK-001" } } }],
+  ["retired project-shaped request type", { requestType: "ALCOVE_INSERT_V1", requestId: "R7", demand: { configurationId: "A", configurationVersion: "1" } }],
   ["fractional hardware count", { requestType: "CUT_PACKAGE_V1", requestId: "R8", demand: { configurationId: "C", configurationVersion: "1", cutPackages: [], itemLines: [{ lineId: "L", storeSku: "STB-ZERO-HW-CARRIAGE-BOLT-PACK-001", qty: 1.5 }] } }],
   ["missing request id", { requestType: "CUT_PACKAGE_V1", demand: { configurationId: "C", configurationVersion: "1" } }]
 ].map(([name, request]) => ({ name, request }));
@@ -131,6 +99,50 @@ export function project1Packet() {
   };
 }
 
+// The second job: a different supported arrangement on a different board — three parts, a 15 degree miter,
+// centred and inset spots, and a part with none. It proves the machine side is not a Project 1 replay.
+const spot = (featureId, xIn, acrossWidthRule, insetFromEdgeIn) => ({ featureId, kind: "SPOT_ON_LOCATION", xIn, locationRule: "CENTERED_ON_PART", acrossWidthRule, ...(insetFromEdgeIn ? { insetFromEdgeIn } : {}) });
+export const SECOND_JOB_DEMAND = {
+  title: "Three-part bracket set",
+  configurationId: "BRACKET-SET",
+  configurationVersion: "1",
+  classId: "app.user-defined-board.v1",
+  materialDemand: { species: "spf", form: "board", nominalT: 2, nominalW: 6 },
+  definedWorkpieceLengthIn: 72,
+  requiredOps: ["MITER_LIMITED", "SPOT_ON_LOCATION"],
+  sawAngleDeg: 15,
+  cutPlane: "miter-face",
+  datumCMethod: "REFERENCE_CUT",
+  declaredSawCuts: 4,
+  declaredSpotCount: 3,
+  unresolvedConditions: [],
+  parts: [
+    { partId: "BRACKET-A", lengthIn: 20, features: [spot("A-1", 5, "CENTERED_ON_WIDE_FACE"), spot("A-2", 15, "CENTERED_ON_WIDE_FACE")] },
+    { partId: "BRACKET-B", lengthIn: 14, features: [] },
+    { partId: "BRACKET-C", lengthIn: 16, features: [spot("C-1", 8, "INSET_FROM_EDGE", 1.5)] }
+  ]
+};
+
+export function secondJobPacket() {
+  return {
+    schema: JOB_PACKET_SCHEMA,
+    packetId: "PACKET-BRACKET-SET-0001",
+    project: { projectId: "BRACKET-SET-CUSTOMER-0001", classId: SECOND_JOB_DEMAND.classId, title: SECOND_JOB_DEMAND.title },
+    definition: { definitionId: "BRACKET-SET", revisionId: "BRACKET-SET-v1", requestType: "USER_DEFINED_BOARD_V1", demand: SECOND_JOB_DEMAND, requirements: { endRelation: "parallel", lengthDatum: "long-long-outer-edge" } },
+    storeAnswer: answerFor({ requestType: "USER_DEFINED_BOARD_V1", requestId: "BRACKET-SET-INQUIRY-0001", demand: SECOND_JOB_DEMAND }),
+    decision: { decisionId: "DECISION-BRACKET-SET-0001", kind: "ACCEPTED", offerId: "OFFER-BRACKET-SET-0001", decidedAt: "2026-10-08T12:10:00.000Z", evidenceClass: "SIMULATED" },
+    authority: { physicalRelease: false, evidenceClass: "SIMULATED" }
+  };
+}
+
+/** Lowered job, motion records, virtual run and admission for a packet, as the machine side produces them. */
+export function machineOutputs(packet) {
+  const lowered = lowerJobPacket(packet, at);
+  if (lowered.status !== "LOWERED") throw new Error(`example packet did not lower: ${lowered.reasonCodes}`);
+  const records = motionRecords(lowered.localJob);
+  return { localJob: lowered.localJob, records, run: runVirtual(records, { expected: records.binding }), admission: physicalAdmission(lowered.localJob) };
+}
+
 export function refusedPackets() {
   const base = project1Packet();
   const edit = (fn) => { const p = structuredClone(base); fn(p); return p; };
@@ -155,6 +167,14 @@ export function buildExamples() {
   }));
   put("contracts/examples/packets/project-1.accepted.json", project1Packet());
   put("contracts/examples/packets/refused.json", refusedPackets());
+  put("contracts/examples/packets/second-job.accepted.json", secondJobPacket());
+  for (const [name, packet] of [["project-1", project1Packet()], ["second-job", secondJobPacket()]]) {
+    const out = machineOutputs(packet);
+    put(`contracts/examples/machine/${name}.local-job.json`, out.localJob);
+    put(`contracts/examples/machine/${name}.motion-records.json`, out.records);
+    put(`contracts/examples/machine/${name}.virtual-run.json`, out.run);
+    put(`contracts/examples/machine/${name}.physical-admission.json`, out.admission);
+  }
   return files;
 }
 

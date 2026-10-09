@@ -6,11 +6,13 @@
  *   cutPackages: one wood choice plus the parts to cut from it.
  *     { packageId, material: { species, nominalT, nominalW, grade }, endCut: { angleDeg }, finishedWidthIn?,
  *       parts: [{ partId, lengthIn, spots: [{ xIn, acrossWidthRule, insetFromEdgeIn? }] }] }
- *     finishedWidthIn (optional): every board in the package is edge-milled to this width before its parts
+ *     finishedWidthIn (optional): every board in the package is brought to this width before its parts
  *     are cut. The rollers hold the board to the fence and feed it past the longitudinal router, set at the
- *     finished width from the fence; the fence edge is kept and the far edge is milled (one board stays one
- *     board). It is the one declared longitudinal mill model, run over the whole board, and its time is machine
- *     service in Q. Leave it out, or send the board's own width, and nothing is milled.
+ *     finished width from the fence; the fence edge is kept. Up to the router's 1 in cut width the far edge is
+ *     milled away; more than that, the router cuts through at the finished width (a rip) and the far strip
+ *     comes back to the owner as an offcut. Either way it is the one declared longitudinal mill model, run over
+ *     the whole board, and its time is machine service in Q. Leave it out, or send the board's own width, and
+ *     nothing is milled.
  *     Store Zero picks the offered board length, nests the parts, times the D-001 cell and prices it,
  *     or refuses with a reason. It never changes the wood the customer chose.
  *
@@ -21,6 +23,10 @@
  *     { lineId, qty, requirement: { kind, gauge | diameterIn, lengthIn, finish, unit: "piece" } }
  *     Store Zero resolves it to its own offering by exact match on structured catalog facts, works out
  *     the packages, and answers the SKU, packages and price, or refuses. No nearest size, no finish swap.
+ *   or a functional requirement the Store fulfils with an item it declares for it (for example a kit):
+ *     { lineId, qty, requirementId }
+ *     Store Zero answers with the one offering whose catalog row declares that requirement, or refuses.
+ *   An item line names exactly one of storeSku, requirement, requirementId.
  *
  * Every line is answered on its own. A refused line does not stop the others, and nothing is
  * combined into a kit price. The sum of the supportable lines is reported for convenience only.
@@ -33,8 +39,9 @@
  *      what is left is a stub, returned with the package.
  *   5. Length: only the stocked board lengths and the D-001 cell's own saw span and control length
  *      limit a part. There is no separate board-length ceiling in this evaluator.
- *   6. Edge mill first: a board milled to a finished width is milled over its whole length while it is
- *      long and held by both rollers, then its parts are cut. Up to 1 in comes off one edge.
+ *   6. Width first: a board brought to a finished width is milled over its whole length while it is long
+ *      and held by both rollers, then its parts are cut. Up to 1 in is milled off one edge; more is ripped
+ *      off at the finished width and returned as an offcut.
  *
  * Two declared D-001 paths carry the work:
  *   - sequence path (evaluateD001UserDefinedBoard): parts cut off one after another at the miter saw,
@@ -42,7 +49,7 @@
  *   - long-part path (evaluateD001DimensionalBatch): one square part per board, for parts too long to
  *     leave a controlled remain.
  */
-import { findSku, offerMaterial } from "../catalog.mjs";
+import { findSku, offerMaterial, offeringForRequirement } from "../catalog.mjs";
 import { capabilityAnswer, priceAnswer, stockAnswer } from "../store-state.mjs";
 import { D001_STAGE2_ENVELOPE } from "../envelopes/d001-stage2-envelope.mjs";
 import {
@@ -74,6 +81,9 @@ const CONTROL_IN = Number(D001_TRAVEL_STANDARD.control.minRetainedControlIn);
 const MIN_COMPONENT_IN = Number(D001_STAGE2_ENVELOPE.stock.minControlledLengthIn);
 const SAW_SPAN_IN = Number(D001_TRAVEL_STANDARD.stations.sawSquare.xIn);
 const EDGE_MILL_MAX_CUT_IN = Number(D001_STAGE2_ENVELOPE.millPassThrough.maxCutWidthIn);
+// Removing more than the router's cut width is a rip: the same mill cuts through at the finished width and the
+// far strip is an offcut. Owner-approved common-sense rule, 2026-10-08 (specification §19).
+export const RIP_RULE = Object.freeze({ id: "STB-CUT-PACKAGE-RIP-0.1", mode: "RIP_AT_FINISHED_WIDTH" });
 
 // The edge mill a package needs on this board, or null when the finished width is the board's own width.
 function edgeMillFor(item, finishedWidthIn) {
@@ -82,8 +92,8 @@ function edgeMillFor(item, finishedWidthIn) {
   if (Math.abs(boardW - finishedWidthIn) < 1e-6) return null;
   if (finishedWidthIn > boardW) return { refused: "FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH" };
   const removedIn = boardW - finishedWidthIn;
-  if (removedIn > EDGE_MILL_MAX_CUT_IN + 1e-9) return { refused: "EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH" };
-  return { finishedWidthIn, boardWidthIn: boardW, removedIn: round(removedIn, 6) };
+  const edge = { finishedWidthIn, boardWidthIn: boardW, removedIn: round(removedIn, 6) };
+  return removedIn > EDGE_MILL_MAX_CUT_IN + 1e-9 ? { ...edge, mode: RIP_RULE.mode, rule: RIP_RULE.id } : edge;
 }
 const TIME_KEYS = ["T_LOAD_SEAT_sec", "T_REFERENCE_sec", "T_INDEX_sec", "T_SAW_sec", "T_DRILL_SPOT_sec", "T_MILL_sec", "T_RELEASE_LABEL_sec", "T_MACHINE_sec"];
 
@@ -201,7 +211,7 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
     else if (timing.status !== "SUPPORTABLE") millUnresolved.push(timing.reason);
     else millSec += timing.totalSec;
     return {
-      kind: "EDGE_MILL_PASS_THROUGH",
+      kind: edgeMill.mode ?? "EDGE_MILL_PASS_THROUGH",
       finishedWidthIn: edgeMill.finishedWidthIn,
       removedIn: edgeMill.removedIn,
       passes: timing.passes ?? null,
@@ -376,7 +386,14 @@ function evaluatePackage(catalog, pkg, identity) {
       boards: entry.plan.qty,
       sellingPrice: Number(entry.item.sellingPrice),
       requiredOps: entry.ops,
-      ...(entry.edgeMill ? { edgeMill: { mode: "EDGE_MILL_PASS_THROUGH", boardWidthIn: entry.edgeMill.boardWidthIn, finishedWidthIn: entry.edgeMill.finishedWidthIn, removedIn: entry.edgeMill.removedIn, boards: entry.plan.qty } } : {}),
+      ...(entry.edgeMill ? { edgeMill: {
+        mode: entry.edgeMill.mode ?? "EDGE_MILL_PASS_THROUGH",
+        boardWidthIn: entry.edgeMill.boardWidthIn,
+        finishedWidthIn: entry.edgeMill.finishedWidthIn,
+        removedIn: entry.edgeMill.removedIn,
+        boards: entry.plan.qty,
+        ...(entry.edgeMill.mode ? { rule: entry.edgeMill.rule, offcut: { perBoard: 1, widthBeforeRouterCutIn: entry.edgeMill.removedIn, lengthIn: Number(entry.item.stockL_in), disposition: "RETURNED_TO_OWNER" } } : {})
+      } } : {}),
       cutPlan: machine.boards,
       stubs: machine.boards.filter((board) => board.stubIn != null).map((board) => ({ boardId: board.boardId, stubIn: board.stubIn })),
       spotCount: parts.reduce((sum, part) => sum + part.spots.length, 0),
@@ -513,8 +530,42 @@ function evaluateRequirement(catalog, line, lineId, qty) {
   };
 }
 
+// A functional requirement: the one offering whose catalog row declares it. No nearest item, no substitute.
+function evaluateFunctionalRequirement(catalog, line, lineId, qty) {
+  const base = { kind: "ITEM", lineId, storeSku: null, qty, requirementId: line.requirementId };
+  if (!Number.isInteger(qty) || qty <= 0) return answerLine(base, "UNRESOLVED", "WHOLE_QUANTITY_REQUIRED", "DEFINITION_GAP", "A functional requirement needs a whole-number quantity.");
+  const item = offeringForRequirement(catalog, String(line.requirementId));
+  if (!item) return answerLine(base, "REFUSED", "NO_OFFERING_FOR_REQUIREMENT", "MATERIAL_GAP", "Store Zero declares no item for this requirement.");
+  if (item.offered !== true) return answerLine({ ...base, storeSku: item.storeSku }, "REFUSED", "NOT_OFFERED", "MATERIAL_GAP", "Store Zero lists the item for this requirement but does not offer it.");
+  const price = priceAnswer(item, catalog.clock);
+  if (price.status === "UNRESOLVED") return answerLine({ ...base, storeSku: item.storeSku }, "UNRESOLVED", price.reason || "MISSING_PRICE", "STORE_DATA_GAP", "Store Zero has no selling price for the item for this requirement.");
+  const stock = stockAnswer(item, qty, catalog.clock);
+  if (stock.sufficient !== true) return answerLine({ ...base, storeSku: item.storeSku }, "UNAVAILABLE", stock.status, "AVAILABILITY_GAP", "Store Zero does not have this quantity on hand.");
+  const extension = round(Number(item.sellingPrice) * qty, 2);
+  return {
+    ...base,
+    storeSku: item.storeSku,
+    status: "SUPPORTABLE",
+    description: item.description || null,
+    uom: item.uom || null,
+    sellingPrice: Number(item.sellingPrice),
+    resolvedBy: "FUNCTIONAL_REQUIREMENT_DECLARED_BY_OFFERING",
+    totals: { item: extension, Q: extension },
+    Q: extension,
+    reasonCodes: [],
+    reasonRecord: null
+  };
+}
+
 function evaluateItem(catalog, line) {
   const lineId = String(line?.lineId || "");
+  if (line?.requirementId != null) {
+    if (line.storeSku != null || line.requirement != null) {
+      return answerLine({ kind: "ITEM", lineId, storeSku: null, qty: Number(line.qty) }, "UNRESOLVED", "ITEM_LINE_NAMES_MORE_THAN_ONE_ITEM", "DEFINITION_GAP", "An item line names exactly one of storeSku, requirement, requirementId.");
+    }
+    if (!lineId) return answerLine({ kind: "ITEM", lineId, storeSku: null, qty: Number(line.qty) }, "UNRESOLVED", "LINE_ID_REQUIRED", "DEFINITION_GAP", "Each item line needs its own id.");
+    return evaluateFunctionalRequirement(catalog, line, lineId, Number(line.qty));
+  }
   if (lineId && !line?.storeSku && line?.requirement != null) return evaluateRequirement(catalog, line, lineId, Number(line?.qty));
   const storeSku = String(line?.storeSku || "");
   const qty = Number(line?.qty);

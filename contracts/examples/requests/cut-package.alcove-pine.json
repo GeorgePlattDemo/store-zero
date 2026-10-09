@@ -1,0 +1,158 @@
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "EXAMPLE-ALCOVE",
+  "demand": {
+    "configurationId": "ALCOVE-INSERT",
+    "configurationVersion": "1",
+    "cutPackages": [
+      {
+        "packageId": "UPRIGHTS",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 6,
+          "grade": "select"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "UPRIGHT-01",
+            "lengthIn": 65,
+            "spots": []
+          },
+          {
+            "partId": "UPRIGHT-02",
+            "lengthIn": 65,
+            "spots": []
+          },
+          {
+            "partId": "UPRIGHT-03",
+            "lengthIn": 65,
+            "spots": []
+          },
+          {
+            "partId": "UPRIGHT-04",
+            "lengthIn": 65,
+            "spots": []
+          }
+        ]
+      },
+      {
+        "packageId": "SHELF-1X6",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 6,
+          "grade": "select"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "SHELF-1X6-01",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-02",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-03",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-04",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-05",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-06",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-07",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-08",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-09",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-10",
+            "lengthIn": 44,
+            "spots": []
+          }
+        ]
+      },
+      {
+        "packageId": "SHELF-1X6-TO-3",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 6,
+          "grade": "select"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "finishedWidthIn": 3,
+        "parts": [
+          {
+            "partId": "SHELF-1X6-TO-3-01",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-TO-3-02",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-TO-3-03",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-TO-3-04",
+            "lengthIn": 44,
+            "spots": []
+          },
+          {
+            "partId": "SHELF-1X6-TO-3-05",
+            "lengthIn": 44,
+            "spots": []
+          }
+        ]
+      }
+    ],
+    "itemLines": [
+      {
+        "lineId": "PINS-AND-SCREWS",
+        "qty": 1,
+        "requirementId": "ALCOVE-PINS-AND-SCREWS"
+      }
+    ]
+  }
+}

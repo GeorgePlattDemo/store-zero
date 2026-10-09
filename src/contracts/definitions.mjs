@@ -47,81 +47,6 @@ const USER_DEFINED_BOARD_V1 = {
 
 const BOARD_MATERIAL = { object: { species: "string", form: "string", nominalT: "number", nominalW: "number", grade: "string" } };
 
-const ALCOVE_INSERT_V1 = {
-  object: {
-    title: "string",
-    classId: "string",
-    configurationId: "string",
-    configurationVersion: "string",
-    materialDemand: BOARD_MATERIAL,
-    boardRequirements: {
-      array: { object: { requirementId: "string", role: "string", requiredOps: strings, carriesSpotDemand: "boolean", selectionAuthority: "string" } }
-    },
-    componentPrograms: {
-      array: {
-        object: {
-          componentId: "string",
-          requirementId: "string",
-          finishedLengthIn: "number",
-          finishedWidthIn: "number",
-          features: {
-            array: {
-              object: {
-                featureId: "string",
-                kind: "string",
-                xIn: "number",
-                acrossWidthRule: "string",
-                insetFromEdgeIn: "number",
-                pathLengthIn: "number",
-                yIn: "number",
-                totalDepthIn: "number"
-              }
-            }
-          }
-        }
-      }
-    },
-    // The Store selects the hardware; a definition names the functional requirement, never a SKU.
-    hardwareDemand: {
-      object: {
-        requirementId: "string",
-        qty: "integer",
-        description: "string",
-        selectionAuthority: { enum: ["STORE_ZERO"], code: "HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO" }
-      },
-      codes: { storeSku: "PROJECT_MAY_NOT_NAME_A_STORE_SKU" }
-    },
-    spotDemand: {
-      object: {
-        enabled: "boolean",
-        mode: "string",
-        toolDiameterIn: "number",
-        source: "string",
-        features: {
-          array: {
-            object: {
-              featureId: "string",
-              targetRole: "string",
-              kind: "string",
-              xIn: "number",
-              partRelativeXIn: "number",
-              reference: "string",
-              acrossWidthRule: "string",
-              insetFromEdgeIn: "number",
-              targetComponentId: "string",
-              toolDiameterIn: "number",
-              fullDiameterDepthIn: "number",
-              basis: "string"
-            }
-          }
-        }
-      }
-    },
-    unresolvedConditions: strings,
-    materialSource: "string"
-  }
-};
-
 const CUT_PACKAGE_V1 = {
   object: {
     classId: "string",
@@ -151,6 +76,7 @@ const CUT_PACKAGE_V1 = {
         object: {
           lineId: "string",
           storeSku: "string",
+          requirementId: "string",
           qty: "integer",
           requirement: { object: { kind: "string", gauge: "string", diameterIn: "number", lengthIn: "number", finish: "string", unit: "string" } }
         }
@@ -187,4 +113,4 @@ const SHEET_PACKAGE_V1 = {
   }
 };
 
-export const DEFINITION_SHAPES = Object.freeze({ USER_DEFINED_BOARD_V1, ALCOVE_INSERT_V1, CUT_PACKAGE_V1, SHEET_PACKAGE_V1 });
+export const DEFINITION_SHAPES = Object.freeze({ USER_DEFINED_BOARD_V1, CUT_PACKAGE_V1, SHEET_PACKAGE_V1 });

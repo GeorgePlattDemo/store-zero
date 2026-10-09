@@ -1,0 +1,48 @@
+{
+  "machineConfigId": "D001-REFERENCE-REVIEW-0.2",
+  "cellFamily": "D-001",
+  "executionClass": "NOMINAL_COORDINATE_MODEL",
+  "evidenceClass": "REFERENCE_SELECTION_NOT_COMMISSIONED",
+  "physicalAuthority": false,
+  "source": "D001 Project 1 Digital Trail Review 0.2, sections 8, 9 and 11 and Appendix D",
+  "units": { "linear": "in", "angular": "deg", "time": "s" },
+  "stations": {
+    "saw": { "id": "SAW-L", "xIn": 0 },
+    "spot": { "id": "SPOT-FACE-REF", "xIn": 36 },
+    "contacts": [
+      { "id": "R1", "xIn": 24, "role": "manipulating roller" },
+      { "id": "M1", "xIn": 30, "role": "measuring wheel" },
+      { "id": "R2", "xIn": 48, "role": "manipulating roller" }
+    ]
+  },
+  "axes": {
+    "X": { "velocityInPerSec": 8, "accelerationInPerSec2": 32 },
+    "Y": { "velocityInPerSec": 4, "accelerationInPerSec2": 16 },
+    "A": { "velocityDegPerSec": 30, "accelerationDegPerSec2": 120 },
+    "S": { "rapidInPerSec": 6, "processInPerSec": 3.6, "accelerationInPerSec2": 24, "approachIn": 1.5 },
+    "Z": { "rapidInPerSec": 2, "processInPerSec": 0.4, "accelerationInPerSec2": 16, "clearanceAboveStockIn": 0.25 }
+  },
+  "tooling": {
+    "spot": { "diameterIn": 0.1875, "pointAngleDeg": 118 }
+  },
+  "allowancesSec": {
+    "loadSeat": 36,
+    "releaseLabel": 24,
+    "angleSettle": 0.1,
+    "clamp": 0.25,
+    "sawDwell": 0.05,
+    "positionVerify": 0.05,
+    "spotSpindleReady": 0.5,
+    "captureC": 0.01
+  },
+  "assumptions": {
+    "sawStroke": { "rule": "STOCK_WIDTH_OVER_COS_MITER_ANGLE", "label": "UNVERIFIED_SAW_STROKE" },
+    "rebase": { "label": "NOMINAL_ZERO_REBASE" }
+  },
+  "releaseBlockers": [
+    "ONE_ROLLER_CONTROL_UNRESOLVED",
+    "KERF_FACE_AND_REBASE_UNRESOLVED",
+    "SAW_STROKE_GEOMETRY_UNRESOLVED",
+    "COMMISSIONING_ABSENT"
+  ]
+}

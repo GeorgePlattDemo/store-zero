@@ -1,0 +1,909 @@
+{
+  "status": "VIRTUAL_MODEL_COMPLETE",
+  "physicalAuthority": false,
+  "model": "ACCELERATION_LIMITED_STOP_TO_STOP",
+  "timeSec": 86.46953628299116,
+  "motionCommands": 21,
+  "trace": [
+    {
+      "seq": 1,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 36,
+      "source": "STORE_HANDLING_LOAD",
+      "startSec": 0,
+      "endSec": 36,
+      "durationSec": 36,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 0,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 2,
+      "kind": "MOVE",
+      "axis": "A",
+      "target": 26.387799961243,
+      "source": "DEFINITION_ANGLE",
+      "startSec": 36,
+      "endSec": 37.12959333204143,
+      "durationSec": 1.1295933320414333,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 3,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.1,
+      "source": "REFERENCE_ANGLE_SETTLE",
+      "startSec": 37.12959333204143,
+      "endSec": 37.22959333204143,
+      "durationSec": 0.1,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 4,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.25,
+      "source": "REFERENCE_CLAMP",
+      "startSec": 37.22959333204143,
+      "endSec": 37.47959333204143,
+      "durationSec": 0.25,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 5,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 1,
+      "source": "OP-REF-CUT",
+      "startSec": 37.47959333204143,
+      "endSec": 37.47959333204143,
+      "durationSec": 0,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": false
+    },
+    {
+      "seq": 6,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 1.5,
+      "source": "OP-REF-CUT",
+      "startSec": 37.47959333204143,
+      "endSec": 37.97959333204143,
+      "durationSec": 0.5,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 1.5
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": false
+    },
+    {
+      "seq": 7,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 5.4070941395600665,
+      "source": "OP-REF-CUT",
+      "startSec": 37.97959333204143,
+      "endSec": 39.214897259697004,
+      "durationSec": 1.235303927655574,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 5.4070941395600665
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": false
+    },
+    {
+      "seq": 8,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 0,
+      "source": "OP-REF-CUT",
+      "startSec": 39.214897259697004,
+      "endSec": 40.36607961629035,
+      "durationSec": 1.1511823565933446,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": false
+    },
+    {
+      "seq": 9,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.05,
+      "source": "OP-REF-CUT",
+      "startSec": 40.36607961629035,
+      "endSec": 40.41607961629035,
+      "durationSec": 0.05,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": false
+    },
+    {
+      "seq": 10,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 0,
+      "source": "OP-REF-CUT",
+      "startSec": 40.41607961629035,
+      "endSec": 40.41607961629035,
+      "durationSec": 0,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 11,
+      "kind": "CAPTURE_C",
+      "axis": null,
+      "target": 0,
+      "source": "OP-REF-CUT",
+      "startSec": 40.41607961629035,
+      "endSec": 40.426079616290345,
+      "durationSec": 0.01,
+      "positions": {
+        "X": 0,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 12,
+      "kind": "MOVE_C",
+      "axis": "X",
+      "target": 27,
+      "source": "OP-INDEX-2",
+      "startSec": 40.426079616290345,
+      "endSec": 44.051079616290345,
+      "durationSec": 3.625,
+      "positions": {
+        "X": 27,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 13,
+      "kind": "VERIFY_X",
+      "axis": null,
+      "target": 27,
+      "source": "OP-INDEX-2",
+      "startSec": 44.051079616290345,
+      "endSec": 44.10107961629034,
+      "durationSec": 0.05,
+      "positions": {
+        "X": 27,
+        "Y": 0,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 14,
+      "kind": "MOVE",
+      "axis": "Y",
+      "target": 1.75,
+      "source": "SPOT-1",
+      "startSec": 44.10107961629034,
+      "endSec": 44.78857961629034,
+      "durationSec": 0.6875,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 15,
+      "kind": "SET_SPOT",
+      "axis": null,
+      "target": 1,
+      "source": "SPOT-1",
+      "startSec": 44.78857961629034,
+      "endSec": 44.78857961629034,
+      "durationSec": 0,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 16,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.5,
+      "source": "SPOT-1",
+      "startSec": 44.78857961629034,
+      "endSec": 45.28857961629034,
+      "durationSec": 0.5,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 17,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.5,
+      "source": "SPOT-1",
+      "startSec": 45.28857961629034,
+      "endSec": 45.53857961629034,
+      "durationSec": 0.25,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.5,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 18,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.256169316966166,
+      "source": "SPOT-1",
+      "startSec": 45.53857961629034,
+      "endSec": 46.17315632387493,
+      "durationSec": 0.6345767075845848,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.256169316966166,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 19,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.75,
+      "source": "SPOT-1",
+      "startSec": 46.17315632387493,
+      "endSec": 46.545071665391845,
+      "durationSec": 0.37191534151691696,
+      "positions": {
+        "X": 27,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 20,
+      "kind": "MOVE_C",
+      "axis": "X",
+      "target": 8.875,
+      "source": "OP-INDEX-4",
+      "startSec": 46.545071665391845,
+      "endSec": 49.060696665391845,
+      "durationSec": 2.515625,
+      "positions": {
+        "X": 8.875,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 21,
+      "kind": "VERIFY_X",
+      "axis": null,
+      "target": 8.875,
+      "source": "OP-INDEX-4",
+      "startSec": 49.060696665391845,
+      "endSec": 49.11069666539184,
+      "durationSec": 0.05,
+      "positions": {
+        "X": 8.875,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 22,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.5,
+      "source": "SPOT-2",
+      "startSec": 49.11069666539184,
+      "endSec": 49.36069666539184,
+      "durationSec": 0.25,
+      "positions": {
+        "X": 8.875,
+        "Y": 1.75,
+        "Z": 1.5,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 23,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.256169316966166,
+      "source": "SPOT-2",
+      "startSec": 49.36069666539184,
+      "endSec": 49.99527337297643,
+      "durationSec": 0.6345767075845848,
+      "positions": {
+        "X": 8.875,
+        "Y": 1.75,
+        "Z": 1.256169316966166,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 24,
+      "kind": "MOVE",
+      "axis": "Z",
+      "target": 1.75,
+      "source": "SPOT-2",
+      "startSec": 49.99527337297643,
+      "endSec": 50.367188714493345,
+      "durationSec": 0.37191534151691696,
+      "positions": {
+        "X": 8.875,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 25,
+      "kind": "MOVE_C",
+      "axis": "X",
+      "target": -18,
+      "source": "OP-INDEX-CUT-1",
+      "startSec": 50.367188714493345,
+      "endSec": 53.976563714493345,
+      "durationSec": 3.609375,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 26,
+      "kind": "VERIFY_X",
+      "axis": null,
+      "target": -18,
+      "source": "OP-INDEX-CUT-1",
+      "startSec": 53.976563714493345,
+      "endSec": 54.02656371449334,
+      "durationSec": 0.05,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 27,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 1,
+      "source": "OP-CUTOFF-1",
+      "startSec": 54.02656371449334,
+      "endSec": 54.02656371449334,
+      "durationSec": 0,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 28,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 1.5,
+      "source": "OP-CUTOFF-1",
+      "startSec": 54.02656371449334,
+      "endSec": 54.52656371449334,
+      "durationSec": 0.5,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 1.5
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 29,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 5.4070941395600665,
+      "source": "OP-CUTOFF-1",
+      "startSec": 54.52656371449334,
+      "endSec": 55.761867642148914,
+      "durationSec": 1.235303927655574,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 5.4070941395600665
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 30,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 0,
+      "source": "OP-CUTOFF-1",
+      "startSec": 55.761867642148914,
+      "endSec": 56.91304999874226,
+      "durationSec": 1.1511823565933446,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 31,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.05,
+      "source": "OP-CUTOFF-1",
+      "startSec": 56.91304999874226,
+      "endSec": 56.96304999874226,
+      "durationSec": 0.05,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 32,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 0,
+      "source": "OP-CUTOFF-1",
+      "startSec": 56.96304999874226,
+      "endSec": 56.96304999874226,
+      "durationSec": 0,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": 0,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 33,
+      "kind": "CAPTURE_C",
+      "axis": null,
+      "target": 0,
+      "source": "OP-REBASE-C-1",
+      "startSec": 56.96304999874226,
+      "endSec": 56.973049998742255,
+      "durationSec": 0.01,
+      "positions": {
+        "X": -18,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 34,
+      "kind": "MOVE_C",
+      "axis": "X",
+      "target": -18,
+      "source": "OP-INDEX-CUT-2",
+      "startSec": 56.973049998742255,
+      "endSec": 59.473049998742255,
+      "durationSec": 2.5,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 35,
+      "kind": "VERIFY_X",
+      "axis": null,
+      "target": -18,
+      "source": "OP-INDEX-CUT-2",
+      "startSec": 59.473049998742255,
+      "endSec": 59.52304999874225,
+      "durationSec": 0.05,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 36,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 1,
+      "source": "OP-CUTOFF-2",
+      "startSec": 59.52304999874225,
+      "endSec": 59.52304999874225,
+      "durationSec": 0,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 37,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 1.5,
+      "source": "OP-CUTOFF-2",
+      "startSec": 59.52304999874225,
+      "endSec": 60.02304999874225,
+      "durationSec": 0.5,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 1.5
+      },
+      "cOffset": -18,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 38,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 5.4070941395600665,
+      "source": "OP-CUTOFF-2",
+      "startSec": 60.02304999874225,
+      "endSec": 61.258353926397824,
+      "durationSec": 1.235303927655574,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 5.4070941395600665
+      },
+      "cOffset": -18,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 39,
+      "kind": "MOVE",
+      "axis": "S",
+      "target": 0,
+      "source": "OP-CUTOFF-2",
+      "startSec": 61.258353926397824,
+      "endSec": 62.40953628299117,
+      "durationSec": 1.1511823565933446,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 40,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 0.05,
+      "source": "OP-CUTOFF-2",
+      "startSec": 62.40953628299117,
+      "endSec": 62.459536282991166,
+      "durationSec": 0.05,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": true,
+      "spotCommand": true
+    },
+    {
+      "seq": 41,
+      "kind": "SET_SAW",
+      "axis": null,
+      "target": 0,
+      "source": "OP-CUTOFF-2",
+      "startSec": 62.459536282991166,
+      "endSec": 62.459536282991166,
+      "durationSec": 0,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -18,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 42,
+      "kind": "CAPTURE_C",
+      "axis": null,
+      "target": 0,
+      "source": "OP-REBASE-C-2",
+      "startSec": 62.459536282991166,
+      "endSec": 62.469536282991164,
+      "durationSec": 0.01,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -36,
+      "sawCommand": false,
+      "spotCommand": true
+    },
+    {
+      "seq": 43,
+      "kind": "SET_SPOT",
+      "axis": null,
+      "target": 0,
+      "source": "REFERENCE_END",
+      "startSec": 62.469536282991164,
+      "endSec": 62.469536282991164,
+      "durationSec": 0,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -36,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 44,
+      "kind": "DELAY",
+      "axis": null,
+      "target": 24,
+      "source": "STORE_HANDLING_RELEASE",
+      "startSec": 62.469536282991164,
+      "endSec": 86.46953628299116,
+      "durationSec": 24,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -36,
+      "sawCommand": false,
+      "spotCommand": false
+    },
+    {
+      "seq": 45,
+      "kind": "COMPLETE",
+      "axis": null,
+      "target": 0,
+      "source": "REFERENCE_END",
+      "startSec": 86.46953628299116,
+      "endSec": 86.46953628299116,
+      "durationSec": 0,
+      "positions": {
+        "X": -36,
+        "Y": 1.75,
+        "Z": 1.75,
+        "A": 26.387799961243,
+        "S": 0
+      },
+      "cOffset": -36,
+      "sawCommand": false,
+      "spotCommand": false
+    }
+  ]
+}

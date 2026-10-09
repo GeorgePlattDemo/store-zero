@@ -1,0 +1,393 @@
+{
+  "schema": "STB-LOCAL-JOB-1",
+  "packetId": "PACKET-BRACKET-SET-0001",
+  "projectId": "BRACKET-SET-CUSTOMER-0001",
+  "definitionId": "BRACKET-SET",
+  "definitionRevision": "BRACKET-SET-v1",
+  "requirements": {
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge"
+  },
+  "demandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b",
+  "storeRelease": "store-zero-acceptance",
+  "storeCalculationIdentity": {
+    "inputHash": "06f569eaa9b460e2e57ed35ec81c322524d9df5e27af5fe865511f0236369fba",
+    "resultHash": "27646e7ea0baed65532b2fce273ea5bd1c61104ac98a1e027cd92847dcfe21f9"
+  },
+  "machineConfigId": "D001-REFERENCE-REVIEW-0.2",
+  "executionClass": "NOMINAL_COORDINATE_MODEL",
+  "physicalAuthority": false,
+  "selectedMaterial": {
+    "storeSku": "STB-ZERO-SPF-2X6-96-001",
+    "actualT": 1.5,
+    "actualW": 5.5,
+    "stockL_in": 96,
+    "parentLengthIn": 96
+  },
+  "miterAngleDeg": 15,
+  "kerfIn": 0.125,
+  "operations": [
+    {
+      "sequence": 1,
+      "opId": "OP-REF-CUT",
+      "kind": "REFERENCE_CUT",
+      "stationId": "SAW-L",
+      "datumEffect": "ESTABLISH_DATUM_C",
+      "angleDeg": 15,
+      "indexDistanceIn": 0,
+      "timeSec": 3.5817,
+      "sourceStoreOperationId": "OP-REF-CUT",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 2,
+      "opId": "OP-INDEX-2",
+      "kind": "INDEX",
+      "purpose": "POSITION_A-1",
+      "fromCIn": 0,
+      "toCIn": 31,
+      "distanceIn": 31,
+      "timeSec": 4.125,
+      "sourceStoreOperationId": "OP-INDEX-2",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 3,
+      "opId": "A-1",
+      "kind": "SPOT_ON_LOCATION",
+      "stationId": "SPOT-FACE-REF",
+      "partId": "BRACKET-A",
+      "partRelativeXIn": 5,
+      "workpieceFeatureXIn": 5,
+      "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+      "acrossWidthIn": 2.75,
+      "fullDiameterDepthIn": 0.1875,
+      "plungeIn": 0.243831,
+      "depthIsPartRequirement": true,
+      "timeSec": 2.2471,
+      "sourceStoreOperationId": "A-1",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 4,
+      "opId": "OP-INDEX-4",
+      "kind": "INDEX",
+      "purpose": "POSITION_A-2",
+      "fromCIn": 31,
+      "toCIn": 21,
+      "distanceIn": 10,
+      "timeSec": 1.5,
+      "sourceStoreOperationId": "OP-INDEX-4",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 5,
+      "opId": "A-2",
+      "kind": "SPOT_ON_LOCATION",
+      "stationId": "SPOT-FACE-REF",
+      "partId": "BRACKET-A",
+      "partRelativeXIn": 15,
+      "workpieceFeatureXIn": 15,
+      "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+      "acrossWidthIn": 2.75,
+      "fullDiameterDepthIn": 0.1875,
+      "plungeIn": 0.243831,
+      "depthIsPartRequirement": true,
+      "timeSec": 2.2471,
+      "sourceStoreOperationId": "A-2",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 6,
+      "opId": "OP-INDEX-6",
+      "kind": "INDEX",
+      "purpose": "POSITION_C-1",
+      "fromCIn": 21,
+      "toCIn": -6.25,
+      "distanceIn": 27.25,
+      "timeSec": 3.6563,
+      "sourceStoreOperationId": "OP-INDEX-6",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 7,
+      "opId": "C-1",
+      "kind": "SPOT_ON_LOCATION",
+      "stationId": "SPOT-FACE-REF",
+      "partId": "BRACKET-C",
+      "partRelativeXIn": 8,
+      "workpieceFeatureXIn": 42.25,
+      "acrossWidthRule": "INSET_FROM_EDGE",
+      "acrossWidthIn": 1.5,
+      "fullDiameterDepthIn": 0.1875,
+      "plungeIn": 0.243831,
+      "depthIsPartRequirement": true,
+      "timeSec": 1.9346,
+      "sourceStoreOperationId": "C-1",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 8,
+      "opId": "OP-INDEX-CUT-1",
+      "kind": "INDEX",
+      "purpose": "POSITION_CUTOFF_BRACKET-A",
+      "fromCIn": -6.25,
+      "toCIn": -20,
+      "distanceIn": 13.75,
+      "timeSec": 1.9688,
+      "sourceStoreOperationId": "OP-INDEX-CUT-1",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 9,
+      "opId": "OP-CUTOFF-1",
+      "kind": "MITER_CUTOFF",
+      "stationId": "SAW-L",
+      "partId": "BRACKET-A",
+      "partLengthIn": 20,
+      "angleDeg": 15,
+      "kerfIn": 0.125,
+      "retainedAfterIn": 75.75,
+      "controlPass": true,
+      "timeSec": 3.5817,
+      "sourceStoreOperationId": "OP-CUTOFF-1",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 10,
+      "opId": "OP-REBASE-C-1",
+      "kind": "REBASE_DATUM_C",
+      "stationId": "SAW-L",
+      "method": "FRESH_CUT_FACE",
+      "timeSec": 0,
+      "sourceStoreOperationId": "OP-REBASE-C-1",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 11,
+      "opId": "OP-INDEX-CUT-2",
+      "kind": "INDEX",
+      "purpose": "POSITION_CUTOFF_BRACKET-B",
+      "fromCIn": 0,
+      "toCIn": -14,
+      "distanceIn": 14,
+      "timeSec": 2,
+      "sourceStoreOperationId": "OP-INDEX-CUT-2",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 12,
+      "opId": "OP-CUTOFF-2",
+      "kind": "MITER_CUTOFF",
+      "stationId": "SAW-L",
+      "partId": "BRACKET-B",
+      "partLengthIn": 14,
+      "angleDeg": 15,
+      "kerfIn": 0.125,
+      "retainedAfterIn": 61.625,
+      "controlPass": true,
+      "timeSec": 3.5817,
+      "sourceStoreOperationId": "OP-CUTOFF-2",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 13,
+      "opId": "OP-REBASE-C-2",
+      "kind": "REBASE_DATUM_C",
+      "stationId": "SAW-L",
+      "method": "FRESH_CUT_FACE",
+      "timeSec": 0,
+      "sourceStoreOperationId": "OP-REBASE-C-2",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 14,
+      "opId": "OP-INDEX-CUT-3",
+      "kind": "INDEX",
+      "purpose": "POSITION_CUTOFF_BRACKET-C",
+      "fromCIn": 0,
+      "toCIn": -16,
+      "distanceIn": 16,
+      "timeSec": 2.25,
+      "sourceStoreOperationId": "OP-INDEX-CUT-3",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 15,
+      "opId": "OP-CUTOFF-3",
+      "kind": "MITER_CUTOFF",
+      "stationId": "SAW-L",
+      "partId": "BRACKET-C",
+      "partLengthIn": 16,
+      "angleDeg": 15,
+      "kerfIn": 0.125,
+      "retainedAfterIn": 45.5,
+      "controlPass": true,
+      "timeSec": 3.5817,
+      "sourceStoreOperationId": "OP-CUTOFF-3",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    },
+    {
+      "sequence": 16,
+      "opId": "OP-REBASE-C-3",
+      "kind": "REBASE_DATUM_C",
+      "stationId": "SAW-L",
+      "method": "FRESH_CUT_FACE",
+      "timeSec": 0,
+      "sourceStoreOperationId": "OP-REBASE-C-3",
+      "sourceDemandHash": "5efb5af0d6ceb1a5fce48b65ab101ce4095cce16c6499ebe18aa1907d244a81b"
+    }
+  ],
+  "contacts": [
+    {
+      "operationId": "OP-REF-CUT",
+      "kind": "REFERENCE_CUT",
+      "cMachineIn": 0,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-2",
+      "kind": "INDEX",
+      "cMachineIn": 31,
+      "remainingIn": 95.875,
+      "R1": false,
+      "M1": false,
+      "R2": true
+    },
+    {
+      "operationId": "A-1",
+      "kind": "SPOT_ON_LOCATION",
+      "cMachineIn": 31,
+      "remainingIn": 95.875,
+      "R1": false,
+      "M1": false,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-4",
+      "kind": "INDEX",
+      "cMachineIn": 21,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "A-2",
+      "kind": "SPOT_ON_LOCATION",
+      "cMachineIn": 21,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-6",
+      "kind": "INDEX",
+      "cMachineIn": -6.25,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "C-1",
+      "kind": "SPOT_ON_LOCATION",
+      "cMachineIn": -6.25,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-CUT-1",
+      "kind": "INDEX",
+      "cMachineIn": -20,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-CUTOFF-1",
+      "kind": "MITER_CUTOFF",
+      "cMachineIn": -20,
+      "remainingIn": 95.875,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-REBASE-C-1",
+      "kind": "REBASE_DATUM_C",
+      "cMachineIn": 0,
+      "remainingIn": 75.75,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-CUT-2",
+      "kind": "INDEX",
+      "cMachineIn": -14,
+      "remainingIn": 75.75,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-CUTOFF-2",
+      "kind": "MITER_CUTOFF",
+      "cMachineIn": -14,
+      "remainingIn": 75.75,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-REBASE-C-2",
+      "kind": "REBASE_DATUM_C",
+      "cMachineIn": 0,
+      "remainingIn": 61.625,
+      "R1": true,
+      "M1": true,
+      "R2": true
+    },
+    {
+      "operationId": "OP-INDEX-CUT-3",
+      "kind": "INDEX",
+      "cMachineIn": -16,
+      "remainingIn": 61.625,
+      "R1": true,
+      "M1": true,
+      "R2": false
+    },
+    {
+      "operationId": "OP-CUTOFF-3",
+      "kind": "MITER_CUTOFF",
+      "cMachineIn": -16,
+      "remainingIn": 61.625,
+      "R1": true,
+      "M1": true,
+      "R2": false
+    },
+    {
+      "operationId": "OP-REBASE-C-3",
+      "kind": "REBASE_DATUM_C",
+      "cMachineIn": 0,
+      "remainingIn": 45.5,
+      "R1": true,
+      "M1": true,
+      "R2": false
+    }
+  ],
+  "releaseBlockers": [
+    "ONE_ROLLER_CONTROL_UNRESOLVED",
+    "KERF_FACE_AND_REBASE_UNRESOLVED",
+    "SAW_STROKE_GEOMETRY_UNRESOLVED",
+    "COMMISSIONING_ABSENT"
+  ]
+}

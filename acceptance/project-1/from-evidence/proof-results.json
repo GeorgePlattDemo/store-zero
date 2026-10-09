@@ -1,0 +1,63 @@
+{
+  "passed": 14,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "Seven repository source blobs match fetched Git object identities",
+      "status": "PASS"
+    },
+    {
+      "name": "18 in definition derives 9 in spots and pinned Store Q 11.09",
+      "status": "PASS"
+    },
+    {
+      "name": "Hypothetical 60 in workpiece fails retained-length rule and offered 72 in parent is selected",
+      "status": "PASS"
+    },
+    {
+      "name": "Forward spot placement equals station at both nominal targets",
+      "status": "PASS"
+    },
+    {
+      "name": "All 17 admitted length settings propagate through rule and Store",
+      "status": "PASS"
+    },
+    {
+      "name": "Outside-range and off-grid length rejected by System rule",
+      "status": "PASS"
+    },
+    {
+      "name": "Changed demand cannot reuse preceding answer",
+      "status": "PASS"
+    },
+    {
+      "name": "Altered calculation identity rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "Wrong controller identity stops before motion",
+      "status": "PASS"
+    },
+    {
+      "name": "Position fault prevents following tool command",
+      "status": "PASS"
+    },
+    {
+      "name": "Tool-retract fault stops model before next index",
+      "status": "PASS"
+    },
+    {
+      "name": "Nominal contact audit identifies single-roller states",
+      "status": "PASS"
+    },
+    {
+      "name": "Finite kerf cannot be erased by changing coordinate label",
+      "status": "PASS"
+    },
+    {
+      "name": "Physical admission remains blocked with zero motion",
+      "status": "PASS"
+    }
+  ],
+  "scope": "Local reference model only; repository-wide suites not rerun; TwinCAT not compiled"
+}

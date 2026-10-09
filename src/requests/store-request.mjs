@@ -5,8 +5,8 @@
  *
  * Every accepted request is evaluated fresh against the catalog read for that request; no prior answer or
  * receipt is an input. A request that is not a clean definition is answered with the reason and never reaches
- * an evaluator: an undeclared request type, an undeclared definition field, machine-local language, or a
- * project naming a Store SKU for a functional requirement. "No" is an answer.
+ * an evaluator: an undeclared request type, an undeclared or mistyped definition field, or machine-local
+ * language. "No" is an answer.
  *
  * Store identity is the Store's own release, supplied by whoever runs this Store; a request cannot set it.
  */
@@ -16,7 +16,6 @@ import { S001_STAGE2_ENVELOPE } from "../evaluation/envelopes/s001-stage2-envelo
 import { STENCIL_TAB_POLICY_V0 } from "../evaluation/engine/stencil-tab-policy.mjs";
 import { loadCatalog, loadObservations, validateCatalog } from "../evaluation/catalog.mjs";
 import { evaluateDimensionalTravelJob } from "../evaluation/evaluators/user-defined-board.mjs";
-import { ALCOVE_STORE_STANDARD, evaluateAlcoveJob } from "../evaluation/evaluators/alcove-insert.mjs";
 import { CUT_PACKAGE_STANDARD, evaluateCutPackageJob } from "../evaluation/evaluators/cut-package.mjs";
 import { SHEET_PACKAGE_STANDARD, evaluateSheetPackageJob } from "../evaluation/evaluators/sheet-package.mjs";
 import { lookupOfferings, lookupProblems } from "./offering-lookup.mjs";
@@ -49,16 +48,6 @@ export const REQUEST_TYPES = Object.freeze({
       machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
       travelStandard: authorityOf(D001_TRAVEL_STANDARD, true),
       economics: authorityOf(D001_TRAVEL_STANDARD.economics, true)
-    })
-  }),
-  ALCOVE_INSERT_V1: Object.freeze({
-    shape: DEFINITION_SHAPES.ALCOVE_INSERT_V1,
-    evaluate: evaluateAlcoveJob,
-    authority: () => ({
-      machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
-      travelStandard: authorityOf(D001_TRAVEL_STANDARD, true),
-      economics: authorityOf(D001_TRAVEL_STANDARD.economics, true),
-      alcoveStandard: authorityOf(ALCOVE_STORE_STANDARD)
     })
   }),
   CUT_PACKAGE_V1: Object.freeze({
