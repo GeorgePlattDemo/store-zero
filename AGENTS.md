@@ -4,7 +4,7 @@ This repository is Store Zero: the catalog, capability, modeled work and time, e
 
 ## Who owns what
 
-- **System** owns every shared definition, in `docs/definitions/README.md` of `scan-to-build-system`. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here.
+- **System** owns every shared definition. Today that is `docs/definitions/README.md` in `scan-to-build-system`, the predecessor System the live application runs. The replacement System's `docs/DEFINITIONS.md` in `new-system` becomes the authority when the owner accepts it; until then it is the candidate Store's contracts are checked against. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here.
 - **System** owns the job's meaning and the application. Store answers the definition it is sent and never rewrites it to make it fit.
 - **Program** is the menu, not the meal: it points here for the Store, the Project 1 trail and the patents.
 

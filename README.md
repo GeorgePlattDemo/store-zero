@@ -88,7 +88,7 @@ Store Zero uses declared reference stock, budgetary prices, and modeled machine 
 - [**Store Zero**](docs/STORE-ZERO-SPECIFICATION.md) — the reference dealer and its service interface.
 - [**Store Job 001**](docs/STORE-ZERO-SPECIFICATION.md#9-safety-setup-validation-and-operating-authority) — a modeled Store-side production narrative.
 - [**Store 1**](docs/STORE-ZERO-SPECIFICATION.md#55-store-1-from-store-zero-to-a-real-yard) — the surface for a later real Store implementation.
-- [**System definitions**](https://github.com/GeorgePlattDemo/scan-to-build-system/blob/main/docs/definitions/README.md) — shared job meaning and local yard vocabulary.
+- [**System definitions**](https://github.com/GeorgePlattDemo/scan-to-build-system/blob/main/docs/definitions/README.md) — shared job meaning and local yard vocabulary. The replacement System's [definitions](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) take over when the owner accepts them.
 - [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/tree/main/research/machine-development) — the broader development work in Program.
 
 **NO BLOOD ON WOOD.**
