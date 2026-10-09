@@ -2,15 +2,15 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.6 · 2026-10-08**
+**3D Solutions LLC · Store Zero Operational Specification 0.7 · 2026-10-09**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), and the machine side's reference lowering and virtual run added (0.6; §10.5).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
 
 The Store answer is deliberately narrow. It may report `SUPPORTABLE`, `UNRESOLVED`, `REFUSED`, or `UNAVAILABLE`. It may identify a catalog offering, local fixture availability, a capability fit, an exact refusal reason, a modeled machine time, and a budgetary Q. It does not silently change customer dimensions, wood, grade, hardware meaning, geometry, requested operations, or feature locations to make a request succeed. Current local shortages remain shortages; a future special-order path is separately specified and is not implemented by the current evaluator.  
-*Trace: `src/evaluation/store-state.mjs` (`STAGE2_JOB_DISPOSITIONS`, `stockAnswer`, `capabilityAnswer`); `src/evaluation/catalog.mjs` (`offerMaterial`); `src/evaluation/evaluators/cut-package.mjs`; `src/evaluation/evaluators/alcove-insert.mjs`; `src/evaluation/evaluators/sheet-package.mjs`; `STORE-ZERO.md` §§14, 16, 17.*
+*Trace: `src/evaluation/store-state.mjs` (`STAGE2_JOB_DISPOSITIONS`, `stockAnswer`, `capabilityAnswer`); `src/evaluation/catalog.mjs` (`offerMaterial`); `src/evaluation/evaluators/cut-package.mjs`; `src/evaluation/evaluators/sheet-package.mjs`; `STORE-ZERO.md` §§14, 16, 17.*
 
 A complete Stage-2 Q is not a page estimate. It is a Store calculation from the selected Store selling-price extensions plus modeled machine service derived from identified work. The current Store Zero catalog uses a declared 5% mark-on over its stored list-reference values; D-001 and S-001 Stage-2 machine service use the declared Store economics object whose $120,000 annual cost pool, 600 forecast productive hours, and 20% target gross margin yield a $200/hour break-even rate and a $250/hour sell rate. Those are fixture/model facts, not measured operating economics and not a commercial quote.  
 *Trace: `data/store-zero-catalog.json` (`pricingRule`); `src/evaluation/engine/pricing.mjs` (`sellingPrice`); `src/evaluation/engine/d001-travel-standard.mjs` (`D001_TRAVEL_STANDARD.economics`, `storeMachineSellRate`). Tests: `tests/catalog-pricing.test.mjs` unnamed module-level assertions for `SZ-MARK-ON-5`; `tests/d001-travel-standard.test.mjs` unnamed module-level assertions for $200/$250 rates and zero setup charge.*
@@ -75,7 +75,7 @@ Store Zero's own service carries requests over HTTPS (§6A.14). Every reply name
 
 ## 2.2 Fresh evaluation
 
-For `USER_DEFINED_BOARD_V1`, `ALCOVE_INSERT_V1`, `CUT_PACKAGE_V1`, and `SHEET_PACKAGE_V1`, each accepted request is a new evaluation against the catalog read for that request. There is one request layer, and no evaluator issues its own receipt. The receipt records the freshness rule (`STB-STORE-FRESH-EVALUATION-0.1`), request type, request id, evaluation time, Store authority (release, catalog hash, and the hashes of the envelope, standards and economics that governed the answer), demand hash, result status, calculation identity when available, and a receipt hash. The same demand may calculate to the same Q, but a prior answer is historical evidence only.  
+For `USER_DEFINED_BOARD_V1`, `CUT_PACKAGE_V1`, and `SHEET_PACKAGE_V1`, each accepted request is a new evaluation against the catalog read for that request. There is one request layer, and no evaluator issues its own receipt. The receipt records the freshness rule (`STB-STORE-FRESH-EVALUATION-0.1`), request type, request id, evaluation time, Store authority (release, catalog hash, and the hashes of the envelope, standards and economics that governed the answer), demand hash, result status, calculation identity when available, and a receipt hash. The same demand may calculate to the same Q, but a prior answer is historical evidence only.  
 *Trace: `src/requests/store-request.mjs` (`STORE_EVALUATION_FRESHNESS`, `REQUEST_TYPES[*].authority`, `evaluateStoreRequest`). Tests: `tests/store-request.test.mjs` — “every accepted request is evaluated fresh and its receipt names this Store, this request and this catalog”; `tests/d001-travel-standard.test.mjs` fresh-request, repricing and capability-change assertions; `tests/sheet-package.test.mjs` — “every request is freshly evaluated with a receipt bound to this request and this Store”; `acceptance/boundaries` — “one request layer: no evaluator issues its own receipt”.*
 
 ## 2.3 The Store membrane and commercial sovereignty
@@ -114,12 +114,13 @@ Over HTTP the request is the body of `POST /v1/requests` and the answer is wrapp
 |---|---|
 | `OFFERING_LOOKUP` | Catalog discovery only. Search or exact lookup returns offered Store facts. It does not run a fabrication evaluator and does not produce Q. |
 | `USER_DEFINED_BOARD_V1` | Modern user-defined dimensional work: material demand, identified parts/features, workpiece demand, angle/plane, Datum-C method, operations, and unresolved conditions. |
-| `ALCOVE_INSERT_V1` | Alcove definition: material demand, Store-owned parent requirements, identified component programs, hardware demand, and optional mapped spotting. |
-| `CUT_PACKAGE_V1` | Neutral dimensional packages and item lines: material, parts, end cuts, optional finished width, spots, exact SKUs, or structured hardware requirements. |
+| `CUT_PACKAGE_V1` | Neutral dimensional packages and item lines: material, parts, end cuts, optional finished width, spots, and item lines that name an exact SKU, a structured hardware requirement, or a functional requirement. |
 | `SHEET_PACKAGE_V1` | One sheet plus identified routed/split/crosscut features and return-all-pieces semantics. |
 
-`BOARD_SQUARE_V1`, the count-only Board ticket, is not accepted: a count of cuts is not an identified definition and could only ever be partially priced. It is refused with `REQUEST_TYPE_NOT_ACCEPTED`; the same square-cut work is a `CUT_PACKAGE_V1` line or a `USER_DEFINED_BOARD_V1` definition.  
-*Trace: `src/requests/store-request.mjs` (`REQUEST_TYPES`); `tests/store-request.test.mjs` — “the accepted request types are exactly the four definitions and catalog lookup”, “a count-only Board ticket is not a clean definition and is refused, never partially priced”.*
+`BOARD_SQUARE_V1`, the count-only Board ticket, is not accepted: a count of cuts is not an identified definition and could only ever be partially priced. It is refused with `REQUEST_TYPE_NOT_ACCEPTED`; the same square-cut work is a `CUT_PACKAGE_V1` line or a `USER_DEFINED_BOARD_V1` definition.
+
+`ALCOVE_INSERT_V1`, the one project-shaped request type, is retired (§19) and refused with `REQUEST_TYPE_NOT_ACCEPTED`. An alcove is sent as cut packages (§11.2).  
+*Trace: `src/requests/store-request.mjs` (`REQUEST_TYPES`); `tests/store-request.test.mjs` — “the accepted request types are exactly the three definitions and catalog lookup”, “a count-only Board ticket is not a clean definition and is refused, never partially priced”.*
 
 ## 3.3 Clean definitions only
 
@@ -134,7 +135,6 @@ System's admission decides what the application may ask. Store Zero independentl
 | The definition carries machine-local language (`spline`, `toolpath`, `gcode`, `controller`, `servoSteps`) | `REFUSED` · `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED` |
 | The definition carries a field its type does not declare, at any level (§3.4) | `REFUSED` · `DEFINITION_FIELD_NOT_DECLARED:<path>` |
 | A declared field has the wrong type (text for a number, a fraction for a count, a list for an object) | `REFUSED` · `DEFINITION_FIELD_TYPE:<path>:<type>` |
-| An Alcove hardware demand names a Store SKU, or a selection authority other than `STORE_ZERO` | `REFUSED` · `PROJECT_MAY_NOT_NAME_A_STORE_SKU` / `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO` |
 | An offering lookup is not exactly one of `{searchText}`, `{storeSku}`, `{query}` within its limits | `REFUSED` with the lookup reason (Appendix D.8) |
 
 A request that passes reaches its evaluator, which validates every fact it consumes and returns `UNRESOLVED`, `REFUSED`, or `UNAVAILABLE` when a required fact is missing or outside a declared rule. A request may pass the gate and still be refused by the evaluator. Every field at every level of every definition is declared (§3.4); an undeclared or mistyped field is refused by its path.  
@@ -147,11 +147,10 @@ Each evaluated request type has one exact definition shape: every field it may c
 | Request type | Levels declared |
 |---|---|
 | `USER_DEFINED_BOARD_V1` | definition; `materialDemand` (species, form, nominal T and W — no grade); `parts[]` (`partId`, `lengthIn`, `features[]` with `featureId`, `kind`, `xIn`, `locationRule`, `acrossWidthRule`, `insetFromEdgeIn`) |
-| `ALCOVE_INSERT_V1` | definition; `materialDemand` (with grade); `boardRequirements[]`; `componentPrograms[]` and their spot and mill `features[]`; `hardwareDemand` (requirement, quantity, description, selection authority); `spotDemand` and its `features[]` |
-| `CUT_PACKAGE_V1` | definition; `cutPackages[]` (`packageId`, `material`, `endCut`, `finishedWidthIn`, `parts[]`, `spots[]`); `itemLines[]` (exact SKU or structured `requirement`) |
+| `CUT_PACKAGE_V1` | definition; `cutPackages[]` (`packageId`, `material`, `endCut`, `finishedWidthIn`, `parts[]`, `spots[]`); `itemLines[]` (exactly one of an exact `storeSku`, a structured hardware `requirement`, or a functional `requirementId`) |
 | `SHEET_PACKAGE_V1` | definition; `sheet`; `features[]` (aperture, split and crosscut fields) |
 
-Complete serialized examples are committed under `contracts/examples/requests/`: Project 1, the default SPF job, a mixed cut package, the pine Alcove, the Playhouse sheet, and two lookups, each with the answer this Store gives it. `contracts/examples/requests/refused.json` lists definitions that are refused and the exact reasons: the count-only Board ticket, a Store identity sent by the caller, a grade on a user-defined board, an undeclared part field, a part length as text, machine-local language, a project naming a Store SKU, a fractional hardware count, and a missing request id. The examples are generated by `npm run build:examples`, and acceptance fails if a committed example ever differs from what the code produces.  
+Complete serialized examples are committed under `contracts/examples/requests/`: Project 1, the default SPF job, a mixed cut package, the pine alcove as cut packages, the Playhouse sheet, and two lookups, each with the answer this Store gives it. `contracts/examples/requests/refused.json` lists definitions that are refused and the exact reasons: the count-only Board ticket, a Store identity sent by the caller, a grade on a user-defined board, an undeclared part field, a part length as text, machine-local language, the retired project-shaped request type, a fractional hardware count, and a missing request id. The examples are generated by `npm run build:examples`, and acceptance fails if a committed example ever differs from what the code produces.  
 *Trace: `src/contracts/shape.mjs` (`shapeProblems`); `src/contracts/definitions.mjs` (`DEFINITION_SHAPES`); `scripts/build-contract-examples.mjs`; `contracts/examples/requests/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the committed examples are exactly what the code produces”, “every request example is a clean definition and gets its recorded answer”, “every refused example is refused with its exact reasons”.*
 
 # 4. Store routing and answer semantics
@@ -193,7 +192,6 @@ There is no universal “shortest board” rule.
 | Path | Current Store rule | Source |
 |---|---|---|
 | `USER_DEFINED_BOARD_V1` | Matching offered boards are considered in ascending stock length; the first candidate whose stock, price, D-001 capability, and full travel evaluation are complete is selected. | `matchingBoardOfferings`; `evaluateDimensionalTravelJob` |
-| `ALCOVE_INSERT_V1` | Each parent requirement evaluates matching material; complete candidates are ranked by **lowest material extension**, then shorter stock length, then SKU. | `evaluateBoardRequirement` |
 | `CUT_PACKAGE_V1` | For the customer-chosen material/grade, candidates are planned and capability-checked; supportable candidates are ranked by lowest material extension, then length, then SKU; if machine execution refuses a candidate, the next supportable material candidate is tried without changing wood. | `evaluatePackage` |
 | `SHEET_PACKAGE_V1` | Exact sheet geometry/material constraints and operations are matched; capable priced offerings are ranked by selling price then SKU; the first with sufficient stock is selected. | `resolveSheet` |
 
@@ -582,7 +580,7 @@ The travel standard does not allocate stock; select species; choose hardware; in
 
 - `tests/d001-travel-standard.test.mjs` — unnamed module-level assertions: Job 1 Q $8.54, 1.4227 min, 3 saw cuts, 2 spots, final remainder 27.625 in, 60→72→96 candidate ladder, 46° refusal, missing spot X unresolved, count mismatch unresolved, deterministic hashes, no legacy setup/$100 rate.
 - `tests/spot-inset-depth.test.mjs` — unnamed module-level assertions: point/plunge geometry, 1.5/2-in spot placement, invalid 1.75 inset refusal, out-of-component spot refusal.
-- `tests/alcove-insert.test.mjs` — unnamed batch use through Alcove.
+- `tests/alcove-via-cut-packages.test.mjs` — batch use through cut packages, including the rip.
 - `tests/cut-package.test.mjs` — unnamed sequence/long-part and edge-mill use.
 - Untested as isolated numeric assertions: exact X/Y triangular-vs-trapezoidal transition threshold; `MECHANICAL_REFERENCE` and `SENSED_FACE` success branches; saw invalid-angle `NaN` helper return outside evaluator validation.
 
@@ -677,7 +675,7 @@ Each structured hardware line reads `lineId`, positive whole-number piece `qty`,
    - else if part > 72 in, refuse `COMPONENT_LENGTH_EXCEEDS_D001_TWO_SAW_SPAN`;
    - else if part < 24 in, refuse `COMPONENT_LENGTH_BELOW_TWO_ROLLER_CONTROL`;
    - else use one-board-per-part long-part path.
-9. Finished width: width above board → `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`; removal >1 in → `EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH`.
+9. Finished width: width above board → `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`. Removal up to 1 in is an edge-mill pass (`EDGE_MILL_PASS_THROUGH`). Removal over 1 in is a rip (`RIP_AT_FINISHED_WIDTH`, rule `STB-CUT-PACKAGE-RIP-0.1`, §19): the router cuts through at the finished width and the far strip is returned to the owner as an offcut, one per board, reported on the line as `edgeMill.offcut`. Either way the board is brought to width before any of its parts is cut, and the same retained-control rules apply.
 10. Run `capabilityAnswer`; for cut packages only, the envelope’s `PARENT_LENGTH_REQUIRES_UNDECLARED_EXTERNAL_SUPPORT` result is filtered out because this evaluator’s explicit long-stock rule is stock/cell geometry rather than that general envelope parent ceiling.
 11. Candidate status: plan refusal first; then capability refusal; then unresolved capability/price; then unavailable stock; else `SUPPORTABLE`.
 12. Supportable material candidates are ranked by material extension, then stock length, then SKU. For each in that order, run actual D-001 package timing. Machine refusal/unresolved causes the evaluator to try the next supportable material candidate without changing material class.
@@ -688,6 +686,8 @@ Each structured hardware line reads `lineId`, positive whole-number piece `qty`,
 ### Item-line decision sequence
 
 **Exact SKU.** Missing `lineId` → `LINE_ID_REQUIRED`; missing SKU → `STORE_SKU_REQUIRED`; nonwhole/nonpositive qty → `WHOLE_QUANTITY_REQUIRED`; no catalog row → `REFUSED / NO_OFFERING`; row not offered → `REFUSED / NOT_OFFERED`; missing price → `UNRESOLVED / MISSING_PRICE`; insufficient stock → `UNAVAILABLE / ON_HAND_SHORT` or `NOT_ON_HAND`; otherwise `SUPPORTABLE`, Q = selling price × qty.
+
+**Functional requirement** (`requirementId`). The item is the one offering whose catalog row declares the requirement in `satisfiesRequirementIds` (`offeringForRequirement`); the line reports `resolvedBy: FUNCTIONAL_REQUIREMENT_DECLARED_BY_OFFERING`. Nonwhole/nonpositive qty → `WHOLE_QUANTITY_REQUIRED`; no declaring offering → `REFUSED / NO_OFFERING_FOR_REQUIREMENT`; not offered → `REFUSED / NOT_OFFERED`; missing price → `UNRESOLVED / MISSING_PRICE`; insufficient stock → `UNAVAILABLE`; otherwise `SUPPORTABLE`, Q = selling price × qty. A line naming more than one of `storeSku`, `requirement`, `requirementId` → `UNRESOLVED / ITEM_LINE_NAMES_MORE_THAN_ONE_ITEM`.
 
 **Structured hardware.** Invalid object/extra fields/missing kind/finish/length, not exactly one of gauge/diameter, nonpositive size, or unit other than `piece` → `UNRESOLVED / HARDWARE_REQUIREMENT_INCOMPLETE`. Nonwhole/nonpositive piece count → `WHOLE_QUANTITY_REQUIRED`. No exact structured match → `REFUSED / NO_MATCHING_HARDWARE_OFFERING`. Matching rows without price → `UNRESOLVED / MISSING_PRICE`. No matching package SKU with enough stock → `UNAVAILABLE` against the cheapest priced exact match. Otherwise `SUPPORTABLE`.
 
@@ -701,91 +701,20 @@ It does not recognize project names; substitute wood or grade; recommend a near 
 
 ### Verification
 
-`tests/cut-package.test.mjs` contains unnamed module-level assertions covering: project neutrality; mixed independent lines; species/grade preservation; Q formula; both-end cutting/0.5-in rule/short-pieces-first/stub return; 119-in long-stock path; missing grade; 1.5/2-in spots and 1.75 refusal; exact item lines; fresh receipt; exact structured hardware matching; package selection; no near substitute; incomplete requirement; exact-SKU mode; shortage; no SKU/description parsing; whole-board edge milling; 1-in removal limit; no-mill when width already matches; pass-through over 60 in; pass-through refusal below 24 in.  
+`tests/cut-package.test.mjs` contains unnamed module-level assertions covering: project neutrality; mixed independent lines; species/grade preservation; Q formula; both-end cutting/0.5-in rule/short-pieces-first/stub return; 119-in long-stock path; missing grade; 1.5/2-in spots and 1.75 refusal; exact item lines; fresh receipt; exact structured hardware matching; package selection; no near substitute; incomplete requirement; exact-SKU mode; shortage; no SKU/description parsing; whole-board edge milling; rip when more than 1 in comes off; no-mill when width already matches; pass-through over 60 in; pass-through refusal below 24 in.  
 Untested as a dedicated fixture: lexical SKU tie in board candidate selection; dynamic `PART_LONGER_THAN_LONGEST_STOCKED_BOARD` addition is asserted in the mixed test; every individual possible D-001 propagated reason is not separately recreated at cut-package level.
 
 ### Where it lives
 
-`src/evaluation/evaluators/cut-package.mjs`: `CUT_PACKAGE_STANDARD`, `evaluateCutPackageJob`, with private package, packing, machine, item, and hardware-resolution helpers. Requests reach it through `src/requests/store-request.mjs`.
+`src/evaluation/evaluators/cut-package.mjs`: `CUT_PACKAGE_STANDARD`, `RIP_RULE`, `evaluateCutPackageJob`, with private package, packing, machine, item, hardware and functional-requirement helpers. Requests reach it through `src/requests/store-request.mjs`.
 
 ---
 
-## 6A.6 `src/evaluation/evaluators/alcove-insert.mjs` — Alcove parent-board, hardware, component-travel, and Q evaluator
+## 6A.6 Retired: the Alcove evaluator
 
-### What it is for
+Specification 0.6 described `alcove-insert.mjs`, a project-shaped evaluator for `ALCOVE_INSERT_V1`. It is retired (§19) and the request type is refused. An alcove is now an ordinary `CUT_PACKAGE_V1` definition (§11.2), and the cut-package evaluator (§6A.5) decides its sequence like any other job's: boards are brought to width first, then cut, under the same retained-control rule.
 
-This evaluator receives an Alcove definition whose component meaning belongs to System, resolves Store-owned parent material and mapped hardware, checks component capacity and D-001 travel, and returns a complete budgetary Q only when every required layer is complete.
-
-### Inputs
-
-`evaluateAlcoveJob(catalog, demand)` reads:
-
-- `title`, `classId`, `configurationId`, `configurationVersion`, optional `storeRevision`;
-- `materialDemand`: `species`, optional `form` default board, `nominalT`, `nominalW`, optional `grade`;
-- `boardRequirements[]`: `requirementId`, `role`, optional `requiredOps` default `CROSSCUT`, `carriesSpotDemand`, `selectionAuthority`;
-- `componentPrograms[]`: each `componentId`, `requirementId`, `finishedLengthIn`, `finishedWidthIn`, `features[]` of mill/spot types;
-- optional `hardwareDemand`: `requirementId`, `qty`, optional `description`, optional `selectionAuthority` (`STORE_ZERO` only); a Store SKU is refused (§3.3);
-- optional `spotDemand`: `enabled`, `mode`, tool/feature metadata;
-- optional `unresolvedConditions[]`.
-
-The hardware requirement is resolved by catalog data: the offering whose `satisfiesRequirementIds` names the requirement. Today `STB-ZERO-HW-ALCOVE-PACK-001` declares `ALCOVE-PINS-AND-SCREWS`; no SKU table lives in code.
-
-### Parent packing and selection formulae
-
-For a candidate stock length \(S\), parent capacity starts at `S - 0.125`. Components are sorted longest first. Each component consumes `finishedLength + 0.125`; first fit is used across bins. The quantity is the number of bins/parents required.
-
-Each candidate extension is:
-
-\[
-\text{extension}=\operatorname{ROUND}(\text{item.sellingPrice}\times\text{qty},2)
-\]
-
-Complete supportable candidates are ranked by extension, then stock length, then SKU. This is why Alcove is **lowest material extension complete offering**, not universally shortest parent.
-
-### Ordered decision sequence
-
-1. No `boardRequirements` → overall `UNRESOLVED / ALCOVE_BOARD_REQUIREMENTS_REQUIRED`.
-2. Derive each requirement’s operations from explicit `requiredOps` plus any component mill/spot features.
-3. For each requirement, identify component programs. None → line `UNRESOLVED / COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT`.
-4. Match Store offerings by material class and optional grade, sorted by stock length/price/SKU.
-5. For each candidate:
-   - pack all requirement components; failure → `REFUSED / COMPONENTS_DO_NOT_FIT_PARENT_LENGTH`;
-   - compute required qty;
-   - stock check;
-   - price check;
-   - capability check using maximum finished component length and required ops;
-   - capability refusal wins; unresolved price/capability next; insufficient stock next; else supportable.
-6. Choose lowest-extension supportable candidate. If none exists, choose the most informative candidate by rank `UNRESOLVED`, then `REFUSED`, then `UNAVAILABLE`; if no material candidate exists at all → line `UNAVAILABLE / NO_MATCHING_BOARD_OFFERING`.
-7. Hardware: the offering that declares the requirement (`offeringForRequirement`); no item → `UNAVAILABLE / NO_MATCHING_HARDWARE_OFFERING`; missing price → `UNRESOLVED / MISSING_PRICE` or `HARDWARE_PRICE_UNRESOLVED`; insufficient stock → `UNAVAILABLE`; otherwise supportable.
-8. Validate parent/component capacity again from selected line quantities. Missing selected material skips reinterpretation. Missing component programs → dynamic `COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT:<id>`; invalid component length → `COMPONENT_FINISHED_LENGTH_REQUIRED:<component>`; capacity overflow → `COMPONENTS_EXCEED_DECLARED_PARENT_MATERIAL:<requirement>`; unknown requirement id → `COMPONENT_REQUIREMENT_ID_NOT_FOUND:<id>`.
-9. Spot demand: if enabled, at least one identified component must actually contain a `SPOT_ON_LOCATION` feature. Otherwise `ALCOVE_SPOT_TARGET_COMPONENT_MAPPING_REQUIRED`. If the spot-carrying line capability refuses, add `ALCOVE_FACE_SPOT_DEMAND_OUTSIDE_CURRENT_DECLARED_SPOT_ENVELOPE`.
-10. Only when components exist, no line is refused/unavailable, material capacity is supportable, no incoming unresolved condition remains, and requested spots are mapped does the evaluator run `evaluateD001DimensionalBatch`.
-11. Overall status precedence: any line/refusal/batch refusal → `REFUSED`; else any line unavailable → `UNAVAILABLE`; else any unresolved, missing batch, or incomplete batch → `UNRESOLVED`; else `SUPPORTABLE`.
-12. Q exists only for `SUPPORTABLE` with finite material, hardware, and machine service:
-
-\[
-Q=\text{material}+\text{hardware}+\text{batch machine service}
-\]
-
-### Outcomes and reasons
-
-Principal Alcove-owned reasons are: `ALCOVE_BOARD_REQUIREMENTS_REQUIRED`, `COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT`, `NO_MATCHING_BOARD_OFFERING`, `NO_MATCHING_HARDWARE_OFFERING`, `HARDWARE_PRICE_UNRESOLVED`, `STORE_CAPABILITY_REFUSED`, `STORE_INPUT_UNRESOLVED`, `MATCHING_BOARD_NOT_AVAILABLE`, `COMPONENTS_DO_NOT_FIT_PARENT_LENGTH`, `COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT:<id>`, `COMPONENT_FINISHED_LENGTH_REQUIRED:<id>`, `COMPONENTS_EXCEED_DECLARED_PARENT_MATERIAL:<id>`, `COMPONENT_REQUIREMENT_ID_NOT_FOUND:<id>`, `ALCOVE_COMPONENT_PROGRAMS_REQUIRED`, `ALCOVE_SPOT_TARGET_COMPONENT_MAPPING_REQUIRED`, and `ALCOVE_FACE_SPOT_DEMAND_OUTSIDE_CURRENT_DECLARED_SPOT_ENVELOPE`, plus propagated D-001 batch reasons. A missing formal request id yields `STORE_EVALUATION_REQUEST_ID_REQUIRED`.
-
-### It does not do
-
-It does not derive finished components from opening dimensions; bind shelf-elevation spots to a physical upright unless System identifies the component feature; substitute species; infer grade; fabricate an unavailable hardware pack; use the old count-only pricing wrapper for complete Q; or promote an unresolved spot mapping into machine geometry.
-
-### Verification
-
-- `tests/alcove-insert.test.mjs` — unnamed module-level assertions: pine support, parent SKUs/quantities, lowest-extension policy, material $230.88, hardware $18, poplar repricing, oak/cherry cut+mill refusal, cut-only support, 72-in upright forcing 96-in parent, input-change hash/material change, unmapped spots unresolved, walnut unavailable, missing component programs unresolved, fresh receipts.
-- `tests/spot-inset-depth.test.mjs` — unnamed assertions: fully mapped 1.5/2-in spots support and change time/Q; undeclared 1.75 inset refusal; spot beyond component refusal; unmapped spot request remains unresolved.
-- Execution of `tests/alcove-insert.test.mjs` prints pine Q **$382.55** and poplar Q **$505.67**.
-- Untested as isolated cases: lexical tie among equal-extension parent candidates; each dynamic colon-suffixed component reason independently.
-- Vocabulary note: when an Alcove answer is not complete its estimate status reads `PARTIAL_BUDGETARY_ESTIMATE` with `Q:null`. It is a label for an incomplete answer, not a count-only price; it is kept so answers stay identical to the recorded Store, and it is settled with the Alcove consolidation in Open work.
-
-### Where it lives
-
-`src/evaluation/evaluators/alcove-insert.mjs`: `ALCOVE_STORE_STANDARD`, `evaluateAlcoveJob`, with parent packing, hardware, capacity, spot-mapping, and D-001 batch helpers. Requests reach it through `src/requests/store-request.mjs`.
+The retired evaluator packed parent boards to full length and did not keep the 24-in two-roller control length while cutting, and it could not express a rip. Its pine answer was $382.55; the same alcove through cut packages is $429.16 (§6A.12 C). The 44 recorded Alcove answers are retired by `acceptance/differential/approved-changes.json`, not replayed. The section number is kept so that references stay valid.
 
 ---
 
@@ -1216,20 +1145,20 @@ It does not calculate, cache, or retry an answer; accept a Store identity, clock
 **Final answer.** Line `SUPPORTABLE`, Q **$103.98**. The surrounding mixed order remains `NOT_ALL_LINES_SUPPORTABLE` because other independent lines include refusals.  
 *Trace: workflow execution of `tests/cut-package.test.mjs` prints `LONG":"6xPTGC-2X6-72-001 $103.98"`; source Q formula; catalog row.*
 
-### C. `ALCOVE_INSERT_V1` — canonical pine Alcove test
+### C. `CUT_PACKAGE_V1` — pine alcove, one shelf layout
 
-**Input.** Select pine 1×6; four 65-in uprights; five 44-in shelves across a 14-in depth, producing three strips per shelf with the narrow remainder milled; two parent requirements (`UPRIGHTS`, `SHELVES`); one mapped Store hardware requirement `ALCOVE-PINS-AND-SCREWS`; no pilot spots in this baseline.  
-*Trace: `tests/alcove-insert.test.mjs` `componentPrograms()` and `demand()`.*
+**Input.** Select pine 1×6. Four 65-in uprights. Five 44-in shelves across a 14-in depth, laid out as two whole 1×6 strips and one 1×6 brought to 3 in. One item line for the functional requirement `ALCOVE-PINS-AND-SCREWS`. No pilot spots. The layout is the user's choice (§11.2); this is one of several.  
+*Trace: `tests/fixtures/alcove-cut-packages.mjs` (`alcoveCutPackages`); `contracts/examples/requests/cut-package.alcove-pine.json`.*
 
-**Checks.** Component programs exist. Parent candidates match pine/select/1×6. The upright solution chooses four 72-in parents. The shelf solution’s complete lowest-extension result chooses eight 96-in parents. All selected lines have sufficient fixture stock, complete prices, and required crosscut/mill capability. Component material capacity passes. With no requested spots there is no spot-target mapping condition. D-001 batch evaluation completes.  
-*Trace: `evaluateBoardRequirement`, `validateComponentMaterialCapacity`, `evaluateAlcoveJob`; exact test assertions.*
+**Checks.** Every package names pine/select/1×6. Removing 2.5 in from a 5.5-in board is more than the 1-in router cut width, so the narrow strips are a rip at 3 in, with a 2.5-in offcut per board returned to the owner; each of those boards is ripped before its parts are cut. Every board keeps the 24-in two-roller control length while it is cut. The kit is the offering that declares the requirement.  
+*Trace: `evaluatePackage`, `edgeMillFor`, `evaluateFunctionalRequirement`; `tests/alcove-via-cut-packages.test.mjs`.*
 
-**Boards chosen.** Uprights: `STB-ZERO-PINE-1X6-72-001`, qty 4. Shelves: `STB-ZERO-PINE-1X6-96-001`, qty 8.  
-**Material.** **$230.88**.  
-**Hardware.** **$18.00**.  
-**Machine service and time.** Test execution reports Q **$382.55**. Therefore machine service is **$133.67**, and at $250/hour the modeled occupied-cell time is **32.0808 min**.  
-**Final answer.** `SUPPORTABLE`, complete `BUDGETARY_ESTIMATE`, **Q = $382.55**.  
-*Trace: exact material/hardware/SKU/qty assertions in `tests/alcove-insert.test.mjs`; its execution prints pine Q 382.55; §6 formula.*
+**Boards chosen.** Uprights: `STB-ZERO-PINE-1X6-72-001`, qty 4. Whole strips: `STB-ZERO-PINE-1X6-120-001`, qty 5. Ripped strips: `STB-ZERO-PINE-1X6-72-001`, qty 5.  
+**Material.** **$272.86**.  
+**Kit.** `STB-ZERO-HW-ALCOVE-PACK-001`, **$18.00**.  
+**Machine service and time.** **$138.30**; at $250/hour, **33.192 modeled minutes**.  
+**Final answer.** Every line `SUPPORTABLE`; Q = **$429.16**.  
+*Trace: exact assertions in `tests/alcove-via-cut-packages.test.mjs`.*
 
 ### D. `SHEET_PACKAGE_V1` — canonical Playhouse arched window
 
@@ -1486,10 +1415,25 @@ Every machine fact comes from the registered configuration `data/machine/d001-re
 System owns the selected material class, identified parts, finished lengths, miter meaning, spots and unresolved project facts. Store walks matching board offerings in ascending parent length and returns the first **complete** candidate under stock, price, capability, retained-control and travel rules. For the canonical two-16-in SPF example, that is the 60-in Store board and Q $8.54; for treated SYP, the first matching complete Store board is 72 in and Q $11.08. Nothing in the evaluator changes the requested part lengths, angle or spot locations.  
 *Trace: §6A.12A; `evaluateDimensionalTravelJob`; Store tests; System Start Own integration test.*
 
-## 11.2 Critical Fit — `ALCOVE_INSERT_V1`
+## 11.2 Critical Fit — `CUT_PACKAGE_V1`
 
-System owns the component programs and project geometry. Store owns parent-board and Store-hardware resolution. Each board requirement is packed against Store offerings; among complete supportive candidates the evaluator chooses the lowest material extension, then evaluates material capacity and the complete D-001 component batch. Requested spots must be mapped to identified physical components before they become complete machine demand. The canonical pine test resolves four 72-in upright boards, eight 96-in shelf boards, one hardware pack and Q $382.55.  
-*Trace: §6A.5 and §6A.12C; `evaluateAlcoveJob`; `tests/alcove-insert.test.mjs`.*
+System owns the alcove's meaning and geometry and sends it as neutral cut packages: uprights, shelf strips, and a functional-requirement item line for the pins and screws. Store knows nothing about alcoves.
+
+The shelf layout is the user's choice, not the yard's. The same depth can be reached many ways from the widths on offer: whole boards that land a little over or under it, or boards brought to an exact width by an edge mill or a rip. Different widths need different operations; an inch either way can remove a machining step, or make a layout infeasible. Store does not choose among layouts or round a depth toward one. System sends each layout that meets the user's acceptance criteria as its own definition. Store answers each with its operations, its status and reasons, and its Q. The user chooses. Within one package, Store still chooses the parent board length, because that changes the cut plan, not the part.
+
+For a 14-in pine shelf, the same Store answers, for example:
+
+| Layout across the depth | Depth | Operation on the strips | Q |
+|---|---|---|---|
+| 1×8 + 1×8 | 14.5 in | none | $301.86 |
+| 1×6 + 1×6 + 1×3 | 13.5 in | none | $303.45 |
+| 1×6 + 1×6 + 1×4 | 14.5 in | none | $327.74 |
+| 1×10 + 1×6 | 14.75 in | none | $353.28 |
+| 1×6 + 1×6 + 1×4 milled to 3 | 14 in | edge mill | $393.71 |
+| 1×8 + 1×8 milled to 7 | 14 in | edge mill | $411.94 |
+| 1×6 + 1×6 + 1×6 ripped to 3 | 14 in | rip | $429.16 |
+
+*Trace: §6A.5 and §6A.12 C; `tests/alcove-via-cut-packages.test.mjs` (`LAYOUTS`); `tests/fixtures/alcove-cut-packages.mjs` (`shelfStrips`).*
 
 ## 11.3 Space Utilization — `CUT_PACKAGE_V1`
 
@@ -1545,7 +1489,7 @@ This matrix is a **function trace, not a legal opinion on claim construction, va
 | claim 12 | After customer accepts fabrication, determine materials and develop machining instructions. | §§5, 10, 12, 15 | Material resolution is implemented; complete post-acceptance physical instruction-generation path is not built as one production chain | material-resolution tests exist; no complete production-acceptance-to-machine test | **specified, not built** |
 | claim 13 | Transmit machining instructions to the tandem machine. | §§10, 12 | none for a commissioned machine; Project 1 carries a virtual instruction representation | Project 1 evidence only; no commissioned machine test | **modeled** |
 | claim 14 | Prepare/affix component labels and prepare assembly instructions. | §§10, 12, 15 | modeled label records exist; no complete physical label/assembly-instruction implementation under Store `src/` | no complete claim test | **specified, not built** |
-| claim 15 | Provide a list of additional project components not fabricated by the two machines. | §§4–6, 11 | `src/evaluation/evaluators/cut-package.mjs` `evaluateItem`, `evaluateRequirement`; `src/evaluation/evaluators/alcove-insert.mjs` `evaluateHardware` | `tests/cut-package.test.mjs` hardware requirement/exact-SKU assertions; `alcove-store-evaluator.test.mjs` hardware assertions | **implemented and tested** |
+| claim 15 | Provide a list of additional project components not fabricated by the two machines. | §§4–6, 11 | `src/evaluation/evaluators/cut-package.mjs` `evaluateItem`, `evaluateRequirement`, `evaluateFunctionalRequirement` | `tests/cut-package.test.mjs` hardware requirement/exact-SKU assertions; `tests/alcove-via-cut-packages.test.mjs` functional-requirement assertions | **implemented and tested** |
 | claim 16 | After machining, remove component and perform one or more of labeling, finishing, secondary operations or packaging with additional components. | §§11–12 / Open work | none for the complete physical post-machine workflow | none | **not addressed** |
 | claim 17 | Implement the claim-10 method as machine-readable instructions on a non-transitory storage medium. | §§10, 12 | software/instruction artifacts exist as models; no commissioned controller chain | Project 1 evidence; no physical machine test | **modeled** |
 | claim 18 | Estimated price uses prices from a Store pricing database. | §§5–6, 6A | `src/evaluation/catalog.mjs` `sellingPriceFor`, `validateCatalog`; `src/evaluation/engine/pricing.mjs` `estimateUserDefinedBoardTravel`; Store catalog data | `tests/catalog-pricing.test.mjs`; `tests/d001-travel-standard.test.mjs`; `acceptance/catalog/catalog.test.mjs`; evaluator pricing tests | **implemented and tested** |
@@ -1562,7 +1506,7 @@ This matrix is a **function trace, not a legal opinion on claim construction, va
 | claim 4 | Customer accepts fabrication; system determines materials and develops machining instructions. | §§5, 10, 12, 15 | material resolution implemented; complete accepted-order-to-physical-program chain not built | partial tests only | **specified, not built** |
 | claim 5 | Transmit machining instructions; operator loads the identified stock; machine performs component operations. | §§9–12 | Store emits modeled operations; no commissioned physical transmission/execution code | Project 1 evidence and Store operation-plan tests, not a physical execution test | **modeled** |
 | claim 6 | Prepare component labels and assembly instructions. | §§10, 12, 15 | modeled label behavior only; no complete physical label/assembly-instruction implementation | no complete claim test | **specified, not built** |
-| claim 7 | Prepare listing of additional nonfabricated project components. | §§4–6, 11 | `evaluateItem`, `evaluateRequirement`, `evaluateHardware` | cut-package hardware tests; Alcove hardware tests | **implemented and tested** |
+| claim 7 | Prepare listing of additional nonfabricated project components. | §§4–6, 11 | `evaluateItem`, `evaluateRequirement`, `evaluateFunctionalRequirement` | cut-package hardware and functional-requirement tests | **implemented and tested** |
 | claim 8 | CAD includes CAM; instructions direct operator loading and tool-head changes. | §§7, 10 | complete per-job tool-head-change behavior is intentionally outside the first-cell target; no implementing code | none | **not addressed** |
 | claim 9 | Customer interface permits interaction with both project database and CAD design module. | §§2–3, 11 | System has library and user-defined project paths, but no literal claim-wide CAD module is established in Store code | System app tests cover library/user-defined paths, not the complete claim element | **modeled** |
 | claim 10 | After machining, label and/or finish, perform secondary operations, package fabricated and additional components for pickup. | §§11–12 / Open work | none for the complete physical workflow | none | **not addressed** |
@@ -1616,7 +1560,7 @@ Every row states the present defect/gap, the required end state, and the accepta
 | Store service deployment | The service (§6A.14) is built and tested here, but not yet running: the hosted Store today is System's adapter loading the predecessor Store at a pinned commit. | A hosted service built from this repository (Render Blueprint `render.yaml`, or Railway `railway.json`), separate from the existing one, answering at its own address under this repository's release identity. | Deployed `/health` shows the built commit; a Project 1 request to the deployed address answers $11.09. |
 | Application cutover | The application's adapter, `STORE_PIN`, hosted-Store start script and CI Store reference point at the predecessor Store. Its count-only square-stick Board (`BOARD_SQUARE_V1`) and the request fields `storeRevision`/`evaluatedAt` are refused here. | One owner change in System that points the application at this Store's service and nothing else, after System sends clean definitions for every tile. | Application acceptance through the public entry against this Store's release. |
 | User-defined board grade | A `USER_DEFINED_BOARD_V1` definition names species, form and nominal size but no grade, so the Store chooses among grades by length alone; a customer cannot ask for, say, ground-contact treated lumber on this path (a grade is refused as an undeclared field rather than ignored). | Add grade to the definition and to board matching, deliberately and versioned, with recorded answers re-established for the changed path. | New definition version with grade; differential evidence for every ungraded answer; refused-example list updated. |
-| Alcove consolidation | `ALCOVE_INSERT_V1` is the one project-shaped request type, and its incomplete-answer label `PARTIAL_BUDGETARY_ESTIMATE` differs from every other evaluator. | Express Alcove parent boards, components and hardware as neutral cut-package lines, then retire the project-shaped type and label together. | Differential evidence that the consolidated answers match, and removal of the Alcove exemption in `acceptance/boundaries`. |
+| Shelf layouts in System | System sends one alcove layout. Different board widths for the same depth need different operations and prices, and the choice is the user's (§11.2). | System lists the layouts the yard's widths allow against the user's acceptance criteria (for example, a depth tolerance), sends each as its own definition, shows every answer with its operations and Q, and records the user's choice. | System acceptance: several layouts answered, the chosen one carried into the accepted job packet. |
 | System definitions | System's definitions §8 delegates yard, merchant and Store terms to the predecessor Store's `DEFINITIONS.md`, and System's Store request type list still names `BOARD_SQUARE_V1`. | System §8 defines those terms itself (§16 lists the ones this specification uses) and its request type list matches §3.2. | System definitions review. |
 | D-001 dual-miter target | Executable Stage-2 has miter `SAW-L` and square-only `SAW-R`; physical target specifies two registered end miter saws. | Define physical saw transforms, signed angle semantics, admitted ranges and lowering for both end stations. | **new:** `d001-physical-saw-envelope.test` proves both registered saws, signed limits and refusal outside them. |
 | Saw datum / retained-face compensation | Store model carries kerf but not the complete physical station-zero/blade/kept-face target. | Released machine configuration and lowering must bind station datum, blade identity, kerf and retained-face compensation. | **new:** `d001-saw-kept-face-lowering.test` with both retained sides and blade/kerf change. |
@@ -1636,7 +1580,6 @@ Every row states the present defect/gap, the required end state, and the accepta
 | D-001 envelope isolated branch coverage | Several implemented limits/reasons lack direct isolated assertions: 1.5-in minimum width, 0.75-in minimum thickness, 3.5-in saw thickness, `CELL_FAMILY_NOT_D001`, `SPOT_LOCATION_RULE_NOT_DECLARED`, and combined missing-op formatting. | Add direct fixtures for each branch without changing the declared envelope. | **new:** D-001 envelope branch-coverage tests for every named condition. |
 | D-001 travel helper/alternate-reference coverage | Exact motion transition threshold, admitted `MECHANICAL_REFERENCE`/`SENSED_FACE` success paths, and the saw helper invalid-angle `NaN` branch are implemented but not directly isolated by tests. | Add unit coverage or deliberately remove unused helper surface; do not infer physical proof from helper tests. | **new:** D-001 travel helper/reference unit suite. |
 | Cut-package isolated branch coverage | Equal material-extension tie behavior and every possible propagated D-001 failure are not each isolated at the cut-package layer. | Add deterministic tie fixture and selected propagation fixtures while retaining neutral package semantics. | **new:** cut-package tie/propagation unit tests. |
-| Alcove isolated branch coverage | Equal-extension parent lexical tie and each dynamic colon-suffixed component reason are not each isolated. | Add direct Alcove fixtures for those branches. | **new:** Alcove tie/dynamic-reason unit tests. |
 | Sheet isolated branch coverage | Wrong aperture placement/retention, nonpositive aperture dimensions, wrong split line, invalid crosscut end, `SHEET_NOT_OFFERED`, sheet missing price and operation-not-on-offering lack dedicated direct tests. | Add one fixture per branch while preserving the current evaluator order and outcome precedence. | **new:** sheet-package branch-coverage suite. |
 | Safety — risk assessment | No machine-specific risk assessment exists in the Store sources. | Complete and control a risk assessment for the installed D-001/S-001 equipment. | Commissioning evidence: approved risk assessment tied to machine configuration. |
 | Safety — guarding | Physical point-of-operation/nip/rotating/chip guards are not designed in sources. | Installed guarding must satisfy the applicable machine hazards and released design. | Guard inspection/validation record against OSHA 1910.212 and applicable equipment requirements. |
@@ -1688,19 +1631,17 @@ Declared fields: `title`, `configurationId`, `configurationVersion`, `classId`, 
 The definition carries configuration identity, material demand, the defined workpiece length, required operations, saw angle and cut plane, the Datum-C method, declared saw-cut and spot counts, identified parts with their spot features, and unresolved conditions. System's admitted payload (`definitionKind:user_defined_board.v1`, one identified line) is System's form of the same facts; System maps it to these fields and adds no Store calculation of its own.
 *Trace: System `contracts.mjs`; `stb-store-handoff-contract.js`; System admission requirements; Store `evaluateDimensionalTravelJob`.*
 
-## B.2 `ALCOVE_INSERT_V1`
+## B.2 `ALCOVE_INSERT_V1` (retired)
 
-Declared fields: `title`, `classId`, `configurationId`, `configurationVersion`, `materialDemand`, `boardRequirements`, `componentPrograms`, `hardwareDemand` (`requirementId`, `qty`, `description`, `selectionAuthority`), `spotDemand`, `unresolvedConditions`, `materialSource`.
-
-The admitted definition carries configuration identity, material demand, Store-owned board requirements, identified component programs with finished length/width/features, Store hardware demand, optional mapped spot demand and unresolved project conditions. System owns component/program meaning; Store resolves parent offerings, Store hardware, Store capability, component travel and Q.  
-*Trace: System contract/admission files; Store `evaluateAlcoveJob`.*
+Refused with `REQUEST_TYPE_NOT_ACCEPTED` (§19). An alcove is a `CUT_PACKAGE_V1` definition (§11.2).  
+*Trace: `src/requests/store-request.mjs` (`REQUEST_TYPES`); `tests/alcove-via-cut-packages.test.mjs`.*
 
 ## B.3 `CUT_PACKAGE_V1`
 
 Declared fields: `classId`, `configurationId`, `configurationVersion`, `cutPackages`, `itemLines`.
 
-The definition carries configuration identity, one or more cut packages and optional item lines. A cut package requires package identity, material identity sufficient for exact Store matching, identified parts with positive lengths, end-cut meaning, and any declared finished-width or spot features. An item line is either an exact Store SKU plus whole-number quantity or a structured hardware requirement plus whole-number piece quantity. Store answers lines independently.  
-*Trace: `CUT_PACKAGE_STANDARD`; `validateParts`; `evaluatePackage`; `evaluateItem`; `evaluateRequirement`; System contract/admission files.*
+The definition carries configuration identity, one or more cut packages and optional item lines. A cut package requires package identity, material identity sufficient for exact Store matching, identified parts with positive lengths, end-cut meaning, and any declared finished-width or spot features. An item line is exactly one of: an exact Store SKU plus whole-number quantity; a structured hardware requirement plus whole-number piece quantity; or a functional `requirementId` plus whole-number quantity, fulfilled by the offering that declares it. Store answers lines independently.  
+*Trace: `CUT_PACKAGE_STANDARD`; `validateParts`; `evaluatePackage`; `evaluateItem`; `evaluateRequirement`; `evaluateFunctionalRequirement`; System contract/admission files.*
 
 ## B.4 `SHEET_PACKAGE_V1`
 
@@ -1730,7 +1671,6 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/evaluation/engine/d001-travel-standard.mjs` | §6A.3 |
 | `src/evaluation/engine/pricing.mjs` | §6A.4 |
 | `src/evaluation/evaluators/cut-package.mjs` | §6A.5 |
-| `src/evaluation/evaluators/alcove-insert.mjs` | §6A.6 |
 | `src/evaluation/envelopes/s001-stage2-envelope.mjs` | §6A.7 |
 | `src/evaluation/engine/circular-segment.mjs` | §6A.8 |
 | `src/evaluation/engine/stencil-tab-policy.mjs` | §6A.9 |
@@ -1746,7 +1686,7 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/machine/lowering.mjs` | §10.5 |
 | `src/machine/virtual-run.mjs` | §10.5 |
 
-`src/` contains exactly these twenty-one modules. No module under `src/` is omitted from §6A.  
+`src/` contains exactly these twenty modules. No module under `src/` is omitted from §6A.  
 *Trace: `src/` tree; `acceptance/boundaries`.*
 
 # Appendix D. Store reason-code index
@@ -1767,11 +1707,11 @@ This appendix is an index, not a substitute for §6A. The deciding condition, or
 
 ## D.4 Cut packages / hardware — §6A.5
 
-`PACKAGE_ID_REQUIRED`; `UNIQUE_PART_ID_REQUIRED`; `PART_LENGTH_REQUIRED`; `PACKAGE_PARTS_REQUIRED`; `END_CUT_ANGLE_REQUIRED`; `FINISHED_WIDTH_REQUIRED`; `MATERIAL_CHOICE_REQUIRED`; `GRADE_CHOICE_REQUIRED`; `NO_MATCHING_BOARD_OFFERING`; `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`; `EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH`; `PART_NOT_HALF_INCH_UNDER_BOARD`; `ANGLED_PART_LEAVES_LESS_THAN_CONTROL_LENGTH`; `COMPONENT_LENGTH_EXCEEDS_D001_TWO_SAW_SPAN`; `COMPONENT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `PART_LONGER_THAN_LONGEST_STOCKED_BOARD`; `MACHINE_REFUSED`; `MACHINE_UNRESOLVED`; `STORE_INPUT_UNRESOLVED`; `LINE_ID_REQUIRED`; `STORE_SKU_REQUIRED`; `WHOLE_QUANTITY_REQUIRED`; `NO_OFFERING`; `NOT_OFFERED`; `HARDWARE_REQUIREMENT_INCOMPLETE`; `NO_MATCHING_HARDWARE_OFFERING`; `CONFIGURATION_IDENTITY_REQUIRED`; `LINES_REQUIRED`; `UNIQUE_LINE_ID_REQUIRED`. Line stock failure may also report `ON_HAND_SHORT` or `NOT_ON_HAND`.
+`PACKAGE_ID_REQUIRED`; `UNIQUE_PART_ID_REQUIRED`; `PART_LENGTH_REQUIRED`; `PACKAGE_PARTS_REQUIRED`; `END_CUT_ANGLE_REQUIRED`; `FINISHED_WIDTH_REQUIRED`; `MATERIAL_CHOICE_REQUIRED`; `GRADE_CHOICE_REQUIRED`; `NO_MATCHING_BOARD_OFFERING`; `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`; `PART_NOT_HALF_INCH_UNDER_BOARD`; `ANGLED_PART_LEAVES_LESS_THAN_CONTROL_LENGTH`; `COMPONENT_LENGTH_EXCEEDS_D001_TWO_SAW_SPAN`; `COMPONENT_LENGTH_BELOW_TWO_ROLLER_CONTROL`; `PART_LONGER_THAN_LONGEST_STOCKED_BOARD`; `MACHINE_REFUSED`; `MACHINE_UNRESOLVED`; `STORE_INPUT_UNRESOLVED`; `LINE_ID_REQUIRED`; `STORE_SKU_REQUIRED`; `WHOLE_QUANTITY_REQUIRED`; `NO_OFFERING`; `NOT_OFFERED`; `HARDWARE_REQUIREMENT_INCOMPLETE`; `NO_MATCHING_HARDWARE_OFFERING`; `NO_OFFERING_FOR_REQUIREMENT`; `ITEM_LINE_NAMES_MORE_THAN_ONE_ITEM`; `CONFIGURATION_IDENTITY_REQUIRED`; `LINES_REQUIRED`; `UNIQUE_LINE_ID_REQUIRED`. Line stock failure may also report `ON_HAND_SHORT` or `NOT_ON_HAND`.
 
-## D.5 Alcove — §6A.6
+## D.5 Alcove — retired
 
-`ALCOVE_BOARD_REQUIREMENTS_REQUIRED`; `COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT`; `NO_MATCHING_BOARD_OFFERING`; `STORE_CAPABILITY_REFUSED`; `STORE_INPUT_UNRESOLVED`; `MATCHING_BOARD_NOT_AVAILABLE`; `NO_MATCHING_HARDWARE_OFFERING`; `HARDWARE_PRICE_UNRESOLVED`; `COMPONENT_PROGRAM_MISSING_FOR_REQUIREMENT:<requirementId>`; `COMPONENT_FINISHED_LENGTH_REQUIRED:<componentId>`; `COMPONENTS_EXCEED_DECLARED_PARENT_MATERIAL:<requirementId>`; `COMPONENT_REQUIREMENT_ID_NOT_FOUND:<requirementId>`; `ALCOVE_COMPONENT_PROGRAMS_REQUIRED`; `ALCOVE_FACE_SPOT_DEMAND_OUTSIDE_CURRENT_DECLARED_SPOT_ENVELOPE`; `ALCOVE_SPOT_TARGET_COMPONENT_MAPPING_REQUIRED`; plus reason codes returned by the D-001 batch evaluator.
+The retired Alcove evaluator's codes are not issued (§6A.6, §19).
 
 ## D.6 S-001 envelope, circular geometry and tabs — §§6A.7–§6A.9
 
@@ -1783,7 +1723,7 @@ This appendix is an index, not a substitute for §6A. The deciding condition, or
 
 ## D.8 Request layer and catalog — §3.3, §5.3, §6A.11, §6A.13
 
-`REQUEST_MUST_BE_AN_OBJECT`; `REQUEST_FIELD_NOT_DECLARED:<field>`; `REQUEST_TYPE_NOT_ACCEPTED`; `STORE_EVALUATION_REQUEST_ID_REQUIRED`; `DEFINITION_REQUIRED`; `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`; `DEFINITION_FIELD_NOT_DECLARED:<path>`; `DEFINITION_FIELD_TYPE:<path>:<type>`; `PROJECT_MAY_NOT_NAME_A_STORE_SKU`; `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO`; `LOOKUP_DEMAND_REQUIRED`; `LOOKUP_NEEDS_EXACTLY_ONE_OF_SEARCHTEXT_STORESKU_QUERY`; `SEARCH_TEXT_MUST_BE_1_TO_80_CHARACTERS`; `STORE_SKU_REQUIRED`; `LOOKUP_QUERY_REQUIRED`; `LOOKUP_QUERY_FIELD_NOT_DECLARED:<field>`. An invalid catalog is not answered: it throws `STORE_CATALOG_INVALID` with every problem listed.
+`REQUEST_MUST_BE_AN_OBJECT`; `REQUEST_FIELD_NOT_DECLARED:<field>`; `REQUEST_TYPE_NOT_ACCEPTED`; `STORE_EVALUATION_REQUEST_ID_REQUIRED`; `DEFINITION_REQUIRED`; `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`; `DEFINITION_FIELD_NOT_DECLARED:<path>`; `DEFINITION_FIELD_TYPE:<path>:<type>`; `LOOKUP_DEMAND_REQUIRED`; `LOOKUP_NEEDS_EXACTLY_ONE_OF_SEARCHTEXT_STORESKU_QUERY`; `SEARCH_TEXT_MUST_BE_1_TO_80_CHARACTERS`; `STORE_SKU_REQUIRED`; `LOOKUP_QUERY_REQUIRED`; `LOOKUP_QUERY_FIELD_NOT_DECLARED:<field>`. An invalid catalog is not answered: it throws `STORE_CATALOG_INVALID` with every problem listed.
 
 
 ## D.9 Accepted job packet — §10.4
@@ -1800,7 +1740,7 @@ Specification 0.2 was loaded into this repository on 2026-10-08. It described th
 | 3 | The pricing engine carried count-only and project wrappers (`estimateJob` without travel demand, `estimateBoardSequence`, `estimatePineAlcove`, `estimateCut001`, picnic-leg wrappers), the SKU-line `evaluateJob`, `resolveBoardMaterial`, `pineAlcoveEvaluation`, and convenience exports (`sfm`, `feedFpm`, `sawCycleMin`, `indexMin`, `spotCycleMin`). | Removed; none was reached by a clean definition. The pricing module keeps the model identities and complete user-defined-board Q. §6.3, §6A.4. |
 | 4 | Each of four evaluators issued its own receipt through its own request wrapper; a missing request id was answered in three different shapes. | One request layer issues every receipt; a request that is not evaluated has one shape with `reasonCodes`; receipts also name the request type. §2.2, §6A.13. |
 | 5 | The Store revision came from the request, then an environment variable, then the demand, then `LOCAL_UNPINNED_STORE_REVISION`. | This Store's release is supplied by whoever runs it and is required; a request cannot set it, and `storeRevision`/`evaluatedAt` are refused as request fields. §2.1, §3.3. |
-| 6 | The Alcove evaluator mapped `ALCOVE-PINS-AND-SCREWS` to a SKU through a table in code, and accepted a project-supplied `hardwareDemand.storeSku` (“legacy explicit SKU”). | The catalog row declares `satisfiesRequirementIds`; a project naming a Store SKU is refused. §3.3, §6A.6. |
+| 6 | The Alcove evaluator mapped `ALCOVE-PINS-AND-SCREWS` to a SKU through a table in code, and accepted a project-supplied `hardwareDemand.storeSku` (“legacy explicit SKU”). | The catalog row declares `satisfiesRequirementIds`; a project naming a Store SKU was refused. In 0.7 the request type itself is retired and the kit is a functional-requirement item line. §6A.5, §19. |
 | 7 | Stock and price answers carried the date `2026-09-10` written into code. | They carry the clock of the catalog they were read from. §6A.1. |
 | 8 | The catalog carried a hand-maintained `skuCount` and was read without validation. | No count; validated whenever it is read, and never evaluated when invalid; stored one field per line so an added offering is a readable change. Adding an offering needs no code change. §5.3. |
 | 9 | Offering search was System adapter code over Store rows. | Store code: `src/requests/offering-lookup.mjs`, same search rules. §6A.11. |
@@ -1813,3 +1753,12 @@ Specification 0.2 was loaded into this repository on 2026-10-08. It described th
 | 16 | The section numbering skips 14. | Kept, so that every existing section reference stays valid. |
 
 Not re-verified on load, and carried as written in 0.2: the claim-to-function matrix wording and statuses beyond the code paths in rows 1 and 3 (§13); the safety section and its regulatory citations (§9); and the physical-target, lowering and commissioning text (§§7, 8, 10, 15), which describe work that is specified, not built.
+
+# 19. Deliberate changes approved by the owner
+
+The recorded Store answers (`acceptance/differential`) are never edited. A deliberate change to an answer is approved by the owner, named in `acceptance/differential/approved-changes.json` with its reason and the records it affects, and checked by `acceptance/differential/differential.test.mjs`.
+
+| Change | Approved | What changed and why | Evidence |
+|---|---|---|---|
+| `RIP-AT-FINISHED-WIDTH` (rule `STB-CUT-PACKAGE-RIP-0.1`) | 2026-10-08 | When a board must be brought to a finished width and more than the router's 1-in cut width comes off, the router cuts through at the finished width and the far strip is returned to the owner as an offcut, instead of the line being refused with `EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH`. Boards are brought to width before any part is cut. Common sense: the operation exists, and refusing it hid a feasible layout from the user (§6A.5 step 9). | One recorded cut-package answer changes; only lines whose refusal included that code differ, and they are now `SUPPORTABLE` rips. |
+| `ALCOVE-THROUGH-CUT-PACKAGES` | 2026-10-08 | `ALCOVE_INSERT_V1` and its evaluator are retired; an alcove is sent as cut packages and runs in the sequence the shared model decides, with no project-specific logic. The retired model packed boards to full length and ignored the 24-in two-roller control while cutting, so it underpriced: pine $382.55 then, $429.16 now for the same layout. The shelf layout is the user's choice (§11.2). | 44 recorded Alcove answers retired, not replayed; `alcove-insert.mjs` absent; no project or tile names anywhere under `src/`. |

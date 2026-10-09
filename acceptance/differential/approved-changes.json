@@ -1,0 +1,23 @@
+{
+  "about": "Deliberate, owner-approved departures from the recorded Store. The recording is never edited; each departure is named here with its reason and checked by differential.test.mjs.",
+  "changes": [
+    {
+      "id": "RIP-AT-FINISHED-WIDTH",
+      "approved": "2026-10-08",
+      "approvedBy": "owner",
+      "rule": "STB-CUT-PACKAGE-RIP-0.1",
+      "reason": "Common sense: when a board must be brought to a finished width and more than the router's 1 in cut width comes off, the router cuts through at the finished width (a rip) and the far strip is returned as an offcut, instead of the request being refused. Boards are brought to width before any part is cut.",
+      "evaluator": "evaluateCutPackageJob",
+      "keys": ["8e2234ae92b76954389c963535a920f088d3ac072f49418b7ed7310e301b1c04"],
+      "expect": "Every package or item line the recording answered is answered identically, except lines whose refusal included EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH, which are now SUPPORTABLE rips."
+    },
+    {
+      "id": "ALCOVE-THROUGH-CUT-PACKAGES",
+      "approved": "2026-10-08",
+      "approvedBy": "owner",
+      "retiredEvaluator": "evaluateAlcoveJob",
+      "reason": "Alcove runs in the logical sequence the shared cut-package model determines, with no project-specific evaluator: boards are brought to width first, then cut, under the same retained-control rule as every other job. The project-shaped ALCOVE_INSERT_V1 request type and its evaluator are retired; an alcove is sent as cut packages.",
+      "expect": "No evaluator named evaluateAlcoveJob exists; every recorded Alcove answer is retired, not replayed."
+    }
+  ]
+}

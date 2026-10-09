@@ -211,8 +211,16 @@ assert.ok(!/storeSku\s*\.\s*(includes|match|startsWith|split)|description\s*\.\s
   // Its own width asks for no milling.
   assert.equal(same.edgeMill, undefined);
   assert.equal(same.Q, plain.Q);
-  // Limits: up to 1 in off one edge; never wider than the board; a finished width must be a number.
-  assert.ok(line(job([pine8("W", parts, 6)]), "W").reasonCodes.includes("EDGE_MILL_REMOVAL_EXCEEDS_D001_MAX_CUT_WIDTH"));
+  // Up to 1 in is milled off one edge; more is ripped off at the finished width and returned as an offcut
+  // (owner-approved rule STB-CUT-PACKAGE-RIP-0.1). Never wider than the board; a finished width must be a number.
+  const ripped = line(job([pine8("W", parts, 6)]), "W");
+  assert.equal(ripped.status, "SUPPORTABLE");
+  assert.equal(ripped.edgeMill.mode, "RIP_AT_FINISHED_WIDTH");
+  assert.equal(ripped.edgeMill.rule, "STB-CUT-PACKAGE-RIP-0.1");
+  assert.equal(ripped.edgeMill.offcut.disposition, "RETURNED_TO_OWNER");
+  assert.ok(Math.abs(ripped.edgeMill.offcut.widthBeforeRouterCutIn - 1.25) < 1e-9);
+  assert.ok(ripped.cutPlan.every((b) => b.edgeMill.kind === "RIP_AT_FINISHED_WIDTH" && b.edgeMill.passes === 2));
+  assert.equal(milled.edgeMill.mode, "EDGE_MILL_PASS_THROUGH");
   assert.ok(line(job([pine8("X", parts, 7.5)]), "X").reasonCodes.includes("FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH"));
   assert.deepEqual(line(job([pine8("U", parts, "seven")]), "U").reasonCodes, ["FINISHED_WIDTH_REQUIRED"]);
   // A spot centered on a milled board is centered on the finished width.

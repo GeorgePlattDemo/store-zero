@@ -62,23 +62,19 @@ test("evaluation and the machine side are deterministic: no clock, randomness or
   }
 });
 
-test("project names live only in the one project-shaped evaluator and its routing entry", () => {
+test("no project or tile names anywhere in Store code", () => {
   // Machine words such as the support table or the bench step are not project names; tile and project names are.
   const PROJECT_WORDS = /picnic|window[ -]seat|playhouse|outdoor|alcove|start your own|ana white|myoutdoor/i;
-  const allowed = new Set(["src/evaluation/evaluators/alcove-insert.mjs"]);
-  for (const path of SRC.filter((p) => !allowed.has(p))) {
+  for (const path of SRC) {
     const lines = source(path).split("\n").filter((line) => PROJECT_WORDS.test(line));
-    const outsideRouting = ["src/requests/store-request.mjs", "src/contracts/definitions.mjs"].includes(path)
-      ? lines.filter((line) => !/ALCOVE_INSERT_V1|ALCOVE_STORE_STANDARD|evaluateAlcoveJob|alcove-insert\.mjs|alcoveStandard/.test(line))
-      : lines;
-    assert.deepEqual(outsideRouting, [], `${path} names a project`);
+    assert.deepEqual(lines, [], `${path} names a project`);
   }
 });
 
 test("no count-only or compatibility pricing path exists", () => {
   for (const path of SRC) {
     const text = source(path);
-    for (const retired of ["estimateJob", "estimateBoardSequence", "estimatePineAlcove", "estimateCut001", "estimatePicnic", "TRAVEL_STANDARD_INPUT_REQUIRED", "BOARD_SQUARE", "LEGACY_EXPLICIT_STORE_SKU", "LOCAL_UNPINNED_STORE_REVISION", "STB_STORE_REVISION"]) {
+    for (const retired of ["estimateJob", "estimateBoardSequence", "estimatePineAlcove", "estimateCut001", "estimatePicnic", "TRAVEL_STANDARD_INPUT_REQUIRED", "BOARD_SQUARE", "LEGACY_EXPLICIT_STORE_SKU", "LOCAL_UNPINNED_STORE_REVISION", "STB_STORE_REVISION", "ALCOVE_INSERT", "evaluateAlcoveJob", "PARTIAL_BUDGETARY_ESTIMATE"]) {
       assert.ok(!text.includes(retired), `${path} still carries ${retired}`);
     }
   }

@@ -24,7 +24,7 @@ const EXPECTED = {
   "user-defined-board.project-1.json": { status: "SUPPORTABLE", Q: (a) => a.estimate.totals.Q, value: 11.09 },
   "user-defined-board.default-spf.json": { status: "SUPPORTABLE", Q: (a) => a.estimate.totals.Q, value: 8.54 },
   "cut-package.mixed.json": { status: "NOT_ALL_LINES_SUPPORTABLE", Q: (a) => a.totals.sumOfSupportableLines, value: 170.01 },
-  "alcove-insert.pine.json": { status: "SUPPORTABLE", Q: (a) => a.estimate.totals.Q, value: 382.55 },
+  "cut-package.alcove-pine.json": { status: "SUPPORTABLE", Q: (a) => a.totals.sumOfSupportableLines, value: 429.16 },
   "sheet-package.playhouse.json": { status: "SUPPORTABLE", Q: (a) => a.totals.Q, value: 65.04 },
   "offering-lookup.search.json": { status: "ANSWERED" },
   "offering-lookup.sku.json": { status: "ANSWERED" }

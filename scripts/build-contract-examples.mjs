@@ -11,6 +11,7 @@ import { lowerJobPacket, motionRecords } from "../src/machine/lowering.mjs";
 import { physicalAdmission, runVirtual } from "../src/machine/virtual-run.mjs";
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../tests/fixtures/user1-dimensional-travel-fixture.mjs";
+import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const EXAMPLE_RELEASE = "store-zero-acceptance";
@@ -21,41 +22,6 @@ const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", form: "boar
 const many = (prefix, count, lengthIn, spots = []) =>
   Array.from({ length: count }, (_, i) => ({ partId: `${prefix}-${String(i + 1).padStart(2, "0")}`, lengthIn, spots }));
 const centered = (xs) => xs.map((xIn) => ({ xIn, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }));
-
-function alcoveDemand() {
-  const programs = [];
-  for (let i = 0; i < 4; i += 1) {
-    programs.push({ componentId: `ALCOVE-UPRIGHT-${String(i + 1).padStart(2, "0")}`, requirementId: "ALCOVE-UPRIGHT-PARENTS", finishedLengthIn: 65, finishedWidthIn: 5.5, features: [] });
-  }
-  for (let shelf = 0; shelf < 5; shelf += 1) {
-    for (let strip = 0; strip < 3; strip += 1) {
-      const w = Math.min(5.5, 14 - 5.5 * strip);
-      programs.push({
-        componentId: `ALCOVE-SHELF-${String(shelf + 1).padStart(2, "0")}-STRIP-${String(strip + 1).padStart(2, "0")}`,
-        requirementId: "ALCOVE-SHELF-PARENTS",
-        finishedLengthIn: 44,
-        finishedWidthIn: w,
-        features: w < 5.5 ? [{ featureId: `ALCOVE-SHELF-${String(shelf + 1).padStart(2, "0")}-RIP`, kind: "MILL_LONGITUDINAL_PROFILE", pathLengthIn: 44, yIn: w, totalDepthIn: 0.75 }] : []
-      });
-    }
-  }
-  return {
-    title: "Alcove insert",
-    classId: "alcove.insert.square_shelves",
-    configurationId: "ALCOVE-EXAMPLE",
-    configurationVersion: "1",
-    materialDemand: { species: "pine", form: "board", nominalT: 1, nominalW: 6, grade: "select" },
-    boardRequirements: [
-      { requirementId: "ALCOVE-UPRIGHT-PARENTS", role: "UPRIGHTS", requiredOps: ["CROSSCUT"], carriesSpotDemand: false, selectionAuthority: "STORE_ZERO" },
-      { requirementId: "ALCOVE-SHELF-PARENTS", role: "SHELVES", requiredOps: ["CROSSCUT"], carriesSpotDemand: false, selectionAuthority: "STORE_ZERO" }
-    ],
-    componentPrograms: programs,
-    hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", description: "pins + screws", qty: 1, selectionAuthority: "STORE_ZERO" },
-    spotDemand: null,
-    unresolvedConditions: [],
-    materialSource: "STORE_ZERO"
-  };
-}
 
 const playhouse = {
   configurationId: "PLAYHOUSE-ARCHED-WINDOW",
@@ -91,7 +57,7 @@ export const REQUEST_EXAMPLES = {
       ]
     }
   },
-  "alcove-insert.pine": { requestType: "ALCOVE_INSERT_V1", requestId: "EXAMPLE-ALCOVE", demand: alcoveDemand() },
+  "cut-package.alcove-pine": { requestType: "CUT_PACKAGE_V1", requestId: "EXAMPLE-ALCOVE", demand: alcoveCutPackages() },
   "sheet-package.playhouse": { requestType: "SHEET_PACKAGE_V1", requestId: "EXAMPLE-SHEET", demand: playhouse },
   "offering-lookup.search": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SEARCH", demand: { searchText: "2x4 treated 72" } },
   "offering-lookup.sku": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SKU", demand: { storeSku: "STB-ZERO-PTAG-2X4-72-001" } }
@@ -105,7 +71,7 @@ export const REFUSED_EXAMPLES = [
   ["undeclared part field", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R4", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, finish: "stain" })) } }],
   ["part length as text", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R5", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, lengthIn: "18" })) } }],
   ["machine-local language", { requestType: "SHEET_PACKAGE_V1", requestId: "R6", demand: { ...playhouse, toolpath: "G1 X10" } }],
-  ["project naming a Store SKU", { requestType: "ALCOVE_INSERT_V1", requestId: "R7", demand: { ...alcoveDemand(), hardwareDemand: { requirementId: "ALCOVE-PINS-AND-SCREWS", qty: 1, storeSku: "STB-ZERO-HW-ALCOVE-PACK-001" } } }],
+  ["retired project-shaped request type", { requestType: "ALCOVE_INSERT_V1", requestId: "R7", demand: { configurationId: "A", configurationVersion: "1" } }],
   ["fractional hardware count", { requestType: "CUT_PACKAGE_V1", requestId: "R8", demand: { configurationId: "C", configurationVersion: "1", cutPackages: [], itemLines: [{ lineId: "L", storeSku: "STB-ZERO-HW-CARRIAGE-BOLT-PACK-001", qty: 1.5 }] } }],
   ["missing request id", { requestType: "CUT_PACKAGE_V1", demand: { configurationId: "C", configurationVersion: "1" } }]
 ].map(([name, request]) => ({ name, request }));

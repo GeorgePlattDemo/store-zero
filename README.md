@@ -69,7 +69,7 @@ The application consumes one exact Store version, owned by System’s [`STORE_PI
 | [Catalog](data/store-zero-catalog.json) | Offerings, item identities, declared stock, and material prices. |
 | [Pricing engine](src/evaluation/engine/pricing.mjs) | Material and modeled machine-work economics. |
 | [Dimensional travel standard](src/evaluation/engine/d001-travel-standard.mjs) | Fit, travel, modeled work, and the dimensional completion calculation. |
-| [Cut-package evaluator](src/evaluation/evaluators/cut-package.mjs) · [Alcove evaluator](src/evaluation/evaluators/alcove-insert.mjs) | Multi-part dimensional requests. |
+| [Cut-package evaluator](src/evaluation/evaluators/cut-package.mjs) | Multi-part dimensional requests, an alcove among them. |
 | [Sheet-package evaluator](src/evaluation/evaluators/sheet-package.mjs) | Routed sheet work, tabs, and supported panel cuts. |
 | [D-001 declarations](src/evaluation/envelopes/d001-stage2-envelope.mjs) · [S-001 declarations](src/evaluation/envelopes/s001-stage2-envelope.mjs) | Machine-readable capability facts. |
 
