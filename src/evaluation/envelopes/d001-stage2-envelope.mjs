@@ -173,11 +173,10 @@ export function envelopeCheck(item, req = {}) {
     }
     if (!D001_STAGE2_ENVELOPE.spot.acrossWidthRules.includes(spot.acrossWidthRule)) {
       reasons.push("SPOT_ACROSS_WIDTH_RULE_NOT_DECLARED");
-    } else if (
-      spot.acrossWidthRule === "INSET_FROM_EDGE" &&
-      !D001_STAGE2_ENVELOPE.spot.insetFromEdgeOptionsIn.includes(Number(spot.insetFromEdgeIn))
-    ) {
-      reasons.push("SPOT_INSET_NOT_DECLARED");
+    } else if (spot.acrossWidthRule === "INSET_FROM_EDGE") {
+      const inset = finiteNumber(spot.insetFromEdgeIn);
+      if (inset == null) unresolved.push("SPOT_INSET_REQUIRED");
+      else if (!D001_STAGE2_ENVELOPE.spot.insetFromEdgeOptionsIn.includes(inset)) reasons.push("SPOT_INSET_NOT_DECLARED");
     }
     const along = finiteNumber(spot.locationAlongLengthIn);
     if (along == null) {

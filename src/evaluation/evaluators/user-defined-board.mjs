@@ -18,7 +18,7 @@
  * angle and spot locations are never changed to make a candidate fit.
  */
 import { statedNumber } from "../stated-number.mjs";
-import { matchingBoardOfferings, offeredGrades, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
+import { gradeNotStated, matchingBoardOfferings, materialProblem, offeredGrades, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
 import { estimateUserDefinedBoardTravel } from "../engine/pricing.mjs";
 import { BOARD_END_GEOMETRY } from "../engine/d001-travel-standard.mjs";
 
@@ -35,13 +35,13 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
     definedWorkpieceLengthIn: demand.definedWorkpieceLengthIn
   };
   const notSupplied = (value) => (typeof value === "string" ? value.trim() === "" : value == null);
-  const definitionGap = definitionProblem(demand, parts, requiredOps, notSupplied);
+  const definitionGap = materialProblem(demand.materialDemand) ?? definitionProblem(demand, parts, requiredOps, notSupplied);
   if (definitionGap) return definitionAnswer(demand, definitionGap);
   const geometry = geometryProblem(demand, notSupplied);
   if (geometry) return definitionAnswer(demand, geometry.reason, {}, geometry.status);
 
   const grades = offeredGrades(catalog, materialDemand);
-  if (materialDemand.grade == null && grades.length > 1) return definitionAnswer(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
+  if (gradeNotStated(materialDemand.grade) && grades.length > 1) return definitionAnswer(demand, "GRADE_CHOICE_REQUIRED", { offeredGrades: grades });
   const candidates = matchingBoardOfferings(catalog, materialDemand);
   const candidateEvaluations = [];
   let firstIncompleteEstimate = null;
@@ -60,7 +60,8 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
             mode: "SPOT_ON_LOCATION",
             locationRule: "CENTERED_ON_PART",
             locationAlongLengthIn: firstSpot.xIn,
-            acrossWidthRule: firstSpot.acrossWidthRule
+            acrossWidthRule: firstSpot.acrossWidthRule,
+            insetFromEdgeIn: firstSpot.insetFromEdgeIn
           }
         : null
     });
@@ -192,7 +193,7 @@ function definitionProblem(demand, parts, requiredOps, notSupplied) {
   if (!requiredOps.length) return "REQUIRED_OPERATIONS_REQUIRED";
   const hasSpots = parts.some((part) => (Array.isArray(part?.features) ? part.features : []).some((f) => f?.kind === "SPOT_ON_LOCATION"));
   if (hasSpots !== requiredOps.includes("SPOT_ON_LOCATION")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:SPOT_ON_LOCATION";
-  const angled = Number(demand.sawAngleDeg) !== 0;
+  const angled = statedNumber(demand.sawAngleDeg) !== 0;
   if (angled && !requiredOps.includes("MITER_LIMITED")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:MITER_LIMITED";
   if (!requiredOps.includes("MITER_LIMITED") && !requiredOps.includes("CROSSCUT")) return "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:CROSSCUT";
   return null;

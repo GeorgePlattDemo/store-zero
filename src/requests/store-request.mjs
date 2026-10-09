@@ -105,6 +105,9 @@ export function requestProblems(request) {
   return reasonCodes.length ? { status: "REFUSED", reasonCodes } : null;
 }
 
+/** The catalog identity every receipt and lookup names, and /health reports: one rule. */
+export const catalogHash = (catalog) => calculationHash(catalog);
+
 /**
  * Answers one request. `release` is this Store's release identity (required); `catalog` and `observations`
  * default to the data on disk, read for this request; `now` is the evaluation clock.
@@ -121,7 +124,7 @@ export function evaluateStoreRequest(request, { release, catalog, observations, 
   if (type.lookup) {
     // Discovery carries no receipt (it prices no job), but it names the catalog its offerings and prices came from.
     const answer = lookupOfferings(currentCatalog, observations ?? loadObservations(), request.demand);
-    return { requestType: request.requestType, requestId: request.requestId, storeRelease: release, catalogHash: calculationHash(currentCatalog), evaluatedAt, ...answer };
+    return { requestType: request.requestType, requestId: request.requestId, storeRelease: release, catalogHash: catalogHash(currentCatalog), evaluatedAt, ...answer };
   }
 
   // Deliberately evaluate every request; no prior answer or receipt is an argument here.
@@ -131,7 +134,7 @@ export function evaluateStoreRequest(request, { release, catalog, observations, 
     requestType: request.requestType,
     requestId: request.requestId,
     evaluatedAt,
-    authority: { storeRevision: release, catalogHash: calculationHash(currentCatalog), ...type.authority() },
+    authority: { storeRevision: release, catalogHash: catalogHash(currentCatalog), ...type.authority() },
     demandHash: calculationHash(request.demand),
     status: evaluation.status,
     calculationIdentity: evaluation.calculationIdentity || null

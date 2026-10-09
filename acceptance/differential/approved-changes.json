@@ -72,6 +72,14 @@
       },
       "reason": "A user-defined board states its end relation and length datum. The travel model prices parallel ends with the length on the long-long outer edge; a missing relation or datum is asked for, and other geometry or an extra end identity is refused, instead of being priced as if it were parallel.",
       "expect": "Every recorded user-defined board answer named no geometry: without it each is UNRESOLVED with END_RELATION_REQUIRED (or the definition gap it already had); with the priced geometry stated, each is the recorded answer, every field and both calculation hashes."
+    },
+    {
+      "id": "MATERIAL-IS-STATED",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "evaluator": "evaluateDimensionalTravelJob",
+      "reason": "A user-defined board states its wood and size (species, nominal thickness, nominal width), as cut packages already must. A missing material constraint used to mean no constraint, so Store matched every board in the yard and chose one. It is UNRESOLVED, MATERIAL_CHOICE_REQUIRED; Store does not pick a wood or a size.",
+      "expect": "Exactly the recorded user-defined board answers whose definition states no complete material change: each is now UNRESOLVED with MATERIAL_CHOICE_REQUIRED and no estimate. Every other answer replays unchanged."
     }
   ]
 }

@@ -14,27 +14,43 @@
  */
 import { envelopeCheck } from "./envelopes/d001-stage2-envelope.mjs";
 import { offerMaterial } from "./catalog.mjs";
+import { statedNumber } from "./stated-number.mjs";
 
 export const STAGE2_JOB_DISPOSITIONS = Object.freeze(["SUPPORTABLE", "UNRESOLVED", "REFUSED", "UNAVAILABLE"]);
+
+/**
+ * The material a board definition must state: species, nominal thickness and nominal width. Missing or not a
+ * positive number is UNRESOLVED / MATERIAL_CHOICE_REQUIRED: Store does not pick a wood or a size.
+ * Both board request types (USER_DEFINED_BOARD_V1, CUT_PACKAGE_V1) are boards by definition, so a form that is not
+ * supplied is "board"; a supplied form is matched exactly as given and is never replaced.
+ */
+export const BOARD_FORM = "board";
+export function boardForm(material = {}) {
+  return material.form == null || (typeof material.form === "string" && !material.form.trim()) ? BOARD_FORM : material.form;
+}
+export function materialProblem(material) {
+  if (!material || typeof material !== "object") return "MATERIAL_CHOICE_REQUIRED";
+  const species = typeof material.species === "string" && material.species.trim() ? material.species : null;
+  const sized = [material.nominalT, material.nominalW].every((v) => Number.isFinite(statedNumber(v)) && statedNumber(v) > 0);
+  return species && sized ? null : "MATERIAL_CHOICE_REQUIRED";
+}
+// A grade not supplied (absent, null or blank) is the customer's choice still to make: see offeredGrades.
+export const gradeNotStated = (grade) => grade == null || (typeof grade === "string" && !grade.trim());
+const boardQuery = (material) => ({ species: material.species, form: boardForm(material), nominalT: material.nominalT, nominalW: material.nominalW });
 
 /**
  * The grades Store offers for a wood (species, form, nominal size), sorted. The one rule for grade choice: when this
  * lists more than one grade and the definition names none, the answer asks for it (GRADE_CHOICE_REQUIRED).
  */
 export function offeredGrades(catalog, material = {}) {
-  const rows = offerMaterial(catalog, { species: material.species, form: material.form || "board", nominalT: material.nominalT, nominalW: material.nominalW });
+  const rows = offerMaterial(catalog, boardQuery(material));
   return [...new Set(rows.map((item) => item.grade))].sort();
 }
 
 export function matchingBoardOfferings(catalog, demand = {}) {
-  const minimumWorkpieceLengthIn = Number(demand.definedWorkpieceLengthIn);
-  return offerMaterial(catalog, {
-    species: demand.species,
-    form: demand.form || "board",
-    nominalT: demand.nominalT,
-    nominalW: demand.nominalW
-  })
-    .filter((item) => demand.grade == null || item.grade === demand.grade)
+  const minimumWorkpieceLengthIn = statedNumber(demand.definedWorkpieceLengthIn);
+  return offerMaterial(catalog, boardQuery(demand))
+    .filter((item) => gradeNotStated(demand.grade) || item.grade === demand.grade)
     .filter((item) =>
       Number.isFinite(minimumWorkpieceLengthIn)
         ? Number(item.stockL_in) >= minimumWorkpieceLengthIn

@@ -6,7 +6,7 @@
  * matching, no synonyms, no inference of capability or job fit. `1x6`, `1 x 6` and `1×6` are one token.
  * Rank 0 exact SKU, rank 1 SKU prefix, rank 2 every query token is a row token (AND); catalog order breaks ties.
  */
-import { findSku, offerMaterial } from "../evaluation/catalog.mjs";
+import { CATALOG_RULES, findSku, offerMaterial } from "../evaluation/catalog.mjs";
 
 export const OFFERING_SEARCH_LIMITS = Object.freeze({ maxSearchTextLength: 80, maxResults: 20 });
 
@@ -108,6 +108,16 @@ export function attributedOffering(item, catalog, observations) {
 
 const QUERY_FIELDS = ["species", "form", "nominalT", "nominalW", "stockL_in"];
 
+const nonblankText = (v) => typeof v === "string" && v.trim() !== "";
+const positiveNumber = (v) => typeof v === "number" && Number.isFinite(v) && v > 0;
+const QUERY_VALUE_RULES = Object.freeze({
+  species: nonblankText,
+  form: (v) => CATALOG_RULES.forms.includes(v),
+  nominalT: positiveNumber,
+  nominalW: positiveNumber,
+  stockL_in: positiveNumber
+});
+
 /**
  * Exactly one of { searchText }, { storeSku }, or { query } is a clean lookup. Anything else is refused with
  * the reason, so a malformed lookup is never mistaken for "nothing found".
@@ -126,6 +136,9 @@ export function lookupProblems(demand) {
     if (!q || typeof q !== "object" || Array.isArray(q) || !Object.keys(q).length) return ["LOOKUP_QUERY_REQUIRED"];
     const extra = Object.keys(q).filter((k) => !QUERY_FIELDS.includes(k));
     if (extra.length) return extra.map((k) => `LOOKUP_QUERY_FIELD_NOT_DECLARED:${k}`);
+    // Every given filter must be a real constraint; a malformed one is refused, never dropped to widen the lookup.
+    const invalid = Object.keys(q).filter((k) => !QUERY_VALUE_RULES[k](q[k]));
+    if (invalid.length) return invalid.map((k) => `LOOKUP_QUERY_FIELD_INVALID:${k}`);
   }
   return [];
 }

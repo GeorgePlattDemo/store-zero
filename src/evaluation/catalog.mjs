@@ -196,15 +196,12 @@ export function findSku(catalog, storeSku) {
   return catalog.offerings.find((o) => o.storeSku === storeSku) || null;
 }
 
+// Offered rows matching every constraint given. A field given is a constraint, whatever its value: a null, blank or
+// malformed value matches nothing rather than widening the match. Callers state their constraints before asking.
+const OFFER_FIELDS = ["species", "form", "nominalT", "nominalW", "stockL_in"];
 export function offerMaterial(catalog, q) {
-  return catalog.offerings.filter((o) => {
-    if (q.species && o.species !== q.species) return false;
-    if (q.form && o.form !== q.form) return false;
-    if (q.nominalT != null && o.nominalT !== q.nominalT) return false;
-    if (q.nominalW != null && o.nominalW !== q.nominalW) return false;
-    if (q.stockL_in != null && o.stockL_in !== q.stockL_in) return false;
-    return o.offered;
-  });
+  const given = OFFER_FIELDS.filter((field) => q[field] !== undefined);
+  return catalog.offerings.filter((o) => given.every((field) => o[field] === q[field]) && o.offered);
 }
 
 /** The one hardware offering that declares it satisfies a functional requirement id, or null. */

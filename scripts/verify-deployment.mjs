@@ -43,6 +43,7 @@ export async function verifyDeployment({ base, commit, localSource, fetchImpl = 
   check("Project 1: SUPPORTABLE, Q $11.09", p1.answer?.status === "SUPPORTABLE" && p1.answer?.estimate?.totals?.Q === 11.09, `${p1.answer?.status} ${p1.answer?.estimate?.totals?.Q}`);
   check("Project 1: fresh receipt names this release", p1.answer?.freshEvaluation === true && receipt?.freshnessRule === FRESHNESS && receipt?.authority?.storeRevision === commit, receipt?.authority?.storeRevision);
   check("Project 1: response bound to the exact bytes sent", p1.bound);
+  check("Project 1: receipt names the catalog /health reports", /^[0-9a-f]{64}$/.test(health?.catalog?.catalogHash ?? "") && receipt?.authority?.catalogHash === health.catalog.catalogHash, `${receipt?.authority?.catalogHash}`);
   const sealed = await ask("user-defined-board.grade-not-named");
   check("Project 1 without its grade: Store asks for it", sealed.answer?.status === "UNRESOLVED" && sealed.answer?.materialResolution?.reason === "GRADE_CHOICE_REQUIRED");
 

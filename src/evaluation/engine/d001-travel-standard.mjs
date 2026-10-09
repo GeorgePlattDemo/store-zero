@@ -300,11 +300,28 @@ function refusedResult(codes, details = {}) {
   };
 }
 
-function normalizedFeature(feature, part, widthIn) {
+/**
+ * Spot identity. A spot the definition names keeps its name. A spot it does not name is identified by its part and
+ * its position among that part's spots (<partId>-SPOT-<n>, n from 1), which is the order the definition lists it in:
+ * a positional name for a stated feature, never a new feature. Within one job every spot identity is unique; a
+ * repeat (two spots named alike, or a name equal to another spot's positional name) is UNIQUE_FEATURE_ID_REQUIRED,
+ * so no two requested spots can merge into one operation.
+ */
+export function spotFeatureId(partId, position) {
+  return `${partId}-SPOT-${position}`;
+}
+
+export function featureIdProblem(ids) {
+  return new Set(ids).size === ids.length ? null : "UNIQUE_FEATURE_ID_REQUIRED";
+}
+
+const statedFeatureId = (feature) => (typeof feature?.featureId === "string" && feature.featureId.trim() ? feature.featureId : null);
+
+function normalizedFeature(feature, part, widthIn, position) {
   if (!feature || feature.kind !== "SPOT_ON_LOCATION") {
     return { error: "UNSUPPORTED_OR_MISSING_FEATURE_KIND" };
   }
-  const xIn = Number(feature.xIn);
+  const xIn = statedNumber(feature.xIn);
   if (!Number.isFinite(xIn)) {
     return { error: "SPOT_LOCATION_REQUIRED" };
   }
@@ -314,7 +331,7 @@ function normalizedFeature(feature, part, widthIn) {
   const placement = spotPlacement(feature, widthIn);
   if (placement.error) return { error: placement.error };
   return {
-    featureId: String(feature.featureId || ""),
+    featureId: statedFeatureId(feature) ?? spotFeatureId(part.partId, position),
     kind: "SPOT_ON_LOCATION",
     xIn,
     ...placement
@@ -330,7 +347,8 @@ function spotPlacement(feature, widthIn) {
   if (rule === "CENTERED_ON_WIDE_FACE") {
     return { acrossWidthRule: rule, insetFromEdgeIn: null, acrossWidthIn: widthIn / 2 };
   }
-  const inset = Number(feature.insetFromEdgeIn);
+  const inset = statedNumber(feature.insetFromEdgeIn);
+  if (!Number.isFinite(inset)) return { error: "SPOT_INSET_REQUIRED" };
   if (!D001_STAGE2_ENVELOPE.spot.insetFromEdgeOptionsIn.includes(inset)) {
     return { error: "SPOT_INSET_NOT_DECLARED" };
   }
@@ -347,7 +365,7 @@ function normalizedDemand(demand, item) {
   if (!item || item.form !== "board") unresolved.push("BOARD_OFFERING_REQUIRED");
   if (unresolved.length) return { unresolved, refused };
 
-  const definedWorkpieceLengthIn = Number(demand.definedWorkpieceLengthIn);
+  const definedWorkpieceLengthIn = statedNumber(demand.definedWorkpieceLengthIn);
   if (!Number.isFinite(definedWorkpieceLengthIn) || definedWorkpieceLengthIn <= 0) {
     unresolved.push("DEFINED_WORKPIECE_LENGTH_REQUIRED");
   }
@@ -382,14 +400,14 @@ function normalizedDemand(demand, item) {
   const normalizedParts = [];
   for (const raw of parts) {
     const partId = String(raw?.partId || "");
-    const lengthIn = Number(raw?.lengthIn);
+    const lengthIn = statedNumber(raw?.lengthIn);
     if (!partId || seen.has(partId)) unresolved.push("UNIQUE_PART_ID_REQUIRED");
     seen.add(partId);
     if (!Number.isFinite(lengthIn) || lengthIn <= 0) unresolved.push("PART_LENGTH_REQUIRED");
     const part = { partId, lengthIn, features: [] };
     const features = Array.isArray(raw?.features) ? raw.features : [];
-    for (const feature of features) {
-      const normalized = normalizedFeature(feature, part, widthIn);
+    for (const [index, feature] of features.entries()) {
+      const normalized = normalizedFeature(feature, part, widthIn, index + 1);
       if (normalized.error) {
         if (normalized.error.includes("OUTSIDE") || normalized.error.includes("NOT_DECLARED")) refused.push(normalized.error);
         else unresolved.push(normalized.error);
@@ -399,6 +417,8 @@ function normalizedDemand(demand, item) {
     }
     normalizedParts.push(part);
   }
+  const duplicate = featureIdProblem(normalizedParts.flatMap((p) => p.features.map((f) => f.featureId)));
+  if (duplicate) unresolved.push(duplicate);
 
   const incomingUnresolved = Array.isArray(demand.unresolvedConditions)
     ? demand.unresolvedConditions.filter((v) => typeof v === "string" && v.trim())
@@ -473,7 +493,7 @@ function deriveOperationPlan(normalized) {
       sequence: operations.length + 1,
       opId: `OP-INDEX-${operations.length + 1}`,
       kind: "INDEX",
-      purpose: `POSITION_${feature.featureId || feature.partId}`,
+      purpose: `POSITION_${feature.featureId}`,
       fromCIn: round(currentCIn, 6),
       toCIn: round(targetCIn, 6),
       distanceIn: round(distanceIn, 6),
@@ -485,7 +505,7 @@ function deriveOperationPlan(normalized) {
     tSpotSec += spotTiming.totalSec;
     operations.push({
       sequence: operations.length + 1,
-      opId: feature.featureId || `SPOT-${feature.partId}`,
+      opId: feature.featureId,
       kind: "SPOT_ON_LOCATION",
       stationId: M.stations.spotFace.id,
       partId: feature.partId,
@@ -717,8 +737,8 @@ function normalizeBatchComponent(raw, item) {
   if (unresolved.length) return { unresolved, refused };
 
   const componentId = String(raw.componentId || "");
-  const finishedLengthIn = Number(raw.finishedLengthIn);
-  const finishedWidthIn = Number(raw.finishedWidthIn);
+  const finishedLengthIn = statedNumber(raw.finishedLengthIn);
+  const finishedWidthIn = statedNumber(raw.finishedWidthIn);
   if (!componentId) unresolved.push("COMPONENT_ID_REQUIRED");
   if (!Number.isFinite(finishedLengthIn) || finishedLengthIn <= 0) unresolved.push("COMPONENT_FINISHED_LENGTH_REQUIRED");
   if (!Number.isFinite(finishedWidthIn) || finishedWidthIn <= 0) unresolved.push("COMPONENT_FINISHED_WIDTH_REQUIRED");
@@ -735,13 +755,15 @@ function normalizeBatchComponent(raw, item) {
   const features = Array.isArray(raw.features) ? raw.features : [];
   const normalizedFeatures = [];
   const spotFeatures = [];
+  let spotPosition = 0;
   for (const feature of features) {
     if (feature && feature.kind === "SPOT_ON_LOCATION") {
+      spotPosition += 1;
       if (!(item.supportedOps || []).includes("SPOT_ON_LOCATION")) {
         refused.push("OP_NOT_ON_OFFERING:SPOT_ON_LOCATION");
         continue;
       }
-      const xIn = Number(feature.xIn);
+      const xIn = statedNumber(feature.xIn);
       if (!Number.isFinite(xIn)) {
         unresolved.push("SPOT_LOCATION_REQUIRED");
         continue;
@@ -752,11 +774,12 @@ function normalizeBatchComponent(raw, item) {
       }
       const placement = spotPlacement(feature, finishedWidthIn);
       if (placement.error) {
-        refused.push(placement.error);
+        // A fact the definition did not state is asked for; a stated placement the cell does not take is refused.
+        (placement.error.endsWith("_REQUIRED") ? unresolved : refused).push(placement.error);
         continue;
       }
       spotFeatures.push({
-        featureId: String(feature.featureId || ""),
+        featureId: statedFeatureId(feature) ?? spotFeatureId(componentId, spotPosition),
         kind: "SPOT_ON_LOCATION",
         xIn,
         ...placement,
@@ -772,9 +795,9 @@ function normalizeBatchComponent(raw, item) {
       refused.push("OP_NOT_ON_OFFERING:MILL_LONGITUDINAL_PROFILE");
       continue;
     }
-    const pathLengthIn = Number(feature.pathLengthIn);
-    const yIn = Number(feature.yIn);
-    const totalDepthIn = Number(feature.totalDepthIn);
+    const pathLengthIn = statedNumber(feature.pathLengthIn);
+    const yIn = statedNumber(feature.yIn);
+    const totalDepthIn = statedNumber(feature.totalDepthIn);
     if (
       !Number.isFinite(pathLengthIn) ||
       !Number.isFinite(yIn) ||
@@ -805,6 +828,8 @@ function normalizeBatchComponent(raw, item) {
     });
   }
 
+  const duplicateSpot = featureIdProblem(spotFeatures.map((spot) => spot.featureId));
+  if (duplicateSpot) unresolved.push(duplicateSpot);
   return {
     unresolved,
     refused,
@@ -912,7 +937,7 @@ function deriveBatchComponentPlan(component, item) {
     tIndexSec += spotIndexSec;
     operations.push({
       sequence: operations.length + 1,
-      opId: (spot.featureId || component.componentId + ":SPOT") + ":INDEX",
+      opId: spot.featureId + ":INDEX",
       kind: "INDEX",
       purpose: "POSITION_SPOT_ON_LOCATION",
       fromCIn: round(currentCIn, 6),
@@ -924,7 +949,7 @@ function deriveBatchComponentPlan(component, item) {
     tSpotSec += spot.timing.totalSec;
     operations.push({
       sequence: operations.length + 1,
-      opId: spot.featureId || component.componentId + ":SPOT",
+      opId: spot.featureId,
       kind: "SPOT_ON_LOCATION",
       stationId: M.stations.spotFace.id,
       componentId: component.componentId,

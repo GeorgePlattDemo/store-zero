@@ -321,3 +321,106 @@ test("a changed definition is a new calculation, and an unavailable or incapable
     await dry.close();
   }
 });
+
+// ---------------------------------------------------------------- closure: seams, entry points, identity, unstated facts
+
+test("no hidden entry: no dynamic import or code evaluation in src, one runtime entry point, no injection seam in startServer", () => {
+  for (const path of SRC) assert.ok(!/\bimport\s*\(|\beval\s*\(|new Function\s*\(/.test(source(path)), `${path} loads or evaluates code dynamically`);
+  assert.match(readFileSync(join(ROOT, "Dockerfile"), "utf8"), /CMD \["node", "src\/service\/server\.mjs"\]/);
+  assert.equal(JSON.parse(readFileSync(join(ROOT, "package.json"), "utf8")).scripts.start, "node src/service/server.mjs");
+  const server = source("src/service/server.mjs");
+  // The started service passes only its release and origins: no catalog, clock or source can be injected at runtime.
+  assert.match(server, /createHandler\(\{ release, allowedOrigins: allowedOriginsFromEnvironment\(env\) \}\)/);
+  assert.ok(!/source\s*=\s*sourceDigest\(\)\s*\}/.test(server.split("export function createHandler")[1].split("\n")[0]), "the handler takes no source argument");
+  // Scripts call the request layer or the public interface; none writes into src or data.
+  for (const path of ["scripts/build-contract-examples.mjs", "scripts/verify-deployment.mjs", "scripts/source-digest.mjs", "scripts/check-catalog.mjs"]) {
+    assert.ok(!/writeFileSync\([^)]*(src|data)\//.test(source(path)), `${path} writes runtime files`);
+  }
+});
+
+test("an unstated spot location never becomes a priced spot or machine evidence, over HTTP", async () => {
+  const store = await service("release-a");
+  try {
+    const noLocation = project1Demand();
+    noLocation.parts = noLocation.parts.map((p) => ({ ...p, features: p.features.map((f) => ({ ...f, xIn: null })) }));
+    const board = await store.ask({ ...P1(), demand: noLocation });
+    assert.notEqual(board.status, "SUPPORTABLE");
+    assert.equal(board.estimate?.totals?.Q ?? null, null);
+    const cut = structuredClone(REQUEST_EXAMPLES["cut-package.mixed"]);
+    const spotted = cut.demand.cutPackages.find((p) => p.parts.some((part) => part.spots?.length));
+    for (const part of spotted.parts) for (const s of part.spots ?? []) s.xIn = null;
+    const line = (await store.ask(cut)).packages.find((p) => p.packageId === spotted.packageId);
+    assert.deepEqual([line.status, line.reasonCodes, line.Q], ["UNRESOLVED", ["SPOT_LOCATION_REQUIRED"], null]);
+    // A packet whose definition is edited to drop the location after a real answer is refused, with no evidence.
+    const answer = await store.ask(P1());
+    noEvidence(await store.evidence(packetFor(answer, (p) => { p.definition.demand = noLocation; return p; })));
+  } finally {
+    await store.close();
+  }
+});
+
+test("an omitted operation, hardware fact or material is a governed gap over HTTP, never a default", async () => {
+  const store = await service("release-a");
+  try {
+    const noSpotOp = await store.ask({ ...P1(), demand: { ...project1Demand(), requiredOps: ["MITER_LIMITED"] } });
+    assert.deepEqual([noSpotOp.status, noSpotOp.materialResolution.reason], ["UNRESOLVED", "REQUIRED_OPERATIONS_DISAGREE_WITH_DEFINITION:SPOT_ON_LOCATION"]);
+    const hardware = await store.ask({ requestType: "CUT_PACKAGE_V1", requestId: "AUTH-HW", demand: { configurationId: "C", configurationVersion: "1", cutPackages: [], itemLines: [{ lineId: "H", qty: 4, requirement: { gauge: "8", lengthIn: 2, finish: "exterior", unit: "piece" } }] } });
+    assert.deepEqual([hardware.items[0].status, hardware.items[0].reasonCodes, hardware.items[0].Q], ["UNRESOLVED", ["HARDWARE_REQUIREMENT_INCOMPLETE"], null]);
+    for (const materialDemand of [undefined, { ...project1Demand().materialDemand, species: null }, { ...project1Demand().materialDemand, nominalT: null }]) {
+      const answer = await store.ask({ ...P1(), demand: { ...project1Demand(), materialDemand } });
+      assert.deepEqual([answer.status, answer.materialResolution.reason, answer.estimate], ["UNRESOLVED", "MATERIAL_CHOICE_REQUIRED", null]);
+    }
+    const lookup = await store.ask({ requestType: "OFFERING_LOOKUP", requestId: "AUTH-Q", demand: { query: { species: "", nominalT: 2, nominalW: 4, stockL_in: 60 } } });
+    assert.deepEqual([lookup.status, lookup.reasonCodes, lookup.offering], ["REFUSED", ["LOOKUP_QUERY_FIELD_INVALID:species"], undefined]);
+  } finally {
+    await store.close();
+  }
+});
+
+test("the catalog identity /health reports is the one every receipt and lookup names", async () => {
+  const store = await service("release-a");
+  try {
+    const health = (await store.send(PATHS.health, null, "GET")).body;
+    const answer = await store.ask(P1());
+    const lookup = await store.ask({ requestType: "OFFERING_LOOKUP", requestId: "AUTH-SKU", demand: { storeSku: "STB-ZERO-PTAG-2X4-72-001" } });
+    assert.match(health.catalog.catalogHash, /^[0-9a-f]{64}$/);
+    assert.equal(answer.evaluationReceipt.authority.catalogHash, health.catalog.catalogHash);
+    assert.equal(lookup.catalogHash, health.catalog.catalogHash);
+    assert.equal(lookup.evaluationReceipt, undefined, "discovery carries no receipt");
+  } finally {
+    await store.close();
+  }
+});
+
+test("a Store whose shipped files change while it runs stops answering instead of advertising a stale identity", async () => {
+  const { mkdtempSync, cpSync, rmSync, writeFileSync } = await import("node:fs");
+  const { tmpdir } = await import("node:os");
+  const { spawn } = await import("node:child_process");
+  const copy = mkdtempSync(join(tmpdir(), "store-zero-immutable-"));
+  for (const path of ["package.json", "src", "data"]) cpSync(join(ROOT, path), join(copy, path), { recursive: true });
+  const child = spawn(process.execPath, ["src/service/server.mjs"], { cwd: copy, env: { ...process.env, STORE_ZERO_RELEASE: "immutable-test", HOST: "127.0.0.1", PORT: "0" }, stdio: ["ignore", "pipe", "pipe"] });
+  try {
+    const port = await new Promise((resolve, reject) => {
+      child.stdout.on("data", (chunk) => { const m = /listening on (\d+)/.exec(chunk.toString()); if (m) resolve(m[1]); });
+      child.on("exit", (code) => reject(new Error(`exited ${code}`)));
+    });
+    const base = `http://127.0.0.1:${port}`;
+    const before = await (await fetch(`${base}/health`)).json();
+    assert.equal(before.status, "ok");
+    const ask = () => fetch(`${base}/v1/requests`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(P1()) });
+    assert.equal((await ask()).status, 200);
+    // Reprice a board on disk under the running process.
+    const catalogPath = join(copy, "data/store-zero-catalog.json");
+    const catalog = JSON.parse(readFileSync(catalogPath, "utf8"));
+    const row = catalog.offerings.find((o) => o.storeSku === "STB-ZERO-PTAG-2X4-72-001");
+    row.list_reference = 5.29; row.assertions.externalListPrice = { ...row.assertions.externalListPrice, value: 5.29 }; row.sellingPrice = 5.55;
+    writeFileSync(catalogPath, JSON.stringify(catalog, null, 2));
+    const health = await fetch(`${base}/health`);
+    assert.deepEqual([health.status, (await health.json()).error], [503, "STORE_SOURCE_CHANGED"]);
+    const answer = await ask();
+    assert.deepEqual([answer.status, (await answer.json()).error], [503, "STORE_SOURCE_CHANGED"]);
+  } finally {
+    child.kill();
+    rmSync(copy, { recursive: true, force: true });
+  }
+});

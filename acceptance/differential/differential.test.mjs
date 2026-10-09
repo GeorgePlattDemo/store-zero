@@ -20,7 +20,7 @@ import { envelopeCheck } from "../../src/evaluation/envelopes/d001-stage2-envelo
 import { evaluateCircularSegment } from "../../src/evaluation/engine/circular-segment.mjs";
 import { archedAperturePerimeter, planArchedStencilTabs, planSplitStencilTabs } from "../../src/evaluation/engine/stencil-tab-policy.mjs";
 import { recordedCatalogAsRead, toCurrentSchema } from "../fixtures/recorded-catalog.mjs";
-import { offeredGrades } from "../../src/evaluation/store-state.mjs";
+import { materialProblem, offeredGrades } from "../../src/evaluation/store-state.mjs";
 
 const EVALUATORS = {
   evaluateDimensionalTravelJob,
@@ -43,7 +43,10 @@ const changedKeys = new Map(APPROVED.filter((c) => c.keys).flatMap((c) => c.keys
 const retired = new Set(APPROVED.filter((c) => c.retiredEvaluator).map((c) => c.retiredEvaluator));
 const removals = APPROVED.filter((c) => c.removedReason);
 // A user-defined board that names no grade for wood offered in several is the grade change.
+// A user-defined board whose definition states no complete material (species and nominal size) is the material change.
+const materialNotStated = (r) => r.name === "evaluateDimensionalTravelJob" && materialProblem(decode(r.input)[1]?.materialDemand) !== null;
 const gradeNotNamed = (r) => {
+  if (materialNotStated(r)) return false;
   if (r.name !== "evaluateDimensionalTravelJob") return false;
   const [catalog, demand] = inputFor(r);
   if (demand?.materialDemand?.grade != null) return false;
@@ -53,7 +56,7 @@ const gradeNotNamed = (r) => {
 const DEFAULTS = APPROVED.find((c) => c.id === "NO-SILENT-DEFINITION-DEFAULTS");
 const angleMissing = (pkg) => pkg?.endCut?.angleDeg == null || pkg.endCut.angleDeg === "";
 const endCutNotStated = (r) => r.name === "evaluateCutPackageJob" && (decode(r.input)[1]?.cutPackages || []).some(angleMissing);
-const boardDefinitionGap = (r) => r.name === "evaluateDimensionalTravelJob" && DEFAULTS.definitionGapCodes.includes(evaluateDimensionalTravelJob(...decode(r.input)).materialResolution?.reason);
+const boardDefinitionGap = (r) => r.name === "evaluateDimensionalTravelJob" && !materialNotStated(r) && DEFAULTS.definitionGapCodes.includes(evaluateDimensionalTravelJob(...decode(r.input)).materialResolution?.reason);
 const defaultsChanged = (r) => endCutNotStated(r) || boardDefinitionGap(r);
 const removalFor = (r) => removals.find((c) => c.evaluators.includes(r.name) && r.output.includes(`"${c.removedReason}"`));
 
@@ -99,7 +102,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !defaultsChanged(r) && !gradeNotNamed(r) && !removalFor(r));
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !materialNotStated(r) && !defaultsChanged(r) && !gradeNotNamed(r) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -148,7 +151,7 @@ test("approved change RIP-AT-FINISHED-WIDTH: the only difference is that over-wi
 test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only difference, and no price changes", () => {
   const change = APPROVED.find((c) => c.id === "NO-BOARD-LENGTH-CEILING");
   const without = (reasons) => reasons.filter((code) => code !== change.removedReason);
-  const affected = recordings.filter((r) => removalFor(r) === change && !gradeNotNamed(r));
+  const affected = recordings.filter((r) => removalFor(r) === change && !gradeNotNamed(r) && !materialNotStated(r));
   assert.ok(affected.length > 0);
   for (const r of affected) {
     const now = JSON.parse(encode(EVALUATORS[r.name](...inputFor(r))));
@@ -202,7 +205,10 @@ test("approved change NO-SILENT-DEFINITION-DEFAULTS: a missing fact is asked for
   const cut = recordings.filter(endCutNotStated);
   const board = recordings.filter(boardDefinitionGap);
   assert.equal(cut.length, 5);
-  assert.equal(board.length, 6);
+  // Six recorded boards were already unresolved for a missing fact; one of them states no material at all, so it is
+  // now asked for its material first and is proved under MATERIAL-IS-STATED.
+  assert.equal(board.length, 5);
+  assert.equal(recordings.filter((r) => materialNotStated(r) && JSON.parse(translatedOutput(r.output)).status === "UNRESOLVED").length, 1);
   for (const r of cut) {
     const [catalog, demand] = decode(r.input);
     const now = evaluateCutPackageJob(catalog, demand);
@@ -227,7 +233,7 @@ test("approved change END-GEOMETRY-IS-STATED: without its end geometry a board i
   const boards = recordings.filter((r) => r.name === "evaluateDimensionalTravelJob");
   assert.ok(boards.length > 600);
   assert.ok(boards.every((r) => geometryNotStated(decode(r.input)[1])), "the recording never stated geometry");
-  for (const r of boards.filter((x) => !boardDefinitionGap(x))) {
+  for (const r of boards.filter((x) => !boardDefinitionGap(x) && !materialNotStated(x))) {
     const now = evaluateDimensionalTravelJob(...decode(r.input));
     assert.equal(now.materialResolution?.reason, "END_RELATION_REQUIRED", r.key.slice(0, 12));
     assert.equal(now.estimate, null);
@@ -237,5 +243,16 @@ test("approved change END-GEOMETRY-IS-STATED: without its end geometry a board i
   for (const [change, reason] of [[{ endRelation: "nonparallel" }, "END_RELATION_NOT_PRICED:nonparallel"], [{ lengthDatum: "short-short-outer-edge" }, "LENGTH_DATUM_NOT_PRICED:short-short-outer-edge"], [{ endIdentity: "miter-face-long-point" }, "END_IDENTITY_NOT_PRICED"]]) {
     const refused = evaluateDimensionalTravelJob(catalog, { ...demand, ...change });
     assert.deepEqual([refused.status, refused.materialResolution.reason], ["REFUSED", reason]);
+  }
+});
+
+test("approved change MATERIAL-IS-STATED: a board that states no complete material is asked for it, never matched against every board", () => {
+  const affected = recordings.filter(materialNotStated);
+  assert.equal(affected.length, 2);
+  const before = affected.map((r) => JSON.parse(translatedOutput(r.output)).status).sort();
+  assert.deepEqual(before, ["SUPPORTABLE", "UNRESOLVED"], "one was priced on a board Store chose; one was already unresolved");
+  for (const r of affected) {
+    const now = evaluateDimensionalTravelJob(...inputFor(r));
+    assert.deepEqual([now.status, now.materialResolution.reason, now.estimate], ["UNRESOLVED", "MATERIAL_CHOICE_REQUIRED", null]);
   }
 });

@@ -51,7 +51,7 @@
  */
 import { statedNumber } from "../stated-number.mjs";
 import { findSku, offerMaterial, offeringForRequirement } from "../catalog.mjs";
-import { capabilityAnswer, offeredGrades, priceAnswer, stockAnswer } from "../store-state.mjs";
+import { capabilityAnswer, gradeNotStated, materialProblem, matchingBoardOfferings, offeredGrades, priceAnswer, stockAnswer } from "../store-state.mjs";
 import { D001_STAGE2_ENVELOPE } from "../envelopes/d001-stage2-envelope.mjs";
 import {
   calculationHash,
@@ -59,7 +59,9 @@ import {
   evaluateD001DimensionalBatch,
   evaluateD001UserDefinedBoard,
   millLongitudinalCycleSec,
-  storeMachineSellRate
+  storeMachineSellRate,
+  featureIdProblem,
+  spotFeatureId
 } from "../engine/d001-travel-standard.mjs";
 
 export const CUT_PACKAGE_STANDARD = Object.freeze({
@@ -107,13 +109,16 @@ function reason(category, code, subject, explanation) {
   return Object.freeze({ category, code, subject, authority: "STORE_ZERO", explanation });
 }
 
+// A spot keeps the identity the definition gives it, or the positional one the travel standard owns (spotFeatureId).
+// Its inset is handed on as stated; the travel standard reads it with the one stated-number rule.
+const spotIdOf = (spot, partId, index) => (typeof spot?.featureId === "string" && spot.featureId.trim() ? spot.featureId : spotFeatureId(partId, index + 1));
 function spotFeatures(part) {
   return (Array.isArray(part.spots) ? part.spots : []).map((spot, index) => ({
-    featureId: String(spot.featureId || `${part.partId}-SPOT-${index + 1}`),
+    featureId: spotIdOf(spot, part.partId, index),
     kind: "SPOT_ON_LOCATION",
-    xIn: Number(spot.xIn),
+    xIn: statedNumber(spot.xIn),
     acrossWidthRule: spot.acrossWidthRule,
-    ...(spot.insetFromEdgeIn != null ? { insetFromEdgeIn: Number(spot.insetFromEdgeIn) } : {})
+    ...(spot.insetFromEdgeIn != null ? { insetFromEdgeIn: spot.insetFromEdgeIn } : {})
   }));
 }
 
@@ -171,13 +176,15 @@ function validateParts(pkg) {
   const seen = new Set();
   for (const raw of Array.isArray(pkg.parts) ? pkg.parts : []) {
     const partId = String(raw?.partId || "");
-    const lengthIn = Number(raw?.lengthIn);
+    const lengthIn = statedNumber(raw?.lengthIn);
     if (!partId || seen.has(partId)) { problems.push("UNIQUE_PART_ID_REQUIRED"); continue; }
     seen.add(partId);
     if (!Number.isFinite(lengthIn) || lengthIn <= 0) { problems.push("PART_LENGTH_REQUIRED"); continue; }
     parts.push({ partId, lengthIn, spots: Array.isArray(raw.spots) ? raw.spots : [] });
   }
   if (!parts.length && !problems.length) problems.push("PACKAGE_PARTS_REQUIRED");
+  const duplicate = featureIdProblem(parts.flatMap((part) => part.spots.map((spot, index) => spotIdOf(spot, part.partId, index))));
+  if (duplicate) problems.push(duplicate);
   return { parts, problems: [...new Set(problems)] };
 }
 
@@ -308,7 +315,7 @@ function evaluatePackage(catalog, pkg, identity) {
   const material = pkg?.material || {};
   const angleDeg = statedNumber(pkg?.endCut?.angleDeg);
   const hasFinishedWidth = pkg?.finishedWidthIn != null;
-  const finishedWidthIn = hasFinishedWidth ? Number(pkg.finishedWidthIn) : null;
+  const finishedWidthIn = hasFinishedWidth ? statedNumber(pkg.finishedWidthIn) : null;
   const base = { kind: "CUT_PACKAGE", packageId, material: { ...material }, endCut: { angleDeg, plane: "miter-face", ends: "BOTH_PARALLEL" },
     ...(hasFinishedWidth ? { finishedWidthIn } : {}) };
   if (!packageId) return answerLine(base, "UNRESOLVED", "PACKAGE_ID_REQUIRED", "DEFINITION_GAP", "Each cut package needs its own id.");
@@ -318,17 +325,17 @@ function evaluatePackage(catalog, pkg, identity) {
   if (hasFinishedWidth && !(Number.isFinite(finishedWidthIn) && finishedWidthIn > 0)) {
     return answerLine(base, "UNRESOLVED", "FINISHED_WIDTH_REQUIRED", "DEFINITION_GAP", "A finished width must be a positive number of inches.");
   }
-  if (!material.species || !material.nominalT || !material.nominalW) {
+  if (materialProblem(material)) {
     return answerLine(base, "UNRESOLVED", "MATERIAL_CHOICE_REQUIRED", "DEFINITION_GAP", "The customer's wood choice (species, thickness, width) must be sent.");
   }
 
-  const matches = offerMaterial(catalog, { species: material.species, form: material.form || "board", nominalT: material.nominalT, nominalW: material.nominalW });
+  const matches = matchingBoardOfferings(catalog, { ...material, grade: null, definedWorkpieceLengthIn: null });
   const grades = offeredGrades(catalog, material);
-  if (!material.grade && grades.length > 1) {
+  if (gradeNotStated(material.grade) && grades.length > 1) {
     return answerLine(base, "UNRESOLVED", "GRADE_CHOICE_REQUIRED", "DEFINITION_GAP", "More than one grade is offered for this wood; the customer's grade must be sent.", { offeredGrades: grades });
   }
   const candidates = matches
-    .filter((item) => !material.grade || item.grade === material.grade)
+    .filter((item) => gradeNotStated(material.grade) || item.grade === material.grade)
     .sort((a, b) => Number(a.stockL_in) - Number(b.stockL_in) || String(a.storeSku).localeCompare(String(b.storeSku)));
   if (!candidates.length) {
     return answerLine(base, "REFUSED", "NO_MATCHING_BOARD_OFFERING", "MATERIAL_GAP", "Store Zero does not offer a board in the wood that was chosen.");
@@ -564,11 +571,11 @@ function evaluateItem(catalog, line) {
       return answerLine({ kind: "ITEM", lineId, storeSku: null, qty: Number(line.qty) }, "UNRESOLVED", "ITEM_LINE_NAMES_MORE_THAN_ONE_ITEM", "DEFINITION_GAP", "An item line names exactly one of storeSku, requirement, requirementId.");
     }
     if (!lineId) return answerLine({ kind: "ITEM", lineId, storeSku: null, qty: Number(line.qty) }, "UNRESOLVED", "LINE_ID_REQUIRED", "DEFINITION_GAP", "Each item line needs its own id.");
-    return evaluateFunctionalRequirement(catalog, line, lineId, Number(line.qty));
+    return evaluateFunctionalRequirement(catalog, line, lineId, statedNumber(line.qty));
   }
-  if (lineId && !line?.storeSku && line?.requirement != null) return evaluateRequirement(catalog, line, lineId, Number(line?.qty));
+  if (lineId && !line?.storeSku && line?.requirement != null) return evaluateRequirement(catalog, line, lineId, statedNumber(line?.qty));
   const storeSku = String(line?.storeSku || "");
-  const qty = Number(line?.qty);
+  const qty = statedNumber(line?.qty);
   const base = { kind: "ITEM", lineId, storeSku, qty };
   if (!lineId) return answerLine(base, "UNRESOLVED", "LINE_ID_REQUIRED", "DEFINITION_GAP", "Each item line needs its own id.");
   if (!storeSku) return answerLine(base, "UNRESOLVED", "STORE_SKU_REQUIRED", "DEFINITION_GAP", "An item line names an exact Store SKU.");

@@ -24,7 +24,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { loadCatalog, validateCatalog } from "../evaluation/catalog.mjs";
-import { evaluateStoreRequest, REQUEST_TYPES } from "../requests/store-request.mjs";
+import { catalogHash, evaluateStoreRequest, REQUEST_TYPES } from "../requests/store-request.mjs";
 import { evaluateMachineEvidence, machineEvidenceIdentity, MACHINE_EVIDENCE_PROTOCOL } from "../machine/evidence.mjs";
 
 export const PROTOCOL = "STORE-ZERO-REQUEST-1";
@@ -91,9 +91,14 @@ function readBody(req, limit) {
 }
 
 /** Builds the HTTP handler. `catalog` and `now` exist so tests can fix them; in service the catalog is read per request. */
-export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGINS, catalog, now = () => new Date().toISOString(), source = sourceDigest() }) {
+export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGINS, catalog, now = () => new Date().toISOString() }) {
   if (typeof release !== "string" || !release.trim()) throw new Error("createHandler needs this Store's release identity");
   const origins = new Set(allowedOrigins);
+  // The shipped files are immutable for the life of the process. The identity is taken from this process's own root
+  // when it starts, and every answer first checks the files are still those: if any changed, the Store stops answering
+  // rather than advertise one source while evaluating another.
+  const source = sourceDigest();
+  const sourceChanged = () => sourceDigest().digest !== source.digest;
 
   return async function handle(req, res) {
     let pathname;
@@ -110,6 +115,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
 
     if (pathname === PATHS.health) {
       if (req.method !== "GET" && req.method !== "HEAD") return httpError(res, 405, "METHOD_NOT_ALLOWED", { Allow: "GET, HEAD", ...cors });
+      if (sourceChanged()) return httpError(res, 503, "STORE_SOURCE_CHANGED", cors);
       let current;
       let machineEvidence;
       try {
@@ -125,7 +131,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
         source,
         protocol: PROTOCOL,
         requestTypes: Object.keys(REQUEST_TYPES),
-        catalog: { clock: current.clock, offerings: current.offerings.length },
+        catalog: { clock: current.clock, offerings: current.offerings.length, catalogHash: catalogHash(current) },
         machineEvidence
       }, cors);
     }
@@ -151,6 +157,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
       return httpError(res, 400, "REQUEST_NOT_JSON", cors);
     }
 
+    if (sourceChanged()) return httpError(res, 503, "STORE_SOURCE_CHANGED", cors);
     // The digest lets the caller prove this answer is to the exact bytes it sent.
     const payloadDigest = createHash("sha256").update(body).digest("hex");
     let answer;
