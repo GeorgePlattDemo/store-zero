@@ -12,6 +12,7 @@ This repository is Store Zero: the catalog, capability, modeled work and time, e
 
 - Clean definitions only. A request that is not one is refused with its reason. "No" is an answer. Never add a compatibility request type, a count-only price, a default, a fallback, or a second path to get a pass.
 - One request layer (`src/requests/store-request.mjs`). Evaluators never issue receipts, read the clock or environment, or import the request layer.
+- One authority per decision (specification §20.2): one catalog reader, one grade rule, one board geometry, one price source, one receipt builder, one path to machine evidence. A second implementation is a defect even if it gives the same answer; `acceptance/authority` checks the structure.
 - No project or tile names in Store code. A project is sent as neutral definitions; there are no project-shaped evaluators.
 - Store answers the definition it is sent and never chooses for the user. When a job can be made several ways (board widths for a depth, for example), each way is its own definition with its own answer, and the user chooses in System.
 - Adding or changing an offering is a data change in `data/store-zero-catalog.json`, checked with `npm run check:catalog`. It needs no code change. Do not loosen a catalog rule to admit a row; fix the row.

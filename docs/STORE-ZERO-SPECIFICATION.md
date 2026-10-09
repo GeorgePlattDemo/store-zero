@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.10 · 2026-10-09**
+**3D Solutions LLC · Store Zero Operational Specification 0.11 · 2026-10-09**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19), the board-length ceiling removed (0.8; §19), runtime machine validation and the bounded virtual-evidence service completed (0.9; §10.6), and definition completeness, service identity and the deployment verification procedure added (0.10; §6A.14, §17, §19).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4), the machine side's reference lowering and virtual run added (0.6; §10.5), and the Alcove request type retired in favor of cut packages, with the rip rule (0.7; §19), the board-length ceiling removed (0.8; §19), runtime machine validation and the bounded virtual-evidence service completed (0.9; §10.6), definition completeness, service identity and the deployment verification procedure added (0.10; §6A.14, §17, §19), and the authority trace and System contract stated (0.11; §20).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -1631,6 +1631,8 @@ Every row states the present defect or gap, the required end state, and the evid
 | Radius tolerance at its edge | Binary rounding refused a radius exactly 0.001 in from the derived one. | Inclusive as written. | `tests/circular-segment.test.mjs`. |
 | Isolated rule coverage | Catalog tie-break, S-001 timing literals, circular-segment branches, stencil coordinates, D-001 envelope branches, travel thresholds and helpers, cut-package ties and propagation, sheet branches had no direct tests. | Each rule has a test that fails when it is broken. | `tests/catalog-tie-break.test.mjs`, `tests/s001-timing-constants.test.mjs`, `tests/circular-segment.test.mjs`, `tests/stencil-tab-geometry.test.mjs`, `tests/d001-envelope-branches.test.mjs`, `tests/d001-travel-helpers.test.mjs`, `tests/cut-package-branches.test.mjs`, `tests/sheet-package-branches.test.mjs`. |
 | Service identity | A release label proved nothing about the code running, and a manual label could override the host's commit. | `/health` reports the digest of the files the process runs; a contradicting label refuses to start; `scripts/verify-deployment.mjs` checks a running Store from outside. | `tests/service.test.mjs`; `tests/verify-deployment.test.mjs` (local service only; §17.4). |
+| Duplicate decision logic | Grade choice was decided separately in two evaluators; board end geometry was written in three places; the lowerer had its own drill-point formula; a sheet with several matching materials took the cheapest. | One owner each (§20.2); a sheet asks for its material (`SHEET_MATERIAL_CHOICE_REQUIRED`). No recorded answer changed. | `acceptance/authority`; `tests/sheet-package-branches.test.mjs`. |
+| Authority trace | No test proved that every answer and every piece of evidence has exactly one path. | §20.1; structural and adversarial tests fail closed. | `acceptance/authority`. |
 | Machine evidence boundary (0.9) | Runtime machine validation and a bounded evidence interface were missing. | §10.6. | `tests/machine-boundary.test.mjs`; `acceptance/machine`. |
 
 ## 17.2 Store software defects and unbuilt software remaining
@@ -1648,11 +1650,14 @@ Every row states the present defect or gap, the required end state, and the evid
 
 ## 17.3 System integration responsibilities
 
-These belong to System. Store's side of each is built and tested; the row records what System must send or carry. Checked against the replacement System candidate (`new-system`).
+These belong to System. Store's side of each is built and tested; the row records what System must send or carry. The full matrix, with the evidence from running System's own Store tests, is §20.4; the rows below are the ones that block the published journey.
 
 | Item | What is wrong or absent today | What it must become | Test/evidence that proves closure |
 |---|---|---|---|
 | Board definitions state grade and end geometry | `new-system` builds a board's `materialDemand` without a grade, and carries `endRelation`, `lengthDatum` and `endIdentity` in its revision requirements, outside the Store demand. Its published-wire adapter keeps them off the demand, and sends `datumCMethod: ""` and `requiredOps: []` when the page omits them. Store now asks for every one of these (§6A.1). | System sends the grade the user chose and copies its end geometry into the demand, the same values it puts in the packet's `requirements`; it never sends blank operations or Datum-C methods. | System acceptance: the Start-your-own and treated boards answer `SUPPORTABLE` from the replacement Store with grade and geometry stated; a packet whose requirements differ is refused. |
+| Published page decides materials from a catalog copy | System `public/live/stb-store-handoff-contract.js` carries a copy of the Store catalog and decides which material choices the page shows, saying they come from the current Store catalog. This is a second catalog authority. | The page asks Store (`OFFERING_LOOKUP`) or stops claiming Store authority. | Hosted-browser trace: every material choice shown traces to a lookup answer with this Store's release and `catalogHash`. |
+| Page wrapper fabricates Store fields | System's published-wire answer sets `cellFamily: []` and `supportedOps: []`. | Carry Store's values or omit them. | System test on the wrapper. |
+| Published Alcove and other tiles | The published Alcove page sends the retired `ALCOVE_INSERT_V1`; the published wire forwards only boards and lookups. | Every tile through the one wire, Alcove as cut packages. | Hosted-browser trace per tile. |
 | Published end identity | The published board line carries `endIdentity: "both"`; System's definitions say a non-null end identity is refused. | System omits it where the length datum already says it, and sends any genuine end identity to be refused. | System test on the published line. |
 | Application cutover | The application's adapter, `STORE_PIN`, hosted-Store start script and CI Store reference point at the predecessor Store. Its count-only square-stick Board (`BOARD_SQUARE_V1`) and the request fields `storeRevision`/`evaluatedAt` are refused here. | One owner change in System that points the application at this Store's service and nothing else, after System sends clean definitions for every tile. | Application acceptance through the public entry against this Store's release. |
 | Shelf layouts in System | System sends one alcove layout. Different board widths for the same depth need different operations and prices, and the choice is the user's (§11.2). | System lists the layouts the yard's widths allow against the user's acceptance criteria (for example, a depth tolerance), sends each as its own definition, shows every answer with its operations and Q, and records the user's choice. | System acceptance: several layouts answered, the chosen one carried into the accepted job packet. |
@@ -1882,6 +1887,102 @@ The recorded Store answers (`acceptance/differential`) are never edited. A delib
 | `GRADE-IS-THE-CUSTOMERS` | 2026-10-09 | A user-defined board names its grade. When the wood is offered in more than one and none is named, Store asks (`GRADE_CHOICE_REQUIRED`, with the grades on offer) instead of choosing by length. The grade is the customer's choice, never the yard's. | 93 recorded answers that named no grade now ask for one; sent again with the grade the recording priced, every supportable one gives the same board, estimate and Q. Project 1 with `above-ground` gives the review's whole answer. |
 | `NO-SILENT-DEFINITION-DEFAULTS` | 2026-10-09 | A missing manufacturing fact is never filled in. Before this, a missing or null miter angle priced as 0°, a missing end cut as a square cut, a missing Datum-C method as `REFERENCE_CUT`, a missing operation list as `MITER_LIMITED`, a missing cut plane as `miter-face`, and `returnAllPieces` was not read. Each now answers with its reason (§6A.1 step 2, §6A.5 step 3, §6A.10 step 3), and declared operations must agree with the parts. | 5 recorded cut-package answers sent no end-cut angle; each such package is now `UNRESOLVED / END_CUT_ANGLE_REQUIRED`, and with 0° stated the answer is the recorded one (result hash included). 6 recorded user-defined board answers were already `UNRESOLVED` and now name the missing fact. No published example, Project 1, $8.54 or alcove answer changes. |
 | `END-GEOMETRY-IS-STATED` | 2026-10-09 | A user-defined board states its end relation and length datum, and the price is only for geometry the travel model covers: parallel ends, long-long outer edge. Before this, the definition could not carry them and Store priced every board as parallel without saying so. A packet's machine requirements must equal what the definition states. | Every recorded user-defined board answer named no geometry: without it each is now asked for its end relation; with parallel / long-long stated, each is the recorded answer, every field and both calculation hashes. Project 1 with its geometry and grade stated still gives the review's whole answer. |
+
+# 20. Authority trace and the System contract
+
+## 20.1 One path per answer
+
+Every Store answer a user sees has exactly one authoritative path. Store owns the part from the transport inward; System owns the part outside it.
+
+```
+ Published UI ─► Published definition ─► Translation layer ─► Shared transport            (System)
+                                                                   │  POST /v1/requests, exact bytes
+                                                                   ▼
+ src/service/server.mjs ── carries bytes; computes nothing; payloadDigest = SHA-256(bytes received)
+        │
+        ▼
+ src/requests/store-request.mjs ── admission: exact shape, declared fields, no answer/receipt/release/date in the request
+        │                           (an admission refusal is REFUSED/UNRESOLVED with freshEvaluation:false and no receipt)
+        ├─► src/evaluation/catalog.mjs ── the catalog, validated on every read
+        ├─► src/evaluation/evaluators/{user-defined-board,cut-package,sheet-package}.mjs  or  src/requests/offering-lookup.mjs
+        │        └─► store-state (stock, price, capability, offeredGrades) ─► envelopes ─► engine (travel, pricing)
+        └─► receipt: freshnessRule, request identity, evaluatedAt, authority {release, catalogHash, standards},
+                     demandHash, status, calculationIdentity, receiptHash        (lookups: catalogHash, no receipt)
+        │
+        ▼
+ { protocol, storeRelease, payloadDigest, respondedAt, answer } ─► Response ─► Published UI                (System)
+
+ Accepted job packet ─► POST /v1/machine-evidence ─► src/machine/evidence.mjs ─► src/machine/lowering.mjs
+        ─► src/contracts/job-packet.mjs verifyJobPacket ─► evaluateStoreRequest (fresh re-evaluation, compared)
+        ─► local job ─► motion records ─► virtual run ─► physical admission BLOCKED
+```
+
+`acceptance/authority` proves the structure (who may import whom, one reader per data file, one definition per rule) and tries every other way in over HTTP; each attempt fails closed.
+
+## 20.2 Authority inventory
+
+| Authority | Owning module | Nothing else may |
+|---|---|---|
+| Request admission (shape, declared fields, machine-local language) | `src/requests/store-request.mjs` with `src/contracts/definitions.mjs`, `src/contracts/shape.mjs` | build or accept an answer, receipt, release or date from a request |
+| Catalog, offerings, selling prices | `src/evaluation/catalog.mjs` (validated `data/store-zero-catalog.json`) | read the catalog file or derive a selling price |
+| Stock, price and capability answers; grade choice | `src/evaluation/store-state.mjs` (`stockAnswer`, `priceAnswer`, `capabilityAnswer`, `offeredGrades`) | decide which grades are on offer |
+| D-001 capability envelope | `src/evaluation/envelopes/d001-stage2-envelope.mjs` | |
+| S-001 envelope and timing | `src/evaluation/envelopes/s001-stage2-envelope.mjs` | |
+| What counts as a stated number | `src/evaluation/stated-number.mjs` | read null, blank or non-numbers as 0 |
+| Board travel, operation plan, board end geometry, spot geometry, machine sell rate | `src/evaluation/engine/d001-travel-standard.mjs` (`BOARD_END_GEOMETRY`, `spotPointLengthIn`) | hold board-geometry literals or a second drill-point formula |
+| Budgetary Q for a user-defined board | `src/evaluation/engine/pricing.mjs` | |
+| Arc geometry and tab plans | `src/evaluation/engine/circular-segment.mjs`, `src/evaluation/engine/stencil-tab-policy.mjs` | |
+| Material resolution and Store dispositions per request type | `src/evaluation/evaluators/user-defined-board.mjs`, `src/evaluation/evaluators/cut-package.mjs`, `src/evaluation/evaluators/sheet-package.mjs` | be reached except through the request layer |
+| Offering discovery | `src/requests/offering-lookup.mjs` | |
+| Receipts and freshness | `src/requests/store-request.mjs` | issue a receipt or `freshEvaluation:true` |
+| Accepted-packet verification | `src/contracts/job-packet.mjs` (re-evaluates through the request layer) | |
+| Machine configuration, lowering, records, virtual run, physical admission | `src/machine/configuration.mjs`, `src/machine/lowering.mjs`, `src/contracts/machine-records.mjs`, `src/machine/virtual-run.mjs`, `src/machine/evidence.mjs` | produce evidence for an unverified packet |
+| Transport, release and source identity | `src/service/server.mjs` | evaluate, price or answer |
+
+**Non-authoritative helpers, justified.** `scripts/build-contract-examples.mjs` writes example answers by calling the request layer with the fixed release `store-zero-acceptance`; an example answer can never become a current answer, because packet verification refuses it on any other release (`PACKET_STORE_RELEASE_MISMATCH`, proved in `acceptance/authority`). `scripts/verify-deployment.mjs` only calls the public interface. `acceptance/fixtures/` and the differential recording are evidence read only by tests; nothing in `src/` reads them (proved). The virtual run's 86.469536 s is machine evidence, not a price; Q comes only from the travel standard's modeled time. Exported evaluator functions are libraries for the request layer; the only runtime entry point is the service (Dockerfile `CMD`, `npm start`).
+
+**Alternate paths found and removed in this Store.** A second grade rule in each of two evaluators (now `offeredGrades`); board-geometry literals in the lowerer and in the local-job check (now `BOARD_END_GEOMETRY`); a second drill-point formula in the lowerer (now the engine's, bit-identical); a sheet silently resolved to the cheapest of several materials (now `SHEET_MATERIAL_CHOICE_REQUIRED`); and, in 0.10, every silent definition default (§19).
+
+## 20.3 The contract System follows
+
+System sends definitions and reads Store answers; it never prices, never decides capability, never issues a Store refusal and never shows a stored answer as current.
+
+**Transport.** `POST /v1/requests` with `Content-Type: application/json` and a body of exactly `{ requestType, requestId, demand }`, at most 256 KiB. Read `{ protocol: "STORE-ZERO-REQUEST-1", storeRelease, payloadDigest, respondedAt, answer }`. Accept the answer only if `storeRelease` is the release System expects, `payloadDigest` is the SHA-256 of the exact bytes sent, and `answer.requestType`/`requestId` match. A non-200 status is a transport failure, never a refusal or a zero price.
+
+**Definitions** (exact shapes in §3.4 and Appendix B; any undeclared field is refused):
+- `USER_DEFINED_BOARD_V1`: `materialDemand` {species, form, nominalT, nominalW, **grade** when the wood comes in more than one}, `definedWorkpieceLengthIn`, `requiredOps` (agreeing with the parts), `sawAngleDeg`, `cutPlane`, `datumCMethod` (`REFERENCE_CUT` is the only one modeled), **`endRelation`**, **`lengthDatum`**, and `endIdentity` only when it says something the datum does not, `parts[]` with features, configuration identity, optional declared counts. The values in the packet's `requirements` must equal these.
+- `CUT_PACKAGE_V1`: each package states material with grade (when more than one), `endCut.angleDeg` (always; 0 is a square cut), optional `finishedWidthIn`, parts and spots; each item line names exactly one of `storeSku`, structured `requirement`, `requirementId`.
+- `SHEET_PACKAGE_V1`: `sheet` {thicknessIn, lengthIn, widthIn, and species/grade when more than one material matches}, features, `returnAllPieces: true`.
+- `OFFERING_LOOKUP`: exactly one of `searchText`, `storeSku`, `query`.
+
+**Status semantics.** `SUPPORTABLE` (complete; the only status with a job Q), `NOT_ALL_LINES_SUPPORTABLE` (cut packages; each line keeps its own status, and the sum of supportable lines is not a job Q), `UNRESOLVED` (a fact is missing or unmodeled; the reason names it; no Q), `REFUSED` (the definition asks for something this Store does not do; the reason names it; no Q), `UNAVAILABLE` (offered but not on hand; no substitute), `ANSWERED` (lookup). An admission refusal has `freshEvaluation:false` and no receipt; an evaluation has `freshEvaluation:true` and a receipt.
+
+**Receipts.** Exactly `freshnessRule` (`STB-STORE-FRESH-EVALUATION-0.1`), `requestType`, `requestId`, `evaluatedAt`, `authority` {`storeRevision` = the release, `catalogHash`, and the standards that governed the answer}, `demandHash` (the definition's `calculationHash`), `status` (equal to the answer's), `calculationIdentity` (equal to the answer's), `receiptHash` (`calculationHash` of the other fields). A receipt is an integrity check, not a signature: the authority for any answer is a fresh evaluation, which is what packet verification does. Lookups carry `catalogHash` and no receipt.
+
+**Machine evidence.** `POST /v1/machine-evidence` with exactly `{ packet, expectedMachineConfigId, expectedMachineConfigHash }` (§10.6). Success is only `VIRTUAL_EVIDENCE_READY` with `physicalAuthority:false` and admission `BLOCKED`; `REFUSED` and `STALE` carry no artifacts.
+
+## 20.4 System-to-Store compatibility
+
+Read-only review of the replacement System candidate (new-system at `7b17de1`). Its own Store tests (34) pass against its pinned Store `4cb0c62`; in a scratch copy with only the pin moved to this Store they fail 2 of 34, both at the first board answer. With the minimum System correction below applied in that scratch copy, 29 of 34 pass and the 5 left assert the old pin, the old demand shape or where an end identity is refused; the replacement System repository was not changed.
+
+| System surface | Today | Store expects | Minimum System correction |
+|---|---|---|---|
+| Store release pin (System `src/system/store-candidate.ts`, System `public/live/stb-store-runtime.json`) | `4cb0c62` in both | the deployed Store release | Move both pins together, deliberately, with contract acceptance rerun. |
+| Board demand (System `src/system/compile.ts`, System `src/system/shape.ts`) | no `grade`; `endRelation`/`lengthDatum`/`endIdentity` kept in revision `requirements` only | grade and end geometry in the demand, equal to the packet's `requirements` | Add a grade input to board recipes; copy requirements into the demand; declare the fields in System admission. Proved sufficient in the scratch run (recipes, alcove, playhouse, cleats, outdoor, lookup answer as before). |
+| Published board wire (System `src/system/store/published-wire.ts`) | keeps `endRelation`/`lengthDatum` off; sends `datumCMethod:""` and `requiredOps:[]` when omitted | stated values | Forward relation and datum; send only stated operations and Datum-C methods; omit `endIdentity` where the datum already says it. Proved in the scratch run. |
+| Published page material choices (System `public/live/stb-store-handoff-contract.js`, `startOwnOfferings`) | a copy of the Store catalog in the page decides which materials are shown and says they "come from the current Store catalog" | Store decides offerings | Replace with `OFFERING_LOOKUP` through the shared transport, or stop claiming Store authority for the copy. **Alternate catalog authority.** |
+| Historical specimen (same file, `user1StoreReferenceForDemand`) | attaches a stored Q as `EXPLANATORY_HISTORY`, `suppliesCurrentAnswer:false`, answer stays `STORE_ANSWER_REQUIRED` | no stored answer shown as current | Keep it out of any price display, or remove it. Not a current answer today. |
+| Page answer wrapper (System `src/system/store/published-wire.ts`, `pageAnswer`) | sets `rawOffering.cellFamily: []`, `supportedOps: []` | Store capability fields come from Store | Omit them or carry the Store's own values. **Fabricated Store fields.** |
+| Published wire request types | only `USER_DEFINED_BOARD_V1` and lookup; others `LIVE_JOB_NOT_MIGRATED_YET` | all four | Migrate cut and sheet tiles through the same wire. |
+| Published Alcove bridge (System `public/live/stb-alcove-store-bridge.js`) | sends retired `ALCOVE_INSERT_V1` | `CUT_PACKAGE_V1` (§11.2) | Use the library's cut-package alcove. |
+| Machine evidence with a supplied end identity | System test expects a priced board then `END_IDENTITY_NOT_REGISTERED_ON_MACHINE` | Store refuses at pricing: `END_IDENTITY_NOT_PRICED` | Expect the earlier refusal; no packet is formed. |
+| Discovery receipts (System `src/system/store/interpret.ts`) | rejects a receipt on discovery | lookups carry `catalogHash`, no receipt | Compatible. |
+| Machine configuration identity | `D001-REFERENCE-REVIEW-0.2`, hash `467fac4b…` | unchanged | Compatible. |
+| Thick sheets | Playhouse sends 1/2 in with no species | one 1/2 in material is offered | Compatible; a 3/4 in sheet must name its material. |
+
+### 0.11 — authority trace and System contract
+
+One owner per decision (§20.2); sheet material is the customer's; lookups name their catalog; the authority trace, the System contract and the compatibility matrix are stated (§20); `acceptance/authority` proves the structure and fails closed against bypass, reuse, forgery, release mismatch, omitted facts, unsupported operations and unverified packets.
 
 ### 0.10 — definition completeness, service identity and closure
 
