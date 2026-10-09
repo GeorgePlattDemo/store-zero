@@ -21,13 +21,14 @@ test("the committed examples are exactly what the code produces", () => {
 });
 
 const EXPECTED = {
-  "user-defined-board.project-1.json": { status: "SUPPORTABLE", Q: (a) => a.estimate.totals.Q, value: 11.09 },
-  "user-defined-board.default-spf.json": { status: "SUPPORTABLE", Q: (a) => a.estimate.totals.Q, value: 8.54 },
-  "cut-package.mixed.json": { status: "NOT_ALL_LINES_SUPPORTABLE", Q: (a) => a.totals.sumOfSupportableLines, value: 170.01 },
-  "cut-package.alcove-pine.json": { status: "SUPPORTABLE", Q: (a) => a.totals.sumOfSupportableLines, value: 429.16 },
-  "sheet-package.playhouse.json": { status: "SUPPORTABLE", Q: (a) => a.totals.Q, value: 65.04 },
+  "user-defined-board.project-1.json": { status: "SUPPORTABLE", read: (a) => a.estimate.totals.Q, value: 11.09 },
+  "user-defined-board.default-spf.json": { status: "SUPPORTABLE", read: (a) => a.estimate.totals.Q, value: 8.54 },
+  "cut-package.mixed.json": { status: "NOT_ALL_LINES_SUPPORTABLE", read: (a) => a.totals.sumOfSupportableLines, value: 170.01 },
+  "cut-package.alcove-pine.json": { status: "SUPPORTABLE", read: (a) => a.totals.sumOfSupportableLines, value: 429.16 },
+  "sheet-package.playhouse.json": { status: "SUPPORTABLE", read: (a) => a.totals.Q, value: 65.04 },
   "offering-lookup.search.json": { status: "ANSWERED" },
-  "offering-lookup.sku.json": { status: "ANSWERED" }
+  "offering-lookup.sku.json": { status: "ANSWERED" },
+  "user-defined-board.grade-not-named.json": { status: "UNRESOLVED", read: (a) => a.materialResolution.reason, value: "GRADE_CHOICE_REQUIRED" }
 };
 
 test("every request example is a clean definition and gets its recorded answer", () => {
@@ -38,13 +39,13 @@ test("every request example is a clean definition and gets its recorded answer",
     assert.equal(requestProblems(request), null, file);
     const answer = evaluateStoreRequest(request, at);
     assert.equal(answer.status, EXPECTED[file].status, file);
-    if (EXPECTED[file].Q) assert.equal(EXPECTED[file].Q(answer), EXPECTED[file].value, file);
+    if (EXPECTED[file].read) assert.equal(EXPECTED[file].read(answer), EXPECTED[file].value, file);
   }
 });
 
 test("every refused example is refused with its exact reasons", () => {
   const refused = json("contracts/examples/requests/refused.json");
-  assert.ok(refused.length >= 9);
+  assert.ok(refused.length >= 8);
   for (const { name, request, answer } of refused) {
     const now = evaluateStoreRequest(request, at);
     assert.equal(now.freshEvaluation, false, name);

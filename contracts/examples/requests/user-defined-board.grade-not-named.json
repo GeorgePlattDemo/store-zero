@@ -1,6 +1,6 @@
 {
   "requestType": "USER_DEFINED_BOARD_V1",
-  "requestId": "EXAMPLE-PROJECT-1",
+  "requestId": "EXAMPLE-NO-GRADE",
   "demand": {
     "title": "Project 1 reference specimen",
     "configurationId": "SYO-USER1-XBRACE",
@@ -10,8 +10,7 @@
       "species": "syp-treated",
       "form": "board",
       "nominalT": 2,
-      "nominalW": 4,
-      "grade": "above-ground"
+      "nominalW": 4
     },
     "definedWorkpieceLengthIn": 60,
     "requiredOps": [

@@ -1,4 +1,5 @@
 // The HTTP service carries requests to the request layer and answers; it computes nothing itself.
+import { project1Demand } from "./fixtures/project-1.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
 import http from "node:http";
@@ -8,7 +9,7 @@ import { createHandler, PATHS, PROTOCOL, releaseFromEnvironment, allowedOriginsF
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 
 const ALLOWED = "https://georgeplattdemo.github.io";
-const { demand: PROJECT_1 } = JSON.parse(readFileSync(new URL("../acceptance/project-1/from-evidence/definition-and-demand.json", import.meta.url)));
+const PROJECT_1 = project1Demand();
 
 async function withService(options, fn) {
   const handle = createHandler({ release: "store-zero-test", now: () => "2026-10-08T00:00:00Z", ...options });

@@ -2,7 +2,10 @@
  * USER_DEFINED_BOARD_V1: one identified board job — material demand, identified parts and spot features,
  * one miter angle and plane, a Datum-C method — answered against matching Store boards.
  *
- * Matching offered boards are considered in ascending stock length (then price, then SKU); the first whose
+ * The grade is the customer's choice: when the wood is offered in more than one grade and none is named, the
+ * answer is UNRESOLVED with GRADE_CHOICE_REQUIRED and the grades on offer. Store never picks a grade.
+ *
+ * Matching offered boards of that grade are considered in ascending stock length (then price, then SKU); the first whose
  * stock, price, D-001 capability and full travel evaluation are complete is selected. The requested parts,
  * angle and spot locations are never changed to make a candidate fit.
  */
@@ -23,6 +26,26 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
     ...(demand.materialDemand || {}),
     definedWorkpieceLengthIn: demand.definedWorkpieceLengthIn
   };
+  const grades = [...new Set(matchingBoardOfferings(catalog, { ...materialDemand, grade: null }).map((item) => item.grade))].sort();
+  if (materialDemand.grade == null && grades.length > 1) {
+    return {
+      title: demand.title || "Dimensional travel job",
+      stage: 2,
+      store: "Store Zero",
+      status: "UNRESOLVED",
+      materialResolution: {
+        status: "UNRESOLVED",
+        reason: "GRADE_CHOICE_REQUIRED",
+        offeredGrades: grades,
+        requestedMinimumWorkpieceLengthIn: Number(demand.definedWorkpieceLengthIn),
+        selectionPolicy: "SHORTEST_COMPLETE_STORE_OFFERING",
+        consideredCandidates: []
+      },
+      estimate: null,
+      calculationIdentity: null,
+      not_claimed: ["commercial quote", "physical fabrication", "live motion"]
+    };
+  }
   const candidates = matchingBoardOfferings(catalog, materialDemand);
   const candidateEvaluations = [];
   let firstIncompleteEstimate = null;

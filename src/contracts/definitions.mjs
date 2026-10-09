@@ -12,8 +12,8 @@ const USER_DEFINED_BOARD_V1 = {
     configurationId: "string",
     configurationVersion: "string",
     classId: "string",
-    // No grade: this definition names a material class, and the Store selects among its grades by length.
-    materialDemand: { object: { species: "string", form: "string", nominalT: "number", nominalW: "number" } },
+    // The grade is the customer's; when the wood comes in more than one grade it must be named.
+    materialDemand: { object: { species: "string", form: "string", nominalT: "number", nominalW: "number", grade: "string" } },
     definedWorkpieceLengthIn: "number",
     requiredOps: strings,
     sawAngleDeg: "number",

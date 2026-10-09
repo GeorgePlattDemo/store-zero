@@ -19,7 +19,8 @@
         "species": "syp-treated",
         "form": "board",
         "nominalT": 2,
-        "nominalW": 4
+        "nominalW": 4,
+        "grade": "above-ground"
       },
       "definedWorkpieceLengthIn": 60,
       "requiredOps": [
@@ -475,13 +476,13 @@
           "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
         }
       },
-      "demandHash": "b3e55a4e7ef3afad407f96aa00ae59da904eaa9580b433daa1b6238b0cf5cc86",
+      "demandHash": "c29f81727d123cf0c2894b975c18c3051c566063c57ba6c36d3bdbeebb9459cb",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
         "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
         "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
       },
-      "receiptHash": "0d20b55329e7462c63013a114e8edb2d721d50b4f93b2702feeabad311238662"
+      "receiptHash": "ba7bb89e5de0220b3848f03fc752d31f7aeef8d10cac4fc608a3f39b040e3b04"
     }
   },
   "decision": {

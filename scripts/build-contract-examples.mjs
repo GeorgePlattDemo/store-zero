@@ -2,6 +2,7 @@
 // and why, and the Project 1 accepted job packet with the packets Store refuses. Deterministic: fixed clock,
 // the frozen recorded catalog, and the acceptance release. `npm run build:examples` writes them;
 // acceptance/contracts fails if a committed example differs from what this produces.
+import { project1Demand, sealedProject1Demand } from "../tests/fixtures/project-1.mjs";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -16,7 +17,7 @@ import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const EXAMPLE_RELEASE = "store-zero-acceptance";
 export const EXAMPLE_CLOCK = "2026-10-08T12:00:00.000Z";
-const PROJECT_1 = JSON.parse(readFileSync(join(ROOT, "acceptance/project-1/from-evidence/definition-and-demand.json"), "utf8"));
+const PROJECT_1 = { ...JSON.parse(readFileSync(join(ROOT, "acceptance/project-1/from-evidence/definition-and-demand.json"), "utf8")), demand: project1Demand() };
 
 const PT = (nominalT, nominalW, grade) => ({ species: "syp-treated", form: "board", nominalT, nominalW, grade });
 const many = (prefix, count, lengthIn, spots = []) =>
@@ -38,6 +39,7 @@ const playhouse = {
 
 export const REQUEST_EXAMPLES = {
   "user-defined-board.project-1": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-PROJECT-1", demand: PROJECT_1.demand },
+  "user-defined-board.grade-not-named": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-NO-GRADE", demand: sealedProject1Demand() },
   "user-defined-board.default-spf": { requestType: "USER_DEFINED_BOARD_V1", requestId: "EXAMPLE-DEFAULT-SPF", demand: structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND) },
   "cut-package.mixed": {
     requestType: "CUT_PACKAGE_V1",
@@ -67,7 +69,6 @@ const p1 = () => structuredClone(PROJECT_1.demand);
 export const REFUSED_EXAMPLES = [
   ["count-only Board ticket", { requestType: "BOARD_SQUARE_V1", requestId: "R1", demand: { storeSku: "STB-ZERO-SPF-2X4-96-001", qty: 1 } }],
   ["Store identity sent by the caller", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R2", demand: { ...p1(), storeRevision: "9c62d9d" } }],
-  ["grade on a user-defined board", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R3", demand: { ...p1(), materialDemand: { ...p1().materialDemand, grade: "ground-contact" } } }],
   ["undeclared part field", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R4", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, finish: "stain" })) } }],
   ["part length as text", { requestType: "USER_DEFINED_BOARD_V1", requestId: "R5", demand: { ...p1(), parts: p1().parts.map((p) => ({ ...p, lengthIn: "18" })) } }],
   ["machine-local language", { requestType: "SHEET_PACKAGE_V1", requestId: "R6", demand: { ...playhouse, toolpath: "G1 X10" } }],

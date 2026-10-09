@@ -32,6 +32,14 @@
       ],
       "reason": "The board-length ceiling had no basis in the machine and is removed. Every board length the Store offers is a board the cell takes, under the same rules on every path.",
       "expect": "envelopeCheck answers differ only by losing that reason (and passing when it was the only one); user-defined board answers differ only in the boards they list as considered and passed over. No selected board, status or Q changes."
+    },
+    {
+      "id": "GRADE-IS-THE-CUSTOMERS",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "evaluator": "evaluateDimensionalTravelJob",
+      "reason": "The grade is the customer's choice, never the yard's. A user-defined board names its grade; when the wood is offered in more than one grade and none is named, Store asks (GRADE_CHOICE_REQUIRED with the grades on offer) instead of choosing by length.",
+      "expect": "Every recorded user-defined board answer that named no grade for wood offered in several is now UNRESOLVED with GRADE_CHOICE_REQUIRED. Sent again with the grade the recording priced, each gives the same board, estimate and Q; only boards of other grades leave the considered list."
     }
   ]
 }

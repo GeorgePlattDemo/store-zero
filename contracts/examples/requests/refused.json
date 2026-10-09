@@ -30,7 +30,8 @@
           "species": "syp-treated",
           "form": "board",
           "nominalT": 2,
-          "nominalW": 4
+          "nominalW": 4,
+          "grade": "above-ground"
         },
         "definedWorkpieceLengthIn": 60,
         "requiredOps": [
@@ -82,71 +83,6 @@
     }
   },
   {
-    "name": "grade on a user-defined board",
-    "request": {
-      "requestType": "USER_DEFINED_BOARD_V1",
-      "requestId": "R3",
-      "demand": {
-        "title": "Project 1 reference specimen",
-        "configurationId": "SYO-USER1-XBRACE",
-        "configurationVersion": "0.2",
-        "classId": "app.user-defined-board.v1",
-        "materialDemand": {
-          "species": "syp-treated",
-          "form": "board",
-          "nominalT": 2,
-          "nominalW": 4,
-          "grade": "ground-contact"
-        },
-        "definedWorkpieceLengthIn": 60,
-        "requiredOps": [
-          "MITER_LIMITED",
-          "SPOT_ON_LOCATION"
-        ],
-        "sawAngleDeg": 26.387799961243,
-        "cutPlane": "miter-face",
-        "datumCMethod": "REFERENCE_CUT",
-        "declaredSawCuts": 3,
-        "declaredSpotCount": 2,
-        "unresolvedConditions": [],
-        "parts": [
-          {
-            "partId": "PART-1",
-            "lengthIn": 18,
-            "features": [
-              {
-                "featureId": "SPOT-1",
-                "kind": "SPOT_ON_LOCATION",
-                "xIn": 9,
-                "locationRule": "CENTERED_ON_PART",
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
-              }
-            ]
-          },
-          {
-            "partId": "PART-2",
-            "lengthIn": 18,
-            "features": [
-              {
-                "featureId": "SPOT-2",
-                "kind": "SPOT_ON_LOCATION",
-                "xIn": 9,
-                "locationRule": "CENTERED_ON_PART",
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
-              }
-            ]
-          }
-        ]
-      }
-    },
-    "answer": {
-      "status": "REFUSED",
-      "reasonCodes": [
-        "DEFINITION_FIELD_NOT_DECLARED:materialDemand.grade"
-      ]
-    }
-  },
-  {
     "name": "undeclared part field",
     "request": {
       "requestType": "USER_DEFINED_BOARD_V1",
@@ -160,7 +96,8 @@
           "species": "syp-treated",
           "form": "board",
           "nominalT": 2,
-          "nominalW": 4
+          "nominalW": 4,
+          "grade": "above-ground"
         },
         "definedWorkpieceLengthIn": 60,
         "requiredOps": [
@@ -227,7 +164,8 @@
           "species": "syp-treated",
           "form": "board",
           "nominalT": 2,
-          "nominalW": 4
+          "nominalW": 4,
+          "grade": "above-ground"
         },
         "definedWorkpieceLengthIn": 60,
         "requiredOps": [

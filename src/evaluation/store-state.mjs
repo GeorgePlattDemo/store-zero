@@ -25,6 +25,7 @@ export function matchingBoardOfferings(catalog, demand = {}) {
     nominalT: demand.nominalT,
     nominalW: demand.nominalW
   })
+    .filter((item) => demand.grade == null || item.grade === demand.grade)
     .filter((item) =>
       Number.isFinite(minimumWorkpieceLengthIn)
         ? Number(item.stockL_in) >= minimumWorkpieceLengthIn

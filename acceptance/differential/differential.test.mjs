@@ -20,6 +20,7 @@ import { envelopeCheck } from "../../src/evaluation/envelopes/d001-stage2-envelo
 import { evaluateCircularSegment } from "../../src/evaluation/engine/circular-segment.mjs";
 import { archedAperturePerimeter, planArchedStencilTabs, planSplitStencilTabs } from "../../src/evaluation/engine/stencil-tab-policy.mjs";
 import { recordedCatalogAsRead, toCurrentSchema } from "../fixtures/recorded-catalog.mjs";
+import { matchingBoardOfferings } from "../../src/evaluation/store-state.mjs";
 
 const EVALUATORS = {
   evaluateDimensionalTravelJob,
@@ -41,6 +42,13 @@ const APPROVED = JSON.parse(readFileSync(new URL("approved-changes.json", import
 const changedKeys = new Map(APPROVED.filter((c) => c.keys).flatMap((c) => c.keys.map((k) => [k, c])));
 const retired = new Set(APPROVED.filter((c) => c.retiredEvaluator).map((c) => c.retiredEvaluator));
 const removals = APPROVED.filter((c) => c.removedReason);
+// A user-defined board that names no grade for wood offered in several is the grade change.
+const gradeNotNamed = (r) => {
+  if (r.name !== "evaluateDimensionalTravelJob") return false;
+  const [catalog, demand] = decode(r.input);
+  if (demand?.materialDemand?.grade != null) return false;
+  return new Set(matchingBoardOfferings(catalog, { ...demand?.materialDemand, grade: null }).map((item) => item.grade)).size > 1;
+};
 const removalFor = (r) => removals.find((c) => c.evaluators.includes(r.name) && r.output.includes(`"${c.removedReason}"`));
 
 function rebuildCatalog({ changed, removed, order, top }) {
@@ -76,7 +84,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !removalFor(r));
+  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !gradeNotNamed(r) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -125,7 +133,7 @@ test("approved change RIP-AT-FINISHED-WIDTH: the only difference is that over-wi
 test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only difference, and no price changes", () => {
   const change = APPROVED.find((c) => c.id === "NO-BOARD-LENGTH-CEILING");
   const without = (reasons) => reasons.filter((code) => code !== change.removedReason);
-  const affected = recordings.filter((r) => removalFor(r) === change);
+  const affected = recordings.filter((r) => removalFor(r) === change && !gradeNotNamed(r));
   assert.ok(affected.length > 0);
   for (const r of affected) {
     const now = JSON.parse(encode(EVALUATORS[r.name](...decode(r.input))));
@@ -146,4 +154,31 @@ test("approved change NO-BOARD-LENGTH-CEILING: the removed reason is the only di
       before.forEach((c, i) => { if (c.reason !== change.removedReason) assert.deepEqual(after[i], c); });
     }
   }
+});
+
+test("approved change GRADE-IS-THE-CUSTOMERS: Store asks for the grade, and the named grade gives the recorded board and Q", () => {
+  const ceiling = APPROVED.find((c) => c.id === "NO-BOARD-LENGTH-CEILING").removedReason;
+  const affected = recordings.filter(gradeNotNamed);
+  assert.ok(affected.length > 0);
+  let repriced = 0;
+  for (const r of affected) {
+    const [catalog, demand] = decode(r.input);
+    const now = evaluateDimensionalTravelJob(catalog, demand);
+    assert.equal(now.status, "UNRESOLVED");
+    assert.equal(now.materialResolution.reason, "GRADE_CHOICE_REQUIRED");
+    assert.ok(now.materialResolution.offeredGrades.length > 1);
+    const was = JSON.parse(translatedOutput(r.output));
+    if (was.status !== "SUPPORTABLE") continue;
+    // The grade the recording priced, named by the customer, gives the recorded answer.
+    const grade = catalog.offerings.find((o) => o.storeSku === was.materialResolution.storeSku).grade;
+    const graded = JSON.parse(encode(evaluateDimensionalTravelJob(catalog, { ...demand, materialDemand: { ...demand.materialDemand, grade } })));
+    const strip = (a) => ({ ...a, materialResolution: { ...a.materialResolution, consideredCandidates: null } });
+    assert.deepEqual(strip(graded), strip(was));
+    const sameGrade = new Set(catalog.offerings.filter((o) => o.grade === grade).map((o) => o.storeSku));
+    const kept = was.materialResolution.consideredCandidates.filter((c) => sameGrade.has(c.storeSku));
+    assert.deepEqual(graded.materialResolution.consideredCandidates.map((c) => c.storeSku), kept.map((c) => c.storeSku));
+    kept.forEach((c, i) => { if (c.reason !== ceiling) assert.deepEqual(graded.materialResolution.consideredCandidates[i], c); });
+    repriced += 1;
+  }
+  assert.ok(repriced > 0);
 });

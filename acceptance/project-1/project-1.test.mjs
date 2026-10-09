@@ -11,6 +11,7 @@ import { evaluateDimensionalTravelJob } from "../../src/evaluation/evaluators/us
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
 import { recordedCatalog, RECORDED_STORE_PIN } from "../fixtures/recorded-catalog.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../../tests/fixtures/user1-dimensional-travel-fixture.mjs";
+import { PROJECT_1_GRADE } from "../../tests/fixtures/project-1.mjs";
 
 const evidence = (name) => readFileSync(new URL(`./from-evidence/${name}`, import.meta.url));
 const MANIFEST_SHA256 = {
@@ -18,7 +19,9 @@ const MANIFEST_SHA256 = {
   "store-answer.json": "aef7c3facbc060c70d4b585457c6d8213b6d2c36f3612f14f1bf8dd3d423b34c",
   "review-summary.json": "777619ae564145ddbb92ada2140a2d3951d40d86e3f7ff23e1d30ab86b47d2ec"
 };
-const { demand } = JSON.parse(evidence("definition-and-demand.json"));
+const { demand: sealed } = JSON.parse(evidence("definition-and-demand.json"));
+// The review's inquiry named no grade; the board it priced is the grade the customer chooses here.
+const demand = { ...sealed, materialDemand: { ...sealed.materialDemand, grade: PROJECT_1_GRADE } };
 const recordedAnswer = JSON.parse(evidence("store-answer.json"));
 const summary = JSON.parse(evidence("review-summary.json"));
 
@@ -28,9 +31,17 @@ test("the evidence files are the review's files, byte for byte", () => {
   }
 });
 
-test("the review's inquiry reproduces the review's whole Store answer under its recorded inputs", () => {
+test("the review's inquiry named no grade, and treated 2x4 comes in several: Store asks, it does not choose", () => {
+  const answer = evaluateDimensionalTravelJob(recordedCatalog(), { ...sealed, storeRevision: RECORDED_STORE_PIN });
+  assert.equal(answer.status, "UNRESOLVED");
+  assert.equal(answer.materialResolution.reason, "GRADE_CHOICE_REQUIRED");
+  assert.deepEqual(answer.materialResolution.offeredGrades, ["above-ground", "ground-contact", "ground-contact-cedartone"]);
+  assert.equal(answer.estimate, null);
+});
+
+test("with the grade named, the review's inquiry reproduces the review's whole Store answer", () => {
   // The review evaluated against the pinned Store's catalog with that pin as the Store revision; the same
-  // inputs here must give the same answer in every field, including both calculation hashes.
+  // inputs, with the grade it priced, give the same answer in every field, including both calculation hashes.
   const answer = evaluateDimensionalTravelJob(recordedCatalog(), { ...demand, storeRevision: RECORDED_STORE_PIN });
   const { freshEvaluation, evaluationReceipt, ...recordedEvaluation } = recordedAnswer;
   assert.deepEqual(JSON.parse(JSON.stringify(answer)), recordedEvaluation);
@@ -56,14 +67,14 @@ test("the Project 1 numbers: 72 in treated parent, $5.15 + $5.94 = $11.09, 85.50
 
 test("the default job is a different specimen: SPF, two 16 in parts, 30 degrees, $8.54", () => {
   // The two answers differ because the definitions differ (species, part length, angle). Neither is adjusted
-  // to match the other; changing the species on the default job is how a reviewer reaches the treated answer.
+  // to match the other; changing the species (and naming its grade) on the default job is how a reviewer reaches the treated answer.
   const spf = evaluateDimensionalTravelJob(recordedCatalog(), { ...structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND), storeRevision: RECORDED_STORE_PIN });
   assert.equal(spf.status, "SUPPORTABLE");
   assert.equal(spf.materialResolution.storeSku, "STB-ZERO-SPF-2X4-60-001");
   assert.equal(spf.estimate.totals.Q, 8.54);
   const treated = evaluateDimensionalTravelJob(recordedCatalog(), {
     ...structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND),
-    materialDemand: { ...USER1_DIMENSIONAL_TRAVEL_DEMAND.materialDemand, species: "syp-treated" },
+    materialDemand: { ...USER1_DIMENSIONAL_TRAVEL_DEMAND.materialDemand, species: "syp-treated", grade: PROJECT_1_GRADE },
     storeRevision: RECORDED_STORE_PIN
   });
   assert.equal(treated.materialResolution.storeSku, "STB-ZERO-PTAG-2X4-72-001");

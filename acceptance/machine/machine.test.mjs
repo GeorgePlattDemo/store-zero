@@ -11,7 +11,8 @@ import { lowerJobPacket, motionRecords, loadMachineConfig } from "../../src/mach
 import { physicalAdmission, runVirtual } from "../../src/machine/virtual-run.mjs";
 import { shapeProblems } from "../../src/contracts/shape.mjs";
 import { LOCAL_JOB_SHAPE, MOTION_RECORDS_SHAPE, PHYSICAL_ADMISSION_SHAPE, VIRTUAL_RUN_SHAPE, motionContentHash } from "../../src/contracts/machine-records.mjs";
-import { evaluateD001UserDefinedBoard } from "../../src/evaluation/engine/d001-travel-standard.mjs";
+import { evaluateD001UserDefinedBoard, calculationHash } from "../../src/evaluation/engine/d001-travel-standard.mjs";
+import { sealedProject1Demand } from "../../tests/fixtures/project-1.mjs";
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
 import { findSku } from "../../src/evaluation/catalog.mjs";
 import { EXAMPLE_CLOCK, EXAMPLE_RELEASE, machineOutputs } from "../../scripts/build-contract-examples.mjs";
@@ -46,10 +47,16 @@ test("the review's machine artifacts are the review's files, byte for byte", () 
 
 test("Project 1 lowers to the review's local job: every operation, the contact audit and the release blockers", () => {
   const review = evidence("local-job.json");
-  assert.deepEqual(p1.localJob.operations, review.operations);
+  // The one difference: the demand now names the grade the review priced, so it hashes differently. The review's
+  // hash is exactly the sealed demand's, this one is exactly the demand sent, and nothing else moves.
+  assert.equal(review.demandHash, calculationHash(sealedProject1Demand()));
+  assert.equal(p1.localJob.demandHash, calculationHash(PROJECT_1.definition.demand));
+  assert.deepEqual({ ...PROJECT_1.definition.demand, materialDemand: { ...PROJECT_1.definition.demand.materialDemand, grade: undefined } }, { ...sealedProject1Demand(), materialDemand: { ...sealedProject1Demand().materialDemand, grade: undefined } });
+  const asReview = (ops) => ops.map((op) => ({ ...op, sourceDemandHash: review.demandHash }));
+  assert.deepEqual(asReview(p1.localJob.operations), review.operations);
   assert.deepEqual(p1.localJob.contacts, review.contacts);
   assert.deepEqual(p1.localJob.releaseBlockers, review.releaseBlockers);
-  for (const key of ["definitionId", "definitionRevision", "demandHash", "machineConfigId", "executionClass", "physicalAuthority"]) {
+  for (const key of ["definitionId", "definitionRevision", "machineConfigId", "executionClass", "physicalAuthority"]) {
     assert.deepEqual(p1.localJob[key], review[key], key);
   }
   // The Store identity is this Store's, never the old pin's.
