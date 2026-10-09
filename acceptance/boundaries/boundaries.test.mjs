@@ -62,7 +62,7 @@ test("project names live only in the one project-shaped evaluator and its routin
   const allowed = new Set(["src/evaluation/evaluators/alcove-insert.mjs"]);
   for (const path of SRC.filter((p) => !allowed.has(p))) {
     const lines = source(path).split("\n").filter((line) => PROJECT_WORDS.test(line));
-    const outsideRouting = path === "src/requests/store-request.mjs"
+    const outsideRouting = ["src/requests/store-request.mjs", "src/contracts/definitions.mjs"].includes(path)
       ? lines.filter((line) => !/ALCOVE_INSERT_V1|ALCOVE_STORE_STANDARD|evaluateAlcoveJob|alcove-insert\.mjs|alcoveStandard/.test(line))
       : lines;
     assert.deepEqual(outsideRouting, [], `${path} names a project`);

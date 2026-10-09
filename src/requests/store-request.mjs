@@ -20,6 +20,8 @@ import { ALCOVE_STORE_STANDARD, evaluateAlcoveJob } from "../evaluation/evaluato
 import { CUT_PACKAGE_STANDARD, evaluateCutPackageJob } from "../evaluation/evaluators/cut-package.mjs";
 import { SHEET_PACKAGE_STANDARD, evaluateSheetPackageJob } from "../evaluation/evaluators/sheet-package.mjs";
 import { lookupOfferings, lookupProblems } from "./offering-lookup.mjs";
+import { DEFINITION_SHAPES } from "../contracts/definitions.mjs";
+import { shapeProblems } from "../contracts/shape.mjs";
 
 export const STORE_EVALUATION_FRESHNESS = Object.freeze({
   id: "STB-STORE-FRESH-EVALUATION-0.1",
@@ -37,12 +39,11 @@ const authorityOf = (thing, withVersion = false) => ({
   hash: calculationHash(thing)
 });
 
-// Each accepted request type: the definition fields it declares, the evaluator that answers it, and the
-// Store facts the receipt names as the basis of the answer.
+// Each accepted request type: the exact definition shape it accepts (src/contracts/definitions.mjs), the
+// evaluator that answers it, and the Store facts the receipt names as the basis of the answer.
 export const REQUEST_TYPES = Object.freeze({
   USER_DEFINED_BOARD_V1: Object.freeze({
-    fields: ["title", "configurationId", "configurationVersion", "classId", "materialDemand", "definedWorkpieceLengthIn",
-      "requiredOps", "sawAngleDeg", "cutPlane", "datumCMethod", "declaredSawCuts", "declaredSpotCount", "parts", "unresolvedConditions"],
+    shape: DEFINITION_SHAPES.USER_DEFINED_BOARD_V1,
     evaluate: evaluateDimensionalTravelJob,
     authority: () => ({
       machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
@@ -51,28 +52,17 @@ export const REQUEST_TYPES = Object.freeze({
     })
   }),
   ALCOVE_INSERT_V1: Object.freeze({
-    fields: ["title", "classId", "configurationId", "configurationVersion", "materialDemand", "boardRequirements",
-      "componentPrograms", "hardwareDemand", "spotDemand", "unresolvedConditions", "materialSource"],
+    shape: DEFINITION_SHAPES.ALCOVE_INSERT_V1,
     evaluate: evaluateAlcoveJob,
     authority: () => ({
       machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
       travelStandard: authorityOf(D001_TRAVEL_STANDARD, true),
       economics: authorityOf(D001_TRAVEL_STANDARD.economics, true),
       alcoveStandard: authorityOf(ALCOVE_STORE_STANDARD)
-    }),
-    problems: (demand) => {
-      const hardware = demand.hardwareDemand;
-      if (hardware == null) return [];
-      if (typeof hardware !== "object" || Array.isArray(hardware)) return ["HARDWARE_DEMAND_MUST_BE_AN_OBJECT"];
-      const extra = Object.keys(hardware).filter((k) => !["requirementId", "qty", "description", "selectionAuthority"].includes(k));
-      const problems = extra.map((k) => (k === "storeSku" ? "PROJECT_MAY_NOT_NAME_A_STORE_SKU" : `HARDWARE_DEMAND_FIELD_NOT_DECLARED:${k}`));
-      // The Store selects the hardware; a definition may say so, never name another authority.
-      if (hardware.selectionAuthority != null && hardware.selectionAuthority !== "STORE_ZERO") problems.push("HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO");
-      return problems;
-    }
+    })
   }),
   CUT_PACKAGE_V1: Object.freeze({
-    fields: ["classId", "configurationId", "configurationVersion", "cutPackages", "itemLines"],
+    shape: DEFINITION_SHAPES.CUT_PACKAGE_V1,
     evaluate: evaluateCutPackageJob,
     authority: () => ({
       machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
@@ -81,7 +71,7 @@ export const REQUEST_TYPES = Object.freeze({
     })
   }),
   SHEET_PACKAGE_V1: Object.freeze({
-    fields: ["configurationId", "configurationVersion", "sheet", "features", "returnAllPieces", "exteriorRatingRequested"],
+    shape: DEFINITION_SHAPES.SHEET_PACKAGE_V1,
     evaluate: evaluateSheetPackageJob,
     authority: () => ({
       machineEnvelope: authorityOf(S001_STAGE2_ENVELOPE),
@@ -122,9 +112,7 @@ export function requestProblems(request) {
   if (!demand || typeof demand !== "object" || Array.isArray(demand)) return { status: "UNRESOLVED", reasonCodes: ["DEFINITION_REQUIRED"] };
   const machineLocal = Object.keys(demand).filter((k) => MACHINE_LOCAL_LANGUAGE.includes(k));
   if (machineLocal.length) return { status: "REFUSED", reasonCodes: ["MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED"] };
-  const undeclared = Object.keys(demand).filter((k) => !type.fields.includes(k));
-  const specific = type.problems ? type.problems(demand) : [];
-  const reasonCodes = [...undeclared.map((k) => `DEFINITION_FIELD_NOT_DECLARED:${k}`), ...specific];
+  const reasonCodes = shapeProblems(demand, type.shape);
   return reasonCodes.length ? { status: "REFUSED", reasonCodes } : null;
 }
 

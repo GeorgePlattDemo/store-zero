@@ -1,0 +1,44 @@
+{
+  "requestType": "SHEET_PACKAGE_V1",
+  "requestId": "EXAMPLE-SHEET",
+  "demand": {
+    "configurationId": "PLAYHOUSE-ARCHED-WINDOW",
+    "configurationVersion": "w36-h24-r12-c18/18",
+    "sheet": {
+      "thicknessIn": 0.5,
+      "lengthIn": 96,
+      "widthIn": 48
+    },
+    "features": [
+      {
+        "featureId": "OPENING",
+        "kind": "ARCHED_APERTURE",
+        "placement": "CENTERED",
+        "widthIn": 36,
+        "straightHeightIn": 24,
+        "riseIn": 12,
+        "retain": "TABS",
+        "requestedTabCount": 4
+      },
+      {
+        "featureId": "CENTER-SPLIT",
+        "kind": "STRAIGHT_SPLIT",
+        "within": "OPENING",
+        "line": "VERTICAL_CENTERLINE"
+      },
+      {
+        "featureId": "CUT-LEFT",
+        "kind": "CROSSCUT",
+        "fromEnd": "LEFT",
+        "distanceIn": 18
+      },
+      {
+        "featureId": "CUT-RIGHT",
+        "kind": "CROSSCUT",
+        "fromEnd": "RIGHT",
+        "distanceIn": 18
+      }
+    ],
+    "returnAllPieces": true
+  }
+}

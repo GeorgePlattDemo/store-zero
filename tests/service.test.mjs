@@ -93,9 +93,10 @@ test("an invalid catalog is never answered around", async () => {
   });
 });
 
-test("the Store will not start without naming itself; Railway's commit names it", async () => {
+test("the Store will not start without naming itself; the host's deployed commit names it", async () => {
   assert.throws(() => releaseFromEnvironment({}), /release identity/);
   assert.equal(releaseFromEnvironment({ RAILWAY_GIT_COMMIT_SHA: "abc123" }), "abc123");
+  assert.equal(releaseFromEnvironment({ RENDER_GIT_COMMIT: "def456" }), "def456");
   assert.equal(releaseFromEnvironment({ STORE_ZERO_RELEASE: "v1", RAILWAY_GIT_COMMIT_SHA: "abc123" }), "v1");
   await assert.rejects(startServer({ env: {}, port: 0 }), /release identity/);
   assert.deepEqual(allowedOriginsFromEnvironment({}), [ALLOWED]);

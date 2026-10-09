@@ -1,0 +1,10 @@
+# Render Blueprint for the Store Zero service: New → Blueprint → this repository → Apply.
+# The service names itself from the commit Render deploys (RENDER_GIT_COMMIT); nothing else is configured.
+services:
+  - type: web
+    name: store-zero
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    plan: free
+    autoDeploy: true

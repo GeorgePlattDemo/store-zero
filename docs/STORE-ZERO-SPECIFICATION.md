@@ -2,9 +2,9 @@
 ## Operational Specification and System Interface  
 ### How the public application gets attributable Store answers, how Q is derived, and how accepted definitions reach a bounded machine
 
-**3D Solutions LLC · Store Zero Operational Specification 0.4 · 2026-10-08**
+**3D Solutions LLC · Store Zero Operational Specification 0.5 · 2026-10-08**
 
-Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), and the Store's own HTTP service added (0.4; §6A.14).
+Specification 0.2 (2026-10-07), loaded into this repository with its errors corrected (0.3; every correction is listed in §18), the Store's own HTTP service added (0.4; §6A.14), and the exact definition and accepted-job-packet contracts added (0.5; §3.4, §10.4).
 
 By the time a reviewer reaches Store Zero, the broad architecture should already be familiar: Program investigates why; System defines what the job means; Store answers what this Store can actually provide for that definition. This document is the complete human-readable Store contract for that last step. The public application does **not** text-search this Markdown file at runtime. It sends a structured, versioned inquiry to the Store runtime. The Store evaluates that inquiry against Store-owned catalog data, declared availability, capability rules, process models, and economics, and returns a fresh answer attributable to the request. The code and data are the executable version of the rules described here; disagreement between this document and executable behavior is a defect to be fixed, not permission to improvise a result.  
 *Trace: `README.md`; `src/requests/store-request.mjs` (`evaluateStoreRequest`); `src/evaluation/`; `data/`; `acceptance/`.*
@@ -132,12 +132,27 @@ System's admission decides what the application may ask. Store Zero independentl
 | The request id is missing or blank | `UNRESOLVED` · `STORE_EVALUATION_REQUEST_ID_REQUIRED` |
 | The definition is missing | `UNRESOLVED` · `DEFINITION_REQUIRED` |
 | The definition carries machine-local language (`spline`, `toolpath`, `gcode`, `controller`, `servoSteps`) | `REFUSED` · `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED` |
-| The definition carries a field its type does not declare (Appendix B) | `REFUSED` · `DEFINITION_FIELD_NOT_DECLARED:<field>` |
-| An Alcove hardware demand names a Store SKU, an undeclared field, or a selection authority other than `STORE_ZERO` | `REFUSED` · `PROJECT_MAY_NOT_NAME_A_STORE_SKU` / `HARDWARE_DEMAND_FIELD_NOT_DECLARED:<field>` / `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO` |
+| The definition carries a field its type does not declare, at any level (§3.4) | `REFUSED` · `DEFINITION_FIELD_NOT_DECLARED:<path>` |
+| A declared field has the wrong type (text for a number, a fraction for a count, a list for an object) | `REFUSED` · `DEFINITION_FIELD_TYPE:<path>:<type>` |
+| An Alcove hardware demand names a Store SKU, or a selection authority other than `STORE_ZERO` | `REFUSED` · `PROJECT_MAY_NOT_NAME_A_STORE_SKU` / `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO` |
 | An offering lookup is not exactly one of `{searchText}`, `{storeSku}`, `{query}` within its limits | `REFUSED` with the lookup reason (Appendix D.8) |
 
-A request that passes reaches its evaluator, which validates every fact it consumes and returns `UNRESOLVED`, `REFUSED`, or `UNAVAILABLE` when a required fact is missing or outside a declared rule. A request may pass the gate and still be refused by the evaluator. Field-level schemas for the nested parts of each definition (parts, features, packages, sheets) are Open work; until then the evaluators' own checks in §6A govern them.  
-*Trace: `src/requests/store-request.mjs` (`MACHINE_LOCAL_LANGUAGE`, `REQUEST_TYPES[*].fields`, `REQUEST_TYPES.ALCOVE_INSERT_V1.problems`, `requestProblems`); `src/requests/offering-lookup.mjs` (`lookupProblems`). Tests: `tests/store-request.test.mjs`.*
+A request that passes reaches its evaluator, which validates every fact it consumes and returns `UNRESOLVED`, `REFUSED`, or `UNAVAILABLE` when a required fact is missing or outside a declared rule. A request may pass the gate and still be refused by the evaluator. Every field at every level of every definition is declared (§3.4); an undeclared or mistyped field is refused by its path.  
+*Trace: `src/requests/store-request.mjs` (`MACHINE_LOCAL_LANGUAGE`, `REQUEST_TYPES[*].shape`, `requestProblems`); `src/contracts/definitions.mjs`; `src/requests/offering-lookup.mjs` (`lookupProblems`). Tests: `tests/store-request.test.mjs`; `acceptance/contracts/contracts.test.mjs`.*
+
+## 3.4 Exact definition contracts
+
+Each evaluated request type has one exact definition shape: every field it may carry, at every level of nesting, and the type of each (`string`, finite `number`, whole `integer`, `boolean`, list, or object). The shapes are the ones System's own admission already validates, so a definition System admits is a definition Store reads in full; nothing System sends is silently dropped, and nothing outside the shape reaches an evaluator. `null` means "not supplied" for any field. Whether a value is supportable — an angle within the miter range, a spot rule the cell declares, a material the catalog offers — is the evaluator's answer, with its own reason codes, not the shape's.
+
+| Request type | Levels declared |
+|---|---|
+| `USER_DEFINED_BOARD_V1` | definition; `materialDemand` (species, form, nominal T and W — no grade); `parts[]` (`partId`, `lengthIn`, `features[]` with `featureId`, `kind`, `xIn`, `locationRule`, `acrossWidthRule`, `insetFromEdgeIn`) |
+| `ALCOVE_INSERT_V1` | definition; `materialDemand` (with grade); `boardRequirements[]`; `componentPrograms[]` and their spot and mill `features[]`; `hardwareDemand` (requirement, quantity, description, selection authority); `spotDemand` and its `features[]` |
+| `CUT_PACKAGE_V1` | definition; `cutPackages[]` (`packageId`, `material`, `endCut`, `finishedWidthIn`, `parts[]`, `spots[]`); `itemLines[]` (exact SKU or structured `requirement`) |
+| `SHEET_PACKAGE_V1` | definition; `sheet`; `features[]` (aperture, split and crosscut fields) |
+
+Complete serialized examples are committed under `contracts/examples/requests/`: Project 1, the default SPF job, a mixed cut package, the pine Alcove, the Playhouse sheet, and two lookups, each with the answer this Store gives it. `contracts/examples/requests/refused.json` lists definitions that are refused and the exact reasons: the count-only Board ticket, a Store identity sent by the caller, a grade on a user-defined board, an undeclared part field, a part length as text, machine-local language, a project naming a Store SKU, a fractional hardware count, and a missing request id. The examples are generated by `npm run build:examples`, and acceptance fails if a committed example ever differs from what the code produces.  
+*Trace: `src/contracts/shape.mjs` (`shapeProblems`); `src/contracts/definitions.mjs` (`DEFINITION_SHAPES`); `scripts/build-contract-examples.mjs`; `contracts/examples/requests/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the committed examples are exactly what the code produces”, “every request example is a clean definition and gets its recorded answer”, “every refused example is refused with its exact reasons”.*
 
 # 4. Store routing and answer semantics
 
@@ -1141,7 +1156,7 @@ Carries Store requests over HTTPS. It computes nothing: every answer comes from 
 | `POST /v1/requests` | a JSON body that is the request of §3.1, `Content-Type: application/json`, at most 256 KiB | `protocol`, `storeRelease`, `payloadDigest` (SHA-256 of the bytes received), `respondedAt`, `answer` |
 | `OPTIONS /v1/requests` | a browser preflight from an allowed origin | `204` with the allowed methods and headers |
 
-Configuration: `STORE_ZERO_RELEASE`, or on Railway the built commit `RAILWAY_GIT_COMMIT_SHA` (required — the service refuses to start without a release identity); `STORE_ZERO_ALLOWED_ORIGINS`, comma-separated browser origins (default `https://georgeplattdemo.github.io`); `HOST`, `PORT` (default 8080).
+Configuration: `STORE_ZERO_RELEASE`, or the commit the host deployed — Render's `RENDER_GIT_COMMIT` or Railway's `RAILWAY_GIT_COMMIT_SHA` (required — the service refuses to start without a release identity); `STORE_ZERO_ALLOWED_ORIGINS`, comma-separated browser origins (default `https://georgeplattdemo.github.io`); `HOST`, `PORT` (default 8080).
 
 ### Decision sequence
 
@@ -1164,7 +1179,7 @@ It does not calculate, cache, or retry an answer; accept a Store identity, clock
 
 ### Deployment
 
-`Dockerfile` builds the image from `package.json`, `src/` and `data/` only; `railway.json` tells Railway to build that Dockerfile and to check `/health` before sending traffic. A Railway service created from this repository needs no variables.
+`Dockerfile` builds the image from `package.json`, `src/` and `data/` only. `render.yaml` is a Render Blueprint (New → Blueprint → this repository → Apply) and `railway.json` the equivalent for Railway; each builds that Dockerfile and checks `/health` before sending traffic, and neither needs variables.
 
 ### Where it lives
 
@@ -1423,7 +1438,30 @@ The current Store code already performs bounded semantic lowering inside its mod
 *Trace: `deriveOperationPlan`; `deriveBatchComponentPlan`; `operationsFor`; Store tests asserting operation kinds and absence of G-code/Cycle Start.*
 
 The full controller-specific compiler target—registered physical two-saw transforms, physical Router 1/2/3 and Spot 1/2 transforms, retained-face compensation, controller serialization, local admission and physical execution—is not present under Store `src/`. It remains **specified, not built** and is listed in Open work.  
-*Trace: the `src/` tree contains only the fifteen modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
+*Trace: the `src/` tree contains only the eighteen modules indexed in Appendix C; `STORE-MACHINE-BOUNDARY.md` assigns controller program/postprocessor syntax to the local machine layer.*
+
+## 10.4 The accepted job packet
+
+The accepted job packet is the one object that connects a customer's accepted job to the machine side. System produces it when the customer accepts an offer; the machine side reads it directly, and nothing in it is retyped or reconstructed by a project-specific script.
+
+| Field | Content |
+|---|---|
+| `schema` | `STB-ACCEPTED-JOB-PACKET-1` |
+| `packetId` | Identity of this packet |
+| `project` | `projectId`, `classId`, `title` — the customer's working project, distinct from the recipe or tile |
+| `definition` | `definitionId`, `revisionId`, `requestType`, the exact `demand` the Store evaluated, and `requirements` — System facts the Store does not evaluate but the machine side carries (`endRelation`, `lengthDatum`, `endIdentity`) |
+| `storeAnswer` | The answer this Store gave for that definition, with its receipt, unchanged |
+| `decision` | `decisionId`, `kind` (`ACCEPTED` only), `offerId`, `decidedAt`, `evidenceClass` (`SIMULATED`) |
+| `authority` | `physicalRelease: false`, `evidenceClass: "SIMULATED"` |
+
+Only an accepted decision makes a packet: a decline, deferral or revision request does not. A packet is acted on only after `verifyJobPacket` checks it against this Store, which answers:
+
+- `VERIFIED` — well formed; the answer is `SUPPORTABLE` and of the definition's request type; its receipt hash recomputes; its calculation identity matches its receipt; the receipt's demand hash is the hash of the packet's definition; the receipt names the expected Store release; and this Store, asked again now, gives exactly the same answer.
+- `REFUSED` — with the reason: `PACKET_FIELD_REQUIRED:<path>`, `PACKET_REQUIRES_ACCEPTED_DECISION`, `PHYSICAL_RELEASE_NOT_AVAILABLE`, `PACKET_ANSWER_NOT_SUPPORTABLE`, `PACKET_RECEIPT_ALTERED`, `PACKET_ANSWER_ALTERED`, `PACKET_DEMAND_CHANGED`, `PACKET_STORE_RELEASE_MISMATCH`, among others in Appendix D.9.
+- `STALE` — intact, but this Store would now answer differently (for example the board was repriced): `PACKET_STORE_ANSWER_NOT_CURRENT`. A stale packet is re-quoted; a late answer never authorizes a changed job.
+
+The complete Project 1 packet is `contracts/examples/packets/project-1.accepted.json`; `contracts/examples/packets/refused.json` holds a declined offer, a claimed physical release, a price edited after the answer, an edited receipt, a definition changed after the answer, an answer from another Store, and a refused answer, each refused with its exact reason.  
+*Trace: `src/contracts/job-packet.mjs` (`JOB_PACKET_SCHEMA`, `JOB_PACKET_SHAPE`, `packetProblems`, `verifyJobPacket`); `contracts/examples/packets/`. Tests: `acceptance/contracts/contracts.test.mjs` — “the Project 1 packet is well formed and verifies against this Store”, “a packet that is declined, altered, changed, foreign or refused is never acted on”, “an intact packet whose Store answer is no longer current is STALE and must be re-quoted”.*
 
 # 11. Five library jobs, start to finish
 
@@ -1559,9 +1597,9 @@ Every row states the present defect/gap, the required end state, and the accepta
 
 | Item | What is wrong or absent today | What it must become | Test/evidence that proves closure |
 |---|---|---|---|
-| Store service deployment | The service (§6A.14) is built and tested here, but not yet running: the hosted Store today is System's adapter loading the predecessor Store at a pinned commit. | A Railway service built from this repository, separate from the existing one, answering at its own address under this repository's release identity. | Deployed `/health` shows the built commit; a Project 1 request to the deployed address answers $11.09. |
+| Store service deployment | The service (§6A.14) is built and tested here, but not yet running: the hosted Store today is System's adapter loading the predecessor Store at a pinned commit. | A hosted service built from this repository (Render Blueprint `render.yaml`, or Railway `railway.json`), separate from the existing one, answering at its own address under this repository's release identity. | Deployed `/health` shows the built commit; a Project 1 request to the deployed address answers $11.09. |
 | Application cutover | The application's adapter, `STORE_PIN`, hosted-Store start script and CI Store reference point at the predecessor Store. Its count-only square-stick Board (`BOARD_SQUARE_V1`) and the request fields `storeRevision`/`evaluatedAt` are refused here. | One owner change in System that points the application at this Store's service and nothing else, after System sends clean definitions for every tile. | Application acceptance through the public entry against this Store's release. |
-| Nested definition schemas | The request gate checks top-level fields; parts, features, packages, sheets and hardware requirements are checked by the evaluators as they consume them, and undeclared nested fields are ignored. | Exact field-level schemas for every definition type, with complete serialized examples, enforced before evaluation. | **new:** schema tests with one complete example and one rejected example per field. |
+| User-defined board grade | A `USER_DEFINED_BOARD_V1` definition names species, form and nominal size but no grade, so the Store chooses among grades by length alone; a customer cannot ask for, say, ground-contact treated lumber on this path (a grade is refused as an undeclared field rather than ignored). | Add grade to the definition and to board matching, deliberately and versioned, with recorded answers re-established for the changed path. | New definition version with grade; differential evidence for every ungraded answer; refused-example list updated. |
 | Alcove consolidation | `ALCOVE_INSERT_V1` is the one project-shaped request type, and its incomplete-answer label `PARTIAL_BUDGETARY_ESTIMATE` differs from every other evaluator. | Express Alcove parent boards, components and hardware as neutral cut-package lines, then retire the project-shaped type and label together. | Differential evidence that the consolidated answers match, and removal of the Alcove exemption in `acceptance/boundaries`. |
 | System definitions | System's definitions §8 delegates yard, merchant and Store terms to the predecessor Store's `DEFINITIONS.md`, and System's Store request type list still names `BOARD_SQUARE_V1`. | System §8 defines those terms itself (§16 lists the ones this specification uses) and its request type list matches §3.2. | System definitions review. |
 | D-001 dual-miter target | Executable Stage-2 has miter `SAW-L` and square-only `SAW-R`; physical target specifies two registered end miter saws. | Define physical saw transforms, signed angle semantics, admitted ranges and lowering for both end stations. | **new:** `d001-physical-saw-envelope.test` proves both registered saws, signed limits and refusal outside them. |
@@ -1625,7 +1663,7 @@ The Store request is §3.1: `requestType`, `requestId`, `demand`, and nothing el
 
 # Appendix B. Request-type field contracts
 
-Each type lists the definition fields it declares; any other top-level field is refused (§3.3).
+Each type lists the top-level definition fields it declares; the exact nested shape is §3.4 and `src/contracts/definitions.mjs`, and anything outside it is refused (§3.3).
 
 ## B.1 `USER_DEFINED_BOARD_V1`
 
@@ -1685,8 +1723,11 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | One worked example per accepted request type | §6A.12 |
 | `src/requests/store-request.mjs` | §6A.13 |
 | `src/service/server.mjs` | §6A.14 |
+| `src/contracts/shape.mjs` | §3.4 |
+| `src/contracts/definitions.mjs` | §3.4 |
+| `src/contracts/job-packet.mjs` | §10.4 |
 
-`src/` contains exactly these fifteen modules. No module under `src/` is omitted from §6A.  
+`src/` contains exactly these eighteen modules. No module under `src/` is omitted from §6A.  
 *Trace: `src/` tree; `acceptance/boundaries`.*
 
 # Appendix D. Store reason-code index
@@ -1723,8 +1764,12 @@ This appendix is an index, not a substitute for §6A. The deciding condition, or
 
 ## D.8 Request layer and catalog — §3.3, §5.3, §6A.11, §6A.13
 
-`REQUEST_MUST_BE_AN_OBJECT`; `REQUEST_FIELD_NOT_DECLARED:<field>`; `REQUEST_TYPE_NOT_ACCEPTED`; `STORE_EVALUATION_REQUEST_ID_REQUIRED`; `DEFINITION_REQUIRED`; `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`; `DEFINITION_FIELD_NOT_DECLARED:<field>`; `HARDWARE_DEMAND_MUST_BE_AN_OBJECT`; `PROJECT_MAY_NOT_NAME_A_STORE_SKU`; `HARDWARE_DEMAND_FIELD_NOT_DECLARED:<field>`; `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO`; `LOOKUP_DEMAND_REQUIRED`; `LOOKUP_NEEDS_EXACTLY_ONE_OF_SEARCHTEXT_STORESKU_QUERY`; `SEARCH_TEXT_MUST_BE_1_TO_80_CHARACTERS`; `STORE_SKU_REQUIRED`; `LOOKUP_QUERY_REQUIRED`; `LOOKUP_QUERY_FIELD_NOT_DECLARED:<field>`. An invalid catalog is not answered: it throws `STORE_CATALOG_INVALID` with every problem listed.
+`REQUEST_MUST_BE_AN_OBJECT`; `REQUEST_FIELD_NOT_DECLARED:<field>`; `REQUEST_TYPE_NOT_ACCEPTED`; `STORE_EVALUATION_REQUEST_ID_REQUIRED`; `DEFINITION_REQUIRED`; `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`; `DEFINITION_FIELD_NOT_DECLARED:<path>`; `DEFINITION_FIELD_TYPE:<path>:<type>`; `PROJECT_MAY_NOT_NAME_A_STORE_SKU`; `HARDWARE_SELECTION_AUTHORITY_MUST_BE_STORE_ZERO`; `LOOKUP_DEMAND_REQUIRED`; `LOOKUP_NEEDS_EXACTLY_ONE_OF_SEARCHTEXT_STORESKU_QUERY`; `SEARCH_TEXT_MUST_BE_1_TO_80_CHARACTERS`; `STORE_SKU_REQUIRED`; `LOOKUP_QUERY_REQUIRED`; `LOOKUP_QUERY_FIELD_NOT_DECLARED:<field>`. An invalid catalog is not answered: it throws `STORE_CATALOG_INVALID` with every problem listed.
 
+
+## D.9 Accepted job packet — §10.4
+
+`PACKET_MUST_BE_AN_OBJECT`; `PACKET_FIELD_REQUIRED:<path>`; `PACKET_FIELD_NOT_DECLARED:<path>`; `PACKET_FIELD_TYPE:<path>:<type>`; `PACKET_SCHEMA_NOT_ACCEPTED`; `PACKET_REQUIRES_ACCEPTED_DECISION`; `PACKET_DECISION_MUST_BE_SIMULATED`; `PHYSICAL_RELEASE_NOT_AVAILABLE`; `PACKET_AUTHORITY_MUST_BE_SIMULATED`; `PACKET_STORE_ANSWER_REQUIRED`; `PACKET_ANSWER_REQUEST_TYPE_MISMATCH`; `PACKET_ANSWER_NOT_SUPPORTABLE`; `PACKET_ANSWER_HAS_NO_RECEIPT`; `PACKET_RECEIPT_ALTERED`; `PACKET_ANSWER_ALTERED`; `PACKET_DEMAND_CHANGED`; `PACKET_STORE_RELEASE_MISMATCH`; `PACKET_DEFINITION_NOT_EVALUATED`; `PACKET_STORE_ANSWER_NOT_CURRENT` (status `STALE`).
 # 18. Corrections made on load
 
 Specification 0.2 was loaded into this repository on 2026-10-08. It described the predecessor Store, so each statement was checked against the code and data adopted here, and the following were corrected. Behavior is unchanged except where a row says a path was removed or refused; `acceptance/differential` is the evidence that everything else answers exactly as before.

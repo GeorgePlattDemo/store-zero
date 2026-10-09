@@ -1,0 +1,605 @@
+[
+  {
+    "name": "count-only Board ticket",
+    "request": {
+      "requestType": "BOARD_SQUARE_V1",
+      "requestId": "R1",
+      "demand": {
+        "storeSku": "STB-ZERO-SPF-2X4-96-001",
+        "qty": 1
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "REQUEST_TYPE_NOT_ACCEPTED"
+      ]
+    }
+  },
+  {
+    "name": "Store identity sent by the caller",
+    "request": {
+      "requestType": "USER_DEFINED_BOARD_V1",
+      "requestId": "R2",
+      "demand": {
+        "title": "Project 1 reference specimen",
+        "configurationId": "SYO-USER1-XBRACE",
+        "configurationVersion": "0.2",
+        "classId": "app.user-defined-board.v1",
+        "materialDemand": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4
+        },
+        "definedWorkpieceLengthIn": 60,
+        "requiredOps": [
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "sawAngleDeg": 26.387799961243,
+        "cutPlane": "miter-face",
+        "datumCMethod": "REFERENCE_CUT",
+        "declaredSawCuts": 3,
+        "declaredSpotCount": 2,
+        "unresolvedConditions": [],
+        "parts": [
+          {
+            "partId": "PART-1",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "PART-2",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          }
+        ],
+        "storeRevision": "9c62d9d"
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "DEFINITION_FIELD_NOT_DECLARED:storeRevision"
+      ]
+    }
+  },
+  {
+    "name": "grade on a user-defined board",
+    "request": {
+      "requestType": "USER_DEFINED_BOARD_V1",
+      "requestId": "R3",
+      "demand": {
+        "title": "Project 1 reference specimen",
+        "configurationId": "SYO-USER1-XBRACE",
+        "configurationVersion": "0.2",
+        "classId": "app.user-defined-board.v1",
+        "materialDemand": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4,
+          "grade": "ground-contact"
+        },
+        "definedWorkpieceLengthIn": 60,
+        "requiredOps": [
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "sawAngleDeg": 26.387799961243,
+        "cutPlane": "miter-face",
+        "datumCMethod": "REFERENCE_CUT",
+        "declaredSawCuts": 3,
+        "declaredSpotCount": 2,
+        "unresolvedConditions": [],
+        "parts": [
+          {
+            "partId": "PART-1",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "PART-2",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "DEFINITION_FIELD_NOT_DECLARED:materialDemand.grade"
+      ]
+    }
+  },
+  {
+    "name": "undeclared part field",
+    "request": {
+      "requestType": "USER_DEFINED_BOARD_V1",
+      "requestId": "R4",
+      "demand": {
+        "title": "Project 1 reference specimen",
+        "configurationId": "SYO-USER1-XBRACE",
+        "configurationVersion": "0.2",
+        "classId": "app.user-defined-board.v1",
+        "materialDemand": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4
+        },
+        "definedWorkpieceLengthIn": 60,
+        "requiredOps": [
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "sawAngleDeg": 26.387799961243,
+        "cutPlane": "miter-face",
+        "datumCMethod": "REFERENCE_CUT",
+        "declaredSawCuts": 3,
+        "declaredSpotCount": 2,
+        "unresolvedConditions": [],
+        "parts": [
+          {
+            "partId": "PART-1",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ],
+            "finish": "stain"
+          },
+          {
+            "partId": "PART-2",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ],
+            "finish": "stain"
+          }
+        ]
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "DEFINITION_FIELD_NOT_DECLARED:parts[0].finish",
+        "DEFINITION_FIELD_NOT_DECLARED:parts[1].finish"
+      ]
+    }
+  },
+  {
+    "name": "part length as text",
+    "request": {
+      "requestType": "USER_DEFINED_BOARD_V1",
+      "requestId": "R5",
+      "demand": {
+        "title": "Project 1 reference specimen",
+        "configurationId": "SYO-USER1-XBRACE",
+        "configurationVersion": "0.2",
+        "classId": "app.user-defined-board.v1",
+        "materialDemand": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4
+        },
+        "definedWorkpieceLengthIn": 60,
+        "requiredOps": [
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "sawAngleDeg": 26.387799961243,
+        "cutPlane": "miter-face",
+        "datumCMethod": "REFERENCE_CUT",
+        "declaredSawCuts": 3,
+        "declaredSpotCount": 2,
+        "unresolvedConditions": [],
+        "parts": [
+          {
+            "partId": "PART-1",
+            "lengthIn": "18",
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          },
+          {
+            "partId": "PART-2",
+            "lengthIn": "18",
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "DEFINITION_FIELD_TYPE:parts[0].lengthIn:number",
+        "DEFINITION_FIELD_TYPE:parts[1].lengthIn:number"
+      ]
+    }
+  },
+  {
+    "name": "machine-local language",
+    "request": {
+      "requestType": "SHEET_PACKAGE_V1",
+      "requestId": "R6",
+      "demand": {
+        "configurationId": "PLAYHOUSE-ARCHED-WINDOW",
+        "configurationVersion": "w36-h24-r12-c18/18",
+        "sheet": {
+          "thicknessIn": 0.5,
+          "lengthIn": 96,
+          "widthIn": 48
+        },
+        "features": [
+          {
+            "featureId": "OPENING",
+            "kind": "ARCHED_APERTURE",
+            "placement": "CENTERED",
+            "widthIn": 36,
+            "straightHeightIn": 24,
+            "riseIn": 12,
+            "retain": "TABS",
+            "requestedTabCount": 4
+          },
+          {
+            "featureId": "CENTER-SPLIT",
+            "kind": "STRAIGHT_SPLIT",
+            "within": "OPENING",
+            "line": "VERTICAL_CENTERLINE"
+          },
+          {
+            "featureId": "CUT-LEFT",
+            "kind": "CROSSCUT",
+            "fromEnd": "LEFT",
+            "distanceIn": 18
+          },
+          {
+            "featureId": "CUT-RIGHT",
+            "kind": "CROSSCUT",
+            "fromEnd": "RIGHT",
+            "distanceIn": 18
+          }
+        ],
+        "returnAllPieces": true,
+        "toolpath": "G1 X10"
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED"
+      ]
+    }
+  },
+  {
+    "name": "project naming a Store SKU",
+    "request": {
+      "requestType": "ALCOVE_INSERT_V1",
+      "requestId": "R7",
+      "demand": {
+        "title": "Alcove insert",
+        "classId": "alcove.insert.square_shelves",
+        "configurationId": "ALCOVE-EXAMPLE",
+        "configurationVersion": "1",
+        "materialDemand": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 6,
+          "grade": "select"
+        },
+        "boardRequirements": [
+          {
+            "requirementId": "ALCOVE-UPRIGHT-PARENTS",
+            "role": "UPRIGHTS",
+            "requiredOps": [
+              "CROSSCUT"
+            ],
+            "carriesSpotDemand": false,
+            "selectionAuthority": "STORE_ZERO"
+          },
+          {
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "role": "SHELVES",
+            "requiredOps": [
+              "CROSSCUT"
+            ],
+            "carriesSpotDemand": false,
+            "selectionAuthority": "STORE_ZERO"
+          }
+        ],
+        "componentPrograms": [
+          {
+            "componentId": "ALCOVE-UPRIGHT-01",
+            "requirementId": "ALCOVE-UPRIGHT-PARENTS",
+            "finishedLengthIn": 65,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-UPRIGHT-02",
+            "requirementId": "ALCOVE-UPRIGHT-PARENTS",
+            "finishedLengthIn": 65,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-UPRIGHT-03",
+            "requirementId": "ALCOVE-UPRIGHT-PARENTS",
+            "finishedLengthIn": 65,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-UPRIGHT-04",
+            "requirementId": "ALCOVE-UPRIGHT-PARENTS",
+            "finishedLengthIn": 65,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-01-STRIP-01",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-01-STRIP-02",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-01-STRIP-03",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 3,
+            "features": [
+              {
+                "featureId": "ALCOVE-SHELF-01-RIP",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 3,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "componentId": "ALCOVE-SHELF-02-STRIP-01",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-02-STRIP-02",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-02-STRIP-03",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 3,
+            "features": [
+              {
+                "featureId": "ALCOVE-SHELF-02-RIP",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 3,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "componentId": "ALCOVE-SHELF-03-STRIP-01",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-03-STRIP-02",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-03-STRIP-03",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 3,
+            "features": [
+              {
+                "featureId": "ALCOVE-SHELF-03-RIP",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 3,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "componentId": "ALCOVE-SHELF-04-STRIP-01",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-04-STRIP-02",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-04-STRIP-03",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 3,
+            "features": [
+              {
+                "featureId": "ALCOVE-SHELF-04-RIP",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 3,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "componentId": "ALCOVE-SHELF-05-STRIP-01",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-05-STRIP-02",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 5.5,
+            "features": []
+          },
+          {
+            "componentId": "ALCOVE-SHELF-05-STRIP-03",
+            "requirementId": "ALCOVE-SHELF-PARENTS",
+            "finishedLengthIn": 44,
+            "finishedWidthIn": 3,
+            "features": [
+              {
+                "featureId": "ALCOVE-SHELF-05-RIP",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 3,
+                "totalDepthIn": 0.75
+              }
+            ]
+          }
+        ],
+        "hardwareDemand": {
+          "requirementId": "ALCOVE-PINS-AND-SCREWS",
+          "qty": 1,
+          "storeSku": "STB-ZERO-HW-ALCOVE-PACK-001"
+        },
+        "spotDemand": null,
+        "unresolvedConditions": [],
+        "materialSource": "STORE_ZERO"
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "PROJECT_MAY_NOT_NAME_A_STORE_SKU"
+      ]
+    }
+  },
+  {
+    "name": "fractional hardware count",
+    "request": {
+      "requestType": "CUT_PACKAGE_V1",
+      "requestId": "R8",
+      "demand": {
+        "configurationId": "C",
+        "configurationVersion": "1",
+        "cutPackages": [],
+        "itemLines": [
+          {
+            "lineId": "L",
+            "storeSku": "STB-ZERO-HW-CARRIAGE-BOLT-PACK-001",
+            "qty": 1.5
+          }
+        ]
+      }
+    },
+    "answer": {
+      "status": "REFUSED",
+      "reasonCodes": [
+        "DEFINITION_FIELD_TYPE:itemLines[0].qty:integer"
+      ]
+    }
+  },
+  {
+    "name": "missing request id",
+    "request": {
+      "requestType": "CUT_PACKAGE_V1",
+      "demand": {
+        "configurationId": "C",
+        "configurationVersion": "1"
+      }
+    },
+    "answer": {
+      "status": "UNRESOLVED",
+      "reasonCodes": [
+        "STORE_EVALUATION_REQUEST_ID_REQUIRED"
+      ]
+    }
+  }
+]

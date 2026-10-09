@@ -1,0 +1,498 @@
+{
+  "schema": "STB-ACCEPTED-JOB-PACKET-1",
+  "packetId": "PACKET-PROJECT-1-0001",
+  "project": {
+    "projectId": "PROJECT-1-SPECIMEN",
+    "classId": "app.user-defined-board.v1",
+    "title": "Project 1 reference specimen"
+  },
+  "definition": {
+    "definitionId": "SYO-USER1-XBRACE-0.1",
+    "revisionId": "SYO-USER1-XBRACE-0.1-v5",
+    "requestType": "USER_DEFINED_BOARD_V1",
+    "demand": {
+      "title": "Project 1 reference specimen",
+      "configurationId": "SYO-USER1-XBRACE",
+      "configurationVersion": "0.2",
+      "classId": "app.user-defined-board.v1",
+      "materialDemand": {
+        "species": "syp-treated",
+        "form": "board",
+        "nominalT": 2,
+        "nominalW": 4
+      },
+      "definedWorkpieceLengthIn": 60,
+      "requiredOps": [
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION"
+      ],
+      "sawAngleDeg": 26.387799961243,
+      "cutPlane": "miter-face",
+      "datumCMethod": "REFERENCE_CUT",
+      "declaredSawCuts": 3,
+      "declaredSpotCount": 2,
+      "unresolvedConditions": [],
+      "parts": [
+        {
+          "partId": "PART-1",
+          "lengthIn": 18,
+          "features": [
+            {
+              "featureId": "SPOT-1",
+              "kind": "SPOT_ON_LOCATION",
+              "xIn": 9,
+              "locationRule": "CENTERED_ON_PART",
+              "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+            }
+          ]
+        },
+        {
+          "partId": "PART-2",
+          "lengthIn": 18,
+          "features": [
+            {
+              "featureId": "SPOT-2",
+              "kind": "SPOT_ON_LOCATION",
+              "xIn": 9,
+              "locationRule": "CENTERED_ON_PART",
+              "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+            }
+          ]
+        }
+      ]
+    },
+    "requirements": {
+      "endRelation": "parallel",
+      "lengthDatum": "long-long-outer-edge"
+    }
+  },
+  "storeAnswer": {
+    "requestType": "USER_DEFINED_BOARD_V1",
+    "requestId": "PROJECT-1-INQUIRY-0001",
+    "title": "Project 1 reference specimen",
+    "stage": 2,
+    "store": "Store Zero",
+    "status": "SUPPORTABLE",
+    "lines": [
+      {
+        "storeSku": "STB-ZERO-PTAG-2X4-72-001",
+        "description": "2x4 x 72 in SYP AC2 #2 Prime AG",
+        "qty": 1,
+        "stock": {
+          "status": "ON_HAND_SUFFICIENT",
+          "offered": true,
+          "fixtureDeclaredOnHand": 30,
+          "allocatedSimulated": 0,
+          "available": 30,
+          "qtyNeeded": 1,
+          "sufficient": true,
+          "supplierPath": "SPECIAL_ORDER_REPRESENTED",
+          "assertions": {
+            "onHand": {
+              "basis": "SYNTHETIC_FIXTURE",
+              "label": "fixture-declared on-hand stock"
+            },
+            "allocation": {
+              "basis": "SIMULATED_STATE"
+            },
+            "supplierPath": {
+              "basis": "SYNTHETIC_FIXTURE"
+            }
+          },
+          "asOf": "2026-09-10"
+        },
+        "price": {
+          "status": "STORE_ZERO_SELLING_PRICE",
+          "list_reference": 4.9,
+          "listReferenceBasis": "PLAUSIBLE",
+          "mark_on": 0.05,
+          "sellingPrice": 5.15,
+          "sellingPriceBasis": "CALCULATED",
+          "observationId": null,
+          "asOf": "2026-09-10",
+          "note": "Budgetary fixture price. Not a commercial quote."
+        },
+        "capability": {
+          "status": "SUPPORTABLE",
+          "declared": [
+            "CROSSCUT",
+            "MITER_LIMITED",
+            "SPOT_ON_LOCATION"
+          ],
+          "cellFamily": [
+            "D-001"
+          ],
+          "limitations": [],
+          "basis": "DECLARED_STAGE2_CAPABILITY",
+          "envelope": {
+            "status": "SUPPORTABLE",
+            "reasons": [],
+            "unresolved": [],
+            "envelope": "D001-STAGE2-ENVELOPE-0.3",
+            "derived": {
+              "millPasses": 1,
+              "miter": {
+                "requestedDeg": 26.387799961243,
+                "minDeg": 0,
+                "maxDeg": 45,
+                "motion": "DOWNSTROKE"
+              },
+              "spot": {
+                "mode": "SPOT_ON_LOCATION",
+                "toolDiameterIn": 0.1875,
+                "depthClaimed": false
+              }
+            }
+          }
+        }
+      }
+    ],
+    "materialResolution": {
+      "status": "MAPPED",
+      "storeSku": "STB-ZERO-PTAG-2X4-72-001",
+      "pricingReferenceSku": "STB-ZERO-PTAG-2X4-72-001",
+      "pricingReferenceStockLengthIn": 72,
+      "allocationClaimed": false,
+      "requestedMinimumWorkpieceLengthIn": 60,
+      "workpieceLengthIn": 72,
+      "selectionPolicy": "SHORTEST_COMPLETE_STORE_OFFERING",
+      "consideredCandidates": [
+        {
+          "storeSku": "STB-ZERO-PTAG-2X4-72-001",
+          "stockLengthIn": 72,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null,
+          "stockStatus": "ON_HAND_SUFFICIENT",
+          "priceStatus": "STORE_ZERO_SELLING_PRICE",
+          "capabilityStatus": "SUPPORTABLE"
+        }
+      ]
+    },
+    "estimate": {
+      "status": "BUDGETARY_ESTIMATE",
+      "complete": true,
+      "completeness": "COMPLETE_FOR_TRAVEL_STANDARD",
+      "unresolved": [],
+      "standard": {
+        "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
+        "version": "0.2.0",
+        "basis": "DECLARED_STAGE2_MODEL",
+        "measured": false,
+        "commissioned": false
+      },
+      "economics": {
+        "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
+        "version": "0.1.0",
+        "basis": "DECLARED_STAGE2_MODEL",
+        "measured": false,
+        "annualCostPoolUsd": 120000,
+        "forecastProductiveHours": 600,
+        "targetGrossMargin": 0.2,
+        "costPoolComponentsUsd": {
+          "operatorBurden": 50000,
+          "capitalRecovery": 25000,
+          "facilityInsuranceAdmin": 20000,
+          "maintenanceTooling": 15000,
+          "energyDustIt": 10000
+        },
+        "note": "Explicit Stage-2 scenario economics. Replace with measured Store evidence later; do not rewrite historical results.",
+        "breakEvenPerHour": 200,
+        "sellRatePerHour": 250,
+        "setupCharge": 0,
+        "setupTimeMin": 0,
+        "formula": "Q = stock/sourced selling price + (T_MACHINE_hr × STORE_MACHINE_SELL_RATE)"
+      },
+      "travel": {
+        "configurationId": "SYO-USER1-XBRACE",
+        "configurationVersion": "0.2",
+        "datumA": {
+          "id": "DATUM_A",
+          "meaning": "fixed fence reference",
+          "axis": "Y",
+          "valueIn": 0
+        },
+        "datumB": {
+          "id": "DATUM_B",
+          "meaning": "fixed table/support reference",
+          "axis": "Z",
+          "valueIn": 0
+        },
+        "datumC": {
+          "id": "DATUM_C",
+          "meaning": "dynamic longitudinal workpiece origin",
+          "axis": "X",
+          "allowedEstablishmentMethods": [
+            "REFERENCE_CUT",
+            "MECHANICAL_REFERENCE",
+            "SENSED_FACE"
+          ],
+          "establishmentMethod": "REFERENCE_CUT",
+          "stationId": "SAW-L"
+        },
+        "positionValidRequired": true,
+        "parts": [
+          {
+            "partId": "PART-1",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+                "insetFromEdgeIn": null,
+                "acrossWidthIn": 1.75
+              }
+            ]
+          },
+          {
+            "partId": "PART-2",
+            "lengthIn": 18,
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+                "insetFromEdgeIn": null,
+                "acrossWidthIn": 1.75
+              }
+            ]
+          }
+        ],
+        "operationPlan": [
+          {
+            "sequence": 1,
+            "opId": "OP-REF-CUT",
+            "kind": "REFERENCE_CUT",
+            "stationId": "SAW-L",
+            "datumEffect": "ESTABLISH_DATUM_C",
+            "angleDeg": 26.387799961243,
+            "indexDistanceIn": 0,
+            "timeSec": 3.0853
+          },
+          {
+            "sequence": 2,
+            "opId": "OP-INDEX-2",
+            "kind": "INDEX",
+            "purpose": "POSITION_SPOT-1",
+            "fromCIn": 0,
+            "toCIn": 27,
+            "distanceIn": 27,
+            "timeSec": 3.625
+          },
+          {
+            "sequence": 3,
+            "opId": "SPOT-1",
+            "kind": "SPOT_ON_LOCATION",
+            "stationId": "SPOT-FACE-REF",
+            "partId": "PART-1",
+            "partRelativeXIn": 9,
+            "workpieceFeatureXIn": 9,
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+            "acrossWidthIn": 1.75,
+            "fullDiameterDepthIn": 0.1875,
+            "plungeIn": 0.243831,
+            "depthIsPartRequirement": true,
+            "timeSec": 1.9971
+          },
+          {
+            "sequence": 4,
+            "opId": "OP-INDEX-4",
+            "kind": "INDEX",
+            "purpose": "POSITION_SPOT-2",
+            "fromCIn": 27,
+            "toCIn": 8.875,
+            "distanceIn": 18.125,
+            "timeSec": 2.5156
+          },
+          {
+            "sequence": 5,
+            "opId": "SPOT-2",
+            "kind": "SPOT_ON_LOCATION",
+            "stationId": "SPOT-FACE-REF",
+            "partId": "PART-2",
+            "partRelativeXIn": 9,
+            "workpieceFeatureXIn": 27.125,
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
+            "acrossWidthIn": 1.75,
+            "fullDiameterDepthIn": 0.1875,
+            "plungeIn": 0.243831,
+            "depthIsPartRequirement": true,
+            "timeSec": 1.9971
+          },
+          {
+            "sequence": 6,
+            "opId": "OP-INDEX-CUT-1",
+            "kind": "INDEX",
+            "purpose": "POSITION_CUTOFF_PART-1",
+            "fromCIn": 8.875,
+            "toCIn": -18,
+            "distanceIn": 26.875,
+            "timeSec": 3.6094
+          },
+          {
+            "sequence": 7,
+            "opId": "OP-CUTOFF-1",
+            "kind": "MITER_CUTOFF",
+            "stationId": "SAW-L",
+            "partId": "PART-1",
+            "partLengthIn": 18,
+            "angleDeg": 26.387799961243,
+            "kerfIn": 0.125,
+            "retainedAfterIn": 53.75,
+            "controlPass": true,
+            "timeSec": 3.0853
+          },
+          {
+            "sequence": 8,
+            "opId": "OP-REBASE-C-1",
+            "kind": "REBASE_DATUM_C",
+            "stationId": "SAW-L",
+            "method": "FRESH_CUT_FACE",
+            "timeSec": 0
+          },
+          {
+            "sequence": 9,
+            "opId": "OP-INDEX-CUT-2",
+            "kind": "INDEX",
+            "purpose": "POSITION_CUTOFF_PART-2",
+            "fromCIn": 0,
+            "toCIn": -18,
+            "distanceIn": 18,
+            "timeSec": 2.5
+          },
+          {
+            "sequence": 10,
+            "opId": "OP-CUTOFF-2",
+            "kind": "MITER_CUTOFF",
+            "stationId": "SAW-L",
+            "partId": "PART-2",
+            "partLengthIn": 18,
+            "angleDeg": 26.387799961243,
+            "kerfIn": 0.125,
+            "retainedAfterIn": 35.625,
+            "controlPass": true,
+            "timeSec": 3.0853
+          },
+          {
+            "sequence": 11,
+            "opId": "OP-REBASE-C-2",
+            "kind": "REBASE_DATUM_C",
+            "stationId": "SAW-L",
+            "method": "FRESH_CUT_FACE",
+            "timeSec": 0
+          }
+        ],
+        "derivedSawCuts": 3,
+        "derivedSpotCount": 2,
+        "finalRemainderIn": 35.625,
+        "time": {
+          "T_LOAD_SEAT_sec": 36,
+          "T_REFERENCE_sec": 3.0853,
+          "T_INDEX_sec": 12.25,
+          "T_SAW_sec": 6.1706,
+          "T_DRILL_SPOT_sec": 3.9942,
+          "T_MILL_sec": 0,
+          "T_RELEASE_LABEL_sec": 24,
+          "T_MACHINE_sec": 85.5001,
+          "T_MACHINE_min": 1.425,
+          "T_MACHINE_hr": 0.02375
+        }
+      },
+      "totals": {
+        "material": 5.15,
+        "hardware": 0,
+        "machine_service": 5.94,
+        "Q": 11.09,
+        "Q_basis": "CALCULATED_FROM_DECLARED_STAGE2_MODEL"
+      },
+      "calculationIdentity": {
+        "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
+        "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
+      },
+      "not_claimed": [
+        "commercial quote",
+        "seller-of-record",
+        "physical fabrication",
+        "live motion",
+        "physical stock count",
+        "measured machine performance"
+      ],
+      "title": "Project 1 reference specimen",
+      "classId": "app.user-defined-board.v1",
+      "documentKind": "BudgetaryEstimate",
+      "engine": {
+        "id": "STB-STORE-ZERO-PRICE-1",
+        "version": "0.3.0",
+        "clock": "2026-09-22",
+        "documentKind": "BudgetaryEstimate",
+        "governingStandard": "DIMENSIONAL-STORE-TRAVEL-STANDARD-0.1.md"
+      },
+      "cycle": {
+        "model": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
+        "version": "0.2.0",
+        "basis": "DECLARED_STAGE2_MODEL",
+        "measured": false,
+        "commissioned": false,
+        "T_job_min": 1.425,
+        "T_job_hr": 0.02375,
+        "SFM": 9425,
+        "feed_fpm": 18
+      }
+    },
+    "calculationIdentity": {
+      "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
+      "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
+    },
+    "not_claimed": [
+      "commercial quote",
+      "physical fabrication",
+      "live motion",
+      "measured machine performance"
+    ],
+    "freshEvaluation": true,
+    "evaluationReceipt": {
+      "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+      "requestType": "USER_DEFINED_BOARD_V1",
+      "requestId": "PROJECT-1-INQUIRY-0001",
+      "evaluatedAt": "2026-10-08T12:00:00.000Z",
+      "authority": {
+        "storeRevision": "store-zero-acceptance",
+        "catalogHash": "0e56a05ac2cd645ff5b20ea2daf1a8a7c015054cd786a26b13a7829203f88825",
+        "machineEnvelope": {
+          "id": "D001-STAGE2-ENVELOPE-0.3",
+          "hash": "5c4b1dae6b22db221b4a8fb5535757cbb5edf8a681c0b3263038ce58a5e76b71"
+        },
+        "travelStandard": {
+          "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
+          "version": "0.2.0",
+          "hash": "453544a319a9e4ac63038f2cfa3bce8f104fda3c0602c006b2bf2566df7522ab"
+        },
+        "economics": {
+          "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
+          "version": "0.1.0",
+          "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
+        }
+      },
+      "demandHash": "b3e55a4e7ef3afad407f96aa00ae59da904eaa9580b433daa1b6238b0cf5cc86",
+      "status": "SUPPORTABLE",
+      "calculationIdentity": {
+        "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
+        "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
+      },
+      "receiptHash": "80186a8e630b25d853ee616b054c1dfc229a2f5b09bf3865d84377f4294a81c7"
+    }
+  },
+  "decision": {
+    "decisionId": "DECISION-PROJECT-1-0001",
+    "kind": "ACCEPTED",
+    "offerId": "OFFER-PROJECT-1-0001",
+    "decidedAt": "2026-10-08T12:05:00.000Z",
+    "evidenceClass": "SIMULATED"
+  },
+  "authority": {
+    "physicalRelease": false,
+    "evidenceClass": "SIMULATED"
+  }
+}
