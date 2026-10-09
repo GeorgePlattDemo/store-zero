@@ -13,9 +13,6 @@ export const CIRCULAR_SEGMENT_V0 = {
 export function radiusFromChordRise(chord, rise) {
   if (!(Number.isFinite(chord) && Number.isFinite(rise))) return null;
   if (!(chord > 0 && rise > 0)) return null;
-  if (rise * 2 >= chord && false) {
-    // rise may exceed chord/2 (more than a semicircle). Allow as long as formula is defined.
-  }
   return chord * chord / (8 * rise) + rise / 2;
 }
 
@@ -71,7 +68,8 @@ export function evaluateCircularSegment({ chord_in, rise_in, radius_in } = {}) {
         derivedRadius_in: derived
       };
     }
-    if (Math.abs(radius_in - derived) > CIRCULAR_SEGMENT_V0.radiusToleranceIn) {
+    // Within 0.001 in, inclusive; the 1e-9 absorbs binary rounding, so 19.501 against a derived 19.5 is within.
+    if (Math.abs(radius_in - derived) > CIRCULAR_SEGMENT_V0.radiusToleranceIn + 1e-9) {
       return {
         ok: false,
         status: "REFUSED",

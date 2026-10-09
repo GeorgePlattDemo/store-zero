@@ -1711,6 +1711,7 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | Executable/source surface | Full decision description |
 |---|---|
 | `src/evaluation/catalog.mjs` | §5.3, §6A.1 |
+| `src/evaluation/stated-number.mjs` | §6A.1 (what counts as a stated number) |
 | `src/evaluation/store-state.mjs` | §6A.1 |
 | `src/evaluation/evaluators/user-defined-board.mjs` | §6A.1 |
 | `src/evaluation/envelopes/d001-stage2-envelope.mjs` | §6A.2 |
@@ -1734,7 +1735,7 @@ The count-only Board ticket is refused with `REQUEST_TYPE_NOT_ACCEPTED`. It coul
 | `src/machine/lowering.mjs` | §§10.5–10.6 |
 | `src/machine/virtual-run.mjs` | §10.5 |
 
-`src/` contains exactly these twenty modules. No module under `src/` is omitted from §6A.  
+`src/` contains exactly these twenty-three modules. No module under `src/` is omitted from §6A.  
 *Trace: `src/` tree; `acceptance/boundaries`.*
 
 # Appendix D. Store reason-code index

@@ -94,8 +94,8 @@ test("the radius tolerance is 0.001 in on both sides of the derived radius", () 
     assert.equal(answer.status, "REFUSED", `radius ${radius_in}`);
     assert.deepEqual(answer.reasons, ["CURVE_RADIUS_CONTRADICTS_CHORD_RISE"]);
   }
-  // Current behavior at the nominal edge: 19.501 − 19.5 is 0.0010000000000012 in binary floating point, so a radius
-  // stated exactly 0.001 in off is refused on both sides (strict > with no epsilon).
-  assert.equal(evaluateCircularSegment({ chord_in: 36, rise_in: 12, radius_in: 19.501 }).status, "REFUSED");
-  assert.equal(evaluateCircularSegment({ chord_in: 36, rise_in: 12, radius_in: 19.499 }).status, "REFUSED");
+  // Exactly 0.001 in off is within the tolerance on both sides, although 19.501 − 19.5 is 0.0010000000000012 in
+  // binary floating point: the tolerance is inclusive as written, not shortened by rounding.
+  assert.equal(evaluateCircularSegment({ chord_in: 36, rise_in: 12, radius_in: 19.501 }).status, "SUPPORTABLE");
+  assert.equal(evaluateCircularSegment({ chord_in: 36, rise_in: 12, radius_in: 19.499 }).status, "SUPPORTABLE");
 });

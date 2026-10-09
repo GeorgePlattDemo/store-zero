@@ -13,6 +13,7 @@
  * stock, price, D-001 capability and full travel evaluation are complete is selected. The requested parts,
  * angle and spot locations are never changed to make a candidate fit.
  */
+import { statedNumber } from "../stated-number.mjs";
 import { matchingBoardOfferings, stockAnswer, priceAnswer, capabilityAnswer } from "../store-state.mjs";
 import { estimateUserDefinedBoardTravel } from "../engine/pricing.mjs";
 
@@ -28,7 +29,7 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
     ...(demand.materialDemand || {}),
     definedWorkpieceLengthIn: demand.definedWorkpieceLengthIn
   };
-  const notSupplied = (value) => value == null || value === "";
+  const notSupplied = (value) => (typeof value === "string" ? value.trim() === "" : value == null);
   const definitionGap = definitionProblem(demand, parts, requiredOps, notSupplied);
   if (definitionGap) return unresolvedDefinition(demand, definitionGap);
 
@@ -178,7 +179,7 @@ export function evaluateDimensionalTravelJob(catalog, demand = {}) {
 
 // The first fact the definition is missing or contradicts, or null when it states everything this path reads.
 function definitionProblem(demand, parts, requiredOps, notSupplied) {
-  if (notSupplied(demand.sawAngleDeg)) return "MITER_ANGLE_REQUIRED";
+  if (!Number.isFinite(statedNumber(demand.sawAngleDeg))) return "MITER_ANGLE_REQUIRED";
   if (notSupplied(demand.cutPlane)) return "CUT_PLANE_REQUIRED";
   if (notSupplied(demand.datumCMethod)) return "DATUM_C_ESTABLISHMENT_METHOD_REQUIRED";
   if (!requiredOps.length) return "REQUIRED_OPERATIONS_REQUIRED";

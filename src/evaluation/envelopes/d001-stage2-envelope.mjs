@@ -3,6 +3,7 @@
  * DECLARED_STAGE2_CAPABILITY. measured = false. commissioned = false.
  * Numbers exist to exercise fit → ops → minutes → Q. They do not authorize live motion.
  */
+import { statedNumber } from "../stated-number.mjs";
 export const D001_STAGE2_ENVELOPE = {
   id: "D001-STAGE2-ENVELOPE-0.3",
   basis: "DECLARED_STAGE2_CAPABILITY",
@@ -104,10 +105,9 @@ export function millPassesForDepth(totalDepthIn) {
   return Math.ceil(totalDepthIn / D001_STAGE2_ENVELOPE.millLong.maxDepthPerPassIn);
 }
 
-// null, undefined and blank mean "not supplied": they are never zero.
+// A number the definition does not state is null, never zero (stated-number.mjs).
 function finiteNumber(value) {
-  if (value == null || value === "") return null;
-  const n = Number(value);
+  const n = statedNumber(value);
   return Number.isFinite(n) ? n : null;
 }
 

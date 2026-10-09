@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { statedNumber } from "../stated-number.mjs";
 import { D001_STAGE2_ENVELOPE, millPassesForDepth } from "../envelopes/d001-stage2-envelope.mjs";
 
 export const D001_TRAVEL_STANDARD = Object.freeze({
@@ -347,7 +348,7 @@ function normalizedDemand(demand, item) {
     unresolved.push("DEFINED_WORKPIECE_LENGTH_REQUIRED");
   }
 
-  const angleDeg = demand.cut?.angleDeg == null || demand.cut.angleDeg === "" ? NaN : Number(demand.cut.angleDeg);
+  const angleDeg = statedNumber(demand.cut?.angleDeg);
   if (!Number.isFinite(angleDeg)) {
     unresolved.push("MITER_ANGLE_REQUIRED");
   } else if (angleDeg < 0 || angleDeg > 45) {

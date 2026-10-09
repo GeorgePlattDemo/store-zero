@@ -49,6 +49,7 @@
  *   - long-part path (evaluateD001DimensionalBatch): one square part per board, for parts too long to
  *     leave a controlled remain.
  */
+import { statedNumber } from "../stated-number.mjs";
 import { findSku, offerMaterial, offeringForRequirement } from "../catalog.mjs";
 import { capabilityAnswer, priceAnswer, stockAnswer } from "../store-state.mjs";
 import { D001_STAGE2_ENVELOPE } from "../envelopes/d001-stage2-envelope.mjs";
@@ -305,7 +306,7 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
 function evaluatePackage(catalog, pkg, identity) {
   const packageId = String(pkg?.packageId || "");
   const material = pkg?.material || {};
-  const angleDeg = pkg?.endCut?.angleDeg == null || pkg.endCut.angleDeg === "" ? NaN : Number(pkg.endCut.angleDeg);
+  const angleDeg = statedNumber(pkg?.endCut?.angleDeg);
   const hasFinishedWidth = pkg?.finishedWidthIn != null;
   const finishedWidthIn = hasFinishedWidth ? Number(pkg.finishedWidthIn) : null;
   const base = { kind: "CUT_PACKAGE", packageId, material: { ...material }, endCut: { angleDeg, plane: "miter-face", ends: "BOTH_PARALLEL" },

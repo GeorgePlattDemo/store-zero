@@ -26,6 +26,7 @@
  * split → release the sheet → crosscut at the yard panel saw → label every piece. Routed pieces stay in
  * their frame on their tabs; the owner separates them. Every piece goes back to the owner.
  */
+import { statedNumber } from "../stated-number.mjs";
 import { priceAnswer, stockAnswer } from "../store-state.mjs";
 import { calculationHash, D001_TRAVEL_STANDARD, storeMachineSellRate } from "../engine/d001-travel-standard.mjs";
 import { S001_STAGE2_ENVELOPE, centeredField } from "../envelopes/s001-stage2-envelope.mjs";
@@ -302,8 +303,7 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   }
 
   const sheet = demand.sheet || {};
-  const inches = (value) => (value == null || value === "" ? NaN : Number(value));
-  const parent = { lengthIn: inches(sheet.lengthIn), widthIn: inches(sheet.widthIn), thicknessIn: inches(sheet.thicknessIn) };
+  const parent = { lengthIn: statedNumber(sheet.lengthIn), widthIn: statedNumber(sheet.widthIn), thicknessIn: statedNumber(sheet.thicknessIn) };
   if (![parent.lengthIn, parent.widthIn, parent.thicknessIn].every(Number.isFinite)) {
     leave("SHEET_SIZE_MISSING", "sheet", "The sheet needs a length, a width and a thickness in inches.");
   } else {
