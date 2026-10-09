@@ -119,8 +119,9 @@ export function evaluateStoreRequest(request, { release, catalog, observations, 
   const currentCatalog = catalog ? validateCatalog(catalog) : loadCatalog();
   const evaluatedAt = now();
   if (type.lookup) {
+    // Discovery carries no receipt (it prices no job), but it names the catalog its offerings and prices came from.
     const answer = lookupOfferings(currentCatalog, observations ?? loadObservations(), request.demand);
-    return { requestType: request.requestType, requestId: request.requestId, storeRelease: release, evaluatedAt, ...answer };
+    return { requestType: request.requestType, requestId: request.requestId, storeRelease: release, catalogHash: calculationHash(currentCatalog), evaluatedAt, ...answer };
   }
 
   // Deliberately evaluate every request; no prior answer or receipt is an argument here.

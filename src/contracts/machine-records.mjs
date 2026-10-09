@@ -3,7 +3,7 @@
  * the physical admission record. They are produced by src/machine and checked by acceptance/machine.
  */
 import { shapeProblems } from "./shape.mjs";
-import { D001_TRAVEL_STANDARD, calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
+import { D001_TRAVEL_STANDARD, calculationHash, BOARD_END_GEOMETRY } from "../evaluation/engine/d001-travel-standard.mjs";
 
 const number = "number";
 const STORE_OPERATION = {
@@ -123,7 +123,7 @@ export function localJobProblems(job) {
     if (!hash(job[key])) problems.push(`LOCAL_JOB_HASH_REQUIRED:${key}`);
   }
   if (job.executionClass !== "NOMINAL_COORDINATE_MODEL") problems.push("LOCAL_JOB_EXECUTION_CLASS_NOT_REGISTERED");
-  if (job.requirements?.endRelation !== "parallel" || job.requirements?.lengthDatum !== "long-long-outer-edge" || job.requirements?.endIdentity != null) problems.push("LOCAL_JOB_REQUIREMENTS_NOT_REGISTERED");
+  if (job.requirements?.endRelation !== BOARD_END_GEOMETRY.endRelation || job.requirements?.lengthDatum !== BOARD_END_GEOMETRY.lengthDatum || (job.requirements?.endIdentity ?? null) !== BOARD_END_GEOMETRY.endIdentity) problems.push("LOCAL_JOB_REQUIREMENTS_NOT_REGISTERED");
   for (const key of ["inputHash", "resultHash"]) if (!hash(job.storeCalculationIdentity?.[key])) problems.push(`LOCAL_JOB_CALCULATION_HASH_REQUIRED:${key}`);
   if (!nonblank(job.selectedMaterial?.storeSku)) problems.push("LOCAL_JOB_MATERIAL_ID_REQUIRED");
   for (const key of ["actualT", "actualW", "stockL_in", "parentLengthIn"]) if (!positive(job.selectedMaterial?.[key])) problems.push(`LOCAL_JOB_MATERIAL_DIMENSION_REQUIRED:${key}`);
