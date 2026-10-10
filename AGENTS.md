@@ -40,3 +40,11 @@ The live application still answers through the predecessor Store at System's `ST
 Keep authorized work on `main`, in a few meaningful commits after the checks pass. Publish only a fast-forward from the reviewed main head; if main changes, inspect and retest before publishing. Do not create task branches or other repositories.
 
 **NO BLOOD ON WOOD.**
+
+## Shared rules (the same block in Program, System and Store)
+
+1. One branch: `main`. Work lands on `main`; no other branch is left behind.
+2. The rebuild carries nothing from the original repositories that it does not use. Store offers only operations it handles; Store's CI fails if an offered operation has nothing that handles it.
+3. One Store commit. System's candidate record, published runtime pin, CI Store checkout and `startup.sh` name the same Store commit, and move together, after System's tests pass against a checkout of exactly that commit.
+4. A missing fact stays missing. A Store answer is used only for the definition revision it answers.
+5. A change is finished when it is on `main`, CI is green, and every document that describes the changed behavior says the same thing.

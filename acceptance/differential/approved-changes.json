@@ -110,11 +110,8 @@
       "id": "NO-UNMODELED-OPERATION",
       "approved": "2026-10-10",
       "approvedBy": "owner",
-      "removedOperations": [
-        "DADO"
-      ],
-      "reason": "The recorded Store listed DADO in supportedOps on 38 offerings, but no evaluator, there or here, ever modeled it. The owner had it removed from Store's operation vocabulary and catalog: Store does not offer what it cannot evaluate. A job asking for it is refused OP_NOT_ON_OFFERING:DADO.",
-      "expect": "The frozen recorded catalog and answers are unchanged on disk. Replay drops the removed operation from recorded supportedOps lists, and every other field of every recorded answer reproduces exactly."
+      "reason": "The recorded Store's catalog listed three operations in supportedOps that no evaluator, there or here, ever modeled. The owner had them removed from Store's operation vocabulary and catalog: Store offers only operations it handles. A job asking for an operation outside the vocabulary is refused OP_NOT_ON_OFFERING.",
+      "expect": "The frozen recorded catalog and answers are unchanged on disk. Replay reduces recorded offered-operation lists to the current vocabulary, and every other field of every recorded answer reproduces exactly."
     }
   ]
 }

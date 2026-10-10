@@ -465,7 +465,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -487,7 +487,7 @@
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "65c4ef5a66e88e69ebaceb3953ce64e1f2565e042c544b7d79d0a271173e480d"
+          "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
         }
       },
       "decision": {
@@ -969,7 +969,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -991,7 +991,7 @@
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "65c4ef5a66e88e69ebaceb3953ce64e1f2565e042c544b7d79d0a271173e480d"
+          "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
         }
       },
       "decision": {
@@ -1473,7 +1473,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -1495,7 +1495,7 @@
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "65c4ef5a66e88e69ebaceb3953ce64e1f2565e042c544b7d79d0a271173e480d"
+          "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
         }
       },
       "decision": {
@@ -1977,7 +1977,7 @@
           "evaluatedAt": "2026-10-09T00:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -1999,7 +1999,7 @@
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "65c4ef5a66e88e69ebaceb3953ce64e1f2565e042c544b7d79d0a271173e480d"
+          "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
         }
       },
       "decision": {
@@ -2481,7 +2481,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -2503,7 +2503,7 @@
             "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
             "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
           },
-          "receiptHash": "65c4ef5a66e88e69ebaceb3953ce64e1f2565e042c544b7d79d0a271173e480d"
+          "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
         }
       },
       "decision": {
@@ -2985,7 +2985,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "some-other-store",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -3007,7 +3007,7 @@
             "inputHash": "401b9317a2eaf061053f9fa567053704974ec53e88c9f448cd6cfe7bf005dae4",
             "resultHash": "5954c8e33cc195c24bc4cabd41d319e8f32e76290536b2f0cc9135ddaab2d89c"
           },
-          "receiptHash": "57e19fc2fb7e0300f602bade030ef3b07af8d2b5e99978bf7cedb8f893971799"
+          "receiptHash": "8afc41b5f0e7927b7c7e36295152cdc7200bdbdd28a133334093f02a30856f37"
         }
       },
       "decision": {
@@ -3180,7 +3180,7 @@
           "evaluatedAt": "2026-10-08T12:00:00.000Z",
           "authority": {
             "storeRevision": "store-zero-acceptance",
-            "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
+            "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "machineEnvelope": {
               "id": "D001-STAGE2-ENVELOPE-0.3",
               "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -3199,7 +3199,7 @@
           "demandHash": "069218c8024bd6ace06f5e645081c63fa7ae325c7bb2a5a3821c9dd84cadaa6e",
           "status": "REFUSED",
           "calculationIdentity": null,
-          "receiptHash": "267c3842e781ee0099c8324a6bf540df648ab5dc58aa089d389828c7ee6d193b"
+          "receiptHash": "b7990446dc76cd85a7330758431a665da088bc4e32d8f273446fa1e0929dd18b"
         }
       },
       "decision": {

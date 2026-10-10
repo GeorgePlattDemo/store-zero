@@ -1,7 +1,8 @@
 // The request layer: one way in, clean definitions only, a fresh receipt for every accepted request.
 import test from "node:test";
 import assert from "node:assert/strict";
-import { loadCatalog } from "../src/evaluation/catalog.mjs";
+import { readdirSync, readFileSync } from "node:fs";
+import { CATALOG_RULES, loadCatalog } from "../src/evaluation/catalog.mjs";
 import { evaluateStoreRequest, REQUEST_TYPES, requestProblems } from "../src/requests/store-request.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "./fixtures/user1-dimensional-travel-fixture.mjs";
 
@@ -109,12 +110,19 @@ test("a malformed lookup is refused, never reported as nothing found", () => {
   }
 });
 
-test("dado is not a Store operation: no offering claims it, and a board job asking for it is refused, not priced", () => {
-  const catalog = loadCatalog();
-  assert.equal(JSON.stringify(catalog).includes("DADO"), false);
-  const answer = board({ ...structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND), requiredOps: [...USER1_DIMENSIONAL_TRAVEL_DEMAND.requiredOps, "DADO"] }, "REQ-DADO");
+test("Store offers only operations it handles: every offered operation has handling outside the vocabulary list", () => {
+  // Fails if an operation is added to the vocabulary or the catalog with nothing in Store that handles it.
+  const sources = readdirSync(new URL("../src/evaluation/", import.meta.url), { recursive: true })
+    .filter((file) => String(file).endsWith(".mjs") && String(file) !== "catalog.mjs")
+    .map((file) => readFileSync(new URL(`../src/evaluation/${file}`, import.meta.url), "utf8"))
+    .join("\n");
+  for (const op of CATALOG_RULES.supportedOps) assert.ok(sources.includes(`"${op}"`), `${op} is offered but nothing handles it`);
+  for (const offering of loadCatalog().offerings) {
+    for (const op of offering.supportedOps || []) assert.ok(CATALOG_RULES.supportedOps.includes(op), `${offering.storeSku} offers ${op}`);
+  }
+  const answer = board({ ...structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND), requiredOps: [...USER1_DIMENSIONAL_TRAVEL_DEMAND.requiredOps, "UNDECLARED_OPERATION"] }, "REQ-UNDECLARED-OP");
   assert.equal(answer.status, "REFUSED");
   const reasons = answer.materialResolution.consideredCandidates.map((candidate) => candidate.reason);
-  assert.ok(reasons.length > 0 && reasons.every((reason) => reason === "OP_NOT_ON_OFFERING:DADO"));
+  assert.ok(reasons.length > 0 && reasons.every((reason) => reason === "OP_NOT_ON_OFFERING:UNDECLARED_OPERATION"));
   assert.equal(answer.estimate ?? null, null);
 });

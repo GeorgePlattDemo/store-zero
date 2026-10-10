@@ -17,7 +17,7 @@ export const CATALOG_RULES = Object.freeze({
   cellFamilies: Object.freeze({ board: ["D-001"], sheet: ["S-001"], hardware: [] }),
   supportedOps: Object.freeze([
     "CROSSCUT", "MITER_LIMITED", "SPOT_ON_LOCATION", "DRILL", "MILL_LONGITUDINAL_PROFILE",
-    "MILL_END_PROFILE", "GROOVE", "RABBET", "RIP", "ROUTE_PROFILE"
+    "MILL_END_PROFILE", "RIP", "ROUTE_PROFILE"
   ]),
   uom: Object.freeze(["ea", "pkg", "box", "kit", "pr"]),
   listReferenceBasis: Object.freeze(["OBSERVED", "CALCULATED", "REPORTED", "PLAUSIBLE"]),
