@@ -105,6 +105,17 @@ export function millPassesForDepth(totalDepthIn) {
   return Math.ceil(totalDepthIn / D001_STAGE2_ENVELOPE.millLong.maxDepthPerPassIn);
 }
 
+// Optional explicit constraints on the named fixed spot operation. They never select a different tool or depth.
+export function spotToolProblem(feature) {
+  for (const [field, code] of [["toolDiameterIn", "SPOT_TOOL_DIAMETER_NOT_DECLARED"], ["fullDiameterDepthIn", "SPOT_DEPTH_NOT_DECLARED"]]) {
+    if (feature?.[field] === undefined) continue;
+    const value = statedNumber(feature[field]);
+    if (!Number.isFinite(value)) return field === "toolDiameterIn" ? "SPOT_TOOL_DIAMETER_REQUIRED" : "SPOT_DEPTH_REQUIRED";
+    if (Math.abs(value - D001_STAGE2_ENVELOPE.spot[field]) > 1e-9) return code;
+  }
+  return null;
+}
+
 // A number the definition does not state is null, never zero (stated-number.mjs).
 function finiteNumber(value) {
   const n = statedNumber(value);

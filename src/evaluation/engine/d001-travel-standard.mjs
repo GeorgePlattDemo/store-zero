@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { statedNumber } from "../stated-number.mjs";
-import { D001_STAGE2_ENVELOPE, millPassesForDepth } from "../envelopes/d001-stage2-envelope.mjs";
+import { D001_STAGE2_ENVELOPE, millPassesForDepth, spotToolProblem } from "../envelopes/d001-stage2-envelope.mjs";
 
 export const D001_TRAVEL_STANDARD = Object.freeze({
   id: "STB-D001-DIMENSIONAL-TRAVEL-0.1",
@@ -317,6 +317,8 @@ function normalizedFeature(feature, part, widthIn) {
   }
   const featureId = statedFeatureId(feature);
   if (!featureId) return { error: "FEATURE_ID_REQUIRED" };
+  const toolProblem = spotToolProblem(feature);
+  if (toolProblem) return { error: toolProblem };
   const xIn = statedNumber(feature.xIn);
   if (!Number.isFinite(xIn)) {
     return { error: "SPOT_LOCATION_REQUIRED" };
@@ -760,6 +762,11 @@ function normalizeBatchComponent(raw, item) {
       }
       if (!(item.supportedOps || []).includes("SPOT_ON_LOCATION")) {
         refused.push("OP_NOT_ON_OFFERING:SPOT_ON_LOCATION");
+        continue;
+      }
+      const toolProblem = spotToolProblem(feature);
+      if (toolProblem) {
+        (toolProblem.endsWith("_REQUIRED") ? unresolved : refused).push(toolProblem);
         continue;
       }
       const xIn = statedNumber(feature.xIn);

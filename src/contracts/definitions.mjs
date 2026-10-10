@@ -39,7 +39,9 @@ const USER_DEFINED_BOARD_V1 = {
                 xIn: "number",
                 locationRule: "string",
                 acrossWidthRule: "string",
-                insetFromEdgeIn: "number"
+                insetFromEdgeIn: "number",
+                toolDiameterIn: "number",
+                fullDiameterDepthIn: "number"
               }
             }
           }
@@ -68,7 +70,8 @@ const CUT_PACKAGE_V1 = {
               object: {
                 partId: "string",
                 lengthIn: "number",
-                spots: { array: { object: { featureId: "string", xIn: "number", acrossWidthRule: "string", insetFromEdgeIn: "number" } } }
+                spots: { array: { object: { featureId: "string", xIn: "number", acrossWidthRule: "string", insetFromEdgeIn: "number", toolDiameterIn: "number", fullDiameterDepthIn: "number" } } },
+                edgeProfiles: { array: { object: { featureId: "string", kind: "string", pathLengthIn: "number", yIn: "number", totalDepthIn: "number" } } }
               }
             }
           }

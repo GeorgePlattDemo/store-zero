@@ -117,7 +117,9 @@ function spotFeatures(part) {
     kind: "SPOT_ON_LOCATION",
     xIn: statedNumber(spot.xIn),
     acrossWidthRule: spot.acrossWidthRule,
-    ...(spot.insetFromEdgeIn != null ? { insetFromEdgeIn: spot.insetFromEdgeIn } : {})
+    ...(spot.insetFromEdgeIn != null ? { insetFromEdgeIn: spot.insetFromEdgeIn } : {}),
+    ...(spot.toolDiameterIn !== undefined ? { toolDiameterIn: spot.toolDiameterIn } : {}),
+    ...(spot.fullDiameterDepthIn !== undefined ? { fullDiameterDepthIn: spot.fullDiameterDepthIn } : {})
   }));
 }
 
@@ -179,10 +181,10 @@ function validateParts(pkg) {
     if (!partId || seen.has(partId)) { problems.push("UNIQUE_PART_ID_REQUIRED"); continue; }
     seen.add(partId);
     if (!Number.isFinite(lengthIn) || lengthIn <= 0) { problems.push("PART_LENGTH_REQUIRED"); continue; }
-    parts.push({ partId, lengthIn, spots: Array.isArray(raw.spots) ? raw.spots : [] });
+    parts.push({ partId, lengthIn, spots: Array.isArray(raw.spots) ? raw.spots : [], edgeProfiles: Array.isArray(raw.edgeProfiles) ? raw.edgeProfiles : [] });
   }
   if (!parts.length && !problems.length) problems.push("PACKAGE_PARTS_REQUIRED");
-  const spotIds = parts.flatMap((part) => part.spots.map(statedFeatureId));
+  const spotIds = parts.flatMap((part) => [...part.spots, ...part.edgeProfiles].map(statedFeatureId));
   if (spotIds.includes(null)) problems.push("FEATURE_ID_REQUIRED");
   else if (featureIdProblem(spotIds)) problems.push(featureIdProblem(spotIds));
   return { parts, problems: [...new Set(problems)] };
@@ -206,6 +208,22 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
   const item = edgeMill ? { ...stockItem, actualW: edgeMill.finishedWidthIn } : stockItem;
   const millRefused = [];
   const millUnresolved = [];
+  const requirementAnswers = [];
+  // A declared through profile is fulfilled by preparation of the whole parent before cutting its parts.
+  // Read its literal geometry; a groove, a different path or a missing fact is never treated as that preparation.
+  for (const part of [...plan.sequenceBoards.flatMap((board) => board.parts), ...plan.longParts]) {
+    for (const feature of part.edgeProfiles) {
+      const path = statedNumber(feature.pathLengthIn), y = statedNumber(feature.yIn), depth = statedNumber(feature.totalDepthIn);
+      let code = null;
+      if (![path, y, depth].every(Number.isFinite)) { code = "EDGE_PROFILE_GEOMETRY_REQUIRED"; millUnresolved.push(code); }
+      else if (feature.kind !== "MILL_LONGITUDINAL_PROFILE") { code = "EDGE_PROFILE_KIND_NOT_DECLARED"; millRefused.push(code); }
+      else if (Math.abs(path - part.lengthIn) > 1e-6) { code = "EDGE_PROFILE_PATH_MUST_MATCH_PART_LENGTH"; millRefused.push(code); }
+      else if (!edgeMill || Math.abs(y - edgeMill.finishedWidthIn) > 1e-6) { code = "EDGE_PROFILE_Y_MUST_MATCH_PREPARED_WIDTH"; millRefused.push(code); }
+      else if (Math.abs(depth - Number(stockItem.actualT)) > 1e-6) { code = "EDGE_PROFILE_REQUIRES_STOCK_THROUGH_DEPTH"; millRefused.push(code); }
+      requirementAnswers.push({ partId: part.partId, ...feature, status: code ? (code.endsWith("_REQUIRED") ? "UNRESOLVED" : "REFUSED") : "SUPPORTABLE", reason: code,
+        ...(code ? {} : { fulfilledBy: "EDGE_MILL_WHOLE_BOARD_BEFORE_PARTS" }) });
+    }
+  }
   let millSec = 0;
   function millBoard() {
     if (!edgeMill) return null;
@@ -304,6 +322,7 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
     refused: [...new Set(refused.map(String))],
     unresolved: [...new Set(unresolved.map(String))],
     boards,
+    ...(requirementAnswers.length ? { requirementAnswers } : {}),
     time: { ...Object.fromEntries(TIME_KEYS.map((key) => [key, round(time[key], 4)])), T_MACHINE_min: round(time.T_MACHINE_sec / 60, 4) },
     sellRatePerHour: rates.sellRatePerHour,
     machineService: round(hours * rates.sellRatePerHour, 2)
@@ -403,6 +422,7 @@ function evaluatePackage(catalog, pkg, identity) {
         ...(entry.edgeMill.mode ? { rule: entry.edgeMill.rule, offcut: { perBoard: 1, widthBeforeRouterCutIn: entry.edgeMill.removedIn, lengthIn: Number(entry.item.stockL_in), disposition: "RETURNED_TO_OWNER" } } : {})
       } } : {}),
       cutPlan: machine.boards,
+      ...(machine.requirementAnswers ? { requirementAnswers: machine.requirementAnswers } : {}),
       stubs: machine.boards.filter((board) => board.stubIn != null).map((board) => ({ boardId: board.boardId, stubIn: board.stubIn })),
       spotCount: parts.reduce((sum, part) => sum + part.spots.length, 0),
       time: machine.time,
