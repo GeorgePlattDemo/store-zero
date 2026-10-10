@@ -2,7 +2,7 @@
 
 **Sell the wood. Supply the work that makes it useful.**
 
-<a href="https://georgeplattdemo.github.io/scan-to-build-system/system-build-current.html"><kbd>▶ OPEN THE APP</kbd></a>
+<a href="https://system-candidate-production.up.railway.app/"><kbd>▶ OPEN THE APP</kbd></a>
 
 3D Solutions LLC · Greensboro, North Carolina
 
@@ -57,10 +57,10 @@ The record is a reference derivation: the controller source is uncompiled and ph
 | Repository | Contribution |
 | --- | --- |
 | [**Program**](https://github.com/GeorgePlattDemo/3d-solutions-program) | Why a small local manufacturing service might be worth pursuing, and how to test its engineering and business case. |
-| [**System**](https://github.com/GeorgePlattDemo/scan-to-build-system) | The customer’s project definition, application, shared job meaning, and consequential records. |
+| [**System**](https://github.com/GeorgePlattDemo/new-system) | The customer’s project definition, application, shared job meaning, and consequential records. |
 | **Store** | Its material, capability, modeled work, economics, and answers for that definition. |
 
-The application consumes one exact Store version, owned by System’s [`STORE_PIN`](https://github.com/GeorgePlattDemo/scan-to-build-system/blob/main/apps/stb/shared/contracts.mjs). Publishing a Store document does not move that runtime version.
+The replacement application consumes the exact Store version recorded in System’s [`STORE_CANDIDATE`](https://github.com/GeorgePlattDemo/new-system/blob/main/src/system/store-candidate.ts). Publishing a Store document does not move that runtime version.
 
 ## Explore the implementation
 
