@@ -5,6 +5,7 @@ import { evaluateStoreRequest } from "../src/requests/store-request.mjs";
 import { S001_STAGE2_ENVELOPE } from "../src/evaluation/envelopes/s001-stage2-envelope.mjs";
 import { loadCatalog } from "../src/evaluation/catalog.mjs";
 import { evaluateCutPackageJob } from "../src/evaluation/evaluators/cut-package.mjs";
+import { PATHS, startServer } from "../src/service/server.mjs";
 
 const sheetRequest = (requestId, demand) => evaluateStoreRequest({ requestType: "SHEET_PACKAGE_V1", ...(requestId ? { requestId } : {}), demand }, { release: "abc" });
 
@@ -46,6 +47,96 @@ test("canonical playhouse window is SUPPORTABLE with a complete budgetary Q", ()
   assert.deepEqual(answer.operations.filter((op) => op.opId === "CROSSCUT").map((op) => op.xIn), [18, 78]);
   assert.equal(answer.evidence.measured, false);
   assert.equal(answer.evidence.commissioned, false);
+});
+
+function customSplitDemand(positions) {
+  const demand = playhouse();
+  const split = demand.features.find((feature) => feature.kind === "STRAIGHT_SPLIT");
+  split.splitTabMode = "CUSTOM";
+  if (positions !== undefined) split.splitTabPositionsIn = positions;
+  return demand;
+}
+
+function assertUnresolvedSplit(answer, demand) {
+  const requiredSplit = demand.features.find((feature) => feature.kind === "STRAIGHT_SPLIT");
+  assert.deepEqual(answer.featureAnswers.map((feature) => feature.featureId), demand.features.map((feature) => feature.featureId));
+  assert.deepEqual(answer.featureAnswers.find((feature) => feature.featureId === requiredSplit.featureId), {
+    featureId: requiredSplit.featureId,
+    kind: requiredSplit.kind,
+    status: "UNRESOLVED",
+    reasonCodes: ["SPLIT_TAB_POSITIONS_REQUIRED"]
+  });
+  assert.equal(answer.status, "UNRESOLVED");
+  assert.equal(answer.complete, false);
+  assert.deepEqual(answer.refusalConditions, []);
+  assert.deepEqual(answer.unresolvedConditions, ["SPLIT_TAB_POSITIONS_REQUIRED"]);
+  assert.deepEqual(answer.reasonCodes, ["SPLIT_TAB_POSITIONS_REQUIRED"]);
+  const reason = answer.reasonRecords.find((record) => record.code === "SPLIT_TAB_POSITIONS_REQUIRED");
+  assert.ok(reason);
+  assert.equal(reason.category, "DEFINITION_GAP");
+  assert.equal(reason.subject, requiredSplit.featureId);
+  assert.equal(reason.authority, "STORE_ZERO");
+  assert.equal(answer.Q, null);
+  assert.equal(answer.totals, null);
+  assert.equal(answer.time, null);
+  assert.equal(answer.operations, null);
+}
+
+for (const [name, positions] of [["omitted", undefined], ["null", null], ["empty", []]]) {
+  test(`custom split with ${name} tab positions remains required and unresolved`, () => {
+    const demand = customSplitDemand(positions);
+    const original = structuredClone(demand);
+    assertUnresolvedSplit(evaluateSheetPackageJob(loadCatalog(), demand), original);
+    assertUnresolvedSplit(sheetRequest(`custom-split-${name}`, demand), original);
+    assert.deepEqual(demand, original);
+  });
+}
+
+test("HTTP Store response cannot complete a custom split without tab positions", async () => {
+  const { server, port } = await startServer({ env: { STORE_ZERO_RELEASE: "store-zero-split-test" }, host: "127.0.0.1", port: 0 });
+  try {
+    for (const [name, positions] of [["omitted", undefined], ["null", null], ["empty", []]]) {
+      const demand = customSplitDemand(positions);
+      const response = await fetch(`http://127.0.0.1:${port}${PATHS.requests}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ requestType: "SHEET_PACKAGE_V1", requestId: `custom-split-http-${name}`, demand })
+      });
+      assert.equal(response.status, 200);
+      const { answer } = await response.json();
+      assertUnresolvedSplit(answer, demand);
+      assert.equal(answer.freshEvaluation, true);
+    }
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
+test("defined custom split keeps the required route, time and complete price", () => {
+  const demand = customSplitDemand([12, 24]);
+  const answer = sheetRequest("custom-split-defined", demand);
+  const automatic = sheetRequest("automatic-split-defined", playhouse());
+  assert.equal(answer.status, "SUPPORTABLE");
+  assert.equal(answer.complete, true);
+  assert.deepEqual(answer.reasonCodes, []);
+  assert.deepEqual(answer.featureAnswers.map((feature) => feature.featureId), demand.features.map((feature) => feature.featureId));
+  assert.ok(answer.featureAnswers.every((feature) => feature.status === "ANSWERED"));
+  const split = answer.features.splits.find((feature) => feature.featureId === "CENTER-SPLIT");
+  assert.equal(split.splitTabs.mode, "CUSTOM");
+  assert.deepEqual(split.splitTabs.positionsIn, [12, 24]);
+  const route = answer.operations.find((operation) => operation.featureId === "CENTER-SPLIT");
+  assert.equal(route.opId, "ROUTE_PROFILE");
+  assert.equal(route.profile, "STRAIGHT_SPLIT");
+  assert.equal(route.lengthIn, 36);
+  assert.equal(route.passes, 1);
+  assert.equal(route.tabs, 2);
+  assert.deepEqual(answer.operations, automatic.operations);
+  assert.deepEqual(answer.time, automatic.time);
+  assert.deepEqual(answer.totals, automatic.totals);
+  assert.equal(answer.totals.material, 26.55);
+  assert.equal(answer.totals.machine_service, 30.02);
+  assert.equal(answer.totals.manual_cut_service, 20);
+  assert.equal(answer.Q, 76.57);
 });
 
 test("every piece comes back to the owner and each split half keeps two tabs", () => {

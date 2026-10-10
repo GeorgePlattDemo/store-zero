@@ -413,6 +413,7 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
     for (const feature of features.filter((f) => f?.kind === "STRAIGHT_SPLIT")) {
       const result = evaluateSplit(feature, apertureById);
       result.refusals.forEach((code) => refuse(code, feature.featureId, splitText(code)));
+      result.unresolved.forEach((code) => leave(code, feature.featureId, splitText(code)));
       if (result.geometry) splits.push({ featureId: feature.featureId, ...result });
     }
     for (const feature of features.filter((f) => f?.kind === "CROSSCUT")) {
