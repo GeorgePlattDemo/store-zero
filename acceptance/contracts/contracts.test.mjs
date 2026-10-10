@@ -25,7 +25,7 @@ const EXPECTED = {
   "user-defined-board.default-spf.json": { status: "SUPPORTABLE", read: (a) => a.estimate.totals.Q, value: 8.54 },
   "cut-package.mixed.json": { status: "NOT_ALL_LINES_SUPPORTABLE", read: (a) => a.totals.sumOfSupportableLines, value: 170.01 },
   "cut-package.alcove-pine.json": { status: "SUPPORTABLE", read: (a) => a.totals.sumOfSupportableLines, value: 429.16 },
-  "sheet-package.playhouse.json": { status: "SUPPORTABLE", read: (a) => a.totals.Q, value: 65.04 },
+  "sheet-package.playhouse.json": { status: "SUPPORTABLE", read: (a) => a.totals.Q, value: 76.57 },
   "offering-lookup.search.json": { status: "ANSWERED" },
   "offering-lookup.sku.json": { status: "ANSWERED" },
   "user-defined-board.grade-not-named.json": { status: "UNRESOLVED", read: (a) => a.materialResolution.reason, value: "GRADE_CHOICE_REQUIRED" }

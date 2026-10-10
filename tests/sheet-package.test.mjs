@@ -33,7 +33,11 @@ test("canonical playhouse window is SUPPORTABLE with a complete budgetary Q", ()
   assert.equal(answer.material.storeSku, "STB-ZERO-PLY-050-48X96-001");
   assert.equal(answer.totals.material, 26.55);
   assert.ok(answer.totals.machine_service > 0);
-  assert.equal(answer.totals.Q, Math.round((answer.totals.material + answer.totals.machine_service) * 100) / 100);
+  assert.equal(answer.totals.manual_cut_service,20);
+  assert.equal(answer.totals.manualCutCount,2);
+  assert.equal(answer.totals.machine_service,30.02);
+  assert.equal(answer.totals.Q,76.57);
+  assert.equal(answer.totals.Q, Math.round((answer.totals.material + answer.totals.machine_service + answer.totals.manual_cut_service) * 100) / 100);
   // Radius from chord + rise: 36² / (8·12) + 12/2 = 19.5.
   assert.equal(answer.features.apertures[0].radiusIn, 19.5);
   assert.deepEqual(answer.operations.map((op) => op.opId), ["LOAD_REFERENCE", "ROUTE_PROFILE", "ROUTE_PROFILE", "RELEASE", "CROSSCUT", "CROSSCUT", "LABEL"]);

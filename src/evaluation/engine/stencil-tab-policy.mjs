@@ -3,19 +3,22 @@
  *
  * This is geometry/planning logic, not a physical holding-force model and not a
  * safety factor. Commercial CAM practice commonly exposes tab count/distance,
- * width/height, and manual/automatic placement. This V0 keeps those concerns
+ * width/height, and manual/automatic placement. This Stage-2 policy keeps those concerns
  * separate and does not invent unmeasured plywood retention constants.
  */
 export const STENCIL_TAB_POLICY_V0 = Object.freeze({
-  id: "S001-STENCIL-TAB-POLICY-V0",
+  id: "S001-STENCIL-TAB-POLICY-V1",
   evidenceClass: "REFERENCE",
   physicalRetentionStatus: "NOT_MEASURED",
   placementMethod: "DISTRIBUTED_ARCLENGTH_TRANSITION_AVOIDANCE",
   referenceBaseCount: 4,
-  planningReserveTabs: 1,
-  maxAllowedGap_in: null,
-  minBridgeWidth_in: null,
+  planningReserveTabs: 0,
+  maxAllowedGap_in: 24,
+  minBridgeWidth_in: 1,
   minRemainingThickness_in: null,
+  minimumRetainedFraction: 0.05,
+  tabArclengthOrigin: "BOTTOM_LEFT_CCW",
+  tabSelection: "AUTO_PLAN_OR_CUSTOM_POSITIONS",
   cornerKeepout_in: null,
   transitionKeepout_in: null,
   userVeto: "PLANNED_RE-SOLVE",
@@ -23,7 +26,7 @@ export const STENCIL_TAB_POLICY_V0 = Object.freeze({
   minTabsPerRetainedPiece: 2,
   splitCenterKeepoutIn: 0.5,
   note:
-    "The extra tab is a conservative planning reserve only. It is not a validated safety factor or proof of workholding sufficiency."
+    "One-inch geometric tab bridges do not establish measured holding strength or certified workholding."
 });
 
 function finitePositive(value) {
@@ -118,86 +121,86 @@ function pointAtArclength({ chord_in, rise_in, radius_in, straightHeight_in }, a
 }
 
 export function planArchedStencilTabs({
-  chord_in,
-  rise_in,
-  radius_in,
-  straightHeight_in,
-  requestedTabCount
+  chord_in, rise_in, radius_in, straightHeight_in,
+  requestedTabCount, tabMode = "AUTO_PLAN", tabPositionsIn
 } = {}) {
   const geometry = archedAperturePerimeter({ chord_in, rise_in, radius_in, straightHeight_in });
-  if (!geometry) {
-    return { ok: false, status: "UNRESOLVED", reason: "TAB_PLAN_GEOMETRY_UNRESOLVED" };
-  }
+  if (!geometry) return { ok: false, status: "UNRESOLVED", reason: "TAB_PLAN_GEOMETRY_UNRESOLVED" };
+  const policy = STENCIL_TAB_POLICY_V0;
+  const perimeter = geometry.perimeter_in;
   if (requestedTabCount != null && (!Number.isInteger(requestedTabCount) || requestedTabCount < 1)) {
     return { ok: false, status: "REFUSED", reason: "TAB_PLAN_COUNT_INVALID" };
   }
-
-  const spacingRequired = STENCIL_TAB_POLICY_V0.maxAllowedGap_in == null
-    ? 0
-    : Math.ceil(geometry.perimeter_in / STENCIL_TAB_POLICY_V0.maxAllowedGap_in);
-  const policyMinimum = Math.max(STENCIL_TAB_POLICY_V0.referenceBaseCount, spacingRequired);
-  const policyTarget = policyMinimum + STENCIL_TAB_POLICY_V0.planningReserveTabs;
-  const plannedTabCount = Math.max(requestedTabCount ?? 0, policyTarget);
-  const nominalSpacing = geometry.perimeter_in / plannedTabCount;
-
-  const transitionArclengths = [
-    0,
-    chord_in,
-    chord_in + straightHeight_in,
-    chord_in + straightHeight_in + geometry.arcLength_in
-  ];
-  const phase = transitionAvoidingPhase(
-    geometry.perimeter_in,
-    plannedTabCount,
-    transitionArclengths
-  );
-
-  const candidates = [];
-  for (let index = 0; index < plannedTabCount; index += 1) {
-    const arclength = (phase + index * nominalSpacing) % geometry.perimeter_in;
-    const point = pointAtArclength(
-      { chord_in, rise_in, radius_in, straightHeight_in },
-      arclength
-    );
-    const transitionDistance = Math.min(
-      ...transitionArclengths.map((value) => cyclicDistance(arclength, value, geometry.perimeter_in))
-    );
-    candidates.push({
-      index: index + 1,
-      arclength_in: round6(arclength),
-      normalizedArclength: round6(arclength / geometry.perimeter_in),
-      segment: point.segment,
-      curved: point.curved,
-      x_in: round6(point.x_in),
-      y_in: round6(point.y_in),
-      distanceToNearestTransition_in: round6(transitionDistance)
-    });
+  if (!["AUTO_PLAN", "CUSTOM"].includes(tabMode)) {
+    return { ok: false, status: "REFUSED", reason: "TAB_PLACEMENT_MODE_NOT_DECLARED" };
   }
-
+  const requiredForRetention = Math.ceil((perimeter * policy.minimumRetainedFraction - 1e-9) / policy.minBridgeWidth_in);
+  const requiredForSpacing = Math.ceil(perimeter / (policy.maxAllowedGap_in + policy.minBridgeWidth_in));
+  const policyMinimum = Math.max(policy.referenceBaseCount, requiredForRetention, requiredForSpacing);
+  const transitions = [0, chord_in, chord_in + straightHeight_in, chord_in + straightHeight_in + geometry.arcLength_in];
+  const minimumBridge = policy.minBridgeWidth_in;
+  let positions;
+  if (tabMode === "CUSTOM") {
+    if (!Array.isArray(tabPositionsIn) || !tabPositionsIn.length) {
+      return { ok: false, status: "UNRESOLVED", reason: "TAB_CUSTOM_POSITIONS_REQUIRED" };
+    }
+    if (tabPositionsIn.some((v) => !Number.isFinite(v) || v < 0 || v >= perimeter)) {
+      return { ok: false, status: "REFUSED", reason: "TAB_CUSTOM_POSITION_OUTSIDE_CONTOUR" };
+    }
+    // Customer arclength coordinates are preserved; Store never moves their specified positions.
+    positions = [...tabPositionsIn].sort((a,b) => a-b);
+    if (requestedTabCount != null && requestedTabCount !== positions.length) {
+      return { ok: false, status: "REFUSED", reason: "TAB_COUNT_POSITION_MISMATCH" };
+    }
+  } else {
+    const count = Math.max(requestedTabCount ?? 0, policyMinimum);
+    const phase = transitionAvoidingPhase(perimeter, count, transitions);
+    positions = Array.from({ length: count }, (_, i) => (phase + i * perimeter / count) % perimeter).sort((a,b)=>a-b);
+  }
+  if (positions.length < policyMinimum || positions.length * minimumBridge < perimeter * policy.minimumRetainedFraction - 1e-9) {
+    return { ok: false, status: "REFUSED", reason: "TAB_RETAINED_LENGTH_BELOW_FIVE_PERCENT" };
+  }
+  const gaps = positions.map((v, i) => ((positions[(i+1)%positions.length] + (i+1===positions.length ? perimeter : 0)) - v));
+  if (gaps.some((gap) => gap < minimumBridge - 1e-9)) {
+    return { ok: false, status: "REFUSED", reason: "TAB_BRIDGES_OVERLAP" };
+  }
+  if (gaps.some((gap) => gap - minimumBridge > policy.maxAllowedGap_in + 1e-9)) {
+    return { ok: false, status: "REFUSED", reason: "TAB_UNCUT_SPAN_EXCEEDS_24_IN" };
+  }
+  const candidates = positions.map((s, i) => {
+    const point = pointAtArclength({ chord_in, rise_in, radius_in, straightHeight_in }, s);
+    const distance = Math.min(...transitions.map(v=>cyclicDistance(s,v,perimeter)));
+    return {
+      index:i+1, arclength_in:round6(s), normalizedArclength:round6(s/perimeter),
+      segment:point.segment, curved:point.curved, x_in:round6(point.x_in), y_in:round6(point.y_in),
+      distanceToNearestTransition_in:round6(distance),
+      bridgeWidthIn:minimumBridge
+    };
+  });
+  // A chosen tab too close to an intersection or sharp transition is not silently repositioned.
+  if (candidates.some(c=>c.distanceToNearestTransition_in < minimumBridge/2 - 1e-9)) {
+    return { ok:false, status:"REFUSED", reason:"TAB_WITHIN_CORNER_OR_TRANSITION_KEEPOUT" };
+  }
   return {
-    ok: true,
-    status: "REFERENCE_PLAN_READY",
-    policyId: STENCIL_TAB_POLICY_V0.id,
-    evidenceClass: STENCIL_TAB_POLICY_V0.evidenceClass,
-    physicalRetentionStatus: STENCIL_TAB_POLICY_V0.physicalRetentionStatus,
-    placementMethod: STENCIL_TAB_POLICY_V0.placementMethod,
-    requestedTabCount: requestedTabCount ?? null,
-    referenceBaseCount: STENCIL_TAB_POLICY_V0.referenceBaseCount,
-    spacingRequiredCount: spacingRequired || null,
-    planningReserveTabs: STENCIL_TAB_POLICY_V0.planningReserveTabs,
-    plannedTabCount,
-    perimeter_in: round6(geometry.perimeter_in),
-    arcLength_in: round6(geometry.arcLength_in),
-    nominalSpacing_in: round6(nominalSpacing),
-    maxAllowedGap_in: STENCIL_TAB_POLICY_V0.maxAllowedGap_in,
-    minBridgeWidth_in: STENCIL_TAB_POLICY_V0.minBridgeWidth_in,
-    minRemainingThickness_in: STENCIL_TAB_POLICY_V0.minRemainingThickness_in,
-    cornerKeepout_in: STENCIL_TAB_POLICY_V0.cornerKeepout_in,
-    transitionKeepout_in: STENCIL_TAB_POLICY_V0.transitionKeepout_in,
-    userVeto: STENCIL_TAB_POLICY_V0.userVeto,
-    candidates,
-    physicalNote:
-      "Reference tab-plan geometry is complete. Bridge width, retained thickness, maximum proven gap, and physical holding performance remain unmeasured."
+    ok:true, status:"REFERENCE_PLAN_READY", policyId:policy.id, evidenceClass:policy.evidenceClass,
+    physicalRetentionStatus:policy.physicalRetentionStatus,
+    placementMethod: tabMode === "CUSTOM" ? "CUSTOM_ARCLENGTH" : policy.placementMethod,
+    tabMode, tabOrigin:policy.tabArclengthOrigin,
+    requestedTabCount:requestedTabCount ?? null,
+    referenceBaseCount:policy.referenceBaseCount, spacingRequiredCount:requiredForSpacing,
+    planningReserveTabs:policy.planningReserveTabs,
+    plannedTabCount:candidates.length,
+    perimeter_in:round6(perimeter), arcLength_in:round6(geometry.arcLength_in),
+    nominalSpacing_in:round6(perimeter/candidates.length),
+    retainedLengthIn:round6(candidates.length*minimumBridge),
+    retainedFraction:round6(candidates.length*minimumBridge/perimeter),
+    maxUncutSpanIn:round6(Math.max(...gaps)-minimumBridge),
+    minimumRetainedFraction:policy.minimumRetainedFraction,
+    maxAllowedGap_in:policy.maxAllowedGap_in, minBridgeWidth_in:minimumBridge,
+    minRemainingThickness_in:policy.minRemainingThickness_in,
+    cornerKeepout_in:minimumBridge/2, transitionKeepout_in:minimumBridge/2,
+    userVeto:policy.userVeto,candidates,
+    physicalNote:"Geometric tab retention meets declared limits; actual holding force and remaining thickness are not measured."
   };
 }
 
@@ -220,7 +223,9 @@ export function planSplitStencilTabs(plan, geometry) {
   };
   const added = [];
   for (const side of ["RIGHT", "LEFT"]) {
-    let count = candidates.filter((tab) => sideOf(tab) === side).length;
+    let count=candidates.filter(tab=>sideOf(tab)===side).length;
+    if(plan.tabMode==="CUSTOM" && count<need)
+      return {...plan,ok:false,status:"REFUSED",reason:"CUSTOM_TAB_LOCATIONS_DO_NOT_RETAIN_EACH_HALF"};
     while (count < need) {
       const [start, end] = sides[side];
       const marks = [start, end, ...candidates

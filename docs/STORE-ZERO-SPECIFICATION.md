@@ -722,48 +722,15 @@ The retired evaluator packed parent boards to full length and did not keep the 2
 
 ## 6A.7 `src/evaluation/envelopes/s001-stage2-envelope.mjs` — S-001 sheet envelope
 
-### What it is for
+The one registered reference sheet envelope is S001-STAGE2-ENVELOPE-0.2. The 96-inch-long parent sheet is machine X=0..96; width is Y=0..48. The router's centered playfield is X=24..72 (48 inches long), Y=6..42 (36 inches tall); that means 24 inches reserved at either X end for sheet manipulation and 6 inches preserved at either Y side for sheet integrity. Both cutter-centerline and its swept tool radius must remain inside the workfield. This is Mode-2 sheet-X and tool-Y architecture, not generic CNC routing.
 
-This module declares the Stage-2 sheet-cell and yard-panel-saw assumptions used by the sheet evaluator and supplies the centered router work field.
+The S001-ROUTER uses **only a 0.500-inch diameter tool**, with a declared 0.500-inch pass depth, 60 in/min nominal feed, 10 s plunge/retract per routed profile/pass, 2 s per tab/pass, 120 s load/reference, 60 s release, minimum routed feature 6 inches, minimum split-half width 3 inches. These values are reference assumptions; a new half-inch tool has not been physically characterized. The path convention is COMPENSATED_INSIDE_FINISHED_APERTURE_TO_WASTE: the customer's opening dimension refers to its *finished clear opening* and a cutter-centerline offset of half the 0.500-inch tool diameter toward the waste is modeled. The full swept cutter geometry is checked. Physical toolpath/postprocessor commissioning is not asserted.
 
-### Inputs and constants
+The YARD-PANEL-SAW is separate from that router envelope. It makes full-width CROSSCUTs (48 inches at x constant) and full-length RIPs (96 inches at y constant) from named original-sheet end/edge datums. Declared kerf 0.125 in; nominal tolerance ±0.250 in; minimum retained piece 6 in; at least 1 in clearance from routed geometry *including tolerance and half kerf*. Set-and-align 45 s per full cut, modeled feed 150 in/min, 10 s label per resulting piece. Each completed manual full cut costs a **flat $10**; all saw time is reported but removed from hourly machine-service billing before adding this flat service. A mixed RIP and CROSSCUT job requiring extra staged per-piece strokes is refused as ORTHOGONAL_SAW_STAGING_NOT_DEFINED until those strokes can be defined and priced. Never pretend two crossing nominal full-sheet cut lines are only two physical cuts.
 
-`centeredField(parentLengthIn, parentWidthIn, field)` reads sheet length/width in inches and the default field dimensions.
+All sheet offerings must authorize their required ops. Accepted kinds are ARCHED_APERTURE, STRAIGHT_SPLIT, CROSSCUT, RIP, PATTERN. PATTERN modifies the placement of one existing named aperture; it does not create an extra unpriced profile. Machine-local G-code, controller strings, spline and toolpaths remain forbidden customer definitions. measured=false, commissioned=false, commercialQuote=false, physicalMachineEvidence=false, and physical admission blocked remain unchanged. See §§6A.9–6A.10 for actual tab and evaluation rules.
 
-The envelope declares:
-
-- parent sheet exactly 96 × 48 in for the modeled path;
-- thickness 0.25–0.75 in;
-- centered router field 48 in in X × 36 in in Y;
-- router 0.25-in tool, 0.5-in pass depth, 60 in/min feed, 10 s plunge/retract per routed path/pass, 2 s per tab/pass, 120 s load/seat/reference, 60 s release/unload, min routed feature 6 in, min split piece width 3 in;
-- panel saw 0.125-in kerf, 45 s set/align per cut, 150 in/min cut feed, min piece 6 in, min routed-feature clearance 1 in;
-- label 10 s per returned piece;
-- feature kinds only `ARCHED_APERTURE`, `STRAIGHT_SPLIT`, `CROSSCUT`;
-- machine-local language fields `spline`, `toolpath`, `gcode`, `controller`, `servoSteps` are not accepted as project definition language.
-
-Centered field:
-
-\[
-x_0=(L-48)/2,\quad x_1=(L+48)/2,\quad y_0=(W-36)/2,\quad y_1=(W+36)/2
-\]
-
-The economics basis deliberately reuses the Stage-2 Store machine-hour object; that is shared economics, not a claim that S-001 is D-001.
-
-### Outcomes
-
-This envelope object itself returns no job disposition; `centeredField` only computes geometry. All limits are consumed by the sheet evaluator.
-
-### It does not do
-
-It does not claim physical workholding, measured tab retention, commissioned sheet hardware, measured feed/cycle, Cycle Start, generic CNC capability, or exterior rating unless the offering itself establishes it.
-
-### Verification
-
-`tests/sheet-package.test.mjs` named tests collectively assert exact 96×48 behavior, centered-field refusal, half-sheet refusal, operation order, evidence labels, panel-saw route, and no machine-local controller output. Individual constant values such as 45 s set/align and 150 in/min are exercised by Q/time but not separately asserted as literals; those literal constants are **untested** in isolation.
-
-### Where it lives
-
-`src/evaluation/envelopes/s001-stage2-envelope.mjs`: `S001_STAGE2_ENVELOPE`, `centeredField`.
+Verification: tests/s001-stage2-capabilities.test.mjs, tests/s001-timing-constants.test.mjs and the strict S-001 sheet acceptance tests.
 
 ---
 
@@ -809,198 +776,50 @@ The canonical sheet test named “canonical playhouse window is SUPPORTABLE with
 
 ## 6A.9 `src/evaluation/engine/stencil-tab-policy.mjs` — reference tab planning and split retention
 
-### What it is for
+The single exported tab-policy object identifies S001-STENCIL-TAB-POLICY-V1. It specifies **1-inch retained tab bridges**, no less than **5%** retained developed contour length, and no more than **24 inches of uncut-free routed span** between consecutive bridges (including wraparound). A closed arched aperture perimeter is chord + twice straight height + circular-segment arc length. Minimum automatic tab count is max(4, ceil(0.05 × perimeter / 1), ceil(perimeter/(24+1))); a higher requested count is honored. The historical four-tab request authorizes automatic placement as a minimum count, not four fixed locations. The Store computes and echoes its *actual* placement; for the 36/24/12 Playhouse that is **seven** 1-inch perimeter bridges, plus two separate one-inch bridge segments on the internal straight split.
 
-This module produces deterministic **reference** tab geometry for the arched S-001 aperture and, where the retained center is split, ensures each retained half has at least two tabs. It is not a holding-force or safety model.
+The customer can instead request tabMode=CUSTOM and tabPositionsIn as exact developed arclengths measured from the **bottom-left point, counterclockwise**, in inches. Store checks each position, pairwise spacing, minimum retained fraction, 24-inch free spans, 0.5-inch transition keepouts, and retained halves of the vertical center split. It never moves customer-selected tabs to make them fit. Duplicate/overlapping, missing, out-of-contour, undersized or overspaced custom placements are refused with named reasons, or unresolved when essential positions are missing. For split sections, splitTabMode and splitTabPositionsIn similarly state customer positions along the split. The default split puts two one-inch bridges at one-third and two-thirds of split length. Each retained half must have at least two outer-perimeter bridges; only automatic placement may add any needed perimeter bridges.
 
-### Inputs
-
-`archedAperturePerimeter` and `planArchedStencilTabs` read positive inch values `chord_in`, `rise_in`, `radius_in`, `straightHeight_in`; the planner also reads optional integer `requestedTabCount`.
-
-`planSplitStencilTabs(plan, geometry)` reads a successful tab plan plus the same aperture geometry.
-
-### Policy constants and formulas
-
-- `referenceBaseCount = 4`;
-- `planningReserveTabs = 1`;
-- `maxAllowedGap_in = null`;
-- `minBridgeWidth_in = null`;
-- `minRemainingThickness_in = null`;
-- `cornerKeepout_in = null`;
-- `transitionKeepout_in = null`;
-- `minTabsPerRetainedPiece = 2`;
-- split-line keepout = 0.5 in;
-- placement method `DISTRIBUTED_ARCLENGTH_TRANSITION_AVOIDANCE`.
-
-Arched perimeter:
-
-\[
-\theta = 2\arcsin(C/(2R))
-\]
-\[
-L_{arc}=R\theta
-\]
-\[
-P=C+2H+L_{arc}
-\]
-
-Tab count:
-
-\[
-spacingRequired=
-\begin{cases}
-0,&maxAllowedGap\text{ is null}\\
-\lceil P/maxAllowedGap\rceil,&\text{otherwise}
-\end{cases}
-\]
-
-\[
-policyTarget=\max(4,spacingRequired)+1
-\]
-
-\[
-plannedTabCount=\max(requestedTabCount,\ policyTarget)
-\]
-
-The planner chooses an equal-spacing phase that maximizes clearance from the four contour transitions. Split planning classifies tabs by X relative to ±0.5 in around the vertical split line. If one side has fewer than two tabs, a tab is added at the midpoint of that side’s largest open perimeter stretch.
-
-### Outcomes/reasons
-
-Invalid/incomplete perimeter geometry → `UNRESOLVED / TAB_PLAN_GEOMETRY_UNRESOLVED`. Noninteger or <1 requested count → `REFUSED / TAB_PLAN_COUNT_INVALID`. Success → `REFERENCE_PLAN_READY`. Split planning returns the original unsuccessful plan unchanged or an updated `REFERENCE_PLAN_READY`.
-
-### It does not do
-
-It does not assign bridge width, remaining thickness, maximum supported gap, holding force, safety factor, production readiness, or G-code. The one extra tab is a planning reserve only.
-
-### Verification
-
-- `tests/sheet-package.test.mjs` — “every piece comes back to the owner and each split half keeps two tabs” and canonical sheet test.
-- The policy’s exact equal-spacing phase/candidate coordinates and added-tab largest-gap algorithm are **untested** as exact coordinate fixtures.
-- Null physical-retention constants are source-declared and **untested** as behavior because they intentionally remain unmeasured.
-
-### Where it lives
-
-`src/evaluation/engine/stencil-tab-policy.mjs`: `archedAperturePerimeter`, `planArchedStencilTabs`, `planSplitStencilTabs`.
+Actual tool holding force, tab remaining thickness and physical commissioning are **unmeasured**, not claimed. This is geometric reference planning, not a safety certification. The returned tab plan names all actual positions and their evidence. Verification: tests/stencil-tab-geometry.test.mjs and tests/s001-stage2-capabilities.test.mjs.
 
 ---
 
 ## 6A.10 `src/evaluation/evaluators/sheet-package.mjs` — S-001 sheet material, feature, piece, time, and Q evaluator
 
-### What it is for
+### Required definition
 
-This evaluator matches one declared sheet, answers every requested sheet feature, plans reference tabs, enforces S-001/yard-panel-saw constraints, accounts for every returned piece, and returns machine time and Q only when the complete request is supportable.
+SHEET_PACKAGE_V1 carries configurationId, configurationVersion, sheet (thicknessIn, lengthIn, widthIn, optional species and grade), features[] with unique feature IDs, and returnAllPieces=true. The Store's strict contract refuses undeclared keys rather than silently dropping them. System owns the customer's material and operations; Store checks the catalog, stock, each feature, workfield, operation authorizations and modeled economics without moving or substituting the definition.
 
-### Inputs
+Feature kinds:
+- ARCHED_APERTURE: CENTERED placement, widthIn/straightHeightIn/riseIn, retained TABS, requestedTabCount, optional tabMode AUTO_PLAN or CUSTOM, optional tabPositionsIn.
+- STRAIGHT_SPLIT: host aperture via within, VERTICAL_CENTERLINE line, optional splitTabMode and splitTabPositionsIn.
+- CROSSCUT: full-width yard cut with fromEnd LEFT/RIGHT and nominal distanceIn.
+- RIP: full-length yard cut with fromEdge BOTTOM/TOP and nominal distanceIn.
+- PATTERN: within an existing aperture ID and explicit offsetXIn, offsetYIn. It translates the host geometry and split together; it is a placement modifier, **not an additional duplicate routed cut** and not arbitrary machine G-code.
 
-Top-level `demand` reads `configurationId`, `configurationVersion`, optional `storeRevision`, `sheet`, `features[]`, optional `exteriorRatingRequested`, and machine-local forbidden keys.
+### Deterministic evaluation
 
-`sheet` reads `thicknessIn`, `lengthIn`, `widthIn`, optional `species`, optional `grade`.
+1. Validate complete identity, positive/finite dimensions, unique feature IDs, prohibited machine-local keys, return of all pieces, full parent 96x48, sheet thickness 0.25–0.75, and eligible material/grade or ask rather than guess.
+2. Resolve PATTERN offsets. Reject unknown host, duplicate pattern modifiers and missing offsets. Translate only the named opening. Check its circular radius from chord/rise and whole nominal shape, compensated centerline and swept cutter against X=24..72, Y=6..42; out-of-bounds means CENTER_WORK_FIELD_EXCEEDED, never an automatic shrink or move.
+3. Plan the 1-inch retention bridges under §6A.9. A missing tab count remains an explicit unresolved fact. User CUSTOM positions are immutable. A split has independent retention bridges and the resulting center halves must retain their own two perimeter supports.
+4. Evaluate each saw line from its declared original-sheet datum. CROSSCUT and RIP both check the nominal coordinate, ±0.25 tolerance, half the 0.125 kerf, 1-inch clearance to routed features and worst-case resulting piece dimensions of at least 6 inches. Parallel adjacent cuts also undergo accumulated-tolerance piece checks. Intersecting mixed orientations are refused until physically staged strokes are defined and accurately priced.
+5. Resolve material to an offered, priced and available catalog row whose supportedOps contain each required operation; ambiguous materials are UNRESOLVED, out-of-envelope and unsupported are REFUSED, insufficient stock is UNAVAILABLE. Never reassign a different customer sheet.
+6. Account for panel/frame pieces, kerf-separated remnants and separately retained centers, all returned to owner. Echo every feature's disposition and reasons. If anything is refused/unresolved/unavailable, **no Q, no priced operations**.
+7. For SUPPORTABLE only, create operations in route-then-yard-saw order with declared station, datum, tolerance, cutter diameter, and returned tab planning; model time from recorded lengths, cut count and declared setup/handling constants.
 
-Feature forms:
+### Time and economics
 
-- `ARCHED_APERTURE`: `featureId`, `placement`, `widthIn`, `straightHeightIn`, `riseIn`, `retain`, `requestedTabCount`;
-- `STRAIGHT_SPLIT`: `featureId`, `within` aperture id, `line`;
-- `CROSSCUT`: `featureId`, `fromEnd`, `distanceIn`.
+Actual router diameter is 0.500; inside finished-aperture radius compensation is 0.250. The modeled compensated closed-path contour length is nominal contour perimeter minus PI × tool diameter. Add the internal split length. Each pass is bounded by declared 0.5-in depth. Total time is load (120 if routed), path length at 60 in/min, 10 s plunge/retract per profile/pass, 2 s lift per actual perimeter/split tab/pass, release (60 if routed), full saw-cut time of 45 seconds set/align plus cut length/150 in/min, and label (10 s per returned piece). The total time includes the saw operation; **hourly-priced time excludes it**.
 
-### Ordered decision sequence
+machine_service = round((T_MACHINE_sec − T_PANEL_SAW_sec)/3600 × $250, 2)
+manual_cut_service = $10 × (number of full CROSSCUTs + full RIPs)
+Q = round(material + machine_service + manual_cut_service, 2)
 
-1. Missing configuration id/version → unresolved `CONFIGURATION_IDENTITY_REQUIRED`.
-2. If any top-level machine-local key (`spline`, `toolpath`, `gcode`, `controller`, `servoSteps`) is present → refusal `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`.
-3. Sheet size must contain finite length/width/thickness or `SHEET_SIZE_MISSING` (null is missing, never 0). Every piece cut is returned: `returnAllPieces` missing or null → unresolved `RETURN_ALL_PIECES_REQUIRED`; any value but `true` → refusal `PIECE_DISPOSAL_NOT_OFFERED`.
-4. Parent must be exactly 96 × 48 or `SHEET_SIZE_OUTSIDE_S001_ENVELOPE`; thickness outside 0.25–0.75 → `SHEET_THICKNESS_OUTSIDE_S001_ENVELOPE`.
-5. Features must be nonempty or `FEATURES_REQUIRED`; IDs must be present/unique or `UNIQUE_FEATURE_ID_REQUIRED`.
-6. Any feature kind outside the three declared kinds → `FEATURE_KIND_NOT_DECLARED`.
-7. For each aperture:
-   - placement must be `CENTERED` or `APERTURE_PLACEMENT_NOT_DECLARED`;
-   - retention must be `TABS` or `APERTURE_RETENTION_MUST_BE_TABS`;
-   - width/straight height/rise must be finite or `APERTURE_SIZE_MISSING`;
-   - each must be >0 or `APERTURE_SIZE_INVALID`;
-   - circular-segment geometry must pass, else its curve reasons propagate;
-   - rise above width/2 → `ARCH_RISE_EXCEEDS_HALF_WIDTH`;
-   - width or straight height below 6 → `ROUTED_FEATURE_BELOW_MINIMUM`;
-   - centered bounding box must fit wholly in centered work field or `CENTER_WORK_FIELD_EXCEEDED`;
-   - missing requested tab count → `TAB_COUNT_MISSING`; invalid count → `TAB_PLAN_COUNT_INVALID`; tab planner errors propagate.
-8. For each split: referenced aperture must exist or `SPLIT_HOST_APERTURE_NOT_DEFINED`; line must be `VERTICAL_CENTERLINE` or `SPLIT_LINE_NOT_DECLARED`; each half’s width `(aperture width - 0.25)/2` must be at least 3 in or `SPLIT_PIECE_BELOW_MINIMUM`.
-9. For each crosscut: end must be `LEFT` or `RIGHT` or `CROSSCUT_END_NOT_DECLARED`; missing distance → `CROSSCUT_DISTANCE_MISSING`; X must lie strictly inside sheet or `CROSSCUT_OUTSIDE_SHEET`; cut line must remain at least 1 in clear of routed aperture bounding boxes or `CROSSCUT_INTERSECTS_ROUTED_FEATURE`.
-10. Apply split tab planner to successful host apertures.
-11. Resolve sheet offering:
-    - exact form/thickness/length/width and optional species/grade match; none → `NO_MATCHING_SHEET_OFFERING`;
-    - no offered match → `SHEET_NOT_OFFERED`;
-    - offered matches in more than one species/grade (for example 3/4 in fir ACX-sanded and OSB when neither is named) → `UNRESOLVED / SHEET_MATERIAL_CHOICE_REQUIRED` with `offeredMaterials`; the material is the customer's, never the cheapest by default;
-    - offered but wrong cell/required op → `OPERATION_NOT_ON_SHEET_OFFERING`;
-    - no price → `MISSING_PRICE`;
-    - no priced matching sheet with sufficient stock → `UNAVAILABLE` using `ON_HAND_SHORT` or `NOT_ON_HAND`;
-    - otherwise, among offerings of the one stated material, select lowest selling price, tie by SKU.
-12. If exterior rating requested but selected grade text does not establish exterior → unresolved `EXTERIOR_RATING_NOT_ESTABLISHED_BY_SKU`.
-13. Piece accounting: sort crosscut X values; apply half-kerf at interior cut boundaries; any resulting panel length under 6 in → `CROSSCUT_PIECE_BELOW_MINIMUM`. Create panel/frame pieces and retained center piece(s), all `RETURNED_TO_OWNER`.
-14. Every requested feature gets `featureAnswers[]`; refusal/unresolved is attributed by feature id. Nothing is silently dropped.
-15. Status precedence: any refusal → `REFUSED`; else any unresolved → `UNRESOLVED`; else stock shortage → `UNAVAILABLE`; else `SUPPORTABLE`.
-16. Only `SUPPORTABLE` receives time, operations, totals, and Q.
+The default Playhouse model under this release: ½-in pine, 96×48; finished opening 36-wide, 24-straight, 12-rise, radius 19.5; original X=18 and 78 crosscuts; seven perimeter tabs, two split tabs; total modeled time **560.693 seconds / 9.3449 minutes**, including 128.4 seconds of unbilled-by-hour saw work. Material **$26.55** + hourly non-saw service **$30.02** + two manual cuts **$20.00** = **$76.57**. This replaces the earlier **$65.04** reference price through an owner-approved change, without rewriting the old recording. All physical safety/commissioning and seller-of-record claims remain blocked.
 
-### Sheet time formula
+### Refusals and verification
 
-Passes:
-
-\[
-passes=\max(1,\lceil actualThickness/0.5 - 10^{-9}\rceil)
-\]
-
-Route length:
-
-\[
-L_{route}=\sum aperturePerimeters+\sum splitLengths
-\]
-
-Time components:
-
-- load/reference: 120 s if any routed path;
-- route: `L_route × passes / 60 in/min × 60 s/min`;
-- plunge/retract: `number of routed paths × passes × 10 s`;
-- tabs: `planned tab count × passes × 2 s`;
-- release: 60 s if routed;
-- each panel-saw cut: `45 s + (48 in / 150 in/min × 60)` for the canonical full-width cut;
-- label: `10 s × returned piece count`.
-
-Machine service = total seconds/3600 × $250, rounded to cents. Sheet material = selected catalog `sellingPrice`. Q = material + machine service.
-
-### Outcomes/reasons
-
-`REFUSED`: `MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED`, `SHEET_SIZE_OUTSIDE_S001_ENVELOPE`, `SHEET_THICKNESS_OUTSIDE_S001_ENVELOPE`, `FEATURE_KIND_NOT_DECLARED`, aperture/circular-segment refusals, `ARCH_RISE_EXCEEDS_HALF_WIDTH`, `ROUTED_FEATURE_BELOW_MINIMUM`, `CENTER_WORK_FIELD_EXCEEDED`, `TAB_PLAN_COUNT_INVALID`, `SPLIT_HOST_APERTURE_NOT_DEFINED`, `SPLIT_LINE_NOT_DECLARED`, `SPLIT_PIECE_BELOW_MINIMUM`, `CROSSCUT_END_NOT_DECLARED`, `CROSSCUT_OUTSIDE_SHEET`, `CROSSCUT_INTERSECTS_ROUTED_FEATURE`, `CROSSCUT_PIECE_BELOW_MINIMUM`, `NO_MATCHING_SHEET_OFFERING`, `SHEET_NOT_OFFERED`, `OPERATION_NOT_ON_SHEET_OFFERING`.
-
-`UNRESOLVED`: `CONFIGURATION_IDENTITY_REQUIRED`, `SHEET_SIZE_MISSING`, `SHEET_MATERIAL_CHOICE_REQUIRED`, `FEATURES_REQUIRED`, `UNIQUE_FEATURE_ID_REQUIRED`, `APERTURE_SIZE_MISSING`, `TAB_COUNT_MISSING`, circular-segment unresolved reasons, `CROSSCUT_DISTANCE_MISSING`, `MISSING_PRICE`, `EXTERIOR_RATING_NOT_ESTABLISHED_BY_SKU`, and missing formal request id `STORE_EVALUATION_REQUEST_ID_REQUIRED`.
-
-`UNAVAILABLE`: selected conforming/priced sheet lacks sufficient fixture stock (`ON_HAND_SHORT` or `NOT_ON_HAND`).
-
-`SUPPORTABLE`: all above pass and complete Q is calculated.
-
-### It does not do
-
-It does not move a crosscut away from an opening; shrink an aperture; drop an unsupported feature; turn G-code into accepted definition language; claim exterior rating from inference; route an edge outside the centered field; use D-001 for a sheet; claim physical tab holding; or authorize Cycle Start.
-
-### Verification
-
-Every named test in `tests/sheet-package.test.mjs` is directly relevant:
-
-- “canonical playhouse window is SUPPORTABLE with a complete budgetary Q”;
-- “every piece comes back to the owner and each split half keeps two tabs”;
-- “an opening past the centered working field is REFUSED with a reason and no price”;
-- “a crosscut through the routed opening is REFUSED, never moved”;
-- “a crosscut piece under the panel-saw minimum is REFUSED”;
-- “an arch taller than half its width is REFUSED”;
-- “missing tab count is UNRESOLVED; machine-local language and undeclared features are REFUSED”;
-- “exterior rating on a sheathing sheet stays UNRESOLVED”;
-- “no sheet on hand makes the job UNAVAILABLE, not a fallback”;
-- “a sheet the cell cannot route is REFUSED; a half sheet is outside the S-001 envelope”;
-- “every request is freshly evaluated with a receipt bound to this request and this Store”;
-- “D-001 still refuses sheets: a sheet never falls through dimensional cut packages”;
-- “every requested feature is answered; nothing is silently dropped”;
-- “assumptions are labeled as newly adopted Stage-2 reference, not measured or quoted”.
-
-Untested as dedicated cases: wrong aperture placement; wrong retention mode; zero/negative aperture dimensions; split line other than vertical centerline; crosscut from-end value other than left/right; exact `SHEET_NOT_OFFERED`; exact missing-price sheet case; exact operation-not-on-sheet-offering case.
-
-### Where it lives
-
-`src/evaluation/evaluators/sheet-package.mjs`: `SHEET_PACKAGE_STANDARD`, `evaluateSheetPackageJob`, with material, feature, piece, time, and operation helpers. Requests reach it through `src/requests/store-request.mjs`.
+Each refused feature is named: unsupported material/offering/stock, missing fact, out-of-field routed shape or cutter sweep, impossible circular arch, undersized split piece, insufficient tab retention or invalid customer locations, saw collision/undersized pieces/worst-case tolerance and kerf, undefined mixed orientation staging, and undeclared machine code. Zero invented Q, no silent removal. New tests cover both saw orientations, exact $10 charges, the ½-in cutter, tabs, pattern offsets, refusal and noncommissioning. See tests/sheet-package.test.mjs, tests/sheet-package-branches.test.mjs, tests/s001-timing-constants.test.mjs, tests/stencil-tab-geometry.test.mjs, tests/s001-stage2-capabilities.test.mjs.
 
 ---
 
@@ -1130,7 +949,7 @@ From a clean checkout of the candidate commit:
 npm run verify:deployment -- https://<candidate-address> --commit <sha>
 ```
 
-`scripts/verify-deployment.mjs` uses only the public interface and prints PASS or FAIL for each check: health answers; release is the commit; the source digest is the checkout's; the advertised request types; machine evidence advertised with `physicalAuthority:false`; Project 1 `SUPPORTABLE` at $11.09 with a fresh receipt naming this release and a response bound to the exact bytes sent; Project 1 without its grade asked for it; the default SPF board at $8.54; the pine cut package at $429.16; the Playhouse sheet at $65.04; the count-only ticket refused; a missing end-cut angle asked for; virtual machine evidence for Project 1 (45 records, 86.469536 s, admission `BLOCKED`, physical authority false); an altered answer, an answer from another release, and a wrong machine configuration refused. It exits non-zero on any failure. `tests/verify-deployment.test.mjs` runs it against a real local service, a service naming another commit and running other code, and a proxy that alters responses; that is local evidence, not a hosted result.
+`scripts/verify-deployment.mjs` uses only the public interface and prints PASS or FAIL for each check: health answers; release is the commit; the source digest is the checkout's; the advertised request types; machine evidence advertised with `physicalAuthority:false`; Project 1 `SUPPORTABLE` at $11.09 with a fresh receipt naming this release and a response bound to the exact bytes sent; Project 1 without its grade asked for it; the default SPF board at $8.54; the pine cut package at $429.16; the Playhouse sheet at $76.57 (new owner-approved Stage-2 model); the count-only ticket refused; a missing end-cut angle asked for; virtual machine evidence for Project 1 (45 records, 86.469536 s, admission `BLOCKED`, physical authority false); an altered answer, an answer from another release, and a wrong machine configuration refused. It exits non-zero on any failure. `tests/verify-deployment.test.mjs` runs it against a real local service, a service naming another commit and running other code, and a proxy that alters responses; that is local evidence, not a hosted result.
 
 ### Where it lives
 
@@ -1190,10 +1009,10 @@ npm run verify:deployment -- https://<candidate-address> --commit <sha>
 **Checks.** Configuration identity is present. Sheet is exact 96×48 and 0.5 in thick. All four feature IDs are unique and declared. Aperture width/height/rise are positive; derived radius is **19.5 in**; rise 12 ≤ 18; width and straight height exceed the 6-in routed-feature minimum; centered box is within the 48×36 field. The tab policy plans at least 5 tabs (4 base request plus one planning reserve); the split retains at least two tabs per half. Split piece width is `(36 - 0.25)/2 = 17.875 in`, above 3 in. Crosscuts resolve to X=18 and X=78 and remain clear of the routed opening. Sheet resolves to `STB-ZERO-PLY-050-48X96-001`, material **$26.55**. Crosscuts leave valid pieces and every piece is returned.  
 *Trace: named canonical and returned-piece tests.*
 
-For this exact current-code input, aperture perimeter is **129.864203 in**, center-split route length is 36 in, so routed length is **165.864203 in**. With one 0.5-in pass, five tabs, two routed paths, two full-width panel-saw cuts, and five returned pieces, modeled total is **554.264203 s = 9.2377 min**. Machine service is **$38.49** and Q is **$65.04**. The canonical test directly asserts the material price, radius, operation order, crosscut positions, and the exact formula `Q = round(material + machine_service, 2)`; the literal `$65.04` is reproduced from the current source constants rather than separately hard-coded as a test expectation.  
+For this exact current-code input, aperture perimeter is **129.864203 in**, center-split route length is 36 in, so routed length is **165.864203 in**. With one 0.5-in pass, five tabs, two routed paths, two full-width panel-saw cuts, and five returned pieces, modeled total is **560.693 s = 9.3449 min**. Machine service is **$30.02** and Q is **$76.57**. The canonical test directly asserts the material price, radius, operation order, crosscut positions, and the exact formula `Q = round(material + machine_service, 2)`; the literal `$76.57` is reproduced from the current source constants rather than separately hard-coded as a test expectation.  
 *Trace: `timeFor`; `S001_STAGE2_ENVELOPE`; `STENCIL_TAB_POLICY_V0`; named canonical test.*
 
-**Final answer.** `SUPPORTABLE`, complete budgetary Q **$65.04** under the declared Stage-2 model; measured and commissioned remain false.
+**Final answer.** `SUPPORTABLE`, complete budgetary Q **$76.57** under the declared Stage-2 model; measured and commissioned remain false.
 
 ### E. `OFFERING_LOOKUP` — exact Store SKU search
 

@@ -105,10 +105,17 @@ const SHEET_PACKAGE_V1 = {
           riseIn: "number",
           retain: "string",
           requestedTabCount: "integer",
+          tabMode: "string",
+          tabPositionsIn: { array: "number" },
+          splitTabMode: "string",
+          splitTabPositionsIn: { array: "number" },
           within: "string",
           line: "string",
           fromEnd: "string",
-          distanceIn: "number"
+          fromEdge: "string",
+          distanceIn: "number",
+          offsetXIn: "number",
+          offsetYIn: "number"
         }
       }
     },

@@ -23,11 +23,11 @@ Store Zero is the modeled reference yard used to develop and test this service. 
 | Class | Work represented here |
 | --- | --- |
 | **Dimensional — D-001** | Cut to length, bounded miters, declared milling profiles, and a defined 3/16-in spot/pilot operation. |
-| **Sheet — S-001** | Bounded routed openings, retained tabs, supported center splits, and panel-saw crosscuts. |
+| **Sheet — S-001** | A single ½-inch cutter for bounded routed patterns, customer-positioned 1-inch retention tabs, center splits, and yard panel-saw crosscuts **and full-length rips** at $10 per manual full cut with declared ±¼-inch location tolerance. |
 
 The [D-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#6a2-srcevaluationenvelopesd001-stage2-envelopemjs--d-001-stage-2-capability-envelope) and [S-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#6a7-srcevaluationenvelopess001-stage2-envelopemjs--s-001-sheet-envelope) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
 
-**Cut, mill, and drill are operations with material, geometry, tooling, and time behind them.** The Store answer connects those facts to the requested result.
+**Cut, mill, and drill are operations with material, geometry, tooling, and time behind them. The sheet router keeps the center 48 × 36 inches of a full 96 × 48 sheet as its declared working field, and the separate yard panel saw handles whole-sheet straight cuts.** The Store answer connects those facts to the requested result.
 
 ## One request, a yard’s answer
 

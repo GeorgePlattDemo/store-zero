@@ -90,6 +90,21 @@
       "recordedAnswers": 36,
       "recordedSupportable": 17,
       "expect": "Exactly the recorded cut-package answers that sent a spot with no featureId or a package with no material form change: each such package is UNRESOLVED with FEATURE_ID_REQUIRED (asked first) or MATERIAL_FORM_REQUIRED and no price, and no such answer is SUPPORTABLE. With what the recording assumed stated explicitly (form board, each spot named by its position, and a square cut where NO-SILENT-DEFINITION-DEFAULTS applies) the answer is the recorded one, except that the stated form is echoed. No user-defined board answer changes: the two recorded boards with no form state no material and are asked for it under MATERIAL-IS-STATED."
+    },
+    {
+      "id": "S001-SHEET-STAGE2-ROUTER-SAW-PATTERN-TABS",
+      "approved": "2026-10-09",
+      "approvedBy": "owner",
+      "evaluator": "evaluateSheetPackageJob",
+      "reason": "Owner-directed Stage-2 sheet capability: one 0.5-in router (not 0.25); preserve X 24..72 and Y 6..42 routing field on 96x48 sheet; 1-in tabs retaining >=5% of routed contour with <=24-in free span, user-chosen positions immutable; YARD-PANEL-SAW full crosscuts and rips at $10 per cut with declared +/-0.25-in position tolerance and no hourly saw double-charge; PATTERN offsets an existing defined aperture without creating a duplicate route; physical status remains not commissioned.",
+      "referencePlayhouse": {
+        "oldQ": 65.04,
+        "newQ": 76.57,
+        "material": 26.55,
+        "machine_service": 30.02,
+        "manual_cut_service": 20
+      },
+      "expect": "Preserve all non-sheet evaluator results and immutable recordings. Updated sheet answers are versioned S001-STAGE2-ENVELOPE-0.2 with the half-inch cutter, geometric tab evidence and separate manual-cut economics. Unsupported features and geometry remain refused. The canonical Playhouse request with 4 requested auto-planned tabs receives 7 actual aperture tabs (plus 2 split tabs); it is never advertised as just 4."
     }
   ]
 }

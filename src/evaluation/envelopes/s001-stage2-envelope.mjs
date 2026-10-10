@@ -2,7 +2,7 @@
  * S-001 Stage-2 reference envelope: the sheet cell and the yard panel saw.
  * Declared capability. measured = false. commissioned = false. Not Cycle Start. Not generic CNC.
  *
- * Human copy: S-001-STAGE2-ENVELOPE-0.1.md.
+ * Human copy: docs/STORE-ZERO-SPECIFICATION.md section 6A.7.
  *
  * Every feed rate, handling time, clearance and minimum below is a NEWLY ADOPTED Stage-2 reference
  * assumption (DECLARED_STAGE2_MODEL / DECLARED_STAGE2_CAPABILITY). None is recovered or measured.
@@ -19,12 +19,12 @@
  *
  *   YARD-PANEL-SAW  a vertical panel saw in the yard, run by a yard operator to a measured line
  *                   (newly adopted Stage-2 reference station).
- *                   It makes the straight full-width crosscuts and rips already declared on sheet
+ *                   It makes the straight full-width crosscuts and full-length rips already declared on sheet
  *                   offerings (CROSSCUT, RIP). It runs after routing, so the sheet stays whole and
  *                   registered while it is routed.
  */
 export const S001_STAGE2_ENVELOPE = Object.freeze({
-  id: "S001-STAGE2-ENVELOPE-0.1",
+  id: "S001-STAGE2-ENVELOPE-0.2",
   cellFamily: "S-001",
   basis: "DECLARED_STAGE2_CAPABILITY",
   evidenceClass: "REFERENCE",
@@ -70,7 +70,7 @@ export const S001_STAGE2_ENVELOPE = Object.freeze({
   }),
   router: Object.freeze({
     station: "S001-ROUTER",
-    toolDiameterIn: 0.25,
+    toolDiameterIn: 0.5,
     passDepthIn: 0.5,
     routeFeedInPerMin: 60,
     plungeRetractSec: 10,
@@ -79,7 +79,7 @@ export const S001_STAGE2_ENVELOPE = Object.freeze({
     releaseUnloadSec: 60,
     minRoutedFeatureIn: 6,
     minSplitPieceWidthIn: 3,
-    toolPath: "CENTERED_ON_THE_DEFINED_LINE"
+    toolPath: "COMPENSATED_INSIDE_FINISHED_APERTURE_TO_WASTE"
   }),
   panelSaw: Object.freeze({
     station: "YARD-PANEL-SAW",
@@ -88,7 +88,10 @@ export const S001_STAGE2_ENVELOPE = Object.freeze({
     cutFeedInPerMin: 150,
     minPieceIn: 6,
     minClearanceToRoutedFeatureIn: 1,
-    runsAfterRouting: true
+    runsAfterRouting: true,
+    nominalPositionToleranceIn: 0.25,
+    servicePricePerCompletedCut: 10,
+    supportedFullCuts: Object.freeze(["CROSSCUT", "RIP"])
   }),
   label: Object.freeze({ perPieceSec: 10 }),
   // Intentional: S-001 machine service is priced with the existing Store Zero Stage-2 economics object.
@@ -100,11 +103,13 @@ export const S001_STAGE2_ENVELOPE = Object.freeze({
     intentional: true,
     renameDeferred: true
   }),
-  featureKinds: Object.freeze(["ARCHED_APERTURE", "STRAIGHT_SPLIT", "CROSSCUT"]),
+  featureKinds: Object.freeze(["ARCHED_APERTURE", "STRAIGHT_SPLIT", "CROSSCUT", "RIP", "PATTERN"]),
   requiredOps: Object.freeze({
     ARCHED_APERTURE: "ROUTE_PROFILE",
     STRAIGHT_SPLIT: "ROUTE_PROFILE",
-    CROSSCUT: "CROSSCUT"
+    CROSSCUT: "CROSSCUT",
+    RIP: "RIP",
+    PATTERN: "ROUTE_PROFILE"
   }),
   machineLocalLanguage: Object.freeze(["spline", "toolpath", "gcode", "controller", "servoSteps"]),
   notClaimed: Object.freeze([

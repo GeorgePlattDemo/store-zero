@@ -4,7 +4,7 @@
  * A project (System) sends one parent sheet and the features it wants made from it. The evaluator
  * knows nothing about any project. Store Zero picks the sheet offering, checks every feature against
  * the S-001 Stage-2 envelope, plans retention tabs, times the router and the panel saw, prices the
- * sheet and the machine time, and answers SUPPORTABLE, or REFUSED / UNRESOLVED / UNAVAILABLE with
+ * sheet, non-saw machine service, and individually declared manual saw cuts, and answers SUPPORTABLE, or REFUSED / UNRESOLVED / UNAVAILABLE with
  * named reasons. It never moves, resizes or drops a feature to make the job fit.
  *
  * Definition (machine-neutral, part-relative; X along the sheet's long axis from the left end,
@@ -16,14 +16,16 @@
  *       { featureId, kind: "ARCHED_APERTURE", placement: "CENTERED", widthIn, straightHeightIn, riseIn,
  *         retain: "TABS", requestedTabCount },
  *       { featureId, kind: "STRAIGHT_SPLIT", within: <ARCHED_APERTURE featureId>, line: "VERTICAL_CENTERLINE" },
- *       { featureId, kind: "CROSSCUT", fromEnd: "LEFT" | "RIGHT", distanceIn }
+ *       { featureId, kind: "CROSSCUT", fromEnd: "LEFT" | "RIGHT", distanceIn },
+ *       { featureId, kind: "RIP", fromEdge: "BOTTOM" | "TOP", distanceIn },
+ *       { featureId, kind: "PATTERN", within: "OPENING", offsetXIn, offsetYIn }
  *     ],
  *     returnAllPieces: true,
  *     exteriorRatingRequested?: boolean
  *   }
  *
  * Order of work: load and reference the whole sheet → route every aperture (tabs kept) → route every
- * split → release the sheet → crosscut at the yard panel saw → label every piece. Routed pieces stay in
+ * split → release the sheet → full straight cuts at the yard panel saw → label every piece. Routed pieces stay in
  * their frame on their tabs; the owner separates them. Every piece goes back to the owner.
  */
 import { statedNumber } from "../stated-number.mjs";
@@ -34,10 +36,10 @@ import { evaluateCircularSegment } from "../engine/circular-segment.mjs";
 import { STENCIL_TAB_POLICY_V0, archedAperturePerimeter, planArchedStencilTabs, planSplitStencilTabs } from "../engine/stencil-tab-policy.mjs";
 
 export const SHEET_PACKAGE_STANDARD = Object.freeze({
-  id: "STB-SHEET-PACKAGE-0.1",
+  id: "STB-SHEET-PACKAGE-0.2",
   classId: "sheet_package.s001",
   rule: "ONE_SHEET_EVERY_FEATURE_ANSWERED_NO_MOVE_NO_RESIZE_NO_DROP",
-  order: Object.freeze(["LOAD_REFERENCE", "ROUTE_APERTURES", "ROUTE_SPLITS", "RELEASE", "PANEL_SAW_CROSSCUTS", "LABEL"]),
+  order: Object.freeze(["LOAD_REFERENCE", "ROUTE_APERTURES", "ROUTE_SPLITS", "RELEASE", "PANEL_SAW_FULL_CUTS", "LABEL"]),
   disposition: "EVERY_PIECE_RETURNED_TO_OWNER"
 });
 
@@ -86,7 +88,7 @@ function resolveSheet(catalog, sheet, neededOps) {
 }
 
 // ---------- Features ----------
-function evaluateAperture(feature, parent, field) {
+function evaluateAperture(feature, parent, field, offset = { x: 0, y: 0 }) {
   const refusals = [];
   const unresolved = [];
   if (feature.placement !== "CENTERED") refusals.push("APERTURE_PLACEMENT_NOT_DECLARED");
@@ -111,10 +113,19 @@ function evaluateAperture(feature, parent, field) {
   if (rise > w / 2 + EPS) refusals.push("ARCH_RISE_EXCEEDS_HALF_WIDTH");
   if (w < ENV.router.minRoutedFeatureIn - EPS || h < ENV.router.minRoutedFeatureIn - EPS) refusals.push("ROUTED_FEATURE_BELOW_MINIMUM");
   const height = h + rise;
-  const x0 = (parent.lengthIn - w) / 2;
-  const y0 = (parent.widthIn - height) / 2;
+  const x0 = (parent.lengthIn - w) / 2 + offset.x;
+  const y0 = (parent.widthIn - height) / 2 + offset.y;
   const box = { x0, x1: x0 + w, y0, y1: y0 + height };
-  const inField = box.x0 >= field.x0 - EPS && box.x1 <= field.x1 + EPS && box.y0 >= field.y0 - EPS && box.y1 <= field.y1 + EPS;
+  // Finished inside-opening dimensions are the customer's. The 1/2-inch cutter runs on the waste
+  // side; its centreline lies one radius inside the nominal profile, and its swept edge may not
+  // leave the declared 48 x 36 field.
+  const radius = ENV.router.toolDiameterIn / 2;
+  const toolCenterlineBox = { x0:box.x0+radius, x1:box.x1-radius, y0:box.y0+radius, y1:box.y1-radius };
+  const sweptBox = { x0:toolCenterlineBox.x0-radius, x1:toolCenterlineBox.x1+radius,
+                     y0:toolCenterlineBox.y0-radius, y1:toolCenterlineBox.y1+radius };
+  const inField = sweptBox.x0 >= field.x0 - EPS && sweptBox.x1 <= field.x1 + EPS &&
+                  sweptBox.y0 >= field.y0 - EPS && sweptBox.y1 <= field.y1 + EPS;
+  if (w <= ENV.router.toolDiameterIn || height <= ENV.router.toolDiameterIn) refusals.push("TOOL_DIAMETER_EXCEEDS_FEATURE");
   if (!inField) refusals.push("CENTER_WORK_FIELD_EXCEEDED");
 
   let tabPlan = null;
@@ -123,7 +134,7 @@ function evaluateAperture(feature, parent, field) {
   else if (!Number.isInteger(requested) || requested < 1) refusals.push("TAB_PLAN_COUNT_INVALID");
   const perimeter = archedAperturePerimeter({ chord_in: w, rise_in: rise, radius_in: curve.radius_in, straightHeight_in: h });
   if (!refusals.length && !unresolved.length) {
-    tabPlan = planArchedStencilTabs({ chord_in: w, rise_in: rise, radius_in: curve.radius_in, straightHeight_in: h, requestedTabCount: requested });
+    tabPlan = planArchedStencilTabs({ chord_in: w, rise_in: rise, radius_in: curve.radius_in, straightHeight_in: h, requestedTabCount: requested, tabMode:feature.tabMode || "AUTO_PLAN", tabPositionsIn:feature.tabPositionsIn });
     if (!tabPlan.ok) (tabPlan.status === "REFUSED" ? refusals : unresolved).push(tabPlan.reason);
   }
   return {
@@ -138,6 +149,11 @@ function evaluateAperture(feature, parent, field) {
       radiusIn: round(curve.radius_in, 6),
       perimeterIn: perimeter ? round(perimeter.perimeter_in, 6) : null,
       box: { x0: round(box.x0, 6), x1: round(box.x1, 6), y0: round(box.y0, 6), y1: round(box.y1, 6) },
+      finishedInsideOpeningIn: { widthIn:w, heightIn:height },
+      toolDiameterIn: ENV.router.toolDiameterIn,
+      toolRadiusCompensationIn: radius,
+      toolCenterlineBox, sweptToolBox:sweptBox,
+      toolCenterlinePerimeterIn: perimeter ? round(Math.max(0,perimeter.perimeter_in-2*Math.PI*radius),6):null,
       insideWorkField: inField
     },
     tabPlan,
@@ -151,6 +167,22 @@ function evaluateSplit(feature, apertures) {
   if (!host) return { refusals: ["SPLIT_HOST_APERTURE_NOT_DEFINED"], unresolved: [] };
   if (feature.line !== "VERTICAL_CENTERLINE") refusals.push("SPLIT_LINE_NOT_DECLARED");
   if (!host.geometry) return { refusals, unresolved: [] };
+  const length=host.geometry.heightIn;
+  let positions;
+  if(feature.splitTabMode==="CUSTOM"){
+    positions=feature.splitTabPositionsIn;
+    if(!Array.isArray(positions)||!positions.length)return {refusals,unresolved:["SPLIT_TAB_POSITIONS_REQUIRED"]};
+  } else if(!feature.splitTabMode||feature.splitTabMode==="AUTO_PLAN"){
+    positions=[length/3,2*length/3];
+  } else refusals.push("SPLIT_TAB_MODE_NOT_DECLARED");
+  if(Array.isArray(positions)){
+    if(positions.some(p=>!finite(p)||p<0.5||p>length-0.5))refusals.push("SPLIT_TAB_OUTSIDE_OR_AT_END");
+    const sorted=[...positions].sort((a,b)=>a-b);
+    if(sorted.some((p,i)=>i&&p-sorted[i-1]<1-EPS))refusals.push("SPLIT_TAB_BRIDGES_OVERLAP");
+    if(sorted.length < Math.ceil(length*0.05-EPS))refusals.push("SPLIT_TAB_RETAINED_LENGTH_BELOW_FIVE_PERCENT");
+    if([sorted[0],...sorted.slice(1).map((p,i)=>p-sorted[i]),length-sorted.at(-1)].some(gap=>gap-1>24+EPS))refusals.push("SPLIT_TAB_UNCUT_SPAN_EXCEEDS_24_IN");
+    positions=sorted;
+  }
   const pieceW = (host.geometry.widthIn - ENV.router.toolDiameterIn) / 2;
   if (pieceW < ENV.router.minSplitPieceWidthIn - EPS) refusals.push("SPLIT_PIECE_BELOW_MINIMUM");
   return {
@@ -162,102 +194,112 @@ function evaluateSplit(feature, apertures) {
       line: "VERTICAL_CENTERLINE",
       xIn: round((host.geometry.box.x0 + host.geometry.box.x1) / 2, 6),
       lengthIn: host.geometry.heightIn,
-      pieceWidthIn: round(pieceW, 6)
+      pieceWidthIn: round(pieceW, 6),
+      splitTabs: { mode:feature.splitTabMode||"AUTO_PLAN", positionsIn:(positions||[]).map(p=>round(p,6)), bridgeWidthIn:1, nominalRetentionFraction:positions?.length/length ?? null }
     }
   };
 }
 
 function evaluateCrosscut(feature, parent, apertureBoxes) {
-  const refusals = [];
-  const unresolved = [];
-  if (!["LEFT", "RIGHT"].includes(feature.fromEnd)) refusals.push("CROSSCUT_END_NOT_DECLARED");
-  if (!finite(feature.distanceIn)) {
-    unresolved.push("CROSSCUT_DISTANCE_MISSING");
-    return { refusals, unresolved };
-  }
-  const x = feature.fromEnd === "RIGHT" ? parent.lengthIn - feature.distanceIn : feature.distanceIn;
-  if (!(x > 0 && x < parent.lengthIn)) {
-    refusals.push("CROSSCUT_OUTSIDE_SHEET");
-    return { refusals, unresolved };
-  }
-  const clearance = ENV.panelSaw.minClearanceToRoutedFeatureIn;
-  if (apertureBoxes.some((box) => x > box.x0 - clearance - EPS && x < box.x1 + clearance + EPS)) {
-    refusals.push("CROSSCUT_INTERSECTS_ROUTED_FEATURE");
-  }
-  return { refusals, unresolved, geometry: { kind: "CROSSCUT", xIn: round(x, 6), lengthIn: parent.widthIn } };
+  const refusals = [], unresolved = [];
+  if (!["LEFT","RIGHT"].includes(feature.fromEnd)) refusals.push("CROSSCUT_END_NOT_DECLARED");
+  if (!finite(feature.distanceIn)) return { refusals, unresolved:["CROSSCUT_DISTANCE_MISSING"] };
+  const x = feature.fromEnd==="RIGHT" ? parent.lengthIn-feature.distanceIn : feature.distanceIn;
+  if (!(x>0 && x<parent.lengthIn)) return { refusals:[...refusals,"CROSSCUT_OUTSIDE_SHEET"],unresolved };
+  const t=ENV.panelSaw.nominalPositionToleranceIn, halfKerf=ENV.panelSaw.kerfIn/2;
+  const minEdge=Math.min(x,parent.lengthIn-x)-t-halfKerf;
+  if (minEdge < ENV.panelSaw.minPieceIn - EPS) refusals.push("CROSSCUT_PIECE_BELOW_MINIMUM");
+  const clear=ENV.panelSaw.minClearanceToRoutedFeatureIn+t+halfKerf;
+  if (apertureBoxes.some(box=>x>=box.x0-clear-EPS && x<=box.x1+clear+EPS)) refusals.push("CROSSCUT_INTERSECTS_ROUTED_FEATURE");
+  return { refusals,unresolved,geometry:{kind:"CROSSCUT",xIn:round(x,6),lengthIn:parent.widthIn,
+    datum:feature.fromEnd, nominalPositionIn:feature.distanceIn,
+    positionToleranceIn:t, toleranceBasis:"DECLARED_NOT_MEASURED",kerfIn:ENV.panelSaw.kerfIn}};
+}
+function evaluateRip(feature,parent,apertureBoxes) {
+  const refusals=[],unresolved=[];
+  if (!["BOTTOM","TOP"].includes(feature.fromEdge)) refusals.push("RIP_EDGE_NOT_DECLARED");
+  if (!finite(feature.distanceIn)) return {refusals,unresolved:["RIP_DISTANCE_MISSING"]};
+  const y=feature.fromEdge==="TOP" ? parent.widthIn-feature.distanceIn : feature.distanceIn;
+  if (!(y>0&&y<parent.widthIn)) return {refusals:[...refusals,"RIP_OUTSIDE_SHEET"],unresolved};
+  const t=ENV.panelSaw.nominalPositionToleranceIn, halfKerf=ENV.panelSaw.kerfIn/2;
+  if (Math.min(y,parent.widthIn-y)-t-halfKerf < ENV.panelSaw.minPieceIn-EPS) refusals.push("RIP_PIECE_BELOW_MINIMUM");
+  const clear=ENV.panelSaw.minClearanceToRoutedFeatureIn+t+halfKerf;
+  if (apertureBoxes.some(box=>y>=box.y0-clear-EPS&&y<=box.y1+clear+EPS)) refusals.push("RIP_INTERSECTS_ROUTED_FEATURE");
+  return {refusals,unresolved,geometry:{kind:"RIP",yIn:round(y,6),lengthIn:parent.lengthIn,
+    datum:feature.fromEdge,nominalPositionIn:feature.distanceIn,
+    positionToleranceIn:t,toleranceBasis:"DECLARED_NOT_MEASURED",kerfIn:ENV.panelSaw.kerfIn}};
 }
 
 // ---------- Pieces ----------
-function piecesFor(parent, crosscutXs, apertures, splits) {
-  const kerf = ENV.panelSaw.kerfIn;
-  const xs = [...crosscutXs].sort((a, b) => a - b);
-  const edges = [0, ...xs, parent.lengthIn];
-  const pieces = [];
-  const refusals = [];
-  for (let i = 0; i + 1 < edges.length; i += 1) {
-    const from = edges[i] + (i === 0 ? 0 : kerf / 2);
-    const to = edges[i + 1] - (i + 1 === edges.length - 1 ? 0 : kerf / 2);
-    const len = to - from;
-    if (len < ENV.panelSaw.minPieceIn - EPS) refusals.push("CROSSCUT_PIECE_BELOW_MINIMUM");
-    const holds = apertures.filter((a) => a.geometry.box.x0 >= from - EPS && a.geometry.box.x1 <= to + EPS);
+function piecesFor(parent,crosscutXs,apertures,splits,ripYs=[]) {
+  const t=ENV.panelSaw.nominalPositionToleranceIn,kerf=ENV.panelSaw.kerfIn;
+  // Orthogonal *full parent* saw lines require separate setups after the first cut breaks the
+  // parent. They are refused until a per-piece saw plan prices the actual additional strokes.
+  const axis=ripYs.length ? "y" : "x";
+  const boundaries=axis==="y" ? [...ripYs].sort((a,b)=>a-b) : [...crosscutXs].sort((a,b)=>a-b);
+  const limit=axis==="y" ? parent.widthIn : parent.lengthIn;
+  const cuts=[0,...boundaries,limit];
+  const pieces=[],refusals=[];
+  for(let i=0;i+1<cuts.length;i++) {
+    const from=cuts[i]+(i===0?0:kerf/2);
+    const to=cuts[i+1]-(i+1===cuts.length-1?0:kerf/2);
+    const size=to-from;
+    const worst=size - (i===0?0:t) - (i+1===cuts.length-1?0:t);
+    if(worst<ENV.panelSaw.minPieceIn-EPS) refusals.push(axis==="y"?"RIP_PIECE_BELOW_MINIMUM":"CROSSCUT_PIECE_BELOW_MINIMUM");
+    const bounds=axis==="y" ?
+      {x0:0,x1:parent.lengthIn,y0:from,y1:to} :
+      {x0:from,x1:to,y0:0,y1:parent.widthIn};
+    const holds=apertures.filter(a=>a.geometry.box.x0>=bounds.x0-EPS&&a.geometry.box.x1<=bounds.x1+EPS&&a.geometry.box.y0>=bounds.y0-EPS&&a.geometry.box.y1<=bounds.y1+EPS);
     pieces.push({
-      pieceId: "P" + (i + 1),
-      kind: holds.length ? "FRAME" : "PANEL",
-      lengthIn: round(len, 4),
-      widthIn: parent.widthIn,
-      fromXIn: round(from, 4),
-      toXIn: round(to, 4),
-      carries: holds.map((a) => a.featureId),
-      disposition: "RETURNED_TO_OWNER"
+      pieceId:"P"+(i+1),kind:holds.length?"FRAME":"PANEL",
+      lengthIn:round(bounds.x1-bounds.x0,4),widthIn:round(bounds.y1-bounds.y0,4),
+      fromXIn:round(bounds.x0,4),toXIn:round(bounds.x1,4),
+      ...(axis==="y"?{fromYIn:round(from,4),toYIn:round(to,4)}:{}),
+      carries:holds.map(a=>a.featureId), disposition:"RETURNED_TO_OWNER",
+      manualCutPositionToleranceIn:t
     });
   }
-  for (const a of apertures) {
-    const frame = pieces.find((p) => p.carries.includes(a.featureId));
-    const split = splits.find((s) => s.host === a);
-    const tabs = a.tabPlan?.candidates || [];
-    if (split) {
-      for (const side of ["LEFT", "RIGHT"]) {
+  for(const a of apertures){
+    const frame=pieces.find(p=>p.carries.includes(a.featureId));
+    const split=splits.find(v=>v.host===a);
+    if(split){
+      for(const side of ["LEFT","RIGHT"]){
         pieces.push({
-          pieceId: a.featureId + "-" + side,
-          kind: "RETAINED_CENTER_PIECE",
-          widthIn: split.geometry.pieceWidthIn,
-          heightIn: a.geometry.heightIn,
-          retainedBy: "TABS",
-          tabs: (side === "LEFT" ? a.tabPlan?.split?.leftPieceTabs : a.tabPlan?.split?.rightPieceTabs) ?? null,
-          inFrame: frame?.pieceId ?? null,
-          disposition: "RETURNED_TO_OWNER"
+          pieceId:a.featureId+"-"+side,kind:"RETAINED_CENTER_PIECE",
+          widthIn:split.geometry.pieceWidthIn,heightIn:a.geometry.heightIn,
+          retainedBy:"TABS",
+          tabs:(side==="LEFT"?a.tabPlan?.split?.leftPieceTabs:a.tabPlan?.split?.rightPieceTabs)??null,
+          splitRetainedBridgeCount:split.geometry.splitTabs?.positionsIn?.length??null,
+          inFrame:frame?.pieceId??null,disposition:"RETURNED_TO_OWNER"
         });
       }
-    } else {
+    }else{
       pieces.push({
-        pieceId: a.featureId + "-CENTER",
-        kind: "RETAINED_CENTER_PIECE",
-        widthIn: round(a.geometry.widthIn - ENV.router.toolDiameterIn, 4),
-        heightIn: a.geometry.heightIn,
-        retainedBy: "TABS",
-        tabs: tabs.length || null,
-        inFrame: frame?.pieceId ?? null,
-        disposition: "RETURNED_TO_OWNER"
+        pieceId:a.featureId+"-CENTER",kind:"RETAINED_CENTER_PIECE",
+        widthIn:round(a.geometry.widthIn-ENV.router.toolDiameterIn,4),
+        heightIn:a.geometry.heightIn,retainedBy:"TABS",tabs:a.tabPlan?.plannedTabCount??null,
+        inFrame:frame?.pieceId??null,disposition:"RETURNED_TO_OWNER"
       });
     }
   }
-  return { pieces, refusals };
+  return {pieces,refusals};
 }
 
 // ---------- Time and price ----------
-function timeFor(sheetItem, apertures, splits, crosscuts, pieceCount) {
+function timeFor(sheetItem, apertures, splits, crosscuts, rips, pieceCount) {
   const r = ENV.router;
   const passes = Math.max(1, Math.ceil(Number(sheetItem.actualT) / r.passDepthIn - EPS));
   const routed = apertures.length + splits.length;
-  const routeLengthIn = apertures.reduce((sum, a) => sum + a.geometry.perimeterIn, 0) + splits.reduce((sum, s) => sum + s.geometry.lengthIn, 0);
-  const tabs = apertures.reduce((sum, a) => sum + (a.tabPlan?.plannedTabCount || 0), 0);
+  const routeLengthIn = apertures.reduce((sum,a)=>sum+a.geometry.toolCenterlinePerimeterIn,0)
+    + splits.reduce((sum,s)=>sum+s.geometry.lengthIn,0);
+  const tabs = apertures.reduce((sum, a) => sum + (a.tabPlan?.plannedTabCount || 0), 0) + splits.reduce((sum,s)=>sum+(s.geometry.splitTabs?.positionsIn.length||0),0);
   const t = {
     T_LOAD_REFERENCE_sec: routed ? r.loadSeatReferenceSec : 0,
     T_ROUTE_sec: round((routeLengthIn * passes / r.routeFeedInPerMin) * 60, 3),
     T_PLUNGE_sec: routed * passes * r.plungeRetractSec,
     T_TAB_sec: tabs * passes * r.tabLiftSec,
     T_RELEASE_sec: routed ? r.releaseUnloadSec : 0,
-    T_PANEL_SAW_sec: round(crosscuts.reduce((sum, c) => sum + ENV.panelSaw.setAndAlignSec + (c.geometry.lengthIn / ENV.panelSaw.cutFeedInPerMin) * 60, 0), 3),
+    T_PANEL_SAW_sec: round([...crosscuts,...rips].reduce((sum,c)=>sum+ENV.panelSaw.setAndAlignSec+(c.geometry.lengthIn/ENV.panelSaw.cutFeedInPerMin)*60,0), 3),
     T_LABEL_sec: pieceCount * ENV.label.perPieceSec
   };
   const total = Object.values(t).reduce((sum, v) => sum + v, 0);
@@ -272,17 +314,25 @@ function timeFor(sheetItem, apertures, splits, crosscuts, pieceCount) {
   };
 }
 
-function operationsFor(apertures, splits, crosscuts, passes) {
-  const ops = [{ seq: 1, opId: "LOAD_REFERENCE", station: ENV.router.station, note: "whole sheet seated and referenced to the machine centerline" }];
+function operationsFor(apertures, splits, crosscuts, rips, passes) {
+  const ops=[];
+  // Yard-saw-only work never pretends the sheet was loaded into the router.
+  if(apertures.length||splits.length)
+    ops.push({seq:1,opId:"LOAD_REFERENCE",station:ENV.router.station,note:"whole sheet seated and referenced to the router centerline"});
   for (const a of apertures) {
-    ops.push({ seq: ops.length + 1, opId: "ROUTE_PROFILE", station: ENV.router.station, featureId: a.featureId, profile: "ARCHED_APERTURE", lengthIn: a.geometry.perimeterIn, passes, tabs: a.tabPlan.plannedTabCount });
+    ops.push({ seq: ops.length + 1, opId: "ROUTE_PROFILE", station: ENV.router.station, featureId: a.featureId, profile: "ARCHED_APERTURE", lengthIn: a.geometry.toolCenterlinePerimeterIn, passes, tabs: a.tabPlan.plannedTabCount, toolDiameterIn: ENV.router.toolDiameterIn, toolpathConvention:ENV.router.toolPath });
   }
   for (const s of splits) {
-    ops.push({ seq: ops.length + 1, opId: "ROUTE_PROFILE", station: ENV.router.station, featureId: s.featureId, profile: "STRAIGHT_SPLIT", lengthIn: s.geometry.lengthIn, passes });
+    ops.push({ seq: ops.length + 1, opId: "ROUTE_PROFILE", station: ENV.router.station, featureId: s.featureId, profile: "STRAIGHT_SPLIT", lengthIn: s.geometry.lengthIn, passes, tabs:s.geometry.splitTabs?.positionsIn.length });
   }
   if (apertures.length || splits.length) ops.push({ seq: ops.length + 1, opId: "RELEASE", station: ENV.router.station });
   for (const c of [...crosscuts].sort((a, b) => a.geometry.xIn - b.geometry.xIn)) {
-    ops.push({ seq: ops.length + 1, opId: "CROSSCUT", station: ENV.panelSaw.station, featureId: c.featureId, xIn: c.geometry.xIn, lengthIn: c.geometry.lengthIn });
+    ops.push({ seq: ops.length + 1, opId: "CROSSCUT", station: ENV.panelSaw.station, featureId: c.featureId, xIn: c.geometry.xIn, lengthIn: c.geometry.lengthIn, toleranceIn:c.geometry.positionToleranceIn, datum:c.geometry.datum, price:ENV.panelSaw.servicePricePerCompletedCut });
+  }
+  for(const c of [...rips].sort((a,b)=>a.geometry.yIn-b.geometry.yIn)){
+    ops.push({seq:ops.length+1,opId:"RIP",station:ENV.panelSaw.station,featureId:c.featureId,
+      yIn:c.geometry.yIn,lengthIn:c.geometry.lengthIn,datum:c.geometry.datum,
+      toleranceIn:c.geometry.positionToleranceIn,price:ENV.panelSaw.servicePricePerCompletedCut});
   }
   ops.push({ seq: ops.length + 1, opId: "LABEL", station: "YARD" });
   return ops;
@@ -328,7 +378,20 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   const apertures = [];
   const apertureById = new Map();
   const splits = [];
-  const crosscuts = [];
+  const crosscuts = [], rips=[];
+  const patternRows=features.filter(f=>f?.kind==="PATTERN");
+  const patterns=new Map();
+  for(const pattern of patternRows){
+    if(!pattern.within || !features.some(f=>f.kind==="ARCHED_APERTURE"&&f.featureId===pattern.within)){
+      refuse("PATTERN_HOST_APERTURE_REQUIRED",pattern.featureId||"feature","A pattern positions a defined aperture from this same job.");
+    }else if(patterns.has(pattern.within)){
+      refuse("PATTERN_DUPLICATE_FOR_APERTURE",pattern.featureId,"Only one placement modifier may govern an aperture.");
+    }else if(!finite(pattern.offsetXIn)||!finite(pattern.offsetYIn)){
+      leave("PATTERN_OFFSETS_REQUIRED",pattern.featureId,"A pattern states its X and Y offset in inches.");
+    }else{
+      patterns.set(pattern.within,pattern);
+    }
+  }
   for (const feature of features) {
     if (!ENV.featureKinds.includes(feature?.kind)) {
       refuse("FEATURE_KIND_NOT_DECLARED", feature?.featureId || "feature", "Store Zero's sheet cell does not declare this kind of feature.");
@@ -336,7 +399,9 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   }
   if (field) {
     for (const feature of features.filter((f) => f?.kind === "ARCHED_APERTURE")) {
-      const result = evaluateAperture(feature, parent, field);
+      const pattern=patterns.get(feature.featureId);
+      const result=evaluateAperture(feature,parent,field,
+        {x:pattern?.offsetXIn??0,y:pattern?.offsetYIn??0});
       result.refusals.forEach((code) => refuse(code, feature.featureId, apertureText(code)));
       result.unresolved.forEach((code) => leave(code, feature.featureId, apertureText(code)));
       const entry = { featureId: feature.featureId, ...result };
@@ -354,11 +419,30 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
       result.unresolved.forEach((code) => leave(code, feature.featureId, crosscutText(code)));
       if (result.geometry) crosscuts.push({ featureId: feature.featureId, ...result });
     }
+    for(const feature of features.filter(f=>f?.kind==="RIP")){
+      const result=evaluateRip(feature,parent,apertures.map(a=>a.geometry.box));
+      result.refusals.forEach(code=>refuse(code,feature.featureId,ripText(code)));
+      result.unresolved.forEach(code=>leave(code,feature.featureId,ripText(code)));
+      if(result.geometry)rips.push({featureId:feature.featureId,...result});
+    }
+  }
+  if(crosscuts.length&&rips.length)
+    refuse("ORTHOGONAL_SAW_STAGING_NOT_DEFINED","features","Intersecting full-width and full-length saw lines require separate per-piece strokes; this package does not yet define or price that staging.");
+  // A parallel pair can produce a sub-minimum strip even when each cut is far enough from a sheet edge.
+  for(const [cuts,limit,code] of [[crosscuts.map(c=>c.geometry.xIn),parent.lengthIn,"CROSSCUT_PIECE_BELOW_MINIMUM"],[rips.map(c=>c.geometry.yIn),parent.widthIn,"RIP_PIECE_BELOW_MINIMUM"]]){
+    if(!Number.isFinite(limit))continue;
+    const xs=[0,...cuts.sort((a,b)=>a-b),limit];
+    for(let i=1;i+1<xs.length;i++)
+      if(xs[i+1]-xs[i]-ENV.panelSaw.kerfIn-2*ENV.panelSaw.nominalPositionToleranceIn<ENV.panelSaw.minPieceIn-EPS)
+        refuse(code,"features","The worst-case cut positions leave a piece shorter than the yard saw minimum.");
   }
   // Splits make two retained pieces out of one center: each piece keeps its own tabs.
   for (const s of splits) {
     const host = s.host;
-    if (host.tabPlan?.ok) host.tabPlan = planSplitStencilTabs(host.tabPlan, host.tabGeometry);
+    if(host.tabPlan?.ok){
+      host.tabPlan=planSplitStencilTabs(host.tabPlan,host.tabGeometry);
+      if(!host.tabPlan.ok)refuse(host.tabPlan.reason,s.featureId,"Customer tab positions do not hold both split pieces; Store did not move them.");
+    }
   }
 
   const neededOps = [...new Set(features.map((f) => ENV.requiredOps[f?.kind]).filter(Boolean))];
@@ -375,10 +459,10 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
 
   let pieces = [];
   if (field && Number.isFinite(parent.lengthIn)) {
-    const cut = piecesFor(parent, crosscuts.map((c) => c.geometry.xIn), apertures, splits);
+    const cut=piecesFor(parent,crosscuts.map(c=>c.geometry.xIn),apertures,splits,rips.map(c=>c.geometry.yIn));
     pieces = cut.pieces;
     // A piece too short to cut belongs to the crosscuts that make it.
-    [...new Set(cut.refusals)].forEach((code) => crosscuts.forEach((c) => refuse(code, c.featureId, crosscutText(code))));
+    [...new Set(cut.refusals)].forEach(code=>refuse(code,"features",code==="RIP_PIECE_BELOW_MINIMUM"?ripText(code):crosscutText(code)));
   }
 
   // Every requested feature gets its own answer, so nothing is silently dropped.
@@ -406,18 +490,23 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
   let totals = null;
   let operations = null;
   if (status === "SUPPORTABLE") {
-    time = timeFor(item, apertures, splits, crosscuts, pieces.length);
+    time = timeFor(item, apertures, splits, crosscuts, rips, pieces.length);
     const rate = storeMachineSellRate(D001_TRAVEL_STANDARD.economics);
-    const machine = round((time.T_MACHINE_sec / 3600) * rate.sellRatePerHour, 2);
+    const hourlySeconds=time.T_MACHINE_sec-time.T_PANEL_SAW_sec;
+    const machine=round(hourlySeconds/3600*rate.sellRatePerHour,2);
+    const manualCutService=round((crosscuts.length+rips.length)*ENV.panelSaw.servicePricePerCompletedCut,2);
     const materialPrice = round(Number(item.sellingPrice), 2);
     totals = {
       material: materialPrice,
       machine_service: machine,
-      Q: round(materialPrice + machine, 2),
+      manual_cut_service:manualCutService,
+      manualCutCount:crosscuts.length+rips.length,
+      manualCutRate:ENV.panelSaw.servicePricePerCompletedCut,
+      Q: round(materialPrice + machine + manualCutService, 2),
       sellRatePerHour: rate.sellRatePerHour,
       basis: "CALCULATED_FROM_DECLARED_STAGE2_MODEL"
     };
-    operations = operationsFor(apertures, splits, crosscuts, time.passes);
+    operations = operationsFor(apertures, splits, crosscuts, rips, time.passes);
   }
 
   const answerMaterial = item ? {
@@ -439,7 +528,8 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
     refusals: uniqueRefusals,
     unresolved: uniqueUnresolved,
     material: answerMaterial ? { storeSku: answerMaterial.storeSku } : null,
-    features: [...apertures.map((a) => a.geometry), ...splits.map((s) => s.geometry), ...crosscuts.map((c) => c.geometry)],
+    features: [...apertures.map(a=>a.geometry),...splits.map(s=>s.geometry),...crosscuts.map(c=>c.geometry),...rips.map(c=>c.geometry),
+      ...patternRows.map(f=>({kind:"PATTERN",featureId:f.featureId,within:f.within,offsetXIn:f.offsetXIn,offsetYIn:f.offsetYIn}))],
     pieces,
     totals
   };
@@ -464,7 +554,10 @@ export function evaluateSheetPackageJob(catalog, demand = {}) {
     features: {
       apertures: apertures.map((a) => ({ featureId: a.featureId, ...a.geometry, tabPlan: a.tabPlan })),
       splits: splits.map((s) => ({ featureId: s.featureId, within: s.host.featureId, ...s.geometry })),
-      crosscuts: crosscuts.map((c) => ({ featureId: c.featureId, ...c.geometry }))
+      crosscuts:crosscuts.map(c=>({featureId:c.featureId,...c.geometry})),
+      rips:rips.map(c=>({featureId:c.featureId,...c.geometry})),
+      patterns:patternRows.map(f=>({featureId:f.featureId,within:f.within,offsetXIn:f.offsetXIn,offsetYIn:f.offsetYIn,
+        status:records.some(r=>r.subject===f.featureId)?"REFUSED_OR_UNRESOLVED":"ANSWERED"}))
     },
     operations,
     pieces,
@@ -522,6 +615,15 @@ function crosscutText(code) {
     CROSSCUT_INTERSECTS_ROUTED_FEATURE: "The saw line would run through, or within 1 in of, a routed opening.",
     CROSSCUT_PIECE_BELOW_MINIMUM: "A crosscut would leave a piece shorter than the panel saw's 6 in minimum."
   }[code] || code;
+}
+function ripText(code){
+  return {
+    RIP_EDGE_NOT_DECLARED:"A rip is measured from TOP or BOTTOM of the original sheet.",
+    RIP_DISTANCE_MISSING:"State the rip distance from the declared sheet edge.",
+    RIP_OUTSIDE_SHEET:"The rip lies outside the sheet.",
+    RIP_INTERSECTS_ROUTED_FEATURE:"The 1/4-inch tolerance and saw kerf may intersect the routed profile.",
+    RIP_PIECE_BELOW_MINIMUM:"The worst-case rip produces a piece below the panel saw's six-inch minimum."
+  }[code]||code;
 }
 function materialText(code) {
   return {
