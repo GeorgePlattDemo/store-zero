@@ -53,7 +53,7 @@ export async function verifyDeployment({ base, commit, localSource, fetchImpl = 
   const cut = await ask("cut-package.alcove-pine");
   check("dimensional cut package: SUPPORTABLE, $429.16", cut.answer?.status === "SUPPORTABLE" && cut.answer?.totals?.sumOfSupportableLines === 429.16 && cut.bound, `${cut.answer?.totals?.sumOfSupportableLines}`);
   const sheet = await ask("sheet-package.playhouse");
-  check("sheet package: SUPPORTABLE, $65.04", sheet.answer?.status === "SUPPORTABLE" && sheet.answer?.totals?.Q === 65.04 && sheet.bound, `${sheet.answer?.totals?.Q}`);
+  check("sheet package: SUPPORTABLE, $76.57 with two $10 yard cuts", sheet.answer?.status === "SUPPORTABLE" && sheet.answer?.totals?.Q === 76.57 && sheet.answer?.totals?.manual_cut_service === 20 && sheet.bound, `${sheet.answer?.totals?.Q}`);
 
   // 4. Genuine refusals and definition gaps are answers, not errors.
   const square = await post("/v1/requests", { requestType: "BOARD_SQUARE_V1", requestId: "VERIFY-REFUSE", demand: {} });

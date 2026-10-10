@@ -42,6 +42,11 @@ const APPROVED = JSON.parse(readFileSync(new URL("approved-changes.json", import
 const changedKeys = new Map(APPROVED.filter((c) => c.keys).flatMap((c) => c.keys.map((k) => [k, c])));
 const retired = new Set(APPROVED.filter((c) => c.retiredEvaluator).map((c) => c.retiredEvaluator));
 const removals = APPROVED.filter((c) => c.removedReason);
+// Sheet Stage-2 release changes geometry, time, price and emitted envelope for the whole sheet class.
+// Its historical recording stays immutable. Every historical sheet request must instead pass the
+// explicit approved-change audit below; all other evaluator recordings remain byte-exact.
+const S001_CHANGE = APPROVED.find((c) => c.id === "S001-SHEET-STAGE2-ROUTER-SAW-PATTERN-TABS");
+const s001Approved = (r) => r.name === "evaluateSheetPackageJob" && S001_CHANGE?.approvedBy === "owner";
 // A user-defined board that names no grade for wood offered in several is the grade change.
 // A user-defined board whose definition states no complete material (species and nominal size) is the material change.
 const materialNotStated = (r) => r.name === "evaluateDimensionalTravelJob" && materialProblem(decode(r.input)[1]?.materialDemand) !== null;
@@ -125,7 +130,7 @@ test("the recording covers every evaluator and every Store disposition", () => {
 });
 
 for (const name of Object.keys(EVALUATORS)) {
-  const cases = recordings.filter((r) => r.name === name && !changedKeys.has(r.key) && !materialNotStated(r) && !defaultsChanged(r) && !identityOrFormNotStated(r) && !gradeNotNamed(r) && !removalFor(r));
+  const cases = recordings.filter((r) => r.name === name && !s001Approved(r) && !changedKeys.has(r.key) && !materialNotStated(r) && !defaultsChanged(r) && !identityOrFormNotStated(r) && !gradeNotNamed(r) && !removalFor(r));
   if (!cases.length) continue;
   test(`${name}: ${cases.length} recorded answers reproduce exactly`, () => {
     const mismatches = [];
@@ -137,6 +142,57 @@ for (const name of Object.keys(EVALUATORS)) {
     assert.deepEqual(mismatches, [], `${mismatches.length} of ${cases.length} answers differ from the recorded Store`);
   });
 }
+
+test("owner-approved S-001 release: independently audit all 77 immutable recorded sheet requests", () => {
+  assert.ok(S001_CHANGE, "the owner approval is explicit in approved-changes.json");
+  assert.equal(S001_CHANGE.approvedBy, "owner");
+  assert.equal(S001_CHANGE.referencePlayhouse.oldQ, 65.04);
+  assert.equal(S001_CHANGE.referencePlayhouse.newQ, 76.57);
+  const cases = recordings.filter((r) => r.name === "evaluateSheetPackageJob");
+  assert.equal(cases.length, 77, "the historical sheet corpus is not silently reduced");
+  let changed = 0, supportable = 0;
+  for (const r of cases) {
+    const args = inputFor(r);
+    const demand = args[1] || {};
+    const actual = evaluateSheetPackageJob(...args);
+    const recorded = JSON.parse(r.output);
+    if (encode(actual) !== translatedOutput(r.output)) changed++;
+    assert.equal(actual.standard, "STB-SHEET-PACKAGE-0.2", r.key);
+    assert.equal(actual.envelope, "S001-STAGE2-ENVELOPE-0.2", r.key);
+    assert.equal(actual.configurationId, String(demand.configurationId || ""), r.key);
+    assert.equal(actual.configurationVersion, String(demand.configurationVersion || ""), r.key);
+    assert.equal(actual.evidence.measured, false, r.key);
+    assert.equal(actual.evidence.commissioned, false, r.key);
+    assert.equal(actual.evidence.physicalMachineEvidence, false, r.key);
+    assert.equal(actual.evidence.commercialQuote, false, r.key);
+    assert.equal(actual.material?.storeSku ?? null, recorded.material?.storeSku ?? null,
+      "the authorized machine/economics change may not silently substitute the customer sheet: " + r.key);
+    const requested = Array.isArray(demand.features) ? demand.features : [];
+    assert.deepEqual(actual.featureAnswers.map((f) => f.featureId),
+      requested.map((f) => f?.featureId || "feature"), "all requested features get individual answers: " + r.key);
+    if (actual.status === "SUPPORTABLE") {
+      supportable++;
+      assert.ok(actual.totals && actual.operations && actual.time, r.key);
+      assert.equal(actual.Q, actual.totals.Q, r.key);
+      assert.equal(actual.totals.Q,
+        Math.round((actual.totals.material + actual.totals.machine_service + actual.totals.manual_cut_service) * 100) / 100,
+        "the service lines must reconcile: " + r.key);
+      const actualSaw = actual.operations.filter((o) => o.station === "YARD-PANEL-SAW");
+      assert.equal(actualSaw.length, actual.totals.manualCutCount, r.key);
+      assert.equal(actual.totals.manual_cut_service, 10 * actualSaw.length, r.key);
+      assert.ok(actualSaw.every((o) => o.toleranceIn === 0.25 && o.price === 10), r.key);
+      assert.ok(actual.operations.filter((o) => o.opId === "ROUTE_PROFILE").every((o) =>
+        o.opId !== "ROUTE_PROFILE" || o.passes >= 1), r.key);
+      assert.ok(actual.pieces.every((p) => p.disposition === "RETURNED_TO_OWNER"), r.key);
+    } else {
+      assert.equal(actual.Q, null, "non-supportable request must never get a Q: " + r.key);
+      assert.equal(actual.totals, null, r.key);
+      assert.equal(actual.operations, null, r.key);
+    }
+  }
+  assert.equal(changed, 77, "all 77 sheet recording changes are acknowledged; historical records remain untouched");
+  assert.ok(supportable > 0, "the sheet release remains useful, not a blanket refusal");
+});
 
 test("every recorded evaluator is either replayed or retired by an approved change", () => {
   for (const name of new Set(recordings.map((r) => r.name))) {

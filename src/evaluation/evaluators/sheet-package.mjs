@@ -166,7 +166,9 @@ function evaluateSplit(feature, apertures) {
   const host = apertures.get(feature.within);
   if (!host) return { refusals: ["SPLIT_HOST_APERTURE_NOT_DEFINED"], unresolved: [] };
   if (feature.line !== "VERTICAL_CENTERLINE") refusals.push("SPLIT_LINE_NOT_DECLARED");
-  if (!host.geometry) return { refusals, unresolved: [] };
+  // A refused or incomplete host cannot produce a derived split; do not add a spurious
+  // split-tab reason to the actual workfield or aperture refusal.
+  if (!host.geometry || host.refusals?.length || host.unresolved?.length) return { refusals, unresolved: [] };
   const length=host.geometry.heightIn;
   let positions;
   if(feature.splitTabMode==="CUSTOM"){
