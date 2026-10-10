@@ -4,7 +4,7 @@ This repository is Store Zero: the catalog, capability, modeled work and time, e
 
 ## Who owns what
 
-- **System** owns every shared definition. Today that is `docs/definitions/README.md` in `scan-to-build-system`, the predecessor System the live application runs. The replacement System's `docs/DEFINITIONS.md` in `new-system` becomes the authority when the owner accepts it; until then it is the candidate Store's contracts are checked against. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here.
+- **System** owns every shared definition: `docs/DEFINITIONS.md` in `new-system`, the System the working application runs. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here. The predecessor System (`scan-to-build-system`) and its `docs/definitions/README.md` are history, not an authority for this Store.
 - **System** owns the job's meaning and the application. Store answers the definition it is sent and never rewrites it to make it fit.
 - **Program** is the menu, not the meal: it points here for the Store, the Project 1 trail and the patents.
 
@@ -33,7 +33,9 @@ npm test
 
 ## Not from here
 
-The live application still answers through the predecessor Store at System's `STORE_PIN`, on Railway. Do not change System, its pin, its workflows, or any Railway setting from this repository. If a task seems to need that, stop and ask.
+The working application is `new-system`, deployed on Railway. It answers through this Store at the one commit System names: `STORE_CANDIDATE.inspectedCommit` in `src/system/store-candidate.ts`, with the same commit in its published runtime pin, its CI Store checkout and `startup.sh`. A newer commit on this `main` is not that pin and does not move it; System moves it, deliberately, after its joint test passes against a checkout of exactly that commit. The predecessor Store (`scan-to-build-store`) and the predecessor System's `STORE_PIN` are history, not the live answering path.
+
+Do not change System, its pin, its workflows, or any Railway setting from this repository. If a task seems to need that, stop and ask.
 
 ## Working
 
