@@ -53,7 +53,7 @@ test("stock thinner than 0.75 in is refused for sawing and for milling; exactly 
 });
 
 test("saw-only work allows up to 3.5 in thick stock; any mill operation caps thickness at 1.5 in", () => {
-  // Rule: maxThicknessSawIn applies unless a mill-family op (mill/dado/groove/rabbet) is required, then maxThicknessMillIn.
+  // Rule: maxThicknessSawIn applies unless a mill-family op (mill/groove/rabbet) is required, then maxThicknessMillIn.
   assert.equal(envelopeCheck(board({ actualT: 3.5 }), { requiredOps: ["CROSSCUT"] }).status, "SUPPORTABLE");
   const overSaw = envelopeCheck(board({ actualT: 3.51 }), { requiredOps: ["CROSSCUT"] });
   assert.equal(overSaw.status, "REFUSED");

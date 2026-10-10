@@ -131,7 +131,7 @@ export function envelopeCheck(item, req = {}) {
   if (w != null && w < e.minWidthIn) reasons.push("STOCK_WIDTH_BELOW_D001_STAGE2_ENVELOPE");
 
   const needsMill = ops.some((op) =>
-    ["MILL_LONGITUDINAL_PROFILE", "MILL_END_PROFILE", "DADO", "GROOVE", "RABBET"].includes(op)
+    ["MILL_LONGITUDINAL_PROFILE", "MILL_END_PROFILE", "GROOVE", "RABBET"].includes(op)
   );
   const maxT = needsMill ? e.maxThicknessMillIn : e.maxThicknessSawIn;
   if (t != null && t > maxT) reasons.push("STOCK_THICKNESS_EXCEEDS_D001_STAGE2_ENVELOPE");

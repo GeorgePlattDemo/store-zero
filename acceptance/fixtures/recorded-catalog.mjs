@@ -13,18 +13,26 @@ export function recordedCatalogAsRead() {
   return JSON.parse(gunzipSync(readFileSync(new URL("./pin-9c62d9d-catalog.json.gz", import.meta.url))).toString("utf8"));
 }
 
-// The two deliberate catalog schema changes, and nothing else:
+// The three deliberate catalog changes, and nothing else:
 //   - the hand-maintained top-level skuCount is gone (the catalog is validated, not counted);
-//   - the Alcove hardware pack row declares the requirement it satisfies, replacing a SKU table in code.
+//   - the Alcove hardware pack row declares the requirement it satisfies, replacing a SKU table in code;
+//   - the original Store listed an operation no evaluator here (or there) ever modeled; the owner had it removed
+//     from Store's operation vocabulary, so it is dropped from supportedOps. The frozen file itself is unchanged.
+// Named once, in the approved-change register (NO-UNMODELED-OPERATION).
+const UNMODELED_RECORDED_OPS = Object.freeze(JSON.parse(readFileSync(new URL("../differential/approved-changes.json", import.meta.url), "utf8"))
+  .changes.flatMap((change) => change.removedOperations ?? []));
 export function toCurrentSchema(catalog) {
   const { skuCount, ...rest } = catalog;
   return {
     ...rest,
-    offerings: rest.offerings.map((o) =>
-      o.storeSku === "STB-ZERO-HW-ALCOVE-PACK-001" && !o.satisfiesRequirementIds
+    offerings: rest.offerings.map((o) => {
+      const row = o.storeSku === "STB-ZERO-HW-ALCOVE-PACK-001" && !o.satisfiesRequirementIds
         ? { ...o, satisfiesRequirementIds: ["ALCOVE-PINS-AND-SCREWS"] }
-        : o
-    )
+        : o;
+      return Array.isArray(row.supportedOps) && row.supportedOps.some((op) => UNMODELED_RECORDED_OPS.includes(op))
+        ? { ...row, supportedOps: row.supportedOps.filter((op) => !UNMODELED_RECORDED_OPS.includes(op)) }
+        : row;
+    })
   };
 }
 

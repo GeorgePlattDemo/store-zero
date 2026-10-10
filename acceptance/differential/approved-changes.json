@@ -105,6 +105,16 @@
         "manual_cut_service": 20
       },
       "expect": "Preserve all non-sheet evaluator results and immutable recordings. Updated sheet answers are versioned S001-STAGE2-ENVELOPE-0.2 with the half-inch cutter, geometric tab evidence and separate manual-cut economics. Unsupported features and geometry remain refused. The canonical Playhouse request with 4 requested auto-planned tabs receives 7 actual aperture tabs (plus 2 split tabs); it is never advertised as just 4."
+    },
+    {
+      "id": "NO-UNMODELED-OPERATION",
+      "approved": "2026-10-10",
+      "approvedBy": "owner",
+      "removedOperations": [
+        "DADO"
+      ],
+      "reason": "The recorded Store listed DADO in supportedOps on 38 offerings, but no evaluator, there or here, ever modeled it. The owner had it removed from Store's operation vocabulary and catalog: Store does not offer what it cannot evaluate. A job asking for it is refused OP_NOT_ON_OFFERING:DADO.",
+      "expect": "The frozen recorded catalog and answers are unchanged on disk. Replay drops the removed operation from recorded supportedOps lists, and every other field of every recorded answer reproduces exactly."
     }
   ]
 }

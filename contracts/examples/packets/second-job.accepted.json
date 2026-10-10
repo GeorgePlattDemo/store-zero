@@ -555,7 +555,7 @@
       "evaluatedAt": "2026-10-08T12:00:00.000Z",
       "authority": {
         "storeRevision": "store-zero-acceptance",
-        "catalogHash": "0e56a05ac2cd645ff5b20ea2daf1a8a7c015054cd786a26b13a7829203f88825",
+        "catalogHash": "b4e7d3bba6173e744f4fa5cffc815338f3a84589dac1983f7019a78048041cf6",
         "machineEnvelope": {
           "id": "D001-STAGE2-ENVELOPE-0.3",
           "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
@@ -577,7 +577,7 @@
         "inputHash": "06f569eaa9b460e2e57ed35ec81c322524d9df5e27af5fe865511f0236369fba",
         "resultHash": "27646e7ea0baed65532b2fce273ea5bd1c61104ac98a1e027cd92847dcfe21f9"
       },
-      "receiptHash": "bad4157248107c9835b053230ebb7319000331a0a6c49b1f326b3fb1bfce1945"
+      "receiptHash": "49b82c418d56165fce651274b7491a13767249b6b0fd7b034f0507c2cb09b18e"
     }
   },
   "decision": {

@@ -108,3 +108,13 @@ test("a malformed lookup is refused, never reported as nothing found", () => {
     assert.equal(evaluateStoreRequest({ requestType: "OFFERING_LOOKUP", requestId: "L", demand }, at).status, "REFUSED", JSON.stringify(demand));
   }
 });
+
+test("dado is not a Store operation: no offering claims it, and a board job asking for it is refused, not priced", () => {
+  const catalog = loadCatalog();
+  assert.equal(JSON.stringify(catalog).includes("DADO"), false);
+  const answer = board({ ...structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND), requiredOps: [...USER1_DIMENSIONAL_TRAVEL_DEMAND.requiredOps, "DADO"] }, "REQ-DADO");
+  assert.equal(answer.status, "REFUSED");
+  const reasons = answer.materialResolution.consideredCandidates.map((candidate) => candidate.reason);
+  assert.ok(reasons.length > 0 && reasons.every((reason) => reason === "OP_NOT_ON_OFFERING:DADO"));
+  assert.equal(answer.estimate ?? null, null);
+});

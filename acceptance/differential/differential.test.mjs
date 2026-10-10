@@ -117,7 +117,12 @@ function inputFor(r) {
 
 // The recorder encoded catalogs as differences; outputs are compared in the same encoding.
 const encode = (value) => JSON.stringify(value, (key, v) => (typeof v === "number" && !Number.isFinite(v) ? { $num: String(v) } : v));
-const translatedOutput = (output) => encode(JSON.parse(output, (key, v) => v));
+// NO-UNMODELED-OPERATION: an operation the owner removed is dropped from the offering's declared operations as the
+// recording echoes them (supportedOps, and capability.declared), nothing else. A requested operation is not touched.
+const removedOperations = APPROVED.flatMap((c) => c.removedOperations ?? []);
+const OFFERED_OPERATION_KEYS = new Set(["supportedOps", "declared"]);
+const translatedOutput = (output) => encode(JSON.parse(output, (key, v) =>
+  OFFERED_OPERATION_KEYS.has(key) && Array.isArray(v) ? v.filter((op) => !removedOperations.includes(op)) : v));
 
 test("the recording covers every evaluator and every Store disposition", () => {
   const names = new Set(recordings.map((r) => r.name));
