@@ -54,5 +54,20 @@
     ],
     "endRelation": "parallel",
     "lengthDatum": "long-long-outer-edge"
+  },
+  "manifest": {
+    "jobId": "SYO-USER1-XBRACE",
+    "revision": "0.2",
+    "boardPartIds": [
+      "PART-1",
+      "PART-2"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [
+      "SPOT-1",
+      "SPOT-2"
+    ],
+    "items": [],
+    "unresolvedRequirements": []
   }
 }

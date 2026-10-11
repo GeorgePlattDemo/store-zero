@@ -10,14 +10,9 @@
  *
  * Store identity is the Store's own release, supplied by whoever runs this Store; a request cannot set it.
  */
-import { calculationHash, D001_TRAVEL_STANDARD } from "../evaluation/engine/d001-travel-standard.mjs";
-import { D001_STAGE2_ENVELOPE } from "../evaluation/envelopes/d001-stage2-envelope.mjs";
-import { S001_STAGE2_ENVELOPE } from "../evaluation/envelopes/s001-stage2-envelope.mjs";
-import { STENCIL_TAB_POLICY_V0 } from "../evaluation/engine/stencil-tab-policy.mjs";
+import { calculationHash, evaluateDefinition } from "../evaluation/engine/store-manufacturing-core.mjs";
+import {loadMachineConfig,machineConfigHash} from "../machine/configuration.mjs";
 import { loadCatalog, loadObservations, validateCatalog } from "../evaluation/catalog.mjs";
-import { evaluateDimensionalTravelJob } from "../evaluation/evaluators/user-defined-board.mjs";
-import { CUT_PACKAGE_STANDARD, evaluateCutPackageJob } from "../evaluation/evaluators/cut-package.mjs";
-import { SHEET_PACKAGE_STANDARD, evaluateSheetPackageJob } from "../evaluation/evaluators/sheet-package.mjs";
 import { lookupOfferings, lookupProblems } from "./offering-lookup.mjs";
 import { DEFINITION_SHAPES } from "../contracts/definitions.mjs";
 import { shapeProblems } from "../contracts/shape.mjs";
@@ -32,44 +27,16 @@ export const STORE_EVALUATION_FRESHNESS = Object.freeze({
 // Machine-local language belongs to the machine, never to a project definition.
 export const MACHINE_LOCAL_LANGUAGE = Object.freeze(["spline", "toolpath", "gcode", "controller", "servoSteps"]);
 
-const authorityOf = (thing, withVersion = false) => ({
-  id: thing.id,
-  ...(withVersion ? { version: thing.version } : {}),
-  hash: calculationHash(thing)
-});
-
-// Each accepted request type: the exact definition shape it accepts (src/contracts/definitions.mjs), the
-// evaluator that answers it, and the Store facts the receipt names as the basis of the answer.
-export const REQUEST_TYPES = Object.freeze({
-  USER_DEFINED_BOARD_V1: Object.freeze({
-    shape: DEFINITION_SHAPES.USER_DEFINED_BOARD_V1,
-    evaluate: evaluateDimensionalTravelJob,
-    authority: () => ({
-      machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
-      travelStandard: authorityOf(D001_TRAVEL_STANDARD, true),
-      economics: authorityOf(D001_TRAVEL_STANDARD.economics, true)
-    })
-  }),
-  CUT_PACKAGE_V1: Object.freeze({
-    shape: DEFINITION_SHAPES.CUT_PACKAGE_V1,
-    evaluate: evaluateCutPackageJob,
-    authority: () => ({
-      machineEnvelope: authorityOf(D001_STAGE2_ENVELOPE),
-      travelStandard: authorityOf(D001_TRAVEL_STANDARD, true),
-      cutPackageStandard: authorityOf(CUT_PACKAGE_STANDARD)
-    })
-  }),
-  SHEET_PACKAGE_V1: Object.freeze({
-    shape: DEFINITION_SHAPES.SHEET_PACKAGE_V1,
-    evaluate: evaluateSheetPackageJob,
-    authority: () => ({
-      machineEnvelope: authorityOf(S001_STAGE2_ENVELOPE),
-      tabPolicy: authorityOf(STENCIL_TAB_POLICY_V0),
-      economics: authorityOf(D001_TRAVEL_STANDARD.economics),
-      sheetPackageStandard: authorityOf(SHEET_PACKAGE_STANDARD)
-    })
-  }),
-  OFFERING_LOOKUP: Object.freeze({ lookup: true })
+const authority = () => {
+  const registered=loadMachineConfig();
+  return {manufacturingModel:{id:registered.model.id,hash:calculationHash(registered.model)},
+    machineConfiguration:{id:registered.machineConfigId,hash:machineConfigHash(registered)}};
+};
+export const REQUEST_TYPES=Object.freeze({
+  USER_DEFINED_BOARD_V1:Object.freeze({shape:DEFINITION_SHAPES.USER_DEFINED_BOARD_V1}),
+  CUT_PACKAGE_V1:Object.freeze({shape:DEFINITION_SHAPES.CUT_PACKAGE_V1}),
+  SHEET_PACKAGE_V1:Object.freeze({shape:DEFINITION_SHAPES.SHEET_PACKAGE_V1}),
+  OFFERING_LOOKUP:Object.freeze({lookup:true})
 });
 
 function notEvaluated(request, status, reasonCodes) {
@@ -88,19 +55,21 @@ function notEvaluated(request, status, reasonCodes) {
 /** Why this request is not a clean definition for its type ({ status, reasonCodes }), or null when it is. */
 export function requestProblems(request) {
   if (!request || typeof request !== "object" || Array.isArray(request)) return { status: "REFUSED", reasonCodes: ["REQUEST_MUST_BE_AN_OBJECT"] };
-  const extra = Object.keys(request).filter((k) => !["requestType", "requestId", "demand"].includes(k));
+  const extra = Object.keys(request).filter((k) => !["requestType", "requestId", "demand", "manifest"].includes(k));
   if (extra.length) return { status: "REFUSED", reasonCodes: extra.map((k) => `REQUEST_FIELD_NOT_DECLARED:${k}`) };
   const type = REQUEST_TYPES[request.requestType];
   if (!type || !Object.hasOwn(REQUEST_TYPES, request.requestType)) return { status: "REFUSED", reasonCodes: ["REQUEST_TYPE_NOT_ACCEPTED"] };
   if (typeof request.requestId !== "string" || !request.requestId.trim()) return { status: "UNRESOLVED", reasonCodes: ["STORE_EVALUATION_REQUEST_ID_REQUIRED"] };
   const demand = request.demand;
   if (type.lookup) {
+    if (request.manifest !== undefined) return {status:"REFUSED",reasonCodes:["DISCOVERY_MANIFEST_NOT_ACCEPTED"]};
     const problems = lookupProblems(demand);
     return problems.length ? { status: "REFUSED", reasonCodes: problems } : null;
   }
   if (!demand || typeof demand !== "object" || Array.isArray(demand)) return { status: "UNRESOLVED", reasonCodes: ["DEFINITION_REQUIRED"] };
   const machineLocal = Object.keys(demand).filter((k) => MACHINE_LOCAL_LANGUAGE.includes(k));
   if (machineLocal.length) return { status: "REFUSED", reasonCodes: ["MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED"] };
+  if (!request.manifest || typeof request.manifest !== "object" || Array.isArray(request.manifest)) return {status:"UNRESOLVED",reasonCodes:["INDEPENDENT_SYSTEM_MANIFEST_REQUIRED"]};
   const reasonCodes = shapeProblems(demand, type.shape);
   return reasonCodes.length ? { status: "REFUSED", reasonCodes } : null;
 }
@@ -128,14 +97,16 @@ export function evaluateStoreRequest(request, { release, catalog, observations, 
   }
 
   // Deliberately evaluate every request; no prior answer or receipt is an argument here.
-  const evaluation = type.evaluate(currentCatalog, { ...request.demand, storeRevision: release });
+  const registered=loadMachineConfig();
+  const evaluation = evaluateDefinition(currentCatalog, {requestType:request.requestType,requestId:request.requestId,demand:request.demand}, request.manifest, registered.model);
   const receiptCore = {
     freshnessRule: STORE_EVALUATION_FRESHNESS.id,
     requestType: request.requestType,
     requestId: request.requestId,
     evaluatedAt,
-    authority: { storeRevision: release, catalogHash: catalogHash(currentCatalog), ...type.authority() },
+    authority: { storeRevision: release, catalogHash: catalogHash(currentCatalog), ...authority() },
     demandHash: calculationHash(request.demand),
+    manifestHash: calculationHash(request.manifest),
     status: evaluation.status,
     calculationIdentity: evaluation.calculationIdentity || null
   };

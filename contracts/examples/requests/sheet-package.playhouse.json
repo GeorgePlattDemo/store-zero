@@ -40,5 +40,21 @@
       }
     ],
     "returnAllPieces": true
+  },
+  "manifest": {
+    "jobId": "PLAYHOUSE-ARCHED-WINDOW",
+    "revision": "w36-h24-r12-c18/18",
+    "boardPartIds": [],
+    "sheetPackageIds": [
+      "PLAYHOUSE-ARCHED-WINDOW"
+    ],
+    "featureIds": [
+      "OPENING",
+      "CENTER-SPLIT",
+      "CUT-LEFT",
+      "CUT-RIGHT"
+    ],
+    "items": [],
+    "unresolvedRequirements": []
   }
 }

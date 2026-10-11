@@ -5,7 +5,7 @@
  * answer that was presented, and the decision. The machine side reads it directly and nothing in it is retyped.
  *
  *   {
- *     schema: "STB-ACCEPTED-JOB-PACKET-1",
+ *     schema: "STB-ACCEPTED-JOB-PACKET-2",
  *     packetId,
  *     project:    { projectId, classId, title },
  *     definition: { definitionId, revisionId, requestType, demand, requirements: { endRelation, lengthDatum, endIdentity } },
@@ -18,11 +18,11 @@
  * Store does not evaluate but the machine side must carry (end relation, length datum, end identity).
  * Only an accepted decision makes a packet; a decline, deferral or revision request does not.
  */
-import { calculationHash } from "../evaluation/engine/d001-travel-standard.mjs";
+import { calculationHash } from "../evaluation/engine/store-manufacturing-core.mjs";
 import { evaluateStoreRequest, STORE_EVALUATION_FRESHNESS } from "../requests/store-request.mjs";
 import { shapeProblems } from "./shape.mjs";
 
-export const JOB_PACKET_SCHEMA = "STB-ACCEPTED-JOB-PACKET-1";
+export const JOB_PACKET_SCHEMA = "STB-ACCEPTED-JOB-PACKET-2";
 
 export const JOB_PACKET_SHAPE = Object.freeze({
   object: {
@@ -35,6 +35,7 @@ export const JOB_PACKET_SHAPE = Object.freeze({
         revisionId: "string",
         requestType: "string",
         demand: { any: true },
+        manifest: { any: true },
         requirements: { object: { endRelation: "string", lengthDatum: "string", endIdentity: "string" } }
       }
     },
@@ -59,7 +60,7 @@ export const JOB_PACKET_SHAPE = Object.freeze({
 
 const REQUIRED = [
   ["schema"], ["packetId"], ["project", "projectId"], ["project", "classId"],
-  ["definition", "definitionId"], ["definition", "revisionId"], ["definition", "requestType"], ["definition", "demand"],
+  ["definition", "definitionId"], ["definition", "revisionId"], ["definition", "requestType"], ["definition", "demand"], ["definition", "manifest"],
   ["storeAnswer"], ["decision", "decisionId"], ["decision", "kind"], ["decision", "offerId"], ["decision", "decidedAt"],
   ["decision", "evidenceClass"], ["authority", "physicalRelease"], ["authority", "evidenceClass"]
 ];
@@ -126,18 +127,19 @@ export function verifyJobPacket(packet, { release, catalog, now } = {}) {
 
   const { receiptHash, ...receiptCore } = receipt;
   if (calculationHash(receiptCore) !== receiptHash) return refuse("PACKET_RECEIPT_ALTERED");
-  const receiptFields = ["freshnessRule", "requestType", "requestId", "evaluatedAt", "authority", "demandHash", "status", "calculationIdentity", "receiptHash"];
+  const receiptFields = ["freshnessRule", "requestType", "requestId", "evaluatedAt", "authority", "demandHash", "manifestHash", "status", "calculationIdentity", "receiptHash"];
   if (Object.keys(receipt).some((key) => !receiptFields.includes(key)) || receiptFields.some((key) => !Object.hasOwn(receipt, key))) return refuse("PACKET_RECEIPT_ALTERED");
   if (receipt.freshnessRule !== STORE_EVALUATION_FRESHNESS.id || receipt.status !== answer.status || typeof receipt.evaluatedAt !== "string" || !validTimestamp(receipt.evaluatedAt)) return refuse("PACKET_RECEIPT_ALTERED");
   if (Date.parse(packet.decision.decidedAt) < Date.parse(receipt.evaluatedAt)) return refuse("PACKET_DECISION_PRECEDES_ANSWER");
   if (receipt.requestId !== answer.requestId || receipt.requestType !== answer.requestType) return refuse("PACKET_RECEIPT_ALTERED");
   if (calculationHash(answer.calculationIdentity ?? null) !== calculationHash(receipt.calculationIdentity ?? null)) return refuse("PACKET_ANSWER_ALTERED");
   if (receipt.demandHash !== calculationHash(definition.demand)) return refuse("PACKET_DEMAND_CHANGED");
+  if(receipt.manifestHash !== calculationHash(definition.manifest)) return refuse("PACKET_MANIFEST_CHANGED");
   if (receipt.authority?.storeRevision !== release) return refuse("PACKET_STORE_RELEASE_MISMATCH");
 
   // The answer in the packet must be exactly what this Store answers for this definition now.
   const current = evaluateStoreRequest(
-    { requestType: definition.requestType, requestId: answer.requestId, demand: definition.demand },
+    { requestType: definition.requestType, requestId: answer.requestId, demand: definition.demand, manifest:definition.manifest },
     { release, catalog, now }
   );
   if (current.freshEvaluation !== true) return refuse(...(current.reasonCodes ?? ["PACKET_DEFINITION_NOT_EVALUATED"]));

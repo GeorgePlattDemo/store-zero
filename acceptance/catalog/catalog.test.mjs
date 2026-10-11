@@ -4,7 +4,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { catalogProblems, loadCatalog, sellingPriceFor, validateCatalog } from "../../src/evaluation/catalog.mjs";
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
-import { evaluateDimensionalTravelJob } from "../../src/evaluation/evaluators/user-defined-board.mjs";
+import {identifiedRequest} from "../../tests/fixtures/manifest.mjs";
+const evaluateDimensionalTravelJob=(catalog,demand)=>evaluateStoreRequest(identifiedRequest("USER_DEFINED_BOARD_V1",demand),{catalog,release:"catalog-test"});
 
 const live = loadCatalog();
 const row = (sku) => structuredClone(live.offerings.find((o) => o.storeSku === sku));
@@ -45,9 +46,9 @@ test("a correct new offering is accepted and answered with no code change", () =
 
 test("a new offering can legitimately change a live answer, and only through the declared selection rule", () => {
   // A 64 in treated board is shorter than the 72 in parent and still leaves the 24 in control length for two
-  // 18 in parts, so the shortest-complete rule now selects it. The recorded Project 1 answer is reproduced
+  // 18 in parts, so the minimum whole-Q rule now selects it. The recorded Project 1 answer is reproduced
   // against the frozen recorded catalog (acceptance/project-1), so it does not move.
-  const o = row("STB-ZERO-PTAG-2X4-72-001");
+  const o = row("STB-ZERO-PT-2X4-96-001");
   o.storeSku = "STB-ZERO-PTAG-2X4-64-001";
   o.stockL_in = 64;
   o.description = "2x4 x 64 in treated SYP above-ground";
@@ -66,8 +67,8 @@ test("a new offering can legitimately change a live answer, and only through the
     cutPlane: "miter-face", datumCMethod: "REFERENCE_CUT", endRelation: "parallel", lengthDatum: "long-long-outer-edge", declaredSawCuts: 3, declaredSpotCount: 2, unresolvedConditions: [],
     parts: [1, 2].map((n) => ({ partId: `PART-${n}`, lengthIn: 18, features: [{ featureId: `SPOT-${n}`, kind: "SPOT_ON_LOCATION", xIn: 9, locationRule: "CENTERED_ON_PART", acrossWidthRule: "CENTERED_ON_WIDE_FACE" }] }))
   };
-  assert.equal(evaluateDimensionalTravelJob(live, demand).materialResolution.storeSku, "STB-ZERO-PTAG-2X4-72-001");
-  assert.equal(evaluateDimensionalTravelJob(catalog, demand).materialResolution.storeSku, "STB-ZERO-PTAG-2X4-64-001");
+  assert.equal(evaluateDimensionalTravelJob(live, demand).selectedStock[0].storeSku, "STB-ZERO-PT-2X4-96-001");
+  assert.equal(evaluateDimensionalTravelJob(catalog, demand).selectedStock[0].storeSku, "STB-ZERO-PTAG-2X4-64-001");
 });
 
 const broken = {

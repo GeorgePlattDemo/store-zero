@@ -154,5 +154,39 @@
         "requirementId": "ALCOVE-PINS-AND-SCREWS"
       }
     ]
+  },
+  "manifest": {
+    "jobId": "ALCOVE-INSERT",
+    "revision": "1",
+    "boardPartIds": [
+      "UPRIGHT-01",
+      "UPRIGHT-02",
+      "UPRIGHT-03",
+      "UPRIGHT-04",
+      "SHELF-1X6-01",
+      "SHELF-1X6-02",
+      "SHELF-1X6-03",
+      "SHELF-1X6-04",
+      "SHELF-1X6-05",
+      "SHELF-1X6-06",
+      "SHELF-1X6-07",
+      "SHELF-1X6-08",
+      "SHELF-1X6-09",
+      "SHELF-1X6-10",
+      "SHELF-1X6-TO-3-01",
+      "SHELF-1X6-TO-3-02",
+      "SHELF-1X6-TO-3-03",
+      "SHELF-1X6-TO-3-04",
+      "SHELF-1X6-TO-3-05"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [],
+    "items": [
+      {
+        "lineId": "PINS-AND-SCREWS",
+        "qty": 1
+      }
+    ],
+    "unresolvedRequirements": []
   }
 }

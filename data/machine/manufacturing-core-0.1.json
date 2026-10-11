@@ -1,0 +1,12 @@
+{
+  "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
+  "executionClass": "DECLARED_OCCUPANCY_EVENT_MODEL",
+  "physicalAuthority": false,
+  "parameters": {
+    "routerDiameterIn": 1,
+    "routerPassDepthIn": 0.75,
+    "longitudinalFeedInPerMin": 48,
+    "productiveHours": 600,
+    "searchNodeLimit": 200000
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "schema": "STB-ACCEPTED-JOB-PACKET-1",
+  "schema": "STB-ACCEPTED-JOB-PACKET-2",
   "packetId": "PACKET-PROJECT-1-0001",
   "project": {
     "projectId": "PROJECT-1-SPECIMEN",
@@ -64,6 +64,21 @@
       "endRelation": "parallel",
       "lengthDatum": "long-long-outer-edge"
     },
+    "manifest": {
+      "jobId": "SYO-USER1-XBRACE",
+      "revision": "0.2",
+      "boardPartIds": [
+        "PART-1",
+        "PART-2"
+      ],
+      "sheetPackageIds": [],
+      "featureIds": [
+        "SPOT-1",
+        "SPOT-2"
+      ],
+      "items": [],
+      "unresolvedRequirements": []
+    },
     "requirements": {
       "endRelation": "parallel",
       "lengthDatum": "long-long-outer-edge"
@@ -72,388 +87,2420 @@
   "storeAnswer": {
     "requestType": "USER_DEFINED_BOARD_V1",
     "requestId": "PROJECT-1-INQUIRY-0001",
-    "title": "Project 1 reference specimen",
-    "stage": 2,
-    "store": "Store Zero",
     "status": "SUPPORTABLE",
-    "lines": [
+    "complete": true,
+    "configurationId": "SYO-USER1-XBRACE",
+    "configurationVersion": "0.2",
+    "jobId": "SYO-USER1-XBRACE",
+    "revision": "0.2",
+    "Q": 10.81,
+    "totals": {
+      "material": 4.81,
+      "hardware": 0,
+      "machine_service": 6,
+      "manual_cut_service": 0,
+      "Q": 10.81,
+      "sumOfSupportableLines": 10.81,
+      "manualCutCount": 0,
+      "hourlyRate": 250
+    },
+    "time": {
+      "T_MACHINE_sec": 86.46953628299116,
+      "T_MACHINE_min": 1.4411589380498526,
+      "T_MACHINE_hr": 0.02401931563416421,
+      "totalSeconds": 86.46953628299116,
+      "totalMinutes": 1.4411589380498526,
+      "hourlyBilledSeconds": 86.46953628299116,
+      "fixedPriceOccupiedSeconds": 0,
+      "categories": {
+        "LOAD": 36,
+        "INDEX": 13.929593332041435,
+        "REFERENCE": 2.9664862842489175,
+        "SPOT": 3.7004840982030034,
+        "SAW": 5.872972568497836,
+        "RELEASE": 24
+      },
+      "concurrency": "SERIAL_OCCUPANCY"
+    },
+    "selectedStock": [
       {
-        "storeSku": "STB-ZERO-PTAG-2X4-72-001",
-        "description": "2x4 x 72 in SYP AC2 #2 Prime AG",
+        "storeSku": "STB-ZERO-PT-2X4-96-001",
         "qty": 1,
-        "stock": {
-          "status": "ON_HAND_SUFFICIENT",
-          "offered": true,
-          "fixtureDeclaredOnHand": 30,
-          "allocatedSimulated": 0,
-          "available": 30,
-          "qtyNeeded": 1,
-          "sufficient": true,
-          "supplierPath": "SPECIAL_ORDER_REPRESENTED",
-          "assertions": {
-            "onHand": {
-              "basis": "SYNTHETIC_FIXTURE",
-              "label": "fixture-declared on-hand stock"
-            },
-            "allocation": {
-              "basis": "SIMULATED_STATE"
-            },
-            "supplierPath": {
-              "basis": "SYNTHETIC_FIXTURE"
-            }
-          },
-          "asOf": "2026-09-10"
-        },
-        "price": {
-          "status": "STORE_ZERO_SELLING_PRICE",
-          "list_reference": 4.9,
-          "listReferenceBasis": "PLAUSIBLE",
-          "mark_on": 0.05,
-          "sellingPrice": 5.15,
-          "sellingPriceBasis": "CALCULATED",
-          "observationId": null,
-          "asOf": "2026-09-10",
-          "note": "Budgetary fixture price. Not a commercial quote."
-        },
-        "capability": {
-          "status": "SUPPORTABLE",
-          "declared": [
-            "CROSSCUT",
-            "MITER_LIMITED",
-            "SPOT_ON_LOCATION"
-          ],
-          "cellFamily": [
-            "D-001"
-          ],
-          "limitations": [],
-          "basis": "DECLARED_STAGE2_CAPABILITY",
-          "envelope": {
-            "status": "SUPPORTABLE",
-            "reasons": [],
-            "unresolved": [],
-            "envelope": "D001-STAGE2-ENVELOPE-0.3",
-            "derived": {
-              "millPasses": 1,
-              "miter": {
-                "requestedDeg": 26.387799961243,
-                "minDeg": 0,
-                "maxDeg": 45,
-                "motion": "DOWNSTROKE"
-              },
-              "spot": {
-                "mode": "SPOT_ON_LOCATION",
-                "toolDiameterIn": 0.1875,
-                "depthClaimed": false
-              }
-            }
-          }
-        }
+        "available": 30,
+        "remainingAvailable": 29,
+        "unitPrice": 4.81,
+        "stockL_in": 96,
+        "actualW": 3.5,
+        "actualT": 1.5,
+        "description": "2x4 x 96 in treated SYP above-ground",
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ]
       }
     ],
-    "materialResolution": {
-      "status": "MAPPED",
-      "storeSku": "STB-ZERO-PTAG-2X4-72-001",
-      "pricingReferenceSku": "STB-ZERO-PTAG-2X4-72-001",
-      "pricingReferenceStockLengthIn": 72,
-      "allocationClaimed": false,
-      "requestedMinimumWorkpieceLengthIn": 60,
-      "workpieceLengthIn": 72,
-      "selectionPolicy": "SHORTEST_COMPLETE_STORE_OFFERING",
-      "consideredCandidates": [
-        {
-          "storeSku": "STB-ZERO-PTAG-2X4-72-001",
-          "stockLengthIn": 72,
-          "candidateStatus": "SUPPORTABLE",
-          "reason": null,
-          "stockStatus": "ON_HAND_SUFFICIENT",
-          "priceStatus": "STORE_ZERO_SELLING_PRICE",
-          "capabilityStatus": "SUPPORTABLE"
-        }
-      ]
-    },
-    "estimate": {
-      "status": "BUDGETARY_ESTIMATE",
-      "complete": true,
-      "completeness": "COMPLETE_FOR_TRAVEL_STANDARD",
-      "unresolved": [],
-      "standard": {
-        "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-        "version": "0.2.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "commissioned": false
-      },
-      "economics": {
-        "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
-        "version": "0.1.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "annualCostPoolUsd": 120000,
-        "forecastProductiveHours": 600,
-        "targetGrossMargin": 0.2,
-        "costPoolComponentsUsd": {
-          "operatorBurden": 50000,
-          "capitalRecovery": 25000,
-          "facilityInsuranceAdmin": 20000,
-          "maintenanceTooling": 15000,
-          "energyDustIt": 10000
+    "parents": [
+      {
+        "packageId": "SYO-USER1-XBRACE",
+        "kind": "board",
+        "storeSku": "STB-ZERO-PT-2X4-96-001",
+        "qty": 1,
+        "description": "2x4 x 96 in treated SYP above-ground",
+        "stockL_in": 96,
+        "actualW": 3.5,
+        "actualT": 1.5,
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "unitPrice": 4.81,
+        "materialExtension": 4.81,
+        "status": "SUPPORTABLE",
+        "boards": 1,
+        "stockLengthIn": 96,
+        "Q": 10.81,
+        "time": {
+          "T_MACHINE_sec": 86.46953628299116,
+          "T_MACHINE_min": 1.4411589380498526
         },
-        "note": "Explicit Stage-2 scenario economics. Replace with measured Store evidence later; do not rewrite historical results.",
-        "breakEvenPerHour": 200,
-        "sellRatePerHour": 250,
-        "setupCharge": 0,
-        "setupTimeMin": 0,
-        "formula": "Q = stock/sourced selling price + (T_MACHINE_hr × STORE_MACHINE_SELL_RATE)"
-      },
-      "travel": {
-        "configurationId": "SYO-USER1-XBRACE",
-        "configurationVersion": "0.2",
-        "datumA": {
-          "id": "DATUM_A",
-          "meaning": "fixed fence reference",
-          "axis": "Y",
-          "valueIn": 0
+        "spotCount": 2,
+        "priceBasis": "CALCULATED",
+        "stockBasis": "SYNTHETIC_FIXTURE",
+        "events": [
+          {
+            "kind": "LOAD_AND_SEAT",
+            "seconds": 36,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "LOAD",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1295933320414333,
+            "subject": "PARENT_END_ANGLE",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "A",
+            "from": 0,
+            "target": 26.387799961243,
+            "velocity": 30,
+            "acceleration": 120
+          },
+          {
+            "kind": "ANGLE_SETTLE",
+            "seconds": 0.1,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CLAMP_ALLOWANCE",
+            "seconds": 0.25,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": 0,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.625,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": 27,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 27,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              false,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6875,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 0,
+            "target": 1.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "SPOT_SPINDLE_ON",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SPOT_READY_ALLOWANCE",
+            "seconds": 0.5,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "PART-1",
+            "featureId": "SPOT-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.515625,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 27,
+            "target": 8.875,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 8.875,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 1.75,
+            "target": 1.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "PART-2",
+            "featureId": "SPOT-2",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.609375,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 8.875,
+            "target": -18,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -18,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -18,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.5,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -18,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -18,
+            "remainingLengthIn": 77.75,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -18,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "SPOT_SPINDLE_OFF",
+            "seconds": 0,
+            "subject": "PARENT_COMPLETE",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "RELEASE_AND_LABEL",
+            "seconds": 24,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "RELEASE",
+            "billing": "HOURLY"
+          }
+        ],
+        "state": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
         },
-        "datumB": {
-          "id": "DATUM_B",
-          "meaning": "fixed table/support reference",
-          "axis": "Z",
-          "valueIn": 0
-        },
-        "datumC": {
-          "id": "DATUM_C",
-          "meaning": "dynamic longitudinal workpiece origin",
-          "axis": "X",
-          "allowedEstablishmentMethods": [
-            "REFERENCE_CUT",
-            "MECHANICAL_REFERENCE",
-            "SENSED_FACE"
-          ],
-          "establishmentMethod": "REFERENCE_CUT",
-          "stationId": "SAW-L"
-        },
-        "positionValidRequired": true,
-        "parts": [
+        "physicalGaps": [
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "SPOT-1",
+            "nominalCIn": 27,
+            "remainingLengthIn": 95.875
+          },
+          {
+            "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+          },
+          {
+            "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+          }
+        ],
+        "remainingLengthIn": 59.625,
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "partIds": [
+          "PART-1",
+          "PART-2"
+        ],
+        "preparedWidthIn": 3.5,
+        "components": [
           {
             "partId": "PART-1",
-            "lengthIn": 18,
+            "nominalFinishedLengthIn": 18,
+            "nominalFinishedWidthIn": 3.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 26.387799961243,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
             "features": [
               {
                 "featureId": "SPOT-1",
                 "kind": "SPOT_ON_LOCATION",
                 "xIn": 9,
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-                "insetFromEdgeIn": null,
-                "acrossWidthIn": 1.75
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
-            ]
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
           },
           {
             "partId": "PART-2",
-            "lengthIn": 18,
+            "nominalFinishedLengthIn": 18,
+            "nominalFinishedWidthIn": 3.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 26.387799961243,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
             "features": [
               {
                 "featureId": "SPOT-2",
                 "kind": "SPOT_ON_LOCATION",
                 "xIn": 9,
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-                "insetFromEdgeIn": null,
-                "acrossWidthIn": 1.75
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
-            ]
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
           }
-        ],
-        "operationPlan": [
-          {
-            "sequence": 1,
-            "opId": "OP-REF-CUT",
-            "kind": "REFERENCE_CUT",
-            "stationId": "SAW-L",
-            "datumEffect": "ESTABLISH_DATUM_C",
-            "angleDeg": 26.387799961243,
-            "indexDistanceIn": 0,
-            "timeSec": 3.0853
-          },
-          {
-            "sequence": 2,
-            "opId": "OP-INDEX-2",
-            "kind": "INDEX",
-            "purpose": "POSITION_SPOT-1",
-            "fromCIn": 0,
-            "toCIn": 27,
-            "distanceIn": 27,
-            "timeSec": 3.625
-          },
-          {
-            "sequence": 3,
-            "opId": "SPOT-1",
-            "kind": "SPOT_ON_LOCATION",
-            "stationId": "SPOT-FACE-REF",
-            "partId": "PART-1",
-            "partRelativeXIn": 9,
-            "workpieceFeatureXIn": 9,
-            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-            "acrossWidthIn": 1.75,
-            "fullDiameterDepthIn": 0.1875,
-            "plungeIn": 0.243831,
-            "depthIsPartRequirement": true,
-            "timeSec": 1.9971
-          },
-          {
-            "sequence": 4,
-            "opId": "OP-INDEX-4",
-            "kind": "INDEX",
-            "purpose": "POSITION_SPOT-2",
-            "fromCIn": 27,
-            "toCIn": 8.875,
-            "distanceIn": 18.125,
-            "timeSec": 2.5156
-          },
-          {
-            "sequence": 5,
-            "opId": "SPOT-2",
-            "kind": "SPOT_ON_LOCATION",
-            "stationId": "SPOT-FACE-REF",
-            "partId": "PART-2",
-            "partRelativeXIn": 9,
-            "workpieceFeatureXIn": 27.125,
-            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-            "acrossWidthIn": 1.75,
-            "fullDiameterDepthIn": 0.1875,
-            "plungeIn": 0.243831,
-            "depthIsPartRequirement": true,
-            "timeSec": 1.9971
-          },
-          {
-            "sequence": 6,
-            "opId": "OP-INDEX-CUT-1",
-            "kind": "INDEX",
-            "purpose": "POSITION_CUTOFF_PART-1",
-            "fromCIn": 8.875,
-            "toCIn": -18,
-            "distanceIn": 26.875,
-            "timeSec": 3.6094
-          },
-          {
-            "sequence": 7,
-            "opId": "OP-CUTOFF-1",
-            "kind": "MITER_CUTOFF",
-            "stationId": "SAW-L",
-            "partId": "PART-1",
-            "partLengthIn": 18,
-            "angleDeg": 26.387799961243,
-            "kerfIn": 0.125,
-            "retainedAfterIn": 53.75,
-            "controlPass": true,
-            "timeSec": 3.0853
-          },
-          {
-            "sequence": 8,
-            "opId": "OP-REBASE-C-1",
-            "kind": "REBASE_DATUM_C",
-            "stationId": "SAW-L",
-            "method": "FRESH_CUT_FACE",
-            "timeSec": 0
-          },
-          {
-            "sequence": 9,
-            "opId": "OP-INDEX-CUT-2",
-            "kind": "INDEX",
-            "purpose": "POSITION_CUTOFF_PART-2",
-            "fromCIn": 0,
-            "toCIn": -18,
-            "distanceIn": 18,
-            "timeSec": 2.5
-          },
-          {
-            "sequence": 10,
-            "opId": "OP-CUTOFF-2",
-            "kind": "MITER_CUTOFF",
-            "stationId": "SAW-L",
-            "partId": "PART-2",
-            "partLengthIn": 18,
-            "angleDeg": 26.387799961243,
-            "kerfIn": 0.125,
-            "retainedAfterIn": 35.625,
-            "controlPass": true,
-            "timeSec": 3.0853
-          },
-          {
-            "sequence": 11,
-            "opId": "OP-REBASE-C-2",
-            "kind": "REBASE_DATUM_C",
-            "stationId": "SAW-L",
-            "method": "FRESH_CUT_FACE",
-            "timeSec": 0
-          }
-        ],
-        "derivedSawCuts": 3,
-        "derivedSpotCount": 2,
-        "finalRemainderIn": 35.625,
-        "time": {
-          "T_LOAD_SEAT_sec": 36,
-          "T_REFERENCE_sec": 3.0853,
-          "T_INDEX_sec": 12.25,
-          "T_SAW_sec": 6.1706,
-          "T_DRILL_SPOT_sec": 3.9942,
-          "T_MILL_sec": 0,
-          "T_RELEASE_LABEL_sec": 24,
-          "T_MACHINE_sec": 85.5001,
-          "T_MACHINE_min": 1.425,
-          "T_MACHINE_hr": 0.02375
-        }
-      },
-      "totals": {
-        "material": 5.15,
-        "hardware": 0,
-        "machine_service": 5.94,
-        "Q": 11.09,
-        "Q_basis": "CALCULATED_FROM_DECLARED_STAGE2_MODEL"
-      },
-      "calculationIdentity": {
-        "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
-        "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
-      },
-      "not_claimed": [
-        "commercial quote",
-        "seller-of-record",
-        "physical fabrication",
-        "live motion",
-        "physical stock count",
-        "measured machine performance"
-      ],
-      "title": "Project 1 reference specimen",
-      "classId": "app.user-defined-board.v1",
-      "documentKind": "BudgetaryEstimate",
-      "engine": {
-        "id": "STB-STORE-ZERO-PRICE-1",
-        "version": "0.3.0",
-        "clock": "2026-09-22",
-        "documentKind": "BudgetaryEstimate",
-        "governingStandard": "DIMENSIONAL-STORE-TRAVEL-STANDARD-0.1.md"
-      },
-      "cycle": {
-        "model": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-        "version": "0.2.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "commissioned": false,
-        "T_job_min": 1.425,
-        "T_job_hr": 0.02375,
-        "SFM": 9425,
-        "feed_fpm": 18
+        ]
       }
-    },
-    "calculationIdentity": {
-      "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
-      "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
-    },
-    "not_claimed": [
-      "commercial quote",
-      "physical fabrication",
-      "live motion",
-      "measured machine performance"
     ],
+    "operations": [
+      {
+        "sequence": 1,
+        "kind": "LOAD_AND_SEAT",
+        "seconds": 36,
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "LOAD",
+        "billing": "HOURLY",
+        "startSec": 0,
+        "endSec": 36
+      },
+      {
+        "sequence": 2,
+        "kind": "MOVE",
+        "seconds": 1.1295933320414333,
+        "subject": "PARENT_END_ANGLE",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "A",
+        "from": 0,
+        "target": 26.387799961243,
+        "velocity": 30,
+        "acceleration": 120,
+        "startSec": 36,
+        "endSec": 37.12959333204143
+      },
+      {
+        "sequence": 3,
+        "kind": "ANGLE_SETTLE",
+        "seconds": 0.1,
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 37.12959333204143,
+        "endSec": 37.22959333204143
+      },
+      {
+        "sequence": 4,
+        "kind": "CLAMP_ALLOWANCE",
+        "seconds": 0.25,
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 37.22959333204143,
+        "endSec": 37.47959333204143
+      },
+      {
+        "sequence": 5,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 37.47959333204143,
+        "endSec": 37.47959333204143
+      },
+      {
+        "sequence": 6,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 37.47959333204143,
+        "endSec": 37.97959333204143
+      },
+      {
+        "sequence": 7,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 37.97959333204143,
+        "endSec": 39.214897259697004
+      },
+      {
+        "sequence": 8,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 39.214897259697004,
+        "endSec": 40.36607961629035
+      },
+      {
+        "sequence": 9,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.36607961629035,
+        "endSec": 40.41607961629035
+      },
+      {
+        "sequence": 10,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.41607961629035,
+        "endSec": 40.41607961629035
+      },
+      {
+        "sequence": 11,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": 0,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 40.41607961629035,
+        "endSec": 40.426079616290345
+      },
+      {
+        "sequence": 12,
+        "kind": "MOVE",
+        "seconds": 3.625,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": 27,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 40.426079616290345,
+        "endSec": 44.051079616290345
+      },
+      {
+        "sequence": 13,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 44.051079616290345,
+        "endSec": 44.10107961629034
+      },
+      {
+        "sequence": 14,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 27,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          false,
+          true
+        ],
+        "startSec": 44.10107961629034,
+        "endSec": 44.10107961629034
+      },
+      {
+        "sequence": 15,
+        "kind": "MOVE",
+        "seconds": 0.6875,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 0,
+        "target": 1.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 44.10107961629034,
+        "endSec": 44.78857961629034
+      },
+      {
+        "sequence": 16,
+        "kind": "SPOT_SPINDLE_ON",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 44.78857961629034,
+        "endSec": 44.78857961629034
+      },
+      {
+        "sequence": 17,
+        "kind": "SPOT_READY_ALLOWANCE",
+        "seconds": 0.5,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 44.78857961629034,
+        "endSec": 45.28857961629034
+      },
+      {
+        "sequence": 18,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 45.28857961629034,
+        "endSec": 45.53857961629034
+      },
+      {
+        "sequence": 19,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 45.53857961629034,
+        "endSec": 46.17315632387493
+      },
+      {
+        "sequence": 20,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 46.17315632387493,
+        "endSec": 46.545071665391845
+      },
+      {
+        "sequence": 21,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "PART-1",
+        "featureId": "SPOT-1",
+        "coverage": true,
+        "startSec": 46.545071665391845,
+        "endSec": 46.545071665391845
+      },
+      {
+        "sequence": 22,
+        "kind": "MOVE",
+        "seconds": 2.515625,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 27,
+        "target": 8.875,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 46.545071665391845,
+        "endSec": 49.060696665391845
+      },
+      {
+        "sequence": 23,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 49.060696665391845,
+        "endSec": 49.11069666539184
+      },
+      {
+        "sequence": 24,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 8.875,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 49.11069666539184,
+        "endSec": 49.11069666539184
+      },
+      {
+        "sequence": 25,
+        "kind": "MOVE",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 1.75,
+        "target": 1.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 49.11069666539184,
+        "endSec": 49.11069666539184
+      },
+      {
+        "sequence": 26,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 49.11069666539184,
+        "endSec": 49.36069666539184
+      },
+      {
+        "sequence": 27,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 49.36069666539184,
+        "endSec": 49.99527337297643
+      },
+      {
+        "sequence": 28,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 49.99527337297643,
+        "endSec": 50.367188714493345
+      },
+      {
+        "sequence": 29,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "PART-2",
+        "featureId": "SPOT-2",
+        "coverage": true,
+        "startSec": 50.367188714493345,
+        "endSec": 50.367188714493345
+      },
+      {
+        "sequence": 30,
+        "kind": "MOVE",
+        "seconds": 3.609375,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 8.875,
+        "target": -18,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 50.367188714493345,
+        "endSec": 53.976563714493345
+      },
+      {
+        "sequence": 31,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 53.976563714493345,
+        "endSec": 54.02656371449334
+      },
+      {
+        "sequence": 32,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -18,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 54.02656371449334,
+        "endSec": 54.02656371449334
+      },
+      {
+        "sequence": 33,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 54.02656371449334,
+        "endSec": 54.02656371449334
+      },
+      {
+        "sequence": 34,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 54.02656371449334,
+        "endSec": 54.52656371449334
+      },
+      {
+        "sequence": 35,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 54.52656371449334,
+        "endSec": 55.761867642148914
+      },
+      {
+        "sequence": 36,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 55.761867642148914,
+        "endSec": 56.91304999874226
+      },
+      {
+        "sequence": 37,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 56.91304999874226,
+        "endSec": 56.96304999874226
+      },
+      {
+        "sequence": 38,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 56.96304999874226,
+        "endSec": 56.96304999874226
+      },
+      {
+        "sequence": 39,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -18,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 56.96304999874226,
+        "endSec": 56.973049998742255
+      },
+      {
+        "sequence": 40,
+        "kind": "MOVE",
+        "seconds": 2.5,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": -18,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 56.973049998742255,
+        "endSec": 59.473049998742255
+      },
+      {
+        "sequence": 41,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 59.473049998742255,
+        "endSec": 59.52304999874225
+      },
+      {
+        "sequence": 42,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -18,
+        "remainingLengthIn": 77.75,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 59.52304999874225,
+        "endSec": 59.52304999874225
+      },
+      {
+        "sequence": 43,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 59.52304999874225,
+        "endSec": 59.52304999874225
+      },
+      {
+        "sequence": 44,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 59.52304999874225,
+        "endSec": 60.02304999874225
+      },
+      {
+        "sequence": 45,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 60.02304999874225,
+        "endSec": 61.258353926397824
+      },
+      {
+        "sequence": 46,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 61.258353926397824,
+        "endSec": 62.40953628299117
+      },
+      {
+        "sequence": 47,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 62.40953628299117,
+        "endSec": 62.459536282991166
+      },
+      {
+        "sequence": 48,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 62.459536282991166,
+        "endSec": 62.459536282991166
+      },
+      {
+        "sequence": 49,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -18,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 62.459536282991166,
+        "endSec": 62.469536282991164
+      },
+      {
+        "sequence": 50,
+        "kind": "SPOT_SPINDLE_OFF",
+        "seconds": 0,
+        "subject": "PARENT_COMPLETE",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 62.469536282991164,
+        "endSec": 62.469536282991164
+      },
+      {
+        "sequence": 51,
+        "kind": "RELEASE_AND_LABEL",
+        "seconds": 24,
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "RELEASE",
+        "billing": "HOURLY",
+        "startSec": 62.469536282991164,
+        "endSec": 86.46953628299116
+      }
+    ],
+    "reasonCodes": [],
+    "reasonRecords": [],
+    "optimization": {
+      "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+      "searchComplete": true,
+      "nodes": 8,
+      "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+      "globalManufacturingOptimalityClaimed": false
+    },
+    "model": {
+      "id": "STORE-MANUFACTURING-CORE-0.1",
+      "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+      "basis": "DECLARED_REFERENCE_MODEL",
+      "measured": false
+    },
+    "physicalRelease": false,
+    "physicalAdmission": "BLOCKED",
+    "physicalGaps": [
+      {
+        "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+        "subject": "SPOT-1",
+        "nominalCIn": 27,
+        "remainingLengthIn": 95.875
+      },
+      {
+        "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+      },
+      {
+        "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+        "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+      }
+    ],
+    "manifestCoverage": {
+      "boardPartIds": [
+        "PART-1",
+        "PART-2"
+      ],
+      "sheetPackageIds": [],
+      "itemLineIds": [],
+      "featureIds": [
+        "SPOT-1",
+        "SPOT-2"
+      ]
+    },
+    "materialResolution": {
+      "storeSku": "STB-ZERO-PT-2X4-96-001",
+      "workpieceLengthIn": 96,
+      "requestedMinimumWorkpieceLengthIn": 60,
+      "selectionPolicy": "MINIMUM_WHOLE_MODELED_Q_WITHIN_DECLARED_PLAN_SPACE",
+      "consideredCandidates": [
+        {
+          "storeSku": "STB-ZERO-PT-2X4-96-001",
+          "stockLengthIn": 96,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-PTAG-2X4-72-001",
+          "stockLengthIn": 72,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-PT-2X4-120-001",
+          "stockLengthIn": 120,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-PT-2X4-144-001",
+          "stockLengthIn": 144,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-PTAG-2X4-168-001",
+          "stockLengthIn": 168,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-PTAG-2X4-192-001",
+          "stockLengthIn": 192,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        }
+      ]
+    },
+    "packages": [
+      {
+        "packageId": "SYO-USER1-XBRACE",
+        "kind": "board",
+        "storeSku": "STB-ZERO-PT-2X4-96-001",
+        "qty": 1,
+        "description": "2x4 x 96 in treated SYP above-ground",
+        "stockL_in": 96,
+        "actualW": 3.5,
+        "actualT": 1.5,
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION"
+        ],
+        "unitPrice": 4.81,
+        "materialExtension": 4.81,
+        "status": "SUPPORTABLE",
+        "boards": 1,
+        "stockLengthIn": 96,
+        "Q": 10.81,
+        "time": {
+          "T_MACHINE_sec": 86.46953628299116,
+          "T_MACHINE_min": 1.4411589380498526
+        },
+        "spotCount": 2,
+        "priceBasis": "CALCULATED",
+        "stockBasis": "SYNTHETIC_FIXTURE",
+        "events": [
+          {
+            "kind": "LOAD_AND_SEAT",
+            "seconds": 36,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "LOAD",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1295933320414333,
+            "subject": "PARENT_END_ANGLE",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "A",
+            "from": 0,
+            "target": 26.387799961243,
+            "velocity": 30,
+            "acceleration": 120
+          },
+          {
+            "kind": "ANGLE_SETTLE",
+            "seconds": 0.1,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CLAMP_ALLOWANCE",
+            "seconds": 0.25,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": 0,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.625,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": 27,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 27,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              false,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6875,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 0,
+            "target": 1.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "SPOT_SPINDLE_ON",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SPOT_READY_ALLOWANCE",
+            "seconds": 0.5,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "SPOT-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "PART-1",
+            "featureId": "SPOT-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.515625,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 27,
+            "target": 8.875,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 8.875,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 1.75,
+            "target": 1.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "SPOT-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "PART-2",
+            "featureId": "SPOT-2",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.609375,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 8.875,
+            "target": -18,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -18,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "PART-1",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -18,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.5,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -18,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -18,
+            "remainingLengthIn": 77.75,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.235303927655574,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 5.4070941395600665,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.1511823565933446,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 5.4070941395600665,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -18,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "SPOT_SPINDLE_OFF",
+            "seconds": 0,
+            "subject": "PARENT_COMPLETE",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "RELEASE_AND_LABEL",
+            "seconds": 24,
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+            "cell": "D-001",
+            "category": "RELEASE",
+            "billing": "HOURLY"
+          }
+        ],
+        "state": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "physicalGaps": [
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "SPOT-1",
+            "nominalCIn": 27,
+            "remainingLengthIn": 95.875
+          },
+          {
+            "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+          },
+          {
+            "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+            "subject": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2"
+          }
+        ],
+        "remainingLengthIn": 59.625,
+        "parentId": "STB-ZERO-PT-2X4-96-001:PART-1+PART-2",
+        "partIds": [
+          "PART-1",
+          "PART-2"
+        ],
+        "preparedWidthIn": 3.5,
+        "components": [
+          {
+            "partId": "PART-1",
+            "nominalFinishedLengthIn": 18,
+            "nominalFinishedWidthIn": 3.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 26.387799961243,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [
+              {
+                "featureId": "SPOT-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+          },
+          {
+            "partId": "PART-2",
+            "nominalFinishedLengthIn": 18,
+            "nominalFinishedWidthIn": 3.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 26.387799961243,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [
+              {
+                "featureId": "SPOT-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 9,
+                "locationRule": "CENTERED_ON_PART",
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+          }
+        ]
+      }
+    ],
+    "items": [],
+    "pieces": [],
+    "components": [
+      {
+        "partId": "PART-1",
+        "nominalFinishedLengthIn": 18,
+        "nominalFinishedWidthIn": 3.5,
+        "thicknessIn": 1.5,
+        "endCut": {
+          "angleDeg": 26.387799961243,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "features": [
+          {
+            "featureId": "SPOT-1",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 9,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ],
+        "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+      },
+      {
+        "partId": "PART-2",
+        "nominalFinishedLengthIn": 18,
+        "nominalFinishedWidthIn": 3.5,
+        "thicknessIn": 1.5,
+        "endCut": {
+          "angleDeg": 26.387799961243,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "features": [
+          {
+            "featureId": "SPOT-2",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 9,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ],
+        "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+      }
+    ],
+    "labels": [
+      {
+        "componentId": "PART-1",
+        "jobId": "SYO-USER1-XBRACE",
+        "revision": "0.2",
+        "evidenceClass": "MODEL_LABEL_RECORD_ONLY"
+      },
+      {
+        "componentId": "PART-2",
+        "jobId": "SYO-USER1-XBRACE",
+        "revision": "0.2",
+        "evidenceClass": "MODEL_LABEL_RECORD_ONLY"
+      }
+    ],
+    "calculationIdentity": {
+      "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
+      "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+    },
     "freshEvaluation": true,
     "evaluationReceipt": {
       "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -463,28 +2510,23 @@
       "authority": {
         "storeRevision": "store-zero-acceptance",
         "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
-        "machineEnvelope": {
-          "id": "D001-STAGE2-ENVELOPE-0.3",
-          "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
+        "manufacturingModel": {
+          "id": "STORE-MANUFACTURING-CORE-0.1",
+          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
         },
-        "travelStandard": {
-          "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-          "version": "0.2.0",
-          "hash": "453544a319a9e4ac63038f2cfa3bce8f104fda3c0602c006b2bf2566df7522ab"
-        },
-        "economics": {
-          "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
-          "version": "0.1.0",
-          "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
+        "machineConfiguration": {
+          "id": "STORE-MANUFACTURING-CORE-0.1",
+          "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
         }
       },
       "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
+      "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
-        "inputHash": "39aafee7bad385ca749166520a0ec2cb375443c538c64b1d5291be7f07e0f6d9",
-        "resultHash": "851cf81c1f4296e3ed51c62c61b17915cf4f9168910013883b672a44cda7dfc7"
+        "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
+        "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
       },
-      "receiptHash": "87151aefcc30b99575cb2afdd85b0e70c45cf7a49efa49dab4a08145e42c1b0a"
+      "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
     }
   },
   "decision": {

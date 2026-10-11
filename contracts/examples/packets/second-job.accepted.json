@@ -1,5 +1,5 @@
 {
-  "schema": "STB-ACCEPTED-JOB-PACKET-1",
+  "schema": "STB-ACCEPTED-JOB-PACKET-2",
   "packetId": "PACKET-BRACKET-SET-0001",
   "project": {
     "projectId": "BRACKET-SET-CUSTOMER-0001",
@@ -43,14 +43,12 @@
               "featureId": "A-1",
               "kind": "SPOT_ON_LOCATION",
               "xIn": 5,
-              "locationRule": "CENTERED_ON_PART",
               "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
             },
             {
               "featureId": "A-2",
               "kind": "SPOT_ON_LOCATION",
               "xIn": 15,
-              "locationRule": "CENTERED_ON_PART",
               "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
             }
           ]
@@ -68,13 +66,29 @@
               "featureId": "C-1",
               "kind": "SPOT_ON_LOCATION",
               "xIn": 8,
-              "locationRule": "CENTERED_ON_PART",
               "acrossWidthRule": "INSET_FROM_EDGE",
               "insetFromEdgeIn": 1.5
             }
           ]
         }
       ]
+    },
+    "manifest": {
+      "jobId": "BRACKET-SET",
+      "revision": "1",
+      "boardPartIds": [
+        "BRACKET-A",
+        "BRACKET-B",
+        "BRACKET-C"
+      ],
+      "sheetPackageIds": [],
+      "featureIds": [
+        "A-1",
+        "A-2",
+        "C-1"
+      ],
+      "items": [],
+      "unresolvedRequirements": []
     },
     "requirements": {
       "endRelation": "parallel",
@@ -84,469 +98,3237 @@
   "storeAnswer": {
     "requestType": "USER_DEFINED_BOARD_V1",
     "requestId": "BRACKET-SET-INQUIRY-0001",
-    "title": "Three-part bracket set",
-    "stage": 2,
-    "store": "Store Zero",
     "status": "SUPPORTABLE",
-    "lines": [
+    "complete": true,
+    "configurationId": "BRACKET-SET",
+    "configurationVersion": "1",
+    "jobId": "BRACKET-SET",
+    "revision": "1",
+    "Q": 14.33,
+    "totals": {
+      "material": 7.55,
+      "hardware": 0,
+      "machine_service": 6.78,
+      "manual_cut_service": 0,
+      "Q": 14.33,
+      "sumOfSupportableLines": 14.33,
+      "manualCutCount": 0,
+      "hourlyRate": 250
+    },
+    "time": {
+      "T_MACHINE_sec": 97.63217657798084,
+      "T_MACHINE_min": 1.6272029429663475,
+      "T_MACHINE_hr": 0.027120049049439123,
+      "totalSeconds": 97.63217657798084,
+      "totalMinutes": 1.6272029429663475,
+      "hourlyBilledSeconds": 97.63217657798084,
+      "fixedPriceOccupiedSeconds": 0,
+      "categories": {
+        "LOAD": 36,
+        "INDEX": 16.900000000000002,
+        "REFERENCE": 3.7706751076690903,
+        "SPOT": 5.7694761473045055,
+        "SAW": 11.192025323007275,
+        "RELEASE": 24
+      },
+      "concurrency": "SERIAL_OCCUPANCY"
+    },
+    "selectedStock": [
       {
         "storeSku": "STB-ZERO-SPF-2X6-96-001",
-        "description": "2x6 x 96 in SPF construction",
         "qty": 1,
-        "stock": {
-          "status": "ON_HAND_SUFFICIENT",
-          "offered": true,
-          "fixtureDeclaredOnHand": 40,
-          "allocatedSimulated": 0,
-          "available": 40,
-          "qtyNeeded": 1,
-          "sufficient": true,
-          "supplierPath": "SPECIAL_ORDER_REPRESENTED",
-          "assertions": {
-            "onHand": {
-              "basis": "SYNTHETIC_FIXTURE",
-              "label": "fixture-declared on-hand stock"
-            },
-            "allocation": {
-              "basis": "SIMULATED_STATE"
-            },
-            "supplierPath": {
-              "basis": "SYNTHETIC_FIXTURE"
-            }
-          },
-          "asOf": "2026-09-10"
-        },
-        "price": {
-          "status": "STORE_ZERO_SELLING_PRICE",
-          "list_reference": 7.19,
-          "listReferenceBasis": "OBSERVED",
-          "mark_on": 0.05,
-          "sellingPrice": 7.55,
-          "sellingPriceBasis": "CALCULATED",
-          "observationId": "OBS-004",
-          "asOf": "2026-09-10",
-          "note": "Budgetary fixture price. Not a commercial quote."
-        },
-        "capability": {
-          "status": "SUPPORTABLE",
-          "declared": [
-            "CROSSCUT",
-            "MITER_LIMITED",
-            "SPOT_ON_LOCATION",
-            "DRILL",
-            "MILL_LONGITUDINAL_PROFILE",
-            "MILL_END_PROFILE"
-          ],
-          "cellFamily": [
-            "D-001"
-          ],
-          "limitations": [],
-          "basis": "DECLARED_STAGE2_CAPABILITY",
-          "envelope": {
-            "status": "SUPPORTABLE",
-            "reasons": [],
-            "unresolved": [],
-            "envelope": "D001-STAGE2-ENVELOPE-0.3",
-            "derived": {
-              "millPasses": 1,
-              "miter": {
-                "requestedDeg": 15,
-                "minDeg": 0,
-                "maxDeg": 45,
-                "motion": "DOWNSTROKE"
-              },
-              "spot": {
-                "mode": "SPOT_ON_LOCATION",
-                "toolDiameterIn": 0.1875,
-                "depthClaimed": false
-              }
-            }
-          }
-        }
+        "available": 40,
+        "remainingAvailable": 39,
+        "unitPrice": 7.55,
+        "stockL_in": 96,
+        "actualW": 5.5,
+        "actualT": 1.5,
+        "description": "2x6 x 96 in SPF construction",
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION",
+          "DRILL",
+          "MILL_LONGITUDINAL_PROFILE",
+          "MILL_END_PROFILE"
+        ]
       }
     ],
-    "materialResolution": {
-      "status": "MAPPED",
-      "storeSku": "STB-ZERO-SPF-2X6-96-001",
-      "pricingReferenceSku": "STB-ZERO-SPF-2X6-96-001",
-      "pricingReferenceStockLengthIn": 96,
-      "allocationClaimed": false,
-      "requestedMinimumWorkpieceLengthIn": 72,
-      "workpieceLengthIn": 96,
-      "selectionPolicy": "SHORTEST_COMPLETE_STORE_OFFERING",
-      "consideredCandidates": [
-        {
-          "storeSku": "STB-ZERO-SPF-2X6-72-001",
-          "stockLengthIn": 72,
-          "candidateStatus": "REFUSED",
-          "reason": "LAST_REMAIN_BELOW_TWO_ROLLER_CONTROL",
-          "stockStatus": "ON_HAND_SUFFICIENT",
-          "priceStatus": "STORE_ZERO_SELLING_PRICE",
-          "capabilityStatus": "SUPPORTABLE"
+    "parents": [
+      {
+        "packageId": "BRACKET-SET",
+        "kind": "board",
+        "storeSku": "STB-ZERO-SPF-2X6-96-001",
+        "qty": 1,
+        "description": "2x6 x 96 in SPF construction",
+        "stockL_in": 96,
+        "actualW": 5.5,
+        "actualT": 1.5,
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION",
+          "DRILL",
+          "MILL_LONGITUDINAL_PROFILE",
+          "MILL_END_PROFILE"
+        ],
+        "unitPrice": 7.55,
+        "materialExtension": 7.55,
+        "status": "SUPPORTABLE",
+        "boards": 1,
+        "stockLengthIn": 96,
+        "Q": 14.33,
+        "time": {
+          "T_MACHINE_sec": 97.63217657798084,
+          "T_MACHINE_min": 1.6272029429663475
         },
-        {
-          "storeSku": "STB-ZERO-SPF-2X6-96-001",
-          "stockLengthIn": 96,
-          "candidateStatus": "SUPPORTABLE",
-          "reason": null,
-          "stockStatus": "ON_HAND_SUFFICIENT",
-          "priceStatus": "STORE_ZERO_SELLING_PRICE",
-          "capabilityStatus": "SUPPORTABLE"
-        }
-      ]
-    },
-    "estimate": {
-      "status": "BUDGETARY_ESTIMATE",
-      "complete": true,
-      "completeness": "COMPLETE_FOR_TRAVEL_STANDARD",
-      "unresolved": [],
-      "standard": {
-        "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-        "version": "0.2.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "commissioned": false
-      },
-      "economics": {
-        "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
-        "version": "0.1.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "annualCostPoolUsd": 120000,
-        "forecastProductiveHours": 600,
-        "targetGrossMargin": 0.2,
-        "costPoolComponentsUsd": {
-          "operatorBurden": 50000,
-          "capitalRecovery": 25000,
-          "facilityInsuranceAdmin": 20000,
-          "maintenanceTooling": 15000,
-          "energyDustIt": 10000
+        "spotCount": 3,
+        "priceBasis": "CALCULATED",
+        "stockBasis": "SYNTHETIC_FIXTURE",
+        "events": [
+          {
+            "kind": "LOAD_AND_SEAT",
+            "seconds": 36,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "LOAD",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.75,
+            "subject": "PARENT_END_ANGLE",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "A",
+            "from": 0,
+            "target": 15,
+            "velocity": 30,
+            "acceleration": 120
+          },
+          {
+            "kind": "ANGLE_SETTLE",
+            "seconds": 0.1,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CLAMP_ALLOWANCE",
+            "seconds": 0.25,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": 0,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 4.125,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": 31,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 31,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              false,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.9375,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 0,
+            "target": 2.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "SPOT_SPINDLE_ON",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SPOT_READY_ALLOWANCE",
+            "seconds": 0.5,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-A",
+            "featureId": "A-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.5,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 31,
+            "target": 21,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 21,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 2.75,
+            "target": 2.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-A",
+            "featureId": "A-2",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.65625,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 21,
+            "target": -6.25,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -6.25,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5625,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 2.75,
+            "target": 1.5,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-C",
+            "featureId": "C-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.96875,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": -6.25,
+            "target": -20,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -20,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -20,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -14,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -14,
+            "remainingLengthIn": 75.75,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -14,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.25,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -16,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -16,
+            "remainingLengthIn": 61.625,
+            "rollerContacts": [
+              true,
+              false
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -16,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "SPOT_SPINDLE_OFF",
+            "seconds": 0,
+            "subject": "PARENT_COMPLETE",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "RELEASE_AND_LABEL",
+            "seconds": 24,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "RELEASE",
+            "billing": "HOURLY"
+          }
+        ],
+        "state": {
+          "C": 0,
+          "Y": 1.5,
+          "A": 15,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
         },
-        "note": "Explicit Stage-2 scenario economics. Replace with measured Store evidence later; do not rewrite historical results.",
-        "breakEvenPerHour": 200,
-        "sellRatePerHour": 250,
-        "setupCharge": 0,
-        "setupTimeMin": 0,
-        "formula": "Q = stock/sourced selling price + (T_MACHINE_hr × STORE_MACHINE_SELL_RATE)"
-      },
-      "travel": {
-        "configurationId": "BRACKET-SET",
-        "configurationVersion": "1",
-        "datumA": {
-          "id": "DATUM_A",
-          "meaning": "fixed fence reference",
-          "axis": "Y",
-          "valueIn": 0
-        },
-        "datumB": {
-          "id": "DATUM_B",
-          "meaning": "fixed table/support reference",
-          "axis": "Z",
-          "valueIn": 0
-        },
-        "datumC": {
-          "id": "DATUM_C",
-          "meaning": "dynamic longitudinal workpiece origin",
-          "axis": "X",
-          "allowedEstablishmentMethods": [
-            "REFERENCE_CUT",
-            "MECHANICAL_REFERENCE",
-            "SENSED_FACE"
-          ],
-          "establishmentMethod": "REFERENCE_CUT",
-          "stationId": "SAW-L"
-        },
-        "positionValidRequired": true,
-        "parts": [
+        "physicalGaps": [
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "A-1",
+            "nominalCIn": 31,
+            "remainingLengthIn": 95.875
+          },
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "BRACKET-C",
+            "nominalCIn": -16,
+            "remainingLengthIn": 61.625
+          },
+          {
+            "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+          },
+          {
+            "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+          }
+        ],
+        "remainingLengthIn": 45.5,
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "partIds": [
+          "BRACKET-A",
+          "BRACKET-B",
+          "BRACKET-C"
+        ],
+        "preparedWidthIn": 5.5,
+        "components": [
           {
             "partId": "BRACKET-A",
-            "lengthIn": 20,
+            "nominalFinishedLengthIn": 20,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
             "features": [
               {
                 "featureId": "A-1",
                 "kind": "SPOT_ON_LOCATION",
                 "xIn": 5,
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-                "insetFromEdgeIn": null,
-                "acrossWidthIn": 2.75
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               },
               {
                 "featureId": "A-2",
                 "kind": "SPOT_ON_LOCATION",
                 "xIn": 15,
-                "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-                "insetFromEdgeIn": null,
-                "acrossWidthIn": 2.75
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
               }
-            ]
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
           },
           {
             "partId": "BRACKET-B",
-            "lengthIn": 14,
-            "features": []
+            "nominalFinishedLengthIn": 14,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
           },
           {
             "partId": "BRACKET-C",
-            "lengthIn": 16,
+            "nominalFinishedLengthIn": 16,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
             "features": [
               {
                 "featureId": "C-1",
                 "kind": "SPOT_ON_LOCATION",
                 "xIn": 8,
                 "acrossWidthRule": "INSET_FROM_EDGE",
-                "insetFromEdgeIn": 1.5,
-                "acrossWidthIn": 1.5
+                "insetFromEdgeIn": 1.5
               }
-            ]
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
           }
-        ],
-        "operationPlan": [
-          {
-            "sequence": 1,
-            "opId": "OP-REF-CUT",
-            "kind": "REFERENCE_CUT",
-            "stationId": "SAW-L",
-            "datumEffect": "ESTABLISH_DATUM_C",
-            "angleDeg": 15,
-            "indexDistanceIn": 0,
-            "timeSec": 3.5817
-          },
-          {
-            "sequence": 2,
-            "opId": "OP-INDEX-2",
-            "kind": "INDEX",
-            "purpose": "POSITION_A-1",
-            "fromCIn": 0,
-            "toCIn": 31,
-            "distanceIn": 31,
-            "timeSec": 4.125
-          },
-          {
-            "sequence": 3,
-            "opId": "A-1",
-            "kind": "SPOT_ON_LOCATION",
-            "stationId": "SPOT-FACE-REF",
-            "partId": "BRACKET-A",
-            "partRelativeXIn": 5,
-            "workpieceFeatureXIn": 5,
-            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-            "acrossWidthIn": 2.75,
-            "fullDiameterDepthIn": 0.1875,
-            "plungeIn": 0.243831,
-            "depthIsPartRequirement": true,
-            "timeSec": 2.2471
-          },
-          {
-            "sequence": 4,
-            "opId": "OP-INDEX-4",
-            "kind": "INDEX",
-            "purpose": "POSITION_A-2",
-            "fromCIn": 31,
-            "toCIn": 21,
-            "distanceIn": 10,
-            "timeSec": 1.5
-          },
-          {
-            "sequence": 5,
-            "opId": "A-2",
-            "kind": "SPOT_ON_LOCATION",
-            "stationId": "SPOT-FACE-REF",
-            "partId": "BRACKET-A",
-            "partRelativeXIn": 15,
-            "workpieceFeatureXIn": 15,
-            "acrossWidthRule": "CENTERED_ON_WIDE_FACE",
-            "acrossWidthIn": 2.75,
-            "fullDiameterDepthIn": 0.1875,
-            "plungeIn": 0.243831,
-            "depthIsPartRequirement": true,
-            "timeSec": 2.2471
-          },
-          {
-            "sequence": 6,
-            "opId": "OP-INDEX-6",
-            "kind": "INDEX",
-            "purpose": "POSITION_C-1",
-            "fromCIn": 21,
-            "toCIn": -6.25,
-            "distanceIn": 27.25,
-            "timeSec": 3.6563
-          },
-          {
-            "sequence": 7,
-            "opId": "C-1",
-            "kind": "SPOT_ON_LOCATION",
-            "stationId": "SPOT-FACE-REF",
-            "partId": "BRACKET-C",
-            "partRelativeXIn": 8,
-            "workpieceFeatureXIn": 42.25,
-            "acrossWidthRule": "INSET_FROM_EDGE",
-            "acrossWidthIn": 1.5,
-            "fullDiameterDepthIn": 0.1875,
-            "plungeIn": 0.243831,
-            "depthIsPartRequirement": true,
-            "timeSec": 1.9346
-          },
-          {
-            "sequence": 8,
-            "opId": "OP-INDEX-CUT-1",
-            "kind": "INDEX",
-            "purpose": "POSITION_CUTOFF_BRACKET-A",
-            "fromCIn": -6.25,
-            "toCIn": -20,
-            "distanceIn": 13.75,
-            "timeSec": 1.9688
-          },
-          {
-            "sequence": 9,
-            "opId": "OP-CUTOFF-1",
-            "kind": "MITER_CUTOFF",
-            "stationId": "SAW-L",
-            "partId": "BRACKET-A",
-            "partLengthIn": 20,
-            "angleDeg": 15,
-            "kerfIn": 0.125,
-            "retainedAfterIn": 75.75,
-            "controlPass": true,
-            "timeSec": 3.5817
-          },
-          {
-            "sequence": 10,
-            "opId": "OP-REBASE-C-1",
-            "kind": "REBASE_DATUM_C",
-            "stationId": "SAW-L",
-            "method": "FRESH_CUT_FACE",
-            "timeSec": 0
-          },
-          {
-            "sequence": 11,
-            "opId": "OP-INDEX-CUT-2",
-            "kind": "INDEX",
-            "purpose": "POSITION_CUTOFF_BRACKET-B",
-            "fromCIn": 0,
-            "toCIn": -14,
-            "distanceIn": 14,
-            "timeSec": 2
-          },
-          {
-            "sequence": 12,
-            "opId": "OP-CUTOFF-2",
-            "kind": "MITER_CUTOFF",
-            "stationId": "SAW-L",
-            "partId": "BRACKET-B",
-            "partLengthIn": 14,
-            "angleDeg": 15,
-            "kerfIn": 0.125,
-            "retainedAfterIn": 61.625,
-            "controlPass": true,
-            "timeSec": 3.5817
-          },
-          {
-            "sequence": 13,
-            "opId": "OP-REBASE-C-2",
-            "kind": "REBASE_DATUM_C",
-            "stationId": "SAW-L",
-            "method": "FRESH_CUT_FACE",
-            "timeSec": 0
-          },
-          {
-            "sequence": 14,
-            "opId": "OP-INDEX-CUT-3",
-            "kind": "INDEX",
-            "purpose": "POSITION_CUTOFF_BRACKET-C",
-            "fromCIn": 0,
-            "toCIn": -16,
-            "distanceIn": 16,
-            "timeSec": 2.25
-          },
-          {
-            "sequence": 15,
-            "opId": "OP-CUTOFF-3",
-            "kind": "MITER_CUTOFF",
-            "stationId": "SAW-L",
-            "partId": "BRACKET-C",
-            "partLengthIn": 16,
-            "angleDeg": 15,
-            "kerfIn": 0.125,
-            "retainedAfterIn": 45.5,
-            "controlPass": true,
-            "timeSec": 3.5817
-          },
-          {
-            "sequence": 16,
-            "opId": "OP-REBASE-C-3",
-            "kind": "REBASE_DATUM_C",
-            "stationId": "SAW-L",
-            "method": "FRESH_CUT_FACE",
-            "timeSec": 0
-          }
-        ],
-        "derivedSawCuts": 4,
-        "derivedSpotCount": 3,
-        "finalRemainderIn": 45.5,
-        "time": {
-          "T_LOAD_SEAT_sec": 36,
-          "T_REFERENCE_sec": 3.5817,
-          "T_INDEX_sec": 15.5,
-          "T_SAW_sec": 10.745,
-          "T_DRILL_SPOT_sec": 6.4287,
-          "T_MILL_sec": 0,
-          "T_RELEASE_LABEL_sec": 24,
-          "T_MACHINE_sec": 96.2554,
-          "T_MACHINE_min": 1.6043,
-          "T_MACHINE_hr": 0.026738
-        }
-      },
-      "totals": {
-        "material": 7.55,
-        "hardware": 0,
-        "machine_service": 6.68,
-        "Q": 14.23,
-        "Q_basis": "CALCULATED_FROM_DECLARED_STAGE2_MODEL"
-      },
-      "calculationIdentity": {
-        "inputHash": "06f569eaa9b460e2e57ed35ec81c322524d9df5e27af5fe865511f0236369fba",
-        "resultHash": "27646e7ea0baed65532b2fce273ea5bd1c61104ac98a1e027cd92847dcfe21f9"
-      },
-      "not_claimed": [
-        "commercial quote",
-        "seller-of-record",
-        "physical fabrication",
-        "live motion",
-        "physical stock count",
-        "measured machine performance"
-      ],
-      "title": "Three-part bracket set",
-      "classId": "app.user-defined-board.v1",
-      "documentKind": "BudgetaryEstimate",
-      "engine": {
-        "id": "STB-STORE-ZERO-PRICE-1",
-        "version": "0.3.0",
-        "clock": "2026-09-22",
-        "documentKind": "BudgetaryEstimate",
-        "governingStandard": "DIMENSIONAL-STORE-TRAVEL-STANDARD-0.1.md"
-      },
-      "cycle": {
-        "model": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-        "version": "0.2.0",
-        "basis": "DECLARED_STAGE2_MODEL",
-        "measured": false,
-        "commissioned": false,
-        "T_job_min": 1.6043,
-        "T_job_hr": 0.026738,
-        "SFM": 9425,
-        "feed_fpm": 18
+        ]
       }
-    },
-    "calculationIdentity": {
-      "inputHash": "06f569eaa9b460e2e57ed35ec81c322524d9df5e27af5fe865511f0236369fba",
-      "resultHash": "27646e7ea0baed65532b2fce273ea5bd1c61104ac98a1e027cd92847dcfe21f9"
-    },
-    "not_claimed": [
-      "commercial quote",
-      "physical fabrication",
-      "live motion",
-      "measured machine performance"
     ],
+    "operations": [
+      {
+        "sequence": 1,
+        "kind": "LOAD_AND_SEAT",
+        "seconds": 36,
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "LOAD",
+        "billing": "HOURLY",
+        "startSec": 0,
+        "endSec": 36
+      },
+      {
+        "sequence": 2,
+        "kind": "MOVE",
+        "seconds": 0.75,
+        "subject": "PARENT_END_ANGLE",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "A",
+        "from": 0,
+        "target": 15,
+        "velocity": 30,
+        "acceleration": 120,
+        "startSec": 36,
+        "endSec": 36.75
+      },
+      {
+        "sequence": 3,
+        "kind": "ANGLE_SETTLE",
+        "seconds": 0.1,
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 36.75,
+        "endSec": 36.85
+      },
+      {
+        "sequence": 4,
+        "kind": "CLAMP_ALLOWANCE",
+        "seconds": 0.25,
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 36.85,
+        "endSec": 37.1
+      },
+      {
+        "sequence": 5,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 37.1,
+        "endSec": 37.1
+      },
+      {
+        "sequence": 6,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 37.1,
+        "endSec": 37.6
+      },
+      {
+        "sequence": 7,
+        "kind": "MOVE",
+        "seconds": 1.731671942293182,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 7.194018992255456,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 37.6,
+        "endSec": 39.331671942293184
+      },
+      {
+        "sequence": 8,
+        "kind": "MOVE",
+        "seconds": 1.4490031653759095,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 7.194018992255456,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 39.331671942293184,
+        "endSec": 40.78067510766909
+      },
+      {
+        "sequence": 9,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.78067510766909,
+        "endSec": 40.83067510766909
+      },
+      {
+        "sequence": 10,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.83067510766909,
+        "endSec": 40.83067510766909
+      },
+      {
+        "sequence": 11,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": 0,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 40.83067510766909,
+        "endSec": 40.840675107669085
+      },
+      {
+        "sequence": 12,
+        "kind": "MOVE",
+        "seconds": 4.125,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": 31,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 40.840675107669085,
+        "endSec": 44.965675107669085
+      },
+      {
+        "sequence": 13,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 44.965675107669085,
+        "endSec": 45.01567510766908
+      },
+      {
+        "sequence": 14,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 31,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          false,
+          true
+        ],
+        "startSec": 45.01567510766908,
+        "endSec": 45.01567510766908
+      },
+      {
+        "sequence": 15,
+        "kind": "MOVE",
+        "seconds": 0.9375,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 0,
+        "target": 2.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 45.01567510766908,
+        "endSec": 45.95317510766908
+      },
+      {
+        "sequence": 16,
+        "kind": "SPOT_SPINDLE_ON",
+        "seconds": 0,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 45.95317510766908,
+        "endSec": 45.95317510766908
+      },
+      {
+        "sequence": 17,
+        "kind": "SPOT_READY_ALLOWANCE",
+        "seconds": 0.5,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 45.95317510766908,
+        "endSec": 46.45317510766908
+      },
+      {
+        "sequence": 18,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 46.45317510766908,
+        "endSec": 46.70317510766908
+      },
+      {
+        "sequence": 19,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 46.70317510766908,
+        "endSec": 47.33775181525367
+      },
+      {
+        "sequence": 20,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 47.33775181525367,
+        "endSec": 47.709667156770585
+      },
+      {
+        "sequence": 21,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "A-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "BRACKET-A",
+        "featureId": "A-1",
+        "coverage": true,
+        "startSec": 47.709667156770585,
+        "endSec": 47.709667156770585
+      },
+      {
+        "sequence": 22,
+        "kind": "MOVE",
+        "seconds": 1.5,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 31,
+        "target": 21,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 47.709667156770585,
+        "endSec": 49.209667156770585
+      },
+      {
+        "sequence": 23,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 49.209667156770585,
+        "endSec": 49.25966715677058
+      },
+      {
+        "sequence": 24,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 21,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 49.25966715677058,
+        "endSec": 49.25966715677058
+      },
+      {
+        "sequence": 25,
+        "kind": "MOVE",
+        "seconds": 0,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 2.75,
+        "target": 2.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 49.25966715677058,
+        "endSec": 49.25966715677058
+      },
+      {
+        "sequence": 26,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 49.25966715677058,
+        "endSec": 49.50966715677058
+      },
+      {
+        "sequence": 27,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 49.50966715677058,
+        "endSec": 50.14424386435517
+      },
+      {
+        "sequence": 28,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 50.14424386435517,
+        "endSec": 50.516159205872086
+      },
+      {
+        "sequence": 29,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "A-2",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "BRACKET-A",
+        "featureId": "A-2",
+        "coverage": true,
+        "startSec": 50.516159205872086,
+        "endSec": 50.516159205872086
+      },
+      {
+        "sequence": 30,
+        "kind": "MOVE",
+        "seconds": 3.65625,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 21,
+        "target": -6.25,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 50.516159205872086,
+        "endSec": 54.172409205872086
+      },
+      {
+        "sequence": 31,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 54.172409205872086,
+        "endSec": 54.22240920587208
+      },
+      {
+        "sequence": 32,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -6.25,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 54.22240920587208,
+        "endSec": 54.22240920587208
+      },
+      {
+        "sequence": 33,
+        "kind": "MOVE",
+        "seconds": 0.5625,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 2.75,
+        "target": 1.5,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 54.22240920587208,
+        "endSec": 54.78490920587208
+      },
+      {
+        "sequence": 34,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 54.78490920587208,
+        "endSec": 55.03490920587208
+      },
+      {
+        "sequence": 35,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 55.03490920587208,
+        "endSec": 55.66948591345667
+      },
+      {
+        "sequence": 36,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 55.66948591345667,
+        "endSec": 56.041401254973586
+      },
+      {
+        "sequence": 37,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "C-1",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "BRACKET-C",
+        "featureId": "C-1",
+        "coverage": true,
+        "startSec": 56.041401254973586,
+        "endSec": 56.041401254973586
+      },
+      {
+        "sequence": 38,
+        "kind": "MOVE",
+        "seconds": 1.96875,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": -6.25,
+        "target": -20,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 56.041401254973586,
+        "endSec": 58.010151254973586
+      },
+      {
+        "sequence": 39,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 58.010151254973586,
+        "endSec": 58.06015125497358
+      },
+      {
+        "sequence": 40,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -20,
+        "remainingLengthIn": 95.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 58.06015125497358,
+        "endSec": 58.06015125497358
+      },
+      {
+        "sequence": 41,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 58.06015125497358,
+        "endSec": 58.06015125497358
+      },
+      {
+        "sequence": 42,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 58.06015125497358,
+        "endSec": 58.56015125497358
+      },
+      {
+        "sequence": 43,
+        "kind": "MOVE",
+        "seconds": 1.731671942293182,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 7.194018992255456,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 58.56015125497358,
+        "endSec": 60.291823197266766
+      },
+      {
+        "sequence": 44,
+        "kind": "MOVE",
+        "seconds": 1.4490031653759095,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 7.194018992255456,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 60.291823197266766,
+        "endSec": 61.74082636264267
+      },
+      {
+        "sequence": 45,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 61.74082636264267,
+        "endSec": 61.79082636264267
+      },
+      {
+        "sequence": 46,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 61.79082636264267,
+        "endSec": 61.79082636264267
+      },
+      {
+        "sequence": 47,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "BRACKET-A",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -20,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 61.79082636264267,
+        "endSec": 61.80082636264267
+      },
+      {
+        "sequence": 48,
+        "kind": "MOVE",
+        "seconds": 2,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": -14,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 61.80082636264267,
+        "endSec": 63.80082636264267
+      },
+      {
+        "sequence": 49,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 63.80082636264267,
+        "endSec": 63.850826362642664
+      },
+      {
+        "sequence": 50,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -14,
+        "remainingLengthIn": 75.75,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 63.850826362642664,
+        "endSec": 63.850826362642664
+      },
+      {
+        "sequence": 51,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 63.850826362642664,
+        "endSec": 63.850826362642664
+      },
+      {
+        "sequence": 52,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 63.850826362642664,
+        "endSec": 64.35082636264266
+      },
+      {
+        "sequence": 53,
+        "kind": "MOVE",
+        "seconds": 1.731671942293182,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 7.194018992255456,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 64.35082636264266,
+        "endSec": 66.08249830493584
+      },
+      {
+        "sequence": 54,
+        "kind": "MOVE",
+        "seconds": 1.4490031653759095,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 7.194018992255456,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 66.08249830493584,
+        "endSec": 67.53150147031175
+      },
+      {
+        "sequence": 55,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 67.53150147031175,
+        "endSec": 67.58150147031175
+      },
+      {
+        "sequence": 56,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 67.58150147031175,
+        "endSec": 67.58150147031175
+      },
+      {
+        "sequence": 57,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "BRACKET-B",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -14,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 67.58150147031175,
+        "endSec": 67.59150147031175
+      },
+      {
+        "sequence": 58,
+        "kind": "MOVE",
+        "seconds": 2.25,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": -16,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 67.59150147031175,
+        "endSec": 69.84150147031175
+      },
+      {
+        "sequence": 59,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 69.84150147031175,
+        "endSec": 69.89150147031175
+      },
+      {
+        "sequence": 60,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -16,
+        "remainingLengthIn": 61.625,
+        "rollerContacts": [
+          true,
+          false
+        ],
+        "startSec": 69.89150147031175,
+        "endSec": 69.89150147031175
+      },
+      {
+        "sequence": 61,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 69.89150147031175,
+        "endSec": 69.89150147031175
+      },
+      {
+        "sequence": 62,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 69.89150147031175,
+        "endSec": 70.39150147031175
+      },
+      {
+        "sequence": 63,
+        "kind": "MOVE",
+        "seconds": 1.731671942293182,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 7.194018992255456,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 70.39150147031175,
+        "endSec": 72.12317341260493
+      },
+      {
+        "sequence": 64,
+        "kind": "MOVE",
+        "seconds": 1.4490031653759095,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 7.194018992255456,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 72.12317341260493,
+        "endSec": 73.57217657798084
+      },
+      {
+        "sequence": 65,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 73.57217657798084,
+        "endSec": 73.62217657798084
+      },
+      {
+        "sequence": 66,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 73.62217657798084,
+        "endSec": 73.62217657798084
+      },
+      {
+        "sequence": 67,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -16,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 73.62217657798084,
+        "endSec": 73.63217657798084
+      },
+      {
+        "sequence": 68,
+        "kind": "SPOT_SPINDLE_OFF",
+        "seconds": 0,
+        "subject": "PARENT_COMPLETE",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 73.63217657798084,
+        "endSec": 73.63217657798084
+      },
+      {
+        "sequence": 69,
+        "kind": "RELEASE_AND_LABEL",
+        "seconds": 24,
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "cell": "D-001",
+        "category": "RELEASE",
+        "billing": "HOURLY",
+        "startSec": 73.63217657798084,
+        "endSec": 97.63217657798084
+      }
+    ],
+    "reasonCodes": [],
+    "reasonRecords": [],
+    "optimization": {
+      "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+      "searchComplete": true,
+      "nodes": 7,
+      "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+      "globalManufacturingOptimalityClaimed": false
+    },
+    "model": {
+      "id": "STORE-MANUFACTURING-CORE-0.1",
+      "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+      "basis": "DECLARED_REFERENCE_MODEL",
+      "measured": false
+    },
+    "physicalRelease": false,
+    "physicalAdmission": "BLOCKED",
+    "physicalGaps": [
+      {
+        "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+        "subject": "A-1",
+        "nominalCIn": 31,
+        "remainingLengthIn": 95.875
+      },
+      {
+        "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+        "subject": "BRACKET-C",
+        "nominalCIn": -16,
+        "remainingLengthIn": 61.625
+      },
+      {
+        "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+      },
+      {
+        "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+        "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+      }
+    ],
+    "manifestCoverage": {
+      "boardPartIds": [
+        "BRACKET-A",
+        "BRACKET-B",
+        "BRACKET-C"
+      ],
+      "sheetPackageIds": [],
+      "itemLineIds": [],
+      "featureIds": [
+        "A-1",
+        "A-2",
+        "C-1"
+      ]
+    },
+    "materialResolution": {
+      "storeSku": "STB-ZERO-SPF-2X6-96-001",
+      "workpieceLengthIn": 96,
+      "requestedMinimumWorkpieceLengthIn": 72,
+      "selectionPolicy": "MINIMUM_WHOLE_MODELED_Q_WITHIN_DECLARED_PLAN_SPACE",
+      "consideredCandidates": [
+        {
+          "storeSku": "STB-ZERO-SPF-2X6-96-001",
+          "stockLengthIn": 96,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-SPF-2X6-120-001",
+          "stockLengthIn": 120,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-SPF-2X6-144-001",
+          "stockLengthIn": 144,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-SPF-2X6-168-001",
+          "stockLengthIn": 168,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        },
+        {
+          "storeSku": "STB-ZERO-SPF-2X6-192-001",
+          "stockLengthIn": 192,
+          "candidateStatus": "SUPPORTABLE",
+          "reason": null
+        }
+      ]
+    },
+    "packages": [
+      {
+        "packageId": "BRACKET-SET",
+        "kind": "board",
+        "storeSku": "STB-ZERO-SPF-2X6-96-001",
+        "qty": 1,
+        "description": "2x6 x 96 in SPF construction",
+        "stockL_in": 96,
+        "actualW": 5.5,
+        "actualT": 1.5,
+        "cellFamily": [
+          "D-001"
+        ],
+        "supportedOps": [
+          "CROSSCUT",
+          "MITER_LIMITED",
+          "SPOT_ON_LOCATION",
+          "DRILL",
+          "MILL_LONGITUDINAL_PROFILE",
+          "MILL_END_PROFILE"
+        ],
+        "unitPrice": 7.55,
+        "materialExtension": 7.55,
+        "status": "SUPPORTABLE",
+        "boards": 1,
+        "stockLengthIn": 96,
+        "Q": 14.33,
+        "time": {
+          "T_MACHINE_sec": 97.63217657798084,
+          "T_MACHINE_min": 1.6272029429663475
+        },
+        "spotCount": 3,
+        "priceBasis": "CALCULATED",
+        "stockBasis": "SYNTHETIC_FIXTURE",
+        "events": [
+          {
+            "kind": "LOAD_AND_SEAT",
+            "seconds": 36,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "LOAD",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.75,
+            "subject": "PARENT_END_ANGLE",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "A",
+            "from": 0,
+            "target": 15,
+            "velocity": 30,
+            "acceleration": 120
+          },
+          {
+            "kind": "ANGLE_SETTLE",
+            "seconds": 0.1,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CLAMP_ALLOWANCE",
+            "seconds": 0.25,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "REFERENCE_CUT",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": 0,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 4.125,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": 31,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 31,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              false,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.9375,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 0,
+            "target": 2.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "SPOT_SPINDLE_ON",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SPOT_READY_ALLOWANCE",
+            "seconds": 0.5,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "A-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-A",
+            "featureId": "A-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.5,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 31,
+            "target": 21,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": 21,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 2.75,
+            "target": 2.75,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "A-2",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-A",
+            "featureId": "A-2",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 3.65625,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 21,
+            "target": -6.25,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -6.25,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5625,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Y",
+            "from": 2.75,
+            "target": 1.5,
+            "velocity": 4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.25,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.75,
+            "target": 1.5,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.6345767075845848,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.5,
+            "target": 1.256169316966166,
+            "velocity": 0.4,
+            "acceleration": 16
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.37191534151691696,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "axis": "Z",
+            "from": 1.256169316966166,
+            "target": 1.75,
+            "velocity": 2,
+            "acceleration": 16
+          },
+          {
+            "kind": "FEATURE_ANSWERED",
+            "seconds": 0,
+            "subject": "C-1",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY",
+            "partId": "BRACKET-C",
+            "featureId": "C-1",
+            "coverage": true
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.96875,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": -6.25,
+            "target": -20,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -20,
+            "remainingLengthIn": 95.875,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-A",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -20,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -14,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -14,
+            "remainingLengthIn": 75.75,
+            "rollerContacts": [
+              true,
+              true
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-B",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -14,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 2.25,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "axis": "C",
+            "from": 0,
+            "target": -16,
+            "velocity": 8,
+            "acceleration": 32
+          },
+          {
+            "kind": "VERIFY_POSITION_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "CONTROL_SCREEN",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "INDEX",
+            "billing": "HOURLY",
+            "nominalCIn": -16,
+            "remainingLengthIn": 61.625,
+            "rollerContacts": [
+              true,
+              false
+            ]
+          },
+          {
+            "kind": "SAW_ON",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 0.5,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 0,
+            "target": 1.5,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.731671942293182,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 1.5,
+            "target": 7.194018992255456,
+            "velocity": 3.6,
+            "acceleration": 24
+          },
+          {
+            "kind": "MOVE",
+            "seconds": 1.4490031653759095,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY",
+            "axis": "S",
+            "from": 7.194018992255456,
+            "target": 0,
+            "velocity": 6,
+            "acceleration": 24
+          },
+          {
+            "kind": "SAW_OFF_ALLOWANCE",
+            "seconds": 0.05,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "SAW_OFF",
+            "seconds": 0,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SAW",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "NOMINAL_DATUM_CAPTURE",
+            "seconds": 0.01,
+            "subject": "BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "REFERENCE",
+            "billing": "HOURLY",
+            "oldCIn": -16,
+            "targetCIn": 0,
+            "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE"
+          },
+          {
+            "kind": "SPOT_SPINDLE_OFF",
+            "seconds": 0,
+            "subject": "PARENT_COMPLETE",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "SPOT",
+            "billing": "HOURLY"
+          },
+          {
+            "kind": "RELEASE_AND_LABEL",
+            "seconds": 24,
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+            "cell": "D-001",
+            "category": "RELEASE",
+            "billing": "HOURLY"
+          }
+        ],
+        "state": {
+          "C": 0,
+          "Y": 1.5,
+          "A": 15,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "physicalGaps": [
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "A-1",
+            "nominalCIn": 31,
+            "remainingLengthIn": 95.875
+          },
+          {
+            "code": "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+            "subject": "BRACKET-C",
+            "nominalCIn": -16,
+            "remainingLengthIn": 61.625
+          },
+          {
+            "code": "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+          },
+          {
+            "code": "SAW_STROKE_IS_VIRTUAL_BENCHMARK",
+            "subject": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C"
+          }
+        ],
+        "remainingLengthIn": 45.5,
+        "parentId": "STB-ZERO-SPF-2X6-96-001:BRACKET-A+BRACKET-B+BRACKET-C",
+        "partIds": [
+          "BRACKET-A",
+          "BRACKET-B",
+          "BRACKET-C"
+        ],
+        "preparedWidthIn": 5.5,
+        "components": [
+          {
+            "partId": "BRACKET-A",
+            "nominalFinishedLengthIn": 20,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [
+              {
+                "featureId": "A-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 5,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              },
+              {
+                "featureId": "A-2",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 15,
+                "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+              }
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+          },
+          {
+            "partId": "BRACKET-B",
+            "nominalFinishedLengthIn": 14,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+          },
+          {
+            "partId": "BRACKET-C",
+            "nominalFinishedLengthIn": 16,
+            "nominalFinishedWidthIn": 5.5,
+            "thicknessIn": 1.5,
+            "endCut": {
+              "angleDeg": 15,
+              "endRelation": "parallel",
+              "lengthDatum": "long-long-outer-edge",
+              "plane": "miter-face"
+            },
+            "features": [
+              {
+                "featureId": "C-1",
+                "kind": "SPOT_ON_LOCATION",
+                "xIn": 8,
+                "acrossWidthRule": "INSET_FROM_EDGE",
+                "insetFromEdgeIn": 1.5
+              }
+            ],
+            "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+          }
+        ]
+      }
+    ],
+    "items": [],
+    "pieces": [],
+    "components": [
+      {
+        "partId": "BRACKET-A",
+        "nominalFinishedLengthIn": 20,
+        "nominalFinishedWidthIn": 5.5,
+        "thicknessIn": 1.5,
+        "endCut": {
+          "angleDeg": 15,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "features": [
+          {
+            "featureId": "A-1",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 5,
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          },
+          {
+            "featureId": "A-2",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 15,
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ],
+        "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+      },
+      {
+        "partId": "BRACKET-B",
+        "nominalFinishedLengthIn": 14,
+        "nominalFinishedWidthIn": 5.5,
+        "thicknessIn": 1.5,
+        "endCut": {
+          "angleDeg": 15,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "features": [],
+        "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+      },
+      {
+        "partId": "BRACKET-C",
+        "nominalFinishedLengthIn": 16,
+        "nominalFinishedWidthIn": 5.5,
+        "thicknessIn": 1.5,
+        "endCut": {
+          "angleDeg": 15,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "features": [
+          {
+            "featureId": "C-1",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 8,
+            "acrossWidthRule": "INSET_FROM_EDGE",
+            "insetFromEdgeIn": 1.5
+          }
+        ],
+        "resultClass": "MODELED_COMPONENT_NOT_INSPECTED"
+      }
+    ],
+    "labels": [
+      {
+        "componentId": "BRACKET-A",
+        "jobId": "BRACKET-SET",
+        "revision": "1",
+        "evidenceClass": "MODEL_LABEL_RECORD_ONLY"
+      },
+      {
+        "componentId": "BRACKET-B",
+        "jobId": "BRACKET-SET",
+        "revision": "1",
+        "evidenceClass": "MODEL_LABEL_RECORD_ONLY"
+      },
+      {
+        "componentId": "BRACKET-C",
+        "jobId": "BRACKET-SET",
+        "revision": "1",
+        "evidenceClass": "MODEL_LABEL_RECORD_ONLY"
+      }
+    ],
+    "calculationIdentity": {
+      "inputHash": "a852368bb12f1c1957bd650fd1170316327d6f7af2492f5d936f1d9256c6d71a",
+      "resultHash": "ca2944ed18a7c4bf11d6821b8d49f80f4081a66f0426bf58c32e203b19fee29c"
+    },
     "freshEvaluation": true,
     "evaluationReceipt": {
       "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -556,28 +3338,23 @@
       "authority": {
         "storeRevision": "store-zero-acceptance",
         "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
-        "machineEnvelope": {
-          "id": "D001-STAGE2-ENVELOPE-0.3",
-          "hash": "d74e28818d62fd36bf9a07a971033fb7f78682648ee340d060a7f7d53e0e23df"
+        "manufacturingModel": {
+          "id": "STORE-MANUFACTURING-CORE-0.1",
+          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
         },
-        "travelStandard": {
-          "id": "STB-D001-DIMENSIONAL-TRAVEL-0.1",
-          "version": "0.2.0",
-          "hash": "453544a319a9e4ac63038f2cfa3bce8f104fda3c0602c006b2bf2566df7522ab"
-        },
-        "economics": {
-          "id": "STB-D001-STORE-ECONOMICS-S2-0.1",
-          "version": "0.1.0",
-          "hash": "d2fa127f8c9fdfffd0d66c0d3dc0f5b88a5104e2f32990cd070e76ddfa68d95c"
+        "machineConfiguration": {
+          "id": "STORE-MANUFACTURING-CORE-0.1",
+          "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
         }
       },
-      "demandHash": "a018c1f94f4ed72d5f01bacfe3b856b923b5b8b5f4d7f7bcf4de21d80508686e",
+      "demandHash": "8b67baf7e25ac342ec77a3c23abf21731d8549357f0352d90cfff43deef7033f",
+      "manifestHash": "4fa11ec139c0e4d7a87a76b3e78c17bea71b09a4900582d78b62b50a187140b7",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
-        "inputHash": "06f569eaa9b460e2e57ed35ec81c322524d9df5e27af5fe865511f0236369fba",
-        "resultHash": "27646e7ea0baed65532b2fce273ea5bd1c61104ac98a1e027cd92847dcfe21f9"
+        "inputHash": "a852368bb12f1c1957bd650fd1170316327d6f7af2492f5d936f1d9256c6d71a",
+        "resultHash": "ca2944ed18a7c4bf11d6821b8d49f80f4081a66f0426bf58c32e203b19fee29c"
       },
-      "receiptHash": "68f56bdcffcadfba3019b73c72f7403f0c6a95a68d1235b6356fea453d1177ec"
+      "receiptHash": "e9384b47bf312bd822a273b9e44a2aaf574b8bd311d527f6b1bd4f0a39f118f4"
     }
   },
   "decision": {

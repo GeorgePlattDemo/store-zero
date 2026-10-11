@@ -1,82 +1,48 @@
-/**
- * The virtual runner and the physical admission record for the D-001 reference cell.
- *
- * The runner executes motion records in an acceleration-limited stop-to-stop model. It is not a controller,
- * not the Structured Text, and not EtherCAT or safety behavior: it shows the commands are ordered, bounded and
- * traceable, and that the modeled faults stop the run before the next tool or index command.
- * Physical admission is always BLOCKED here: no configuration with physical authority is registered.
- */
-import { motionRecordProblems } from "../contracts/machine-records.mjs";
-
-export const VIRTUAL_MODEL = "ACCELERATION_LIMITED_STOP_TO_STOP";
-
-export function moveTimeSec(distance, velocity, acceleration) {
-  const d = Math.abs(distance);
-  if (d === 0) return 0;
-  return d <= (velocity * velocity) / acceleration ? 2 * Math.sqrt(d / acceleration) : (2 * velocity) / acceleration + (d - (velocity * velocity) / acceleration) / velocity;
-}
-
-/**
- * Runs the records. `expected` is the binding the operator's job names (packet, demand hash, machine): a
- * mismatch runs nothing. `faults` injects modeled faults: `slipAtSeq` (position invalid at that verify) and
- * `retractUnconfirmedAtSeq` (tool retract not confirmed at that record).
- */
-export function runVirtual(records, { expected, faults = {} } = {}) {
-  const problems = motionRecordProblems(records);
-  if (problems.length) return { status: "REFUSED", reason: problems[0], physicalAuthority: false, motionCommands: 0 };
-  const b = records.binding;
-  if (!expected || Object.keys(b).some((key) => b[key] !== expected[key])) {
-    return { status: "REFUSED", reason: "JOB_IDENTITY_MISMATCH", physicalAuthority: false, motionCommands: 0 };
-  }
-  const p = { ...records.initialPositions };
-  let offset = 0;
-  let t = 0;
-  let saw = false;
-  let spot = false;
-  let moves = 0;
-  let sawStroke = false;
-  const trace = [];
-  const stop = (reason) => ({ status: "FAULT", reason, physicalAuthority: false, model: VIRTUAL_MODEL, timeSec: t, motionCommands: moves, trace });
-  if (p.S !== 0 || Math.abs(p.Z - records.toolClearZ) > 1e-9) return stop("INITIAL_TOOL_POSITION_INVALID");
-
-  for (const op of records.sequence) {
-    if (op.seq === faults.retractUnconfirmedAtSeq) return stop("TOOL_RETRACT_UNCONFIRMED");
-    let dt = op.seconds ?? 0;
-    let target = op.target;
-    if (op.kind === "MOVE" || op.kind === "MOVE_C") {
-      if (op.axis === "X" && (p.S !== 0 || Math.abs(p.Z - records.toolClearZ) > 1e-9)) return stop("INDEX_WITH_TOOL_DOWN");
-      if (op.axis === "S" && op.target > 0 && !saw) return stop("SAW_STROKE_WITH_TOOL_OFF");
-      if (op.axis === "Z" && op.target < records.toolClearZ && !spot) return stop("SPOT_PLUNGE_WITH_TOOL_OFF");
-      if (op.axis === "Y" && Math.abs(p.Z - records.toolClearZ) > 1e-9) return stop("TRAVERSE_WITH_SPOT_DOWN");
-      if (op.axis === "A" && p.S !== 0) return stop("ANGLE_CHANGE_WITH_SAW_DOWN");
-      if (op.kind === "MOVE_C") target = offset + op.target;
-      dt = moveTimeSec(target - p[op.axis], op.velocity, op.acceleration);
-      if (!Number.isFinite(target) || !Number.isFinite(dt) || !Number.isFinite(t + dt)) return stop("MOTION_MODEL_OVERFLOW");
-      p[op.axis] = target;
-      if (op.axis === "S" && target > 0) sawStroke = true;
-      moves += 1;
-    } else if (op.kind === "CAPTURE_C") {
-      if (p.S !== 0 || Math.abs(p.Z - records.toolClearZ) > 1e-9) return stop("DATUM_CAPTURE_WITH_TOOL_DOWN");
-      offset = p.X;
-    } else if (op.kind === "VERIFY_X") {
-      if (op.seq === faults.slipAtSeq || Math.abs(p.X - offset - op.target) > 1e-9) return stop("POSITION_INVALID");
-    } else if (op.kind === "SET_SAW") {
-      saw = !!op.target;
-    } else if (op.kind === "SET_SPOT") {
-      spot = !!op.target;
-    } else if (op.kind === "COMPLETE") {
-      if (saw || spot || p.S !== 0 || Math.abs(p.Z - records.toolClearZ) > 1e-9) return stop("COMPLETE_WITH_TOOL_ACTIVE");
-      if (!sawStroke) return stop("COMPLETE_WITHOUT_WORK");
+import {motionRecordProblems} from "../contracts/machine-records.mjs";
+/** Check and replay the priced occupancy ledger. This produces no controller commands. */
+import {calculationHash,moveSeconds} from '../evaluation/engine/store-manufacturing-core.mjs';
+import {loadMachineConfig,machineConfigHash} from './configuration.mjs';
+export const VIRTUAL_MODEL='STB-VIRTUAL-OCCUPANCY-MODEL-1';
+export function runVirtual(records,{expected,faults={}}={}){
+  let elapsed=0,moves=0;const trace=[];
+  const stop=reason=>({status:'STOPPED',reason,physicalAuthority:false,model:VIRTUAL_MODEL,timeSec:elapsed,motionCommands:moves,trace});
+  if(records?.schema!=='STB-MODELED-OPERATIONS-1' || !Array.isArray(records.sequence) || records.physicalAuthority!==false)return stop('MODELED_RECORDS_REQUIRED');
+  const shape=motionRecordProblems(records);if(shape.length)return stop(shape[0]);
+  const copy=structuredClone(records),hash=copy.binding?.motionHash;if(copy.binding)delete copy.binding.motionHash;
+  if(calculationHash(copy)!==hash)return stop('MOTION_RECORDS_ALTERED');
+  if(!expected || Object.keys(expected).some(k=>expected[k]!==records.binding[k]))return stop('MOTION_BINDING_MISMATCH');
+  const machine=loadMachineConfig(),d=machine.model.dimensional;
+  if(records.binding.machineConfigHash!==machineConfigHash(machine) || records.binding.modelHash!==calculationHash(machine.model))return stop('MOTION_CONFIGURATION_MISMATCH');
+  const pose={C:0,Y:0,A:0,S:0,Z:null,RZ:null};let saw=false,spot=false;
+  for(let i=0;i<records.sequence.length;i++){
+    const e=records.sequence[i],stock=records.stockByParent[e.parentId];
+    if(e.sequence!==i+1 || !Number.isFinite(e.seconds) || e.seconds<0 || Math.abs(e.startSec-elapsed)>1e-8 || Math.abs(e.endSec-e.startSec-e.seconds)>1e-8)return stop('OCCUPANCY_SEQUENCE_INVALID');
+    if(e.sequence===faults.slipAtSeq)return stop('POSITION_INVALID');
+    if(e.sequence===faults.retractUnconfirmedAtSeq)return stop('TOOL_RETRACT_UNCONFIRMED');
+    if(e.kind==='LOAD_AND_SEAT'){
+      pose.C=0;if(pose.Z===null)pose.Z=stock.actualT+d.spot.clearanceIn;if(pose.RZ===null)pose.RZ=stock.actualT+d.router.clearanceIn;
     }
-    if (!Number.isFinite(t + dt)) return stop("MOTION_MODEL_OVERFLOW");
-    trace.push({ seq: op.seq, kind: op.kind, axis: op.axis, target: op.target, source: op.source, startSec: t, endSec: t + dt, durationSec: dt, positions: { ...p }, cOffset: offset, sawCommand: saw, spotCommand: spot });
-    t += dt;
+    if(e.kind==='SAW_ON')saw=true;if(e.kind==='SAW_OFF')saw=false;
+    if(e.kind==='SPOT_SPINDLE_ON')spot=true;if(e.kind==='SPOT_SPINDLE_OFF')spot=false;
+    if(e.kind==='MOVE'){
+      if(!Object.hasOwn(pose,e.axis) || !Number.isFinite(e.from) || !Number.isFinite(e.target) || Math.abs(e.seconds-moveSeconds(e.target-e.from,e.velocity,e.acceleration))>1e-8)return stop('MOVE_MODEL_INVALID');
+      // The first per-stock clearance move can precede LOAD; it still must name its actual starting pose.
+      if(pose[e.axis]!==null && Math.abs(e.from-pose[e.axis])>1e-8)return stop('POSITION_INVALID');
+      if(e.axis==='C' && (pose.S!==0 || pose.Z<stock.actualT+d.spot.clearanceIn-1e-8 || pose.RZ<stock.actualT+d.router.clearanceIn-1e-8))return stop('INDEX_WITH_TOOL_DOWN');
+      if(e.axis==='S' && e.target>0&&!saw)return stop('SAW_STROKE_WITH_TOOL_OFF');
+      if(e.axis==='Z'&&e.target<stock.actualT&&!spot)return stop('SPOT_PLUNGE_WITH_TOOL_OFF');
+      if(e.axis==='A'&&pose.S!==0)return stop('ANGLE_CHANGE_WITH_SAW_DOWN');
+      pose[e.axis]=e.target;moves++;
+    }else if(e.kind==='ROUTER_CUT'){
+      if(pose.S!==0 || pose.RZ>=stock.actualT || Math.abs(e.from-pose.C)>1e-8 || Math.abs(e.seconds-moveSeconds(e.pathLengthIn,e.cuttingFeedInPerMin/60,d.motion.X.acceleration))>1e-8)return stop('ROUTER_MODEL_INVALID');
+      pose.C=e.target;moves++;
+    }else if(e.kind==='NOMINAL_DATUM_CAPTURE'){
+      if(pose.S!==0)return stop('DATUM_CAPTURE_WITH_TOOL_DOWN');pose.C=e.targetCIn;
+    }
+    trace.push({...e,durationSec:e.seconds,positions:{...pose},evidenceClass:'PREDICTED_OCCUPANCY_ONLY'});elapsed+=e.seconds;
   }
-  return { status: "VIRTUAL_MODEL_COMPLETE", physicalAuthority: false, model: VIRTUAL_MODEL, timeSec: t, motionCommands: moves, trace };
+  if(saw||spot||pose.S!==0)return stop('COMPLETE_WITH_TOOL_ACTIVE');
+  if(Math.abs(elapsed-records.expectedSeconds)>1e-8)return stop('OCCUPANCY_TOTAL_MISMATCH');
+  return {status:'VIRTUAL_MODEL_COMPLETE',physicalAuthority:false,model:VIRTUAL_MODEL,timeSec:elapsed,motionCommands:moves,trace};
 }
-
-/** Physical admission for a local job: BLOCKED with every unresolved prerequisite, and zero motion. */
-export function physicalAdmission(localJob) {
-  const reasons = Array.isArray(localJob?.releaseBlockers) && localJob.releaseBlockers.length && localJob.releaseBlockers.every((r) => typeof r === "string" && r.trim()) ? [...localJob.releaseBlockers] : ["PHYSICAL_AUTHORITY_NOT_REGISTERED"];
-  return { status: "BLOCKED", physicalAuthority: false, reasons, motionCommands: 0 };
-}
+export function physicalAdmission(localJob){return {status:'BLOCKED',physicalAuthority:false,motionPermitted:false,motionCommands:0,reasonCodes:localJob?.releaseBlockers??['PHYSICAL_AUTHORITY_NOT_REGISTERED']};}

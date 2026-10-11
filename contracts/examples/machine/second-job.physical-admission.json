@@ -1,11 +1,13 @@
 {
   "status": "BLOCKED",
   "physicalAuthority": false,
-  "reasons": [
-    "ONE_ROLLER_CONTROL_UNRESOLVED",
-    "KERF_FACE_AND_REBASE_UNRESOLVED",
-    "SAW_STROKE_GEOMETRY_UNRESOLVED",
-    "COMMISSIONING_ABSENT"
-  ],
-  "motionCommands": 0
+  "motionPermitted": false,
+  "motionCommands": 0,
+  "reasonCodes": [
+    "CONFIGURATION_NOT_COMMISSIONED",
+    "LOCAL_MATERIAL_AND_READINESS_NOT_ADMITTED",
+    "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+    "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+    "SAW_STROKE_IS_VIRTUAL_BENCHMARK"
+  ]
 }

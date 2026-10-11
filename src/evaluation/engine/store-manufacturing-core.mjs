@@ -1,7 +1,7 @@
 /**
- * STORE MANUFACTURING CORE — candidate revision 0.1, 11 October 2026.
+ * STORE MANUFACTURING CORE — adopted declared model revision 0.1, 11 October 2026.
  * One dependency-free Node 22 ES module; one evaluation engine for neutral jobs.
- * This file is an executable candidate, not an installed Store release.
+ * This is the sole runtime manufacturing planner, occupied-time ledger and Q engine.
  *
  * PUBLIC API
  *   createModel({ routerDiameterIn: 1, routerPassDepthIn: 0.75 })
@@ -51,26 +51,14 @@
  *   This review changes the integration contract in comments, not the model,
  *   calculation schema, executable behavior, adopted capability or live pins.
  *
- * INTEGRATION — ONE ACTIVE AUTHORITY AFTER ADOPTION
- *   System owns the complete manifest, built from the confirmed job definition,
- *   BEFORE translation. Never manufacture a manifest from an incomplete Store
- *   request simply to obtain agreement. Store cannot infer missing project parts.
- *   System's published-wire.ts must account for every source field/operation.
- *   Angled cut packages need explicit end relation, length datum and plane. The
- *   declared miter geometry here is parallel / long-long outer edge / miter-face.
- *   Different or omitted end facts remain unresolved; an angle alone cannot
- *   establish them. Carry other unevaluated job requirements in the manifest.
- *   Store's src/requests/store-request.mjs remains the sole receipt/clock/release
- *   boundary. Call this engine there after strict contract/catalog validation.
- *   Its authority must name model.id and calculationHash(model); retire the old
- *   three evaluators and their replaced timing/planning/pricing paths together.
- *   Add the manifest to an explicitly revised definition contract; the existing
- *   V1 adapters below are conversion utilities, not a hidden second HTTP path.
- *   Adapt System's presentation to this returned ledger and selectedStock. Bind
- *   the accepted packet/lowerer to this model and operation schema. The current
- *   /v1/machine-evidence supports only the older board model: do not relabel its
- *   evidence as evidence for this module. Move the four System pins together only
- *   after joint tests pass against the exact adopted Store commit.
+ * RUNTIME CONTRACT
+ *   STORE-ZERO-REQUEST-2 requires a complete System manifest on every job ask.
+ *   The three definition shapes are conversion inputs to this single engine.
+ *   Store's sole request layer validates the catalog, supplies the registered
+ *   model, and issues one receipt binding definition, manifest, model and release.
+ *   Accepted packets use STB-ACCEPTED-JOB-PACKET-2. The machine side consumes this
+ *   exact ledger under the same registered model; it never recomputes a price.
+ *   Commercial progression uses the shared C01–C16 evidence contract.
  *
  * SEARCH AND TIMING BOUNDARY
  *   Search mixed SKUs/parent lengths, exact quantities, and cumulative inventory.
@@ -84,37 +72,10 @@
  *   Physical release remains false. The paper's contact/face/stroke gaps remain
  *   named; a modeled quote does not resolve them.
  *
- * RUN FROM STORE ROOT:
- *   node docs/store-manufacturing-core.mjs --self-test data/store-zero-catalog.json
- * Published here for review. The Store request layer does not yet import this
- * proposed replacement; the current answering path remains the existing engine.
- *
- * VERIFIED FOR THIS DELIVERY
- *   Node 22.23.3: all 21 embedded checks passed against the inspected Store
- *   catalog at 3afe00ac8672da0791ee8a7af05422d24f6785ab. Twelve actual Alcove
- *   definitions extracted from the inspected System also evaluated: six complete
- *   Pine/Poplar plans, six attributable Cherry/Oak refusals. These are candidate
- *   calculations, not hosted Store answers or physical machining measurements.
- *   The virtual guide benchmark reproduces 86.46953628299116 seconds. The original
- *   85.5001-second Store record and its historical 11.09 Q remain historical.
- *
- * CALL AT THE STORE EVALUATION BOUNDARY (illustrative wiring, not another server):
- *   const model = createModel({routerDiameterIn:1, routerPassDepthIn:0.75});
- *   const answer = evaluateDefinition(validatedCatalog, cleanRequest,
- *                                    completeSystemManifest, model);
- *   // Existing request layer adds its release, current clock and one receipt.
- *   // Receipt names model.id and calculationHash(model), including refusals.
- *   // System displays answer unchanged and verifies the registered authority.
- *
- * ADOPTION STAGES
- *   1. Register this declared model, adopt the neutral manifest/operation contract,
- *      and replace Store planning/time/Q authorities together. Preserve records.
- *   2. Supply the independent complete manifest in System, repair lossless
- *      translation and answer presentation, and migrate each existing job ask.
- *      All jobs use this engine; no tile-specific pricing or stock algorithm.
- *   3. Bind accepted packets and machine lowering to this exact model, run joint
- *      and deployment checks, then cut over the one Store pin in System. Physical
- *      admission remains blocked pending the guide's separate commissioning work.
+ * VERIFICATION
+ *   tests/manufacturing-core.test.mjs exercises the guide benchmark, geometry,
+ *   inventory, manifest coverage, milling passes and independent Q reconciliation.
+ *   Historical answers and Project 1 publications remain unchanged.
  */
 import { createHash } from 'node:crypto';
 
@@ -136,7 +97,7 @@ function canonical(v) {
 export const calculationHash = v => createHash('sha256').update(canonical(v)).digest('hex');
 
 class Problem extends Error {
-  constructor(code, subject = 'job', status = 'REFUSED') { super(code); this.code = code; this.subject = subject; this.status = status; }
+  constructor(code, subject = 'job', status = 'REFUSED', details={}) { super(code); this.code = code; this.subject = subject; this.status = status;this.details=details; }
 }
 function need(test, code, subject = 'job', status = 'REFUSED') { if (!test) throw new Problem(code, subject, status); }
 function keys(v, allowed, subject) {
@@ -519,7 +480,7 @@ function boardCandidates(catalog, b, model) {
   const m = b.material, st = model.dimensional.stock;
   let rows = catalog.offerings.filter(o => o.form === 'board' && o.species === m.species && o.nominalT === m.nominalT && o.nominalW === m.nominalW);
   const grades = unique(rows.filter(o => o.offered).map(o => o.grade));
-  need(m.grade !== undefined || grades.length <= 1, 'GRADE_CHOICE_REQUIRED', b.packageId, 'UNRESOLVED');
+  if(m.grade===undefined&&grades.length>1)throw new Problem('GRADE_CHOICE_REQUIRED',b.packageId,'UNRESOLVED',{offeredGrades:grades.sort()});
   if (m.grade !== undefined) rows = rows.filter(o => o.grade === m.grade);
   const accepted = [], problems = [];
   for (const row of rows) try {
@@ -800,7 +761,7 @@ function* parentPatterns(task, remaining, row, model) {
 function refusal(p, extra = {}) {
   return { status: p.status, complete: false, Q: null, totals: null, reasonCodes: [p.code],
     reasonRecords: [{ code: p.code, subject: p.subject, authority: 'STORE', status: p.status }],
-    physicalRelease: false, physicalAdmission: 'BLOCKED', ...extra };
+    physicalRelease: false, physicalAdmission: 'BLOCKED', ...p.details,...extra };
 }
 
 export function evaluateManufacturingJob(catalog, job, model = createModel()) {
@@ -815,7 +776,7 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
       inventory.set(o.storeSku, o.onHand - o.allocated);
     }
     const hourly = machineHourlyRate(model), tasks = groupsFor(job, catalog, model), nodes = { count: 0, limited: false };
-    let best = null; const memo = new Map();
+    let best = null; const memo = new Map(); const planningProblems = [],consideredCandidates=[];
     function search(at, remaining, used, plans, state, rawCost) {
       if (++nodes.count > model.search.nodeLimit) { nodes.limited = true; return; }
       if (best && rawCost > best.rawCost + EPS) return;
@@ -830,7 +791,9 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
         const nextUsed = new Map(used); nextUsed.set(row.storeSku, (used.get(row.storeSku) ?? 0) + qty);
         const seconds = cycle?.events.filter(e => e.billing === 'HOURLY').reduce((s, e) => s + e.seconds, 0) ?? 0;
         const fixed = cycle?.events.filter(e => e.billing === 'PER_CUT').reduce((s, e) => s + e.fixedPrice, 0) ?? 0;
-        const plan = { kind: t.kind, storeSku: row.storeSku, qty, unitPrice: row.sellingPrice, materialExtension: row.sellingPrice * qty,
+        if(t.kind==='board'&&t.group.singleParent)consideredCandidates.push({storeSku:row.storeSku,stockLengthIn:row.stockL_in,candidateStatus:'SUPPORTABLE',reason:null});
+        const plan = { packageId:t.group?.packageId??t.pkg?.packageId??null, kind: t.kind, storeSku: row.storeSku, qty, description:row.description, stockL_in:row.stockL_in??row.sheetL_in??null, actualW:row.actualW??row.sheetW_in??null, actualT:row.actualT??null, cellFamily:row.cellFamily, supportedOps:row.supportedOps, unitPrice: row.sellingPrice, materialExtension: row.sellingPrice * qty,
+          status:'SUPPORTABLE',boards:t.kind==='board'?qty:null,stockLengthIn:row.stockL_in??null, Q:money(row.sellingPrice*qty+seconds*hourly/3600+fixed), time:{T_MACHINE_sec:cycle?.events.reduce((n,e)=>n+e.seconds,0)??0,T_MACHINE_min:(cycle?.events.reduce((n,e)=>n+e.seconds,0)??0)/60}, spotCount:cycle?.events.filter(e=>e.kind==='FEATURE_ANSWERED'&&e.category==='SPOT').length??0,
           priceBasis: row.assertions?.sellingPrice?.basis ?? row.priceBasis ?? 'STATED_CATALOG_PRICE',
           stockBasis: row.assertions?.onHand?.basis ?? 'STATED_CATALOG_INVENTORY', ...cycle, ...(item ? { item } : {}) };
         search(nextRemaining !== null ? at : at + 1, nextRemaining, nextUsed, [...plans, plan],
@@ -844,7 +807,7 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
           try {
             const cycle = boardCycle(model, row, t.group, subset.map(i => t.group.parts[i]), state);
             tryChoice(row, 1, cycle, remaining.filter(i => !subset.includes(i)), null);
-          } catch (p) { if (!(p instanceof Problem)) throw p; }
+          } catch (p) { if (!(p instanceof Problem)) throw p; planningProblems.push(p);if(t.group.singleParent)consideredCandidates.push({storeSku:row.storeSku,stockLengthIn:row.stockL_in,candidateStatus:p.status,reason:p.code}); }
           }
         }
       } else if (t.kind === 'sheet') for (const row of t.rows) { if (nodes.limited) return; tryChoice(row, 1, sheetCycle(model, row, t.pkg, t.geometry), null, null); }
@@ -854,8 +817,14 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
           piecesSupplied: t.line.requirement ? c.qty * c.row.fastener.piecesPerPackage : null }); }
     }
     search(0, null, new Map(), [], null, 0);
-    if (!best) return refusal(new Problem(nodes.limited ? 'SEARCH_LIMIT_WITHOUT_COMPLETE_PLAN' : 'NO_COMPLETE_PLAN_WITH_AVAILABLE_INVENTORY', 'job', nodes.limited ? 'UNRESOLVED' : 'UNAVAILABLE'),
-      { optimization: { nodes: nodes.count, searchComplete: !nodes.limited, planSpace: model.search.planSpace } });
+    if (!best) {
+      const p = nodes.limited ? new Problem('SEARCH_LIMIT_WITHOUT_COMPLETE_PLAN', 'job', 'UNRESOLVED')
+        : planningProblems[0] ?? new Problem('NO_COMPLETE_PLAN_WITH_AVAILABLE_INVENTORY', 'job', 'UNAVAILABLE');
+      const reasons = nodes.limited ? [p] : planningProblems.length ? planningProblems : [p];
+      const records = [...new Map(reasons.map(r => [r.code + ':' + r.subject, {code:r.code, subject:r.subject, authority:'STORE', status:r.status}])).values()];
+      return refusal(p, {reasonCodes: unique(records.map(r => r.code)), reasonRecords:records,
+        optimization:{nodes:nodes.count, searchComplete:!nodes.limited, planSpace:model.search.planSpace}});
+    }
     const events = best.plans.flatMap(p => p.events ?? []).map((e, i) => ({ sequence: i + 1, ...e }));
     let elapsed = 0; events.forEach(e => { e.startSec = elapsed; elapsed += e.seconds; e.endSec = elapsed; });
     const seconds = events.filter(e => e.billing === 'HOURLY').reduce((s, e) => s + e.seconds, 0);
@@ -864,13 +833,13 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
     const fixed = events.filter(e => e.billing === 'PER_CUT').reduce((s, e) => s + e.fixedPrice, 0);
     const service = money(seconds * hourly / 3600);
     const totals = { material: money(material), hardware: money(hardware), machine_service: service, manual_cut_service: money(fixed),
-      Q: money(material + hardware + service + fixed), hourlyRate: hourly };
+      Q: money(material + hardware + service + fixed), sumOfSupportableLines:money(material+hardware+service+fixed),manualCutCount:events.filter(e=>e.billing==='PER_CUT').length, hourlyRate: hourly };
     const breakdown = {}; for (const e of events) breakdown[e.category] = (breakdown[e.category] ?? 0) + e.seconds;
-    const time = { totalSeconds: elapsed, totalMinutes: elapsed / 60, hourlyBilledSeconds: seconds,
+    const time = { T_MACHINE_sec:elapsed,T_MACHINE_min:elapsed/60,T_MACHINE_hr:elapsed/3600, totalSeconds: elapsed, totalMinutes: elapsed / 60, hourlyBilledSeconds: seconds,
       fixedPriceOccupiedSeconds: elapsed - seconds, categories: breakdown, concurrency: 'SERIAL_OCCUPANCY' };
     const selectedStock = [...best.used].sort(([a], [b]) => a.localeCompare(b)).map(([storeSku, qty]) => ({ storeSku, qty,
-      available: inventory.get(storeSku), remainingAvailable: inventory.get(storeSku) - qty }));
-    const result = { status: 'SUPPORTABLE', complete: true, jobId: job.jobId, revision: job.revision, Q: totals.Q, totals, time,
+      available: inventory.get(storeSku), remainingAvailable: inventory.get(storeSku) - qty, ...(() => {const row=catalog.offerings.find(o=>o.storeSku===storeSku);return {unitPrice:row.sellingPrice, stockL_in:row.stockL_in??row.sheetL_in??null, actualW:row.actualW??row.sheetW_in??null, actualT:row.actualT??null, description:row.description, cellFamily:row.cellFamily, supportedOps:row.supportedOps};})() }));
+    const result = { status: 'SUPPORTABLE', complete: true, configurationId:job.jobId,configurationVersion:job.revision, jobId: job.jobId, revision: job.revision, Q: totals.Q, totals, time,
       selectedStock, parents: best.plans, operations: events, reasonCodes: [], reasonRecords: [],
       optimization: { status: nodes.limited ? 'BOUNDED_FEASIBLE_PLAN' : 'MINIMUM_WITHIN_DECLARED_PLAN_SPACE', searchComplete: !nodes.limited,
         nodes: nodes.count, planSpace: model.search.planSpace, globalManufacturingOptimalityClaimed: false },
@@ -883,6 +852,10 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
     exactSet(job.manifest.sheetPackageIds, result.manifestCoverage.sheetPackageIds, 'result.sheets');
     exactSet(job.manifest.items.map(i => i.lineId), result.manifestCoverage.itemLineIds, 'result.items');
     exactSet(job.manifest.featureIds, result.manifestCoverage.featureIds, 'result.features');
+    if(job.boards.length===1&&job.boards[0].singleParent){const parent=best.plans.find(p=>p.kind==='board');result.materialResolution={storeSku:parent.storeSku,workpieceLengthIn:parent.stockL_in,requestedMinimumWorkpieceLengthIn:job.boards[0].minimumParentLengthIn,selectionPolicy:'MINIMUM_WHOLE_MODELED_Q_WITHIN_DECLARED_PLAN_SPACE',consideredCandidates:[...new Map(consideredCandidates.map(c=>[c.storeSku,c])).values()]};}
+    result.packages=best.plans.filter(p=>p.kind!=='item');
+    result.items=best.plans.filter(p=>p.kind==='item').map(p=>({...p,...p.item}));
+    result.pieces=best.plans.filter(p=>p.kind==='sheet').flatMap(p=>p.geometry.pieces);
     result.components = best.plans.flatMap(p => p.components ?? []);
     result.labels = [...result.components.map(p => ({ componentId: p.partId, jobId: job.jobId, revision: job.revision, evidenceClass: 'MODEL_LABEL_RECORD_ONLY' })),
       ...best.plans.filter(p => p.kind === 'sheet').flatMap(p => p.geometry.pieces.map(piece => ({ componentId: piece.pieceId, jobId: job.jobId, revision: job.revision, evidenceClass: 'MODEL_LABEL_RECORD_ONLY' })))];
@@ -896,224 +869,3 @@ export function evaluateDefinition(catalog, request, manifest, model = createMod
   return c.job ? evaluateManufacturingJob(catalog, c.job, model) : c;
 }
 
-/**
- * Embedded proof runner. These are test inputs, not a runtime answer authority.
- * On adoption move this section to tests; keep the engine above as the one file.
- * Manifest construction here is test-only. System must derive its actual manifest
- * independently from the complete controlling project definition.
- */
-export async function runSelfChecks(catalog) {
-  const { default: assert } = await import('node:assert/strict');
-  const results = [];
-  const check = async (name, fn) => { await fn(); results.push({ name, pass: true }); };
-  const model = createModel(), boardMaterial = { species: 'pine', form: 'board', nominalT: 1, nominalW: 8, grade: 'select' };
-  const part = (id, lengthIn, spots = []) => ({ partId: id, lengthIn, spots, edgeProfiles: [] });
-  const pkg = (id, parts, rest = {}) => ({ packageId: id, material: clone(boardMaterial), endCut: { angleDeg: 0 }, parts, ...rest });
-  function fixture(boards = [], sheets = [], items = []) {
-    const job = { schema: 'STORE-MANUFACTURING-JOB-1', jobId: 'NEUTRAL-TEST', revision: '1', boards, sheets, items };
-    job.manifest = { jobId: job.jobId, revision: job.revision, boardPartIds: boards.flatMap(b => b.parts.map(p => p.partId)),
-      sheetPackageIds: sheets.map(s => s.packageId), featureIds: [...boards.flatMap(b => b.parts.flatMap(p => [...(p.spots ?? []), ...(p.edgeProfiles ?? [])].map(f => f.featureId))),
-        ...sheets.flatMap(s => s.features.map(f => f.featureId))], items: items.map(i => ({ lineId: i.lineId, qty: i.qty })) };
-    return job;
-  }
-  const evaluate = (j, c = catalog, m = model) => evaluateManufacturingJob(c, j, m);
-  const report = r => JSON.stringify({ status: r.status, reasonCodes: r.reasonCodes, optimization: r.optimization });
-  const complete = r => assert.equal(r.status, 'SUPPORTABLE', report(r));
-  await check('motion: zero, triangular, threshold, trapezoidal; invalid rates', () => {
-    assert.equal(moveSeconds(0, 8, 32), 0); assert.equal(moveSeconds(0.5, 8, 32), 0.25);
-    assert.equal(moveSeconds(2, 8, 32), 0.5); assert.equal(moveSeconds(18, 8, 32), 2.5);
-    assert.throws(() => moveSeconds(1, 0, 32), /MOTION_FACT_REQUIRED/);
-  });
-  await check('economics: itemized pool reconciles to 250 USD/hour', () => { assert.equal(machineHourlyRate(model), 250); });
-  let reference;
-  await check('full digital-trail benchmark: 86.469536 seconds; two spots; three saw strokes', () => {
-    const b = pkg('NEUTRAL-MITER', [part('PART-1', 18, [{ featureId: 'SPOT-1', xIn: 9, acrossWidthRule: 'CENTERED_ON_WIDE_FACE' }]),
-      part('PART-2', 18, [{ featureId: 'SPOT-2', xIn: 9, acrossWidthRule: 'CENTERED_ON_WIDE_FACE' }])],
-      { material: { species: 'syp-treated', form: 'board', nominalT: 2, nominalW: 4, grade: 'above-ground' },
-        endCut: { angleDeg: Math.asin(8 / 18) * 180 / Math.PI, endRelation: 'parallel', lengthDatum: 'long-long-outer-edge', plane: 'miter-face' },
-        minimumParentLengthIn: 60, singleParent: true, preserveOrder: true });
-    reference = evaluate(fixture([b])); complete(reference);
-    assert.ok(Math.abs(reference.time.totalSeconds - 86.469536) < 0.000001, String(reference.time.totalSeconds));
-    assert.equal(reference.operations.filter(e => e.kind === 'SAW_ON').length, 3);
-    assert.equal(reference.operations.filter(e => e.coverage === true).length, 2);
-    const ys = reference.operations.filter(e => e.kind === 'MOVE' && e.axis === 'Y' && e.seconds > 0); assert.equal(ys.length, 1);
-    assert.ok(reference.physicalGaps.some(g => g.code === 'TWO_ROLLER_CONTACT_NOT_ESTABLISHED'));
-    assert.equal(reference.physicalAdmission, 'BLOCKED'); assert.equal(reference.totals.machine_service, 6.00);
-    // The trail's 11.15 comparison fixes its 72-inch offering. A fresh optimizer
-    // may select a cheaper current offering; its price must not be overwritten.
-    const fixedGuideCatalog = { ...clone(catalog), offerings: catalog.offerings.filter(o => o.form !== 'board' || o.storeSku === 'STB-ZERO-PTAG-2X4-72-001') };
-    const fixed = evaluate(fixture([b]), fixedGuideCatalog); complete(fixed); assert.equal(fixed.Q, 11.15);
-  });
-  const five = fixture([pkg('FIVE-STRIPS', Array.from({ length: 5 }, (_, i) => part('STRIP-' + i, 44)))]);
-  let mixed;
-  await check('five strips: mixed parent lengths beat every homogeneous candidate', () => {
-    mixed = evaluate(five); complete(mixed);
-    assert.equal(mixed.optimization.searchComplete, true);
-    assert.ok(mixed.selectedStock.length > 1, JSON.stringify(mixed.selectedStock));
-    const lengths = mixed.selectedStock.map(s => catalog.offerings.find(o => o.storeSku === s.storeSku).stockL_in);
-    assert.ok(lengths.includes(72) && lengths.includes(120), JSON.stringify(lengths));
-    const skuSet = new Set(mixed.selectedStock.map(s => s.storeSku));
-    const alternatives = catalog.offerings.filter(o => o.form === 'board' && o.species === 'pine' && o.nominalT === 1 && o.nominalW === 8 && o.grade === 'select');
-    for (const row of alternatives) {
-      const limited = { ...clone(catalog), offerings: catalog.offerings.filter(o => o.form !== 'board' || o.storeSku === row.storeSku) };
-      const one = evaluate(five, limited); if (one.complete) assert.ok(mixed.Q < one.Q, row.storeSku + ':' + one.Q);
-    }
-    assert.ok(skuSet.size >= 2);
-  });
-  await check('equivalent package partitions have the same selected stock, occupied time, and Q', () => {
-    const split = fixture([pkg('FOUR', five.boards[0].parts.slice(0, 4)), pkg('ONE', five.boards[0].parts.slice(4))]);
-    const r = evaluate(split); complete(r); assert.equal(r.Q, mixed.Q); assert.equal(r.time.totalSeconds, mixed.time.totalSeconds);
-    assert.deepEqual(r.selectedStock, mixed.selectedStock);
-  });
-  await check('cumulative inventory: eight required parents cannot use four available', () => {
-    const row = clone(catalog.offerings.find(o => o.form === 'board' && o.species === 'pine' && o.nominalT === 1 && o.nominalW === 8 && o.grade === 'select' && o.stockL_in === 96));
-    row.onHand = 4; row.allocated = 0;
-    const c = { ...clone(catalog), offerings: [row] };
-    // Each 70-inch part plus both kerfs leaves 25.75 inches, independently
-    // satisfying the declared 24-inch control minimum on a 96-inch parent.
-    const j = fixture([pkg('A', Array.from({ length: 4 }, (_, i) => part('A-' + i, 70))), pkg('B', Array.from({ length: 4 }, (_, i) => part('B-' + i, 70)))]);
-    const r = evaluate(j, c); assert.equal(r.status, 'UNAVAILABLE'); assert.equal(r.Q, null);
-  });
-  await check('manifest rejects missing wood, missing hardware, duplicate components, and missing manifest', () => {
-    for (const change of [j => { j.boards[0].parts.pop(); }, j => { j.boards = []; }, j => { j.manifest = null; }, j => { j.boards[0].parts[1].partId = j.boards[0].parts[0].partId; }]) {
-      const j = clone(five); change(j); assert.equal(evaluate(j).complete, false);
-    }
-    const j = clone(five); j.manifest.items.push({ lineId: 'REQUIRED-HARDWARE', qty: 1 }); assert.equal(evaluate(j).complete, false);
-  });
-  await check('unknown fields and unrepresented operations refuse rather than disappear', () => {
-    const j = clone(five); j.boards[0].parts[0].requestedGrooveDepthIn = 0.25;
-    assert.ok(evaluate(j).reasonCodes[0].includes('FIELD_NOT_DECLARED'));
-    delete j.boards[0].parts[0].requestedGrooveDepthIn; j.boards[0].requiredOps = ['CROSSCUT', 'DRILL'];
-    assert.ok(evaluate(j).reasonCodes[0].includes('REQUIRED_OPERATION_NOT_REPRESENTED:DRILL'));
-  });
-  await check('angle alone and carried unevaluated job requirements cannot complete the job', () => {
-    const j = clone(five); j.boards[0].endCut.angleDeg = 25;
-    assert.ok(evaluate(j).reasonCodes.includes('MITER_END_GEOMETRY_NOT_EVALUATED'));
-    j.boards[0].endCut.angleDeg = 0; j.manifest.unresolvedRequirements = ['REQUESTED_SANDING_NOT_EVALUATED'];
-    assert.equal(evaluate(j).status, 'UNRESOLVED'); assert.equal(evaluate(j).Q, null);
-  });
-  await check('V1 conversion requires an independent manifest; it preserves raw source and refuses unknown fields', () => {
-    const request = { requestType: 'CUT_PACKAGE_V1', requestId: 'TEST-COMPILE', demand: {
-      configurationId: five.jobId, configurationVersion: five.revision, cutPackages: clone(five.boards), itemLines: [] } };
-    const compiled = compileDefinition(request, five.manifest); assert.equal(compiled.status, 'COMPILED');
-    assert.deepEqual(compiled.job.source, request); complete(evaluateDefinition(catalog, request, five.manifest));
-    assert.equal(compileDefinition(request).complete, false);
-    const altered = clone(request); altered.demand.requestedGroove = 0.25;
-    assert.ok(compileDefinition(altered, five.manifest).reasonCodes.includes('FIELD_NOT_DECLARED:requestedGroove'));
-  });
-  await check('hardware resolves exact meaning, pools identical piece requirements, and covers each line', () => {
-    const row = catalog.offerings.find(o => o.form === 'hardware' && o.fastener?.kind === 'WOOD_SCREW_10' && o.fastener.tier === 'COATED');
-    const c = { ...clone(catalog), offerings: [{ ...clone(row), onHand: 1, allocated: 0 }] };
-    const meaning = { kind: 'wood-screw', gauge: '#10', lengthIn: row.fastener.lengthIn, finish: 'coated', unit: 'piece' };
-    const q = Math.max(1, Math.floor(row.fastener.piecesPerPackage / 3));
-    const j = fixture([], [], [{ lineId: 'H1', qty: q, requirement: meaning }, { lineId: 'H2', qty: q, requirement: meaning }]);
-    const r = evaluate(j, c); complete(r); assert.equal(r.selectedStock[0].qty, 1);
-    assert.deepEqual(r.manifestCoverage.itemLineIds, ['H1', 'H2']); assert.equal(r.Q, row.sellingPrice);
-    j.items[1].qty = row.fastener.piecesPerPackage + 1; j.manifest.items[1].qty = j.items[1].qty;
-    assert.equal(evaluate(j, c).status, 'UNAVAILABLE');
-  });
-  await check('prepared-width control envelope applies after milling', () => {
-    const j = fixture([pkg('NARROW', [part('N', 44)], { finishedWidthIn: 1 })]);
-    const r = evaluate(j); assert.equal(r.complete, false); assert.equal(r.Q, null);
-    assert.ok(r.reasonCodes.includes('PREPARED_WIDTH_OUTSIDE_CONTROL_ENVELOPE'));
-  });
-  let mill;
-  await check('router diameter/pass depth are explicit; pass revision changes trace/model/time together', () => {
-    const j = fixture([pkg('MILLED', [part('M', 44)], { finishedWidthIn: 6.75 })]);
-    mill = evaluate(j); complete(mill);
-    const deeper = evaluate(j, catalog, createModel({ routerPassDepthIn: 0.375 })); complete(deeper);
-    assert.ok(deeper.time.totalSeconds > mill.time.totalSeconds);
-    assert.notEqual(mill.model.hash, deeper.model.hash);
-    assert.equal(mill.operations.filter(e => e.kind === 'ROUTER_CUT').length, 1);
-    assert.equal(deeper.operations.filter(e => e.kind === 'ROUTER_CUT').length, 2);
-    assert.ok(mill.operations.find(e => e.kind === 'ROUTER_CUT').pathLengthIn > 44);
-    assert.ok(deeper.totals.machine_service > mill.totals.machine_service);
-  });
-  await check('fixed stock: slower feed raises service and total Q', () => {
-    const j = fixture([pkg('MILLED', [part('M', 44)], { finishedWidthIn: 6.75 })]);
-    const only = { ...clone(catalog), offerings: catalog.offerings.filter(o => o.storeSku === mill.selectedStock[0].storeSku) };
-    const a = evaluate(j, only), b = evaluate(j, only, createModel({ longitudinalFeedInPerMin: 24 })); complete(a); complete(b);
-    assert.equal(a.totals.material, b.totals.material); assert.ok(b.Q > a.Q);
-  });
-  const sheetRow = catalog.offerings.find(o => o.form === 'sheet' && o.actualT === 0.5 && o.sheetL_in === 96 && o.sheetW_in === 48 && o.supportedOps.includes('ROUTE_PROFILE'));
-  const sheetPkg = { packageId: 'SHEET', sheet: { thicknessIn: 0.5, lengthIn: 96, widthIn: 48, species: sheetRow.species, grade: sheetRow.grade }, returnAllPieces: true,
-    features: [{ featureId: 'OPENING', kind: 'ARCHED_APERTURE', placement: 'CENTERED', widthIn: 30, straightHeightIn: 18, riseIn: 12, retain: 'TABS', requestedTabCount: 4 },
-      { featureId: 'SPLIT', kind: 'STRAIGHT_SPLIT', within: 'OPENING', line: 'VERTICAL_CENTERLINE' },
-      { featureId: 'LEFT-CUT', kind: 'CROSSCUT', fromEnd: 'LEFT', distanceIn: 18 },
-      { featureId: 'RIGHT-CUT', kind: 'CROSSCUT', fromEnd: 'RIGHT', distanceIn: 18 }] };
-  let sheet;
-  await check('sheet route, retained halves, two yard cuts, labels, and separate billing', () => {
-    sheet = evaluate(fixture([], [sheetPkg])); complete(sheet);
-    assert.equal(sheet.totals.manual_cut_service, 20);
-    assert.ok(sheet.time.fixedPriceOccupiedSeconds > 0);
-    assert.equal(sheet.totals.machine_service, money(sheet.time.hourlyBilledSeconds * 250 / 3600));
-    assert.deepEqual(sheet.manifestCoverage.featureIds, ['LEFT-CUT', 'OPENING', 'RIGHT-CUT', 'SPLIT']);
-    assert.ok(sheet.parents[0].geometry.routes.every(r => r.tabs >= 2));
-  });
-  await check('custom split without positions stays unresolved; no complete Q', () => {
-    const s = clone(sheetPkg); s.features[1].splitTabMode = 'CUSTOM';
-    const r = evaluate(fixture([], [s])); assert.equal(r.status, 'UNRESOLVED'); assert.ok(r.reasonCodes.includes('SPLIT_TAB_POSITIONS_REQUIRED')); assert.equal(r.Q, null);
-  });
-  await check('board and sheet definition adapters reach the same engine and preserve required features', () => {
-    const b = pkg('NEUTRAL-TEST', [part('P1', 18, [{ featureId: 'F1', xIn: 9, acrossWidthRule: 'CENTERED_ON_WIDE_FACE' }]),
-      part('P2', 18, [{ featureId: 'F2', xIn: 9, acrossWidthRule: 'CENTERED_ON_WIDE_FACE' }])], {
-        material: { species: 'syp-treated', form: 'board', nominalT: 2, nominalW: 4, grade: 'above-ground' },
-        endCut: { angleDeg: Math.asin(8 / 18) * 180 / Math.PI, endRelation: 'parallel', lengthDatum: 'long-long-outer-edge', plane: 'miter-face' },
-        minimumParentLengthIn: 60, singleParent: true, preserveOrder: true, requiredOps: ['MITER_LIMITED', 'SPOT_ON_LOCATION'] });
-    const j = fixture([b]);
-    const request = { requestType: 'USER_DEFINED_BOARD_V1', requestId: 'BOARD-ADAPTER', demand: {
-      configurationId: j.jobId, configurationVersion: j.revision, materialDemand: b.material, definedWorkpieceLengthIn: 60,
-      sawAngleDeg: b.endCut.angleDeg, requiredOps: b.requiredOps, cutPlane: 'miter-face', datumCMethod: 'REFERENCE_CUT',
-      endRelation: 'parallel', lengthDatum: 'long-long-outer-edge', declaredSawCuts: 3, declaredSpotCount: 2, unresolvedConditions: [],
-      parts: b.parts.map(p => ({ partId: p.partId, lengthIn: p.lengthIn, features: p.spots.map(f => ({ ...f, kind: 'SPOT_ON_LOCATION', locationRule: 'CENTERED_ON_PART' })) })) } };
-    const a = evaluateDefinition(catalog, request, j.manifest); complete(a);
-    assert.ok(Math.abs(a.time.totalSeconds - 86.469536) < 0.000001); assert.equal(a.manifestCoverage.featureIds.length, 2);
-    const s = { ...clone(sheetPkg), packageId: 'NEUTRAL-TEST' }, sj = fixture([], [s]);
-    const sheetRequest = { requestType: 'SHEET_PACKAGE_V1', requestId: 'SHEET-ADAPTER', demand: {
-      configurationId: sj.jobId, configurationVersion: sj.revision, sheet: s.sheet, features: s.features, returnAllPieces: true } };
-    const sr = evaluateDefinition(catalog, sheetRequest, sj.manifest); complete(sr); assert.equal(sr.Q, sheet.Q);
-    assert.equal(sr.manifestCoverage.featureIds.length, s.features.length);
-  });
-  await check('sheet work-field, orthogonal staging, overlapping apertures, and unused fields refuse', () => {
-    for (const mutate of [s => { s.features[0].widthIn = 50; }, s => { s.features.push({ featureId: 'RIP', kind: 'RIP', fromEdge: 'BOTTOM', distanceIn: 8 }); },
-      s => { s.features[2].riseIn = 2; }, s => { s.features.push({ ...clone(s.features[0]), featureId: 'SECOND-OPENING' }); }]) {
-      const s = clone(sheetPkg); mutate(s); assert.equal(evaluate(fixture([], [s])).complete, false);
-    }
-  });
-  await check('complete ledger independently sums to occupied time, hourly charge and Q', () => {
-    for (const r of [reference, mixed, mill, sheet]) {
-      const total = r.operations.reduce((s, e) => s + e.seconds, 0); assert.equal(total, r.time.totalSeconds);
-      assert.equal(r.operations.at(-1).endSec, total);
-      const hourlySeconds = r.operations.filter(e => e.billing === 'HOURLY').reduce((s, e) => s + e.seconds, 0);
-      const wood = r.parents.filter(p => p.kind !== 'item').reduce((s, p) => s + p.unitPrice * p.qty, 0);
-      assert.equal(r.totals.machine_service, money(hourlySeconds * machineHourlyRate(model) / 3600));
-      assert.equal(r.Q, money(wood + r.totals.hardware + r.totals.machine_service + r.totals.manual_cut_service));
-      assert.ok(r.selectedStock.every(s => s.qty <= s.available)); assert.equal(r.physicalRelease, false);
-      assert.equal(r.labels.length, r.components.length + r.parents.filter(p => p.kind === 'sheet').reduce((s, p) => s + p.geometry.pieceCount, 0));
-    }
-  });
-  await check('fresh calculation identity changes with inventory/model; deterministic reevaluation', () => {
-    const a = evaluate(five), b = evaluate(five); assert.deepEqual(a, b);
-    const c = clone(catalog); c.offerings[0].onHand += 1; const d = evaluate(five, c); complete(d);
-    assert.notEqual(a.calculationIdentity.inputHash, d.calculationIdentity.inputHash);
-  });
-  await check('a bounded search reports its limit instead of claiming an optimum', () => {
-    const r = evaluate(five, catalog, createModel({ searchNodeLimit: 1 })); assert.equal(r.status, 'UNRESOLVED'); assert.equal(r.Q, null);
-    assert.equal(r.optimization.searchComplete, false);
-  });
-  return { passed: results.length, checks: results,
-    examples: { digitalTrailBenchmark: { seconds: reference.time.totalSeconds, Q: reference.Q, selectedStock: reference.selectedStock },
-      fiveStrips: { Q: mixed.Q, seconds: mixed.time.totalSeconds, selectedStock: mixed.selectedStock },
-      oneMilledStrip: { Q: mill.Q, seconds: mill.time.totalSeconds }, sheet: { Q: sheet.Q, seconds: sheet.time.totalSeconds } } };
-}
-
-// Importing the module performs no I/O. This optional CLI only reads an explicitly
-// supplied catalog and runs the checks; it does not alter files or contact a host.
-if (typeof process !== 'undefined' && process.argv[2] === '--self-test') {
-  const { pathToFileURL } = await import('node:url');
-  if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-    const { readFileSync } = await import('node:fs');
-    if (!process.argv[3]) throw new Error('CATALOG_PATH_REQUIRED: node store-manufacturing-core.mjs --self-test /absolute/catalog.json');
-    console.log(JSON.stringify(await runSelfChecks(JSON.parse(readFileSync(process.argv[3], 'utf8'))), null, 2));
-  }
-}

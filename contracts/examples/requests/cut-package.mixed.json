@@ -157,7 +157,10 @@
           "grade": "ground-contact"
         },
         "endCut": {
-          "angleDeg": 25
+          "angleDeg": 25,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
         },
         "parts": [
           {
@@ -221,5 +224,54 @@
         }
       }
     ]
+  },
+  "manifest": {
+    "jobId": "CUT-EXAMPLE",
+    "revision": "1",
+    "boardPartIds": [
+      "L-01",
+      "L-02",
+      "L-03",
+      "L-04",
+      "L-05",
+      "L-06",
+      "A-01",
+      "A-02",
+      "A-03",
+      "A-04",
+      "Y-01"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [
+      "L-01-SPOT-1",
+      "L-01-SPOT-2",
+      "L-01-SPOT-3",
+      "L-02-SPOT-1",
+      "L-02-SPOT-2",
+      "L-02-SPOT-3",
+      "L-03-SPOT-1",
+      "L-03-SPOT-2",
+      "L-03-SPOT-3",
+      "L-04-SPOT-1",
+      "L-04-SPOT-2",
+      "L-04-SPOT-3",
+      "L-05-SPOT-1",
+      "L-05-SPOT-2",
+      "L-05-SPOT-3",
+      "L-06-SPOT-1",
+      "L-06-SPOT-2",
+      "L-06-SPOT-3"
+    ],
+    "items": [
+      {
+        "lineId": "BOLTS",
+        "qty": 2
+      },
+      {
+        "lineId": "SCREWS",
+        "qty": 40
+      }
+    ],
+    "unresolvedRequirements": []
   }
 }

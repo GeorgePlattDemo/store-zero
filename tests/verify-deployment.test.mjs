@@ -40,14 +40,14 @@ test("a response altered on the way is caught: the caller checks the digest of t
     const res = await fetch(url, init);
     if (!String(url).endsWith("/v1/requests")) return res;
     const body = await res.json();
-    if (body.answer?.estimate?.totals) body.answer.estimate.totals.Q = 1;
+    if (body.answer?.Q!=null) body.answer.Q = 1;
     body.payloadDigest = "f".repeat(64);
     return new Response(JSON.stringify(body), { status: res.status, headers: res.headers });
   };
   try {
     const checks = await verifyDeployment({ base, commit: "candidate-commit", localSource: sourceDigest(), fetchImpl: tampering });
     const failed = new Set(checks.filter((c) => !c.pass).map((c) => c.name));
-    assert.ok(failed.has("Project 1: SUPPORTABLE, Q $11.09"));
+    assert.ok(failed.has("Project 1: SUPPORTABLE, Q $10.81"));
     assert.ok(failed.has("Project 1: response bound to the exact bytes sent"));
   } finally {
     await close();

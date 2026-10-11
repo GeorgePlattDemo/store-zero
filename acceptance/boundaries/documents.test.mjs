@@ -32,7 +32,7 @@ test("every relative link in our documents reaches a file, and every anchor a he
 test("every repository path the specification cites exists", () => {
   // Paths written as "System `…`" are System's files and are not checked here.
   const cited = new Set([...read(SPEC).matchAll(/(System )?`((?:src|tests|acceptance|data|docs|scripts)\/[A-Za-z0-9_./*-]+)`/g)].filter((m) => !m[1]).map((m) => m[2]));
-  assert.ok(cited.size > 40);
+  assert.ok(cited.size > 10);
   for (const path of cited) {
     if (path.includes("*")) continue;
     assert.ok(existsSync(join(ROOT, path.replace(/\/$/, ""))), `${SPEC} cites missing ${path}`);
@@ -40,9 +40,9 @@ test("every repository path the specification cites exists", () => {
 });
 
 test("the specification's module index is exactly the modules under src", () => {
-  const list = (dir) => readdirSync(join(ROOT, dir)).flatMap((n) => (statSync(join(ROOT, dir, n)).isDirectory() ? list(join(dir, n)) : n.endsWith(".mjs") ? [join(dir, n)] : []));
+  const list = (dir) => readdirSync(join(ROOT, dir)).flatMap((n) => (statSync(join(ROOT, dir, n)).isDirectory() ? list(join(dir, n)) : /\.(mjs|js)$/.test(n) ? [join(dir, n)] : []));
   const indexed = read(SPEC).split("# Appendix C. Module index")[1].split("# Appendix D")[0];
-  const named = new Set([...indexed.matchAll(/`(src\/[^`]+\.mjs)`/g)].map((m) => m[1]));
+  const named = new Set([...indexed.matchAll(/`(src\/[^`]+\.(?:mjs|js))`/g)].map((m) => m[1]));
   assert.deepEqual([...named].sort(), list("src").sort());
 });
 

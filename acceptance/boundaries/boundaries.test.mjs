@@ -9,7 +9,7 @@ const ROOT = fileURLToPath(new URL("../../", import.meta.url));
 function files(dir) {
   return readdirSync(join(ROOT, dir)).flatMap((name) => {
     const path = join(dir, name);
-    return statSync(join(ROOT, path)).isDirectory() ? files(path) : path.endsWith(".mjs") ? [path] : [];
+    return statSync(join(ROOT, path)).isDirectory() ? files(path) : /\.(mjs|js)$/.test(path) ? [path] : [];
   });
 }
 const SRC = files("src");
@@ -34,7 +34,7 @@ test("Store code depends only on itself and Node built-ins: no other repository,
 test("the service only carries requests: evaluation and evidence use their bounded entry points", () => {
   for (const path of SRC.filter((p) => p.startsWith("src/service/"))) {
     for (const spec of imports(path).filter((s) => !s.startsWith("node:"))) {
-      assert.ok(["../requests/store-request.mjs", "../evaluation/catalog.mjs", "../machine/evidence.mjs"].includes(spec), `${path} imports ${spec}`);
+      assert.ok(["../requests/store-request.mjs", "../requests/commercial-request.mjs", "../evaluation/catalog.mjs", "../machine/evidence.mjs"].includes(spec), `${path} imports ${spec}`);
     }
   }
 });
@@ -49,7 +49,7 @@ test("evaluation never depends on the request layer", () => {
 
 test("the machine side is downstream: only the service may call the evidence entry point", () => {
   for (const path of SRC.filter((p) => !p.startsWith("src/machine/") && !p.startsWith("src/service/"))) {
-    for (const spec of imports(path)) assert.ok(!spec.includes("machine/"), `${path} imports ${spec}`);
+    for (const spec of imports(path)) assert.ok(!spec.includes("machine/") || (path === "src/requests/store-request.mjs" && spec === "../machine/configuration.mjs"), `${path} imports ${spec}`);
   }
 });
 

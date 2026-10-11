@@ -25,13 +25,13 @@ Store Zero is the modeled reference yard used to develop and test this service. 
 | **Dimensional — D-001** | Cut to length, bounded miters, declared milling profiles, and a defined 3/16-in spot/pilot operation. |
 | **Sheet — S-001** | A single ½-inch cutter for bounded routed patterns, customer-positioned 1-inch retention tabs, center splits, and yard panel-saw crosscuts **and full-length rips** at $10 per manual full cut with declared ±¼-inch location tolerance. |
 
-The [D-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#6a2-srcevaluationenvelopesd001-stage2-envelopemjs--d-001-stage-2-capability-envelope) and [S-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#6a7-srcevaluationenvelopess001-stage2-envelopemjs--s-001-sheet-envelope) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
+The [D-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) and [S-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
 
 **Cut, mill, and drill are operations with material, geometry, tooling, and time behind them. The sheet router keeps the center 48 × 36 inches of a full 96 × 48 sheet as its declared working field, and the separate yard panel saw handles whole-sheet straight cuts.** The Store answer connects those facts to the requested result.
 
 ## One request, a yard’s answer
 
-The evaluator follows the identified job through material selection, capability, modeled work, and economics. For dimensional work, the [travel standard](docs/STORE-ZERO-SPECIFICATION.md#6a3-srcevaluationengined001-travel-standardmjs--d-001-kinematics-timing-geometry-and-machine-service-math) provides the governing completion rule. Multi-part and sheet requests have their own evaluators.
+The evaluator follows the identified job through material selection, capability, modeled work, and economics. For dimensional work, the [travel standard](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) provides the governing completion rule. Board, batch and sheet requests compile into the same manufacturing core.
 
 Every request receives a bounded outcome with its reasons:
 
@@ -67,12 +67,12 @@ The replacement application consumes the exact Store version recorded in System�
 | Surface | What to inspect |
 | --- | --- |
 | [Catalog](data/store-zero-catalog.json) | Offerings, item identities, declared stock, and material prices. |
-| [Pricing engine](src/evaluation/engine/pricing.mjs) | Material and modeled machine-work economics. |
-| [Dimensional travel standard](src/evaluation/engine/d001-travel-standard.mjs) | Fit, travel, modeled work, and the dimensional completion calculation. |
-| [Cut-package evaluator](src/evaluation/evaluators/cut-package.mjs) | Multi-part dimensional requests, an alcove among them. |
-| [Sheet-package evaluator](src/evaluation/evaluators/sheet-package.mjs) | Routed sheet work, tabs, and supported panel cuts. |
-| [D-001 declarations](src/evaluation/envelopes/d001-stage2-envelope.mjs) · [S-001 declarations](src/evaluation/envelopes/s001-stage2-envelope.mjs) | Machine-readable capability facts. |
-| [Proposed shared manufacturing engine](docs/store-manufacturing-core.mjs) | Store-owned candidate for neutral-job SKU selection, handling, modeled machine time and Q; adoption pending. |
+| [Pricing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Material and modeled machine-work economics. |
+| [Dimensional travel standard](src/evaluation/engine/store-manufacturing-core.mjs) | Fit, travel, modeled work, and the dimensional completion calculation. |
+| [Cut-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Multi-part dimensional requests, an alcove among them. |
+| [Sheet-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Routed sheet work, tabs, and supported panel cuts. |
+| [D-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) · [S-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) | Machine-readable capability facts. |
+| [Adopted shared manufacturing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Store-owned engine for neutral-job SKU selection, handling, modeled machine time and Q; active under protocol 2. |
 | [Shared commercial sequence map](docs/commercial-sequence-template.md) | Same proposed map as System: event sources, prerequisites, records, exceptions and custody. |
 
 The proposed manufacturing file is published only in Store and is not yet imported by the answering path. The commercial map is shared with [System's canonical proposal](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md); System owns shared workflow meanings, and Store owns its commercial acts, stock selection, modeled time and Q.
@@ -91,7 +91,7 @@ Store Zero uses declared reference stock, budgetary prices, and modeled machine 
 
 - [**Store Zero**](docs/STORE-ZERO-SPECIFICATION.md) — the reference dealer and its service interface.
 - [**Store Job 001**](docs/STORE-ZERO-SPECIFICATION.md#9-safety-setup-validation-and-operating-authority) — a modeled Store-side production narrative.
-- [**Store 1**](docs/STORE-ZERO-SPECIFICATION.md#55-store-1-from-store-zero-to-a-real-yard) — the surface for a later real Store implementation.
+- [**Store 1**](docs/STORE-ZERO-SPECIFICATION.md#2-catalog-and-material-selection) — the surface for a later real Store implementation.
 - [**System definitions**](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) — shared job meaning and local yard vocabulary, owned by the System the working application runs.
 - [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/tree/main/research/machine-development) — the broader development work in Program.
 

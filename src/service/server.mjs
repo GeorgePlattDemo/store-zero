@@ -1,3 +1,4 @@
+import {evaluateCommercialRequest,COMMERCIAL_PROTOCOL} from "../requests/commercial-request.mjs";
 /**
  * Store Zero over HTTPS: the request of the specification §3.1 in, the Store's answer out.
  *
@@ -27,8 +28,8 @@ import { loadCatalog, validateCatalog } from "../evaluation/catalog.mjs";
 import { catalogHash, evaluateStoreRequest, REQUEST_TYPES } from "../requests/store-request.mjs";
 import { evaluateMachineEvidence, machineEvidenceIdentity, MACHINE_EVIDENCE_PROTOCOL } from "../machine/evidence.mjs";
 
-export const PROTOCOL = "STORE-ZERO-REQUEST-1";
-export const PATHS = Object.freeze({ health: "/health", requests: "/v1/requests", machineEvidence: "/v1/machine-evidence" });
+export const PROTOCOL = "STORE-ZERO-REQUEST-2";
+export const PATHS = Object.freeze({ health: "/health", requests: "/v1/requests", machineEvidence: "/v1/machine-evidence",commercial:"/v1/commercial-events" });
 export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, requestTimeoutMs: 15_000, headersTimeoutMs: 10_000 });
 export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(["https://georgeplattdemo.github.io"]);
 
@@ -132,11 +133,11 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
         protocol: PROTOCOL,
         requestTypes: Object.keys(REQUEST_TYPES),
         catalog: { clock: current.clock, offerings: current.offerings.length, catalogHash: catalogHash(current) },
-        machineEvidence
+        machineEvidence,commercial:{protocol:COMMERCIAL_PROTOCOL,path:PATHS.commercial,evidenceClass:"SIMULATED",physicalAuthority:false,paymentAuthority:false}
       }, cors);
     }
 
-    if (![PATHS.requests, PATHS.machineEvidence].includes(pathname)) return httpError(res, 404, "NOT_FOUND", cors);
+    if (![PATHS.requests, PATHS.machineEvidence,PATHS.commercial].includes(pathname)) return httpError(res, 404, "NOT_FOUND", cors);
     if (req.method === "OPTIONS") {
       res.writeHead(204, cors);
       return res.end();
@@ -162,14 +163,14 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
     const payloadDigest = createHash("sha256").update(body).digest("hex");
     let answer;
     try {
-      answer = pathname === PATHS.machineEvidence
+      answer = pathname === PATHS.commercial ? await evaluateCommercialRequest(request) : pathname === PATHS.machineEvidence
         ? evaluateMachineEvidence(request, { release, catalog, now })
         : evaluateStoreRequest(request, { release, catalog, now });
     } catch (error) {
       if (error.code === "STORE_CATALOG_INVALID") return httpError(res, 503, "STORE_CATALOG_INVALID", cors);
       return httpError(res, 500, pathname === PATHS.machineEvidence ? "STORE_MACHINE_EVIDENCE_FAILED" : "STORE_EVALUATION_FAILED", cors);
     }
-    return send(res, 200, { protocol: pathname === PATHS.machineEvidence ? MACHINE_EVIDENCE_PROTOCOL : PROTOCOL, storeRelease: release, payloadDigest, respondedAt: now(), answer }, cors);
+    return send(res, 200, { protocol:pathname===PATHS.commercial?COMMERCIAL_PROTOCOL: pathname === PATHS.machineEvidence ? MACHINE_EVIDENCE_PROTOCOL : PROTOCOL, storeRelease: release, payloadDigest, respondedAt: now(), answer }, cors);
   };
 }
 

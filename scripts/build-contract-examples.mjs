@@ -1,3 +1,4 @@
+import {testManifest} from "../tests/fixtures/manifest.mjs";
 // Builds contracts/examples: complete serialized requests for every request type, the definitions Store refuses
 // and why, and the Project 1 accepted job packet with the packets Store refuses. Deterministic: fixed clock,
 // the frozen recorded catalog, and the acceptance release. `npm run build:examples` writes them;
@@ -54,7 +55,7 @@ export const REQUEST_EXAMPLES = {
       configurationVersion: "1",
       cutPackages: [
         { packageId: "LONG", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("L", 6, 71.5, centered([4.75, 35.75, 66.75])) },
-        { packageId: "ANGLED", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 25 }, parts: many("A", 4, 31.375) },
+        { packageId: "ANGLED", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 25,endRelation:"parallel",lengthDatum:"long-long-outer-edge",plane:"miter-face" }, parts: many("A", 4, 31.375) },
         { packageId: "TOO-LONG", material: PT(2, 6, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("Y", 1, 200) }
       ],
       itemLines: [
@@ -68,6 +69,8 @@ export const REQUEST_EXAMPLES = {
   "offering-lookup.search": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SEARCH", demand: { searchText: "2x4 treated 72" } },
   "offering-lookup.sku": { requestType: "OFFERING_LOOKUP", requestId: "EXAMPLE-SKU", demand: { storeSku: "STB-ZERO-PTAG-2X4-72-001" } }
 };
+
+for(const request of Object.values(REQUEST_EXAMPLES)){if(request.requestType!=="OFFERING_LOOKUP")request.manifest=testManifest(request.requestType,request.demand);}
 
 const p1 = () => structuredClone(PROJECT_1.demand);
 export const REFUSED_EXAMPLES = [
@@ -86,11 +89,12 @@ export const PACKET_DEFINITION = {
   revisionId: PROJECT_1.definitionRevision,
   requestType: "USER_DEFINED_BOARD_V1",
   demand: PROJECT_1.demand,
+  manifest:testManifest("USER_DEFINED_BOARD_V1",PROJECT_1.demand),
   requirements: { endRelation: "parallel", lengthDatum: "long-long-outer-edge" }
 };
 
 const at = { release: EXAMPLE_RELEASE, catalog: recordedCatalog(), now: () => EXAMPLE_CLOCK };
-const answerFor = (request) => JSON.parse(JSON.stringify(evaluateStoreRequest(request, at)));
+const answerFor = (request) => JSON.parse(JSON.stringify(evaluateStoreRequest({...request,manifest:testManifest(request.requestType,request.demand)}, at)));
 
 export function project1Packet() {
   return {
@@ -106,7 +110,7 @@ export function project1Packet() {
 
 // The second job: a different supported arrangement on a different board — three parts, a 15 degree miter,
 // centred and inset spots, and a part with none. It proves the machine side is not a Project 1 replay.
-const spot = (featureId, xIn, acrossWidthRule, insetFromEdgeIn) => ({ featureId, kind: "SPOT_ON_LOCATION", xIn, locationRule: "CENTERED_ON_PART", acrossWidthRule, ...(insetFromEdgeIn ? { insetFromEdgeIn } : {}) });
+const spot = (featureId, xIn, acrossWidthRule, insetFromEdgeIn) => ({ featureId, kind: "SPOT_ON_LOCATION", xIn, acrossWidthRule, ...(insetFromEdgeIn ? { insetFromEdgeIn } : {}) });
 export const SECOND_JOB_DEMAND = {
   title: "Three-part bracket set",
   configurationId: "BRACKET-SET",
@@ -135,7 +139,7 @@ export function secondJobPacket() {
     schema: JOB_PACKET_SCHEMA,
     packetId: "PACKET-BRACKET-SET-0001",
     project: { projectId: "BRACKET-SET-CUSTOMER-0001", classId: SECOND_JOB_DEMAND.classId, title: SECOND_JOB_DEMAND.title },
-    definition: { definitionId: "BRACKET-SET", revisionId: "BRACKET-SET-v1", requestType: "USER_DEFINED_BOARD_V1", demand: SECOND_JOB_DEMAND, requirements: { endRelation: "parallel", lengthDatum: "long-long-outer-edge" } },
+    definition: { definitionId: "BRACKET-SET", revisionId: "BRACKET-SET-v1", requestType: "USER_DEFINED_BOARD_V1", demand: SECOND_JOB_DEMAND, manifest:testManifest("USER_DEFINED_BOARD_V1",SECOND_JOB_DEMAND), requirements: { endRelation: "parallel", lengthDatum: "long-long-outer-edge" } },
     storeAnswer: answerFor({ requestType: "USER_DEFINED_BOARD_V1", requestId: "BRACKET-SET-INQUIRY-0001", demand: SECOND_JOB_DEMAND }),
     decision: { decisionId: "DECISION-BRACKET-SET-0001", kind: "ACCEPTED", offerId: "OFFER-BRACKET-SET-0001", decidedAt: "2026-10-08T12:10:00.000Z", evidenceClass: "SIMULATED" },
     authority: { physicalRelease: false, evidenceClass: "SIMULATED" }
@@ -156,10 +160,10 @@ export function refusedPackets() {
   return [
     ["declined offer", edit((p) => { p.decision.kind = "DECLINED"; })],
     ["physical release claimed", edit((p) => { p.authority.physicalRelease = true; })],
-    ["price edited after the answer", edit((p) => { p.storeAnswer.estimate.totals.Q = 9.99; })],
+    ["price edited after the answer", edit((p) => { p.storeAnswer.Q = 9.99; })],
     ["receipt edited", edit((p) => { p.storeAnswer.evaluationReceipt.evaluatedAt = "2026-10-09T00:00:00.000Z"; })],
     ["definition changed after the answer", edit((p) => { p.definition.demand.parts[0].lengthIn = 17; })],
-    ["answer from another Store", edit((p) => { p.storeAnswer = JSON.parse(JSON.stringify(evaluateStoreRequest({ requestType: "USER_DEFINED_BOARD_V1", requestId: "PROJECT-1-INQUIRY-0001", demand: PROJECT_1.demand }, { ...at, release: "some-other-store" }))); })],
+    ["answer from another Store", edit((p) => { p.storeAnswer = JSON.parse(JSON.stringify(evaluateStoreRequest({ requestType: "USER_DEFINED_BOARD_V1", requestId: "PROJECT-1-INQUIRY-0001", demand: PROJECT_1.demand,manifest:testManifest("USER_DEFINED_BOARD_V1",PROJECT_1.demand) }, { ...at, release: "some-other-store" }))); })],
     ["refused answer", edit((p) => { const d = { ...PROJECT_1.demand, sawAngleDeg: 46 }; p.definition.demand = d; p.storeAnswer = answerFor({ requestType: "USER_DEFINED_BOARD_V1", requestId: "PROJECT-1-INQUIRY-0001", demand: d }); })]
   ].map(([name, packet]) => ({ name, packet }));
 }
@@ -169,7 +173,7 @@ export function buildExamples() {
   const put = (path, value) => { files[path] = JSON.stringify(value, null, 2) + "\n"; };
   for (const [name, request] of Object.entries(REQUEST_EXAMPLES)) put(`contracts/examples/requests/${name}.json`, request);
   put("contracts/examples/requests/refused.json", REFUSED_EXAMPLES.map(({ name, request }) => {
-    const answer = evaluateStoreRequest(request, at);
+    const answer = evaluateStoreRequest({...request,manifest:testManifest(request.requestType,request.demand)}, at);
     return { name, request, answer: { status: answer.status, reasonCodes: answer.reasonCodes } };
   }));
   put("contracts/examples/packets/project-1.accepted.json", project1Packet());

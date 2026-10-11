@@ -4,7 +4,7 @@ import { lowerJobPacket, motionRecords } from "./lowering.mjs";
 import { loadMachineConfig, machineConfigHash, registeredMachineProblems } from "./configuration.mjs";
 import { physicalAdmission, runVirtual } from "./virtual-run.mjs";
 
-export const MACHINE_EVIDENCE_PROTOCOL = "STORE-ZERO-MACHINE-EVIDENCE-1";
+export const MACHINE_EVIDENCE_PROTOCOL = "STORE-ZERO-MACHINE-EVIDENCE-2";
 export const MACHINE_EVIDENCE_REQUEST_SHAPE = Object.freeze({ object: {
   packet: { any: true }, expectedMachineConfigId: "string", expectedMachineConfigHash: "string"
 } });
@@ -14,7 +14,7 @@ export function machineEvidenceIdentity(machine = loadMachineConfig()) {
   if (problems.length) throw new Error(`Machine evidence unavailable: ${problems.join(", ")}`);
   return {
     protocol: MACHINE_EVIDENCE_PROTOCOL,
-    requestTypes: ["USER_DEFINED_BOARD_V1"],
+    requestTypes: ["USER_DEFINED_BOARD_V1","CUT_PACKAGE_V1","SHEET_PACKAGE_V1"],
     machineConfigId: machine.machineConfigId,
     machineConfigHash: machineConfigHash(machine),
     physicalAuthority: false

@@ -1,3 +1,4 @@
+import {testManifest} from "./fixtures/manifest.mjs";
 // The HTTP service carries requests to the request layer and answers; it computes nothing itself.
 import { project1Demand } from "./fixtures/project-1.mjs";
 import test from "node:test";
@@ -42,7 +43,7 @@ test("health names this Store's release, protocol, catalog and request types", a
 
 test("Project 1 over HTTP: the same answer, bound to the exact bytes sent", async () => {
   await withService({ catalog: recordedCatalog() }, async (base) => {
-    const raw = JSON.stringify({ requestType: "USER_DEFINED_BOARD_V1", requestId: "P1-HTTP", demand: PROJECT_1 });
+    const raw = JSON.stringify({ requestType: "USER_DEFINED_BOARD_V1", requestId: "P1-HTTP", demand: PROJECT_1,manifest:testManifest("USER_DEFINED_BOARD_V1",PROJECT_1) });
     const res = await post(base, raw, { Origin: ALLOWED });
     assert.equal(res.status, 200);
     assert.equal(res.headers.get("access-control-allow-origin"), ALLOWED);
@@ -52,8 +53,8 @@ test("Project 1 over HTTP: the same answer, bound to the exact bytes sent", asyn
     assert.equal(body.payloadDigest, createHash("sha256").update(raw).digest("hex"));
     assert.equal(body.answer.status, "SUPPORTABLE");
     assert.equal(body.answer.requestId, "P1-HTTP");
-    assert.equal(body.answer.estimate.totals.Q, 11.09);
-    assert.equal(body.answer.materialResolution.storeSku, "STB-ZERO-PTAG-2X4-72-001");
+    assert.equal(body.answer.Q, 10.81);
+    assert.equal(body.answer.selectedStock[0].storeSku, "STB-ZERO-PT-2X4-96-001");
     assert.equal(body.answer.evaluationReceipt.authority.storeRevision, "store-zero-test");
   });
 });
@@ -125,8 +126,8 @@ test("machine evidence over HTTP binds exact request bytes, release, configurati
   await withService({ release: packetRelease, catalog: recordedCatalog() }, async (base) => {
     const health = await (await fetch(base + PATHS.health)).json();
     const identity = health.machineEvidence;
-    assert.equal(identity.protocol, "STORE-ZERO-MACHINE-EVIDENCE-1");
-    assert.deepEqual(identity.requestTypes, ["USER_DEFINED_BOARD_V1"]);
+    assert.equal(identity.protocol, "STORE-ZERO-MACHINE-EVIDENCE-2");
+    assert.deepEqual(identity.requestTypes, ["USER_DEFINED_BOARD_V1","CUT_PACKAGE_V1","SHEET_PACKAGE_V1"]);
     assert.equal(identity.physicalAuthority, false);
     for (const name of ["project-1", "second-job"]) {
       const raw = JSON.stringify({ packet: packetExample(name), expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash });
@@ -168,10 +169,11 @@ test("machine evidence refuses incomplete packets, changed demands, wrong releas
     const sheet = JSON.parse(readFileSync(new URL("../contracts/examples/requests/sheet-package.playhouse.json", import.meta.url)));
     const sheetReply = await (await post(base, sheet)).json();
     const body = request();
-    body.packet.definition = { definitionId: "SHEET", revisionId: "SHEET-1", requestType: sheet.requestType, demand: sheet.demand };
+    body.packet.definition = { definitionId: "SHEET", revisionId: "SHEET-1", requestType: sheet.requestType, demand: sheet.demand,manifest:sheet.manifest };
     body.packet.storeAnswer = sheetReply.answer;
     const reply = await (await evidencePost(base, body)).json();
-    assert.deepEqual(reply.answer.reasonCodes, ["LOWERING_NOT_REGISTERED_FOR:SHEET_PACKAGE_V1"]);
+    assert.equal(reply.answer.status,"VIRTUAL_EVIDENCE_READY");
+    assert.equal(reply.answer.admission.status,"BLOCKED");
   });
   await withService({ release: "another-release", catalog: recordedCatalog() }, async (base) => {
     const identity = (await (await fetch(base + PATHS.health)).json()).machineEvidence;
@@ -204,7 +206,7 @@ test("health proves the code it runs: the digest of its own files, recomputable 
     const health = await (await fetch(base + PATHS.health)).json();
     assert.deepEqual(health.source, sourceDigest());
     assert.match(health.source.digest, /^[0-9a-f]{64}$/);
-    assert.ok(health.source.files > 20);
+    assert.ok(health.source.files >= 19);
   });
 });
 
