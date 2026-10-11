@@ -84,7 +84,18 @@ export const D001_STAGE2_ENVELOPE = {
     reference: "DATUM_A_FENCE_EDGE_KEPT",
     lengthRule: "FULL_BOARD_LENGTH_UNDER_TWO_ROLLER_CONTROL",
     maxCutWidthIn: 1.0,
-    maxDepthPerPassIn: 0.375
+    maxDepthPerPassIn: 0.375,
+    // A second side is a second operation of this same mill. The controlled board
+    // returns on X between operations; no roller Y motion or second station is modeled.
+    twoSideSequential: {
+      mode: "EDGE_MILL_TWO_SIDES_SEQUENTIAL",
+      sideOrder: ["FAR", "FENCE"],
+      reference: "DATUM_A_FENCE_AND_DATUM_B_SUPPORT",
+      xReindex: "ROLLERS_RETURN_HELD_BOARD",
+      maxRemovalPerSideIn: 1.0,
+      loadSeatCountPerParent: 1,
+      commissioned: false
+    }
   },
   millEnd: {
     reachFromEndIn: 8,
