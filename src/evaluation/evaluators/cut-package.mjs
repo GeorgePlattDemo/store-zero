@@ -59,6 +59,7 @@ import {
   evaluateD001DimensionalBatch,
   evaluateD001UserDefinedBoard,
   millLongitudinalCycleSec,
+  xIndexTimeSec,
   storeMachineSellRate,
   featureIdProblem,
   statedFeatureId
@@ -88,15 +89,50 @@ const EDGE_MILL_MAX_CUT_IN = Number(D001_STAGE2_ENVELOPE.millPassThrough.maxCutW
 // far strip is an offcut. Owner-approved common-sense rule, 2026-10-08 (specification §19).
 export const RIP_RULE = Object.freeze({ id: "STB-CUT-PACKAGE-RIP-0.1", mode: "RIP_AT_FINISHED_WIDTH" });
 
-// The edge mill a package needs on this board, or null when the finished width is the board's own width.
-function edgeMillFor(item, finishedWidthIn) {
-  if (finishedWidthIn == null) return null;
+// One board can request two distinct side surfaces, each milled by the same registered tool.
+// The far edge is prepared first. The fence-facing edge is prepared second; a roller X-return
+// between those operations is included in the modeled machine time, not a second load charge.
+function edgeMillFor(item, finishedWidthIn, edgePreparation = null) {
   const boardW = Number(item.actualW);
-  if (Math.abs(boardW - finishedWidthIn) < 1e-6) return null;
-  if (finishedWidthIn > boardW) return { refused: "FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH" };
-  const removedIn = boardW - finishedWidthIn;
-  const edge = { finishedWidthIn, boardWidthIn: boardW, removedIn: round(removedIn, 6) };
-  return removedIn > EDGE_MILL_MAX_CUT_IN + 1e-9 ? { ...edge, mode: RIP_RULE.mode, rule: RIP_RULE.id } : edge;
+  if (edgePreparation != null) {
+    const keys = edgePreparation && typeof edgePreparation === "object" && !Array.isArray(edgePreparation)
+      ? Object.keys(edgePreparation) : [];
+    if (keys.length !== 2 || !["farEdgeRemovalIn","fenceEdgeRemovalIn"].every(k => keys.includes(k))) {
+      return { refused: "EDGE_PREPARATION_NEEDS_BOTH_EDGES" };
+    }
+    const far = statedNumber(edgePreparation.farEdgeRemovalIn);
+    const fence = statedNumber(edgePreparation.fenceEdgeRemovalIn);
+    if (![far,fence].every(v => Number.isFinite(v) && v > 0)) {
+      return { refused: "EDGE_PREPARATION_POSITIVE_REMOVAL_REQUIRED" };
+    }
+    const cap = D001_STAGE2_ENVELOPE.millPassThrough.twoSideSequential;
+    if (!cap || far > cap.maxRemovalPerSideIn + 1e-9 || fence > cap.maxRemovalPerSideIn + 1e-9) {
+      return { refused: "EDGE_PREPARATION_EXCEEDS_MILL_WIDTH" };
+    }
+    if (!Number.isFinite(finishedWidthIn) || finishedWidthIn <= 0) {
+      return { refused: "EDGE_PREPARATION_FINISHED_WIDTH_REQUIRED" };
+    }
+    if (Math.abs(boardW - finishedWidthIn - far - fence) > 1e-6) {
+      return { refused: "EDGE_PREPARATION_WIDTH_MISMATCH" };
+    }
+    if (finishedWidthIn < D001_STAGE2_ENVELOPE.stock.minWidthIn - 1e-9) {
+      return { refused: "FINISHED_WIDTH_BELOW_CONTROLLED_WIDTH" };
+    }
+    return {
+      mode: cap.mode, rule: "STB-EDGE-MILL-TWO-SIDES-0.1",
+      finishedWidthIn, boardWidthIn: boardW, removedIn: round(far+fence, 6),
+      stages: [
+        {side: cap.sideOrder[0], removedIn: round(far,6), yIn: round(boardW-far,6)},
+        {side: cap.sideOrder[1], removedIn: round(fence,6), yIn: round(fence,6)}
+      ]
+    };
+  }
+  if (finishedWidthIn == null) return null;
+  if (Math.abs(boardW-finishedWidthIn) < 1e-6) return null;
+  if (finishedWidthIn > boardW) return {refused:"FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH"};
+  const removedIn=boardW-finishedWidthIn;
+  const edge={finishedWidthIn,boardWidthIn:boardW,removedIn:round(removedIn,6)};
+  return removedIn>EDGE_MILL_MAX_CUT_IN+1e-9 ? {...edge,mode:RIP_RULE.mode,rule:RIP_RULE.id}:edge;
 }
 const TIME_KEYS = ["T_LOAD_SEAT_sec", "T_REFERENCE_sec", "T_INDEX_sec", "T_SAW_sec", "T_DRILL_SPOT_sec", "T_MILL_sec", "T_RELEASE_LABEL_sec", "T_MACHINE_sec"];
 
@@ -224,25 +260,38 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
         ...(code ? {} : { fulfilledBy: "EDGE_MILL_WHOLE_BOARD_BEFORE_PARTS" }) });
     }
   }
-  let millSec = 0;
+  let millSec = 0, millReindexSec = 0;
   function millBoard() {
     if (!edgeMill) return null;
-    const timing = millLongitudinalCycleSec({
-      pathLengthIn: Number(stockItem.stockL_in),
-      yIn: edgeMill.finishedWidthIn,
-      totalDepthIn: Number(stockItem.actualT),
-      passThrough: true
+    const stageList = edgeMill.stages ?? [{side:"FAR",removedIn:edgeMill.removedIn,yIn:edgeMill.finishedWidthIn}];
+    const runs = stageList.map(stage => {
+      const timing = millLongitudinalCycleSec({
+        pathLengthIn: Number(stockItem.stockL_in),
+        yIn: stage.yIn,
+        totalDepthIn: Number(stockItem.actualT),
+        passThrough: true
+      });
+      if (timing.status === "REFUSED") millRefused.push(timing.reason);
+      else if (timing.status !== "SUPPORTABLE") millUnresolved.push(timing.reason);
+      else millSec += timing.totalSec;
+      return {
+        side:stage.side,removedIn:stage.removedIn,yIn:stage.yIn,
+        passes:timing.passes ?? null,timeSec:timing.totalSec ?? null,status:timing.status
+      };
     });
-    if (timing.status === "REFUSED") millRefused.push(timing.reason);
-    else if (timing.status !== "SUPPORTABLE") millUnresolved.push(timing.reason);
-    else millSec += timing.totalSec;
+    // The same board remains on the rollers. The second side is a second feed operation,
+    // preceded by the declared X indexing motion, not another board loading event.
+    const xReindexSec = runs.length>1 ? xIndexTimeSec(Number(stockItem.stockL_in))*(runs.length-1) : 0;
+    if (!Number.isFinite(xReindexSec)) millUnresolved.push("EDGE_MILL_REINDEX_TIME_REQUIRED");
+    else millReindexSec += xReindexSec;
     return {
       kind: edgeMill.mode ?? "EDGE_MILL_PASS_THROUGH",
-      finishedWidthIn: edgeMill.finishedWidthIn,
-      removedIn: edgeMill.removedIn,
-      passes: timing.passes ?? null,
-      timeSec: timing.totalSec ?? null,
-      status: timing.status
+      finishedWidthIn: edgeMill.finishedWidthIn,removedIn:edgeMill.removedIn,
+      ...(edgeMill.stages ? {stages:runs,xReindexSec:round(xReindexSec,4)} : {}),
+      passes: runs.reduce((sum,run)=>sum+Number(run.passes||0),0),
+      timeSec: round(runs.reduce((sum,run)=>sum+Number(run.timeSec||0),0)+(Number.isFinite(xReindexSec)?xReindexSec:0),4),
+      status: runs.every(run=>run.status==="SUPPORTABLE")&&Number.isFinite(xReindexSec) ? "SUPPORTABLE" :
+        runs.some(run=>run.status==="REFUSED") ? "REFUSED" : "UNRESOLVED"
     };
   }
   plan.sequenceBoards.forEach((board, index) => {
@@ -315,7 +364,8 @@ function machineForPackage(stockItem, angleDeg, plan, packageId, identity, edgeM
     for (const key of TIME_KEYS) time[key] += Number(t[key] || 0);
   }
   time.T_MILL_sec += millSec;
-  time.T_MACHINE_sec += millSec;
+  time.T_INDEX_sec += millReindexSec;
+  time.T_MACHINE_sec += millSec + millReindexSec;
   const rates = storeMachineSellRate();
   const hours = time.T_MACHINE_sec / 3600;
   return {
@@ -335,8 +385,9 @@ function evaluatePackage(catalog, pkg, identity) {
   const angleDeg = statedNumber(pkg?.endCut?.angleDeg);
   const hasFinishedWidth = pkg?.finishedWidthIn != null;
   const finishedWidthIn = hasFinishedWidth ? statedNumber(pkg.finishedWidthIn) : null;
+  const edgePreparation = pkg?.edgePreparation ?? null;
   const base = { kind: "CUT_PACKAGE", packageId, material: { ...material }, endCut: { angleDeg, plane: "miter-face", ends: "BOTH_PARALLEL" },
-    ...(hasFinishedWidth ? { finishedWidthIn } : {}) };
+    ...(hasFinishedWidth ? { finishedWidthIn } : {}), ...(edgePreparation != null ? {edgePreparation} : {}) };
   if (!packageId) return answerLine(base, "UNRESOLVED", "PACKAGE_ID_REQUIRED", "DEFINITION_GAP", "Each cut package needs its own id.");
   const { parts, problems } = validateParts(pkg);
   if (problems.length) return answerLine(base, "UNRESOLVED", problems[0], "DEFINITION_GAP", "The cut package is missing a definition Store Zero needs.");
@@ -366,7 +417,7 @@ function evaluatePackage(catalog, pkg, identity) {
 
   const considered = candidates.map((item) => {
     const plan = planForBoard(item, angleDeg, parts);
-    const edgeMill = edgeMillFor(item, finishedWidthIn);
+    const edgeMill = edgeMillFor(item, finishedWidthIn, edgePreparation);
     if (edgeMill?.refused) plan.refusals.push(edgeMill.refused);
     const ops = edgeMill && !edgeMill.refused ? [...requiredOps, "MILL_LONGITUDINAL_PROFILE"] : requiredOps;
     const capability = capabilityAnswer(item, ops, { sawAngleDeg: angleDeg, cutPlane: "miter-face", ...(edgeMill && !edgeMill.refused ? { millYIn: edgeMill.finishedWidthIn } : {}) });
@@ -415,11 +466,12 @@ function evaluatePackage(catalog, pkg, identity) {
       requiredOps: entry.ops,
       ...(entry.edgeMill ? { edgeMill: {
         mode: entry.edgeMill.mode ?? "EDGE_MILL_PASS_THROUGH",
+        ...(entry.edgeMill.stages ? {stages:entry.edgeMill.stages,rule:entry.edgeMill.rule} : {}),
         boardWidthIn: entry.edgeMill.boardWidthIn,
         finishedWidthIn: entry.edgeMill.finishedWidthIn,
         removedIn: entry.edgeMill.removedIn,
         boards: entry.plan.qty,
-        ...(entry.edgeMill.mode ? { rule: entry.edgeMill.rule, offcut: { perBoard: 1, widthBeforeRouterCutIn: entry.edgeMill.removedIn, lengthIn: Number(entry.item.stockL_in), disposition: "RETURNED_TO_OWNER" } } : {})
+        ...(entry.edgeMill.mode === RIP_RULE.mode ? { rule: entry.edgeMill.rule, offcut: { perBoard: 1, widthBeforeRouterCutIn: entry.edgeMill.removedIn, lengthIn: Number(entry.item.stockL_in), disposition: "RETURNED_TO_OWNER" } } : {})
       } } : {}),
       cutPlan: machine.boards,
       ...(machine.requirementAnswers ? { requirementAnswers: machine.requirementAnswers } : {}),
