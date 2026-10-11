@@ -106,6 +106,27 @@ assert.equal(line(items, "A").Q, Math.round(Number(bolt.sellingPrice) * 3 * 100)
 assert.deepEqual(line(items, "B").reasonCodes, ["NOT_OFFERED"]);
 assert.deepEqual(line(items, "C").reasonCodes, ["WHOLE_QUANTITY_REQUIRED"]);
 
+// Total-Q selection must account for machine handling, not stop at the lowest-priced material.
+// Five 44-in 1x8 strips: 5x72 costs $103.75 of wood; 3x120 costs $103.77,
+// but the three-parent plan has lower complete Q because it loads and cuts fewer boards.
+{
+  const pkg={packageId:"ALCOVE-TOTAL-Q",material:{species:"pine",form:"board",nominalT:1,nominalW:8,grade:"select"},
+    endCut:{angleDeg:0},finishedWidthIn:7.25,
+    parts:Array.from({length:5},(_,index)=>({partId:"SHELF-"+(index+1),lengthIn:44}))};
+  const ask=cat=>evaluateCutPackageJob(cat,{configurationId:"ALCOVE-Q",configurationVersion:"1",cutPackages:[pkg]}).packages[0];
+  const full=ask(catalog);
+  const only=stockL=>ask({...catalog,offerings:catalog.offerings.filter(row=>
+    row.species!=="pine"||Number(row.nominalT)!==1||Number(row.nominalW)!==8||Number(row.stockL_in)===stockL)});
+  const short=only(72),longer=only(120);
+  assert.equal(short.status,"SUPPORTABLE");
+  assert.equal(longer.status,"SUPPORTABLE");
+  assert.ok(short.totals.material<longer.totals.material,"fixture proves cheaper material is not cheaper total Q");
+  assert.ok(short.Q>longer.Q,"fewer loads and cuts offset a small increase in material price");
+  assert.equal(full.Q,Math.min(short.Q,longer.Q));
+  assert.equal(full.stockLengthIn,120,"Store chooses the least complete Q, not the cheapest wood-only candidate");
+  assert.equal(full.Q,Math.round((full.totals.material+full.totals.machine_service)*100)/100);
+}
+
 // 10. Same demand, same answer; a fresh request carries a receipt bound to the Store revision.
 assert.equal(job([], []).status, "UNRESOLVED", "an empty order is not an answer");
 const demand = { configurationId: "CUT-TEST", configurationVersion: "1", cutPackages: [{ packageId: "P", material: PT(2, 4, "ground-contact"), endCut: { angleDeg: 0 }, parts: many("Q", 3, 30) }] };
