@@ -65,6 +65,7 @@ const CUT_PACKAGE_V1 = {
           material: BOARD_MATERIAL,
           endCut: { object: { angleDeg: "number" } },
           finishedWidthIn: "number",
+          edgePreparation: { object: { farEdgeRemovalIn: "number", fenceEdgeRemovalIn: "number" } },
           parts: {
             array: {
               object: {
