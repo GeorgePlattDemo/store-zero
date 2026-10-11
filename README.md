@@ -72,6 +72,10 @@ The replacement application consumes the exact Store version recorded in Systemâ
 | [Cut-package evaluator](src/evaluation/evaluators/cut-package.mjs) | Multi-part dimensional requests, an alcove among them. |
 | [Sheet-package evaluator](src/evaluation/evaluators/sheet-package.mjs) | Routed sheet work, tabs, and supported panel cuts. |
 | [D-001 declarations](src/evaluation/envelopes/d001-stage2-envelope.mjs) Â· [S-001 declarations](src/evaluation/envelopes/s001-stage2-envelope.mjs) | Machine-readable capability facts. |
+| [Proposed shared manufacturing engine](docs/store-manufacturing-core.mjs) | Store-owned candidate for neutral-job SKU selection, handling, modeled machine time and Q; adoption pending. |
+| [Shared commercial sequence map](docs/commercial-sequence-template.md) | Same proposed map as System: event sources, prerequisites, records, exceptions and custody. |
+
+The proposed manufacturing file is published only in Store and is not yet imported by the answering path. The commercial map is shared with [System's canonical proposal](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md); System owns shared workflow meanings, and Store owns its commercial acts, stock selection, modeled time and Q.
 
 Code is in [`src/`](src/), catalog and price sheets in [`data/`](data/), and checks in [`tests/`](tests/) and [`acceptance/`](acceptance/). [`docs/`](docs/) holds the [Store Zero specification](docs/STORE-ZERO-SPECIFICATION.md), the Project 1 trail, and the [issued patents](docs/patents/).
 
