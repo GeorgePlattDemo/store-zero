@@ -639,7 +639,7 @@ Each cut package reads:
 - `packageId` string, required;
 - `material.species`, `material.nominalT`, `material.nominalW`, optional `form` default `board`, and `grade` when more than one Store grade is possible;
 - `endCut.angleDeg`, default 0 if absent but must be finite after conversion;
-- optional `finishedWidthIn` positive inches;
+- optional `finishedWidthIn` positive inches; optional `edgePreparation: {farEdgeRemovalIn, fenceEdgeRemovalIn}` requests two separately machined longitudinal side surfaces, with both positive removals. This remains the same registered mill, not a second station.
 - nonempty `parts[]`; each part requires unique `partId`, positive `lengthIn`, optional `spots[]`;
 - each spot reads `xIn`, `acrossWidthRule`, optional `insetFromEdgeIn`.
 
@@ -654,7 +654,7 @@ Each structured hardware line reads `lineId`, positive whole-number piece `qty`,
 - retained control: 24 in;
 - one-board sequence usable length: `stockLength - 0.125 - 24`;
 - first-fit-decreasing packing uses `part.length + 0.125` as need; after packing, each board is cut **short pieces first**;
-- finished-width edge milling refuses width above the actual board or removal above 1.0 in;
+- finished width cannot exceed the board; single-side preparation retains the rip rule when removal exceeds 1 inch. Two-side preparation requires two positive removals of at most 1 inch each, summing exactly to the difference between actual and finished width;
 - material extension: `sellingPrice × number of boards`;
 - machine service: aggregate D-001 machine seconds / 3600 × $250;
 - line `Q = material extension + machine service`;
@@ -677,7 +677,7 @@ Each structured hardware line reads `lineId`, positive whole-number piece `qty`,
    - else if part > 72 in, refuse `COMPONENT_LENGTH_EXCEEDS_D001_TWO_SAW_SPAN`;
    - else if part < 24 in, refuse `COMPONENT_LENGTH_BELOW_TWO_ROLLER_CONTROL`;
    - else use one-board-per-part long-part path.
-9. Finished width: width above board → `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`. Removal up to 1 in is an edge-mill pass (`EDGE_MILL_PASS_THROUGH`). Removal over 1 in is a rip (`RIP_AT_FINISHED_WIDTH`, rule `STB-CUT-PACKAGE-RIP-0.1`, §19): the router cuts through at the finished width and the far strip is returned to the owner as an offcut, one per board, reported on the line as `edgeMill.offcut`. Either way the board is brought to width before any of its parts is cut, and the same retained-control rules apply.
+9. Two-side `edgePreparation` requires exactly both removal fields, positive, each within the mill cut-width limit, and a sum matching actual minus finished width. Refusal codes include `EDGE_PREPARATION_NEEDS_BOTH_EDGES`, `EDGE_PREPARATION_POSITIVE_REMOVAL_REQUIRED`, `EDGE_PREPARATION_EXCEEDS_MILL_WIDTH`, `EDGE_PREPARATION_FINISHED_WIDTH_REQUIRED`, and `EDGE_PREPARATION_WIDTH_MISMATCH`. Each side is a separate operation of the existing mill, far side then fence side, with a modeled X return on retained rollers between them. Both machining cycles and the X return enter machine seconds and Q; load/seat is counted once, not once per edge. Finished width: width above board → `FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH`. Removal up to 1 in is an edge-mill pass (`EDGE_MILL_PASS_THROUGH`). Removal over 1 in is a rip (`RIP_AT_FINISHED_WIDTH`, rule `STB-CUT-PACKAGE-RIP-0.1`, §19): the router cuts through at the finished width and the far strip is returned to the owner as an offcut, one per board, reported on the line as `edgeMill.offcut`. Either way the board is brought to width before any of its parts is cut, and the same retained-control rules apply.
 10. Run `capabilityAnswer`, the same envelope check every path uses.
 11. Candidate status: plan refusal first; then capability refusal; then unresolved capability/price; then unavailable stock; else `SUPPORTABLE`.
 12. Supportable material candidates are ranked by material extension, then stock length, then SKU. For each in that order, run actual D-001 package timing. Machine refusal/unresolved causes the evaluator to try the next supportable material candidate without changing material class.
