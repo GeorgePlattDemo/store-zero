@@ -446,15 +446,26 @@ function evaluatePackage(catalog, pkg, identity) {
     .filter((entry) => entry.status === "SUPPORTABLE")
     .sort((a, b) => a.extension - b.extension || Number(a.item.stockL_in) - Number(b.item.stockL_in) || String(a.item.storeSku).localeCompare(String(b.item.storeSku)));
 
-  // Among board lengths that can each cut the package, try the lowest material cost first; if the
-  // cell refuses it, the next one is tried. The wood itself is never changed.
+  // A material-only ranking is not the cheapest job: a different parent length changes
+  // the number of loads, cuts, full-board mill passes and machine-service Q.
+  // Evaluate the full D-001 sequence for every stock/capability-complete candidate, and
+  // choose the smallest calculated *material + machine-service* Q. No species or grade changes.
   const machineRefusals = [];
+  const completeCandidates = [];
   for (const entry of supportable) {
     const machine = machineForPackage(entry.item, angleDeg, entry.plan, packageId, identity, entry.edgeMill);
     if (machine.refused.length || machine.unresolved.length) {
       machineRefusals.push({ storeSku: entry.item.storeSku, refused: machine.refused, unresolved: machine.unresolved });
       continue;
     }
+    completeCandidates.push({entry,machine,Q:round(entry.extension+machine.machineService,2)});
+  }
+  completeCandidates.sort((a,b)=>a.Q-b.Q
+    || a.entry.extension-b.entry.extension
+    || Number(a.entry.item.stockL_in)-Number(b.entry.item.stockL_in)
+    || String(a.entry.item.storeSku).localeCompare(String(b.entry.item.storeSku)));
+  if (completeCandidates.length) {
+    const {entry,machine}=completeCandidates[0];
     const materialExt = entry.extension;
     return {
       ...base,
