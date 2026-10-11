@@ -227,6 +227,34 @@ assert.ok(!/storeSku\s*\.\s*(includes|match|startsWith|split)|description\s*\.\s
   assert.equal(milled.edgeMill.mode, "EDGE_MILL_PASS_THROUGH");
   assert.ok(line(job([pine8("X", parts, 7.5)]), "X").reasonCodes.includes("FINISHED_WIDTH_EXCEEDS_BOARD_WIDTH"));
   assert.deepEqual(line(job([pine8("U", parts, "seven")]), "U").reasonCodes, ["FINISHED_WIDTH_REQUIRED"]);
+
+  // Two different edge surfaces, one declared longitudinal mill, same board loaded once.
+  const both=line(job([{...pine8("BOTH",parts,7),
+    edgePreparation:{farEdgeRemovalIn:.125,fenceEdgeRemovalIn:.125}}]),"BOTH");
+  assert.equal(both.status,"SUPPORTABLE",JSON.stringify(both.reasonCodes));
+  assert.deepEqual(both.edgeMill.stages.map(p=>p.side),["FAR","FENCE"]);
+  assert.ok(both.cutPlan.every(b=>b.edgeMill.stages.length===2&&b.edgeMill.stages.every(p=>p.status==="SUPPORTABLE")));
+  assert.ok(both.time.T_MILL_sec>milled.time.T_MILL_sec);
+  assert.ok(both.time.T_INDEX_sec>milled.time.T_INDEX_sec);
+  assert.equal(both.time.T_LOAD_SEAT_sec,milled.time.T_LOAD_SEAT_sec);
+  assert.equal(both.totals.material,milled.totals.material);
+  assert.ok(both.totals.machine_service>milled.totals.machine_service);
+  assert.equal(both.Q,Math.round((both.totals.material+both.totals.machine_service)*100)/100);
+  assert.ok(both.cutPlan.every(b=>b.edgeMill.kind==="EDGE_MILL_TWO_SIDES_SEQUENTIAL"&&b.edgeMill.xReindexSec>0&&b.edgeMill.passes===4));
+  const wrong=line(job([{...pine8("BAD",parts,7),
+    edgePreparation:{farEdgeRemovalIn:.1,fenceEdgeRemovalIn:.1}}]),"BAD");
+  assert.equal(wrong.status,"REFUSED");
+  assert.ok(wrong.reasonCodes.includes("EDGE_PREPARATION_WIDTH_MISMATCH"));
+  assert.equal(wrong.Q,null);
+  const extra=line(job([{...pine8("EXTRA",parts,7),
+    edgePreparation:{farEdgeRemovalIn:.125,fenceEdgeRemovalIn:.125,extra:"hidden"}}]),"EXTRA");
+  assert.equal(extra.status,"REFUSED");
+  assert.ok(extra.reasonCodes.includes("EDGE_PREPARATION_NEEDS_BOTH_EDGES"));
+  const unset=line(job([{...pine8("UNSET",parts),
+    edgePreparation:{farEdgeRemovalIn:.125,fenceEdgeRemovalIn:.125}}]),"UNSET");
+  assert.equal(unset.status,"REFUSED");
+  assert.ok(unset.reasonCodes.includes("EDGE_PREPARATION_FINISHED_WIDTH_REQUIRED"));
+
   // A spot centered on a milled board is centered on the finished width.
   const spotted = line(job([pine8("K", [{ partId: "K1", lengthIn: 30, spots: [{ featureId: "K1-SPOT-1", xIn: 10, acrossWidthRule: "CENTERED_ON_WIDE_FACE" }] }], 7)]), "K");
   assert.equal(spotted.status, "SUPPORTABLE");
