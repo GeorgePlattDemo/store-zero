@@ -1238,3 +1238,1076 @@ The original review identifies H01–H12 as explanatory handoffs, not installed 
 The expected modeled components are PART-1 and PART-2, each 18-inch parallel-miter brace with its own center SPOT identity. The retained 35.625-inch historical stock is also part of material accounting. A physical result would have to connect those identities to measured dimensions/features, source parent/lot, machine record, inspection disposition and customer handoff. Virtual COMPLETE is evidence of sequence completion, not evidence that two accepted parts now exist.
 
 The current commercial chain in chapter 10 consumes the appropriate current receipt and offer identities. It cannot turn the original review's H07 description into payment evidence or treat its H09 candidate admission discussion as a live manufacturing release.
+
+## 8. Five current public project paths
+
+### 8.1 Exact inquiry and evaluation basis
+
+The five paths are System-owned project definitions; Store accepts three manufacturing classes, not five project-specific price engines. The current public root is [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html), which composes the front door, base page and individual project pages. Older embedded static prices do not govern current inquiries. The [published-wire adapter](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts) translates and preserves source meaning, creates the independent manifest before translation, sends protocol 2 to the pinned Store and interprets its attributable answer.
+
+The figures below were **freshly reevaluated for this master** with Store source `f7123a73c1ca60aa7eb180a86a1c365eaffe95db`, System source `ab09777d6f27d4b70a2193abc8564ebce611746f`, current disk catalog and registered model. The fixed evaluation clock is `2026-10-12T16:00:00.000Z`, explicitly a deterministic reproduction input, not a live inventory-observation timestamp. Request IDs begin `MASTER-`. Window Seat and Outdoor use labeled reconstruction revision IDs for the published default geometry rather than pretending to have captured a user's live UI timestamp/signature. Alcove runs its actual public definition functions against the frozen catalog width classes; its independent manifest comes from that pre-translation definition. Full requests, selected parents and identities appear below, so these figures can be reproduced without guessing the defaults.
+
+| Public path | Store class | Material | Hardware | Hourly service | Fixed cuts | Q USD | Total modeled seconds |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Start Your Own | USER_DEFINED_BOARD_V1 | 2.61 | 0.00 | 6.01 | 0.00 | **8.62** | 86.519086610639 |
+| Alcove | CUT_PACKAGE_V1 | 283.64 | 18.00 | 77.47 | 0.00 | **379.11** | 1115.544652777776 |
+| Window Seat | CUT_PACKAGE_V1 | 795.59 | 0.00 | 397.51 | 0.00 | **1193.10** | 5724.080625000045 |
+| Outdoor | CUT_PACKAGE_V1 | 200.05 | 18.88 | 74.23 | 0.00 | **293.16** | 1068.903160409143 |
+| Playhouse | SHEET_PACKAGE_V1 | 26.55 | 0.00 | 30.01 | 20.00 | **76.56** | 560.476174548359 |
+
+All five starting Q values reproduce the audit. The prices are definition/catalog/model-specific manufacturing evaluations, not timeless advertised prices or full delivered/assembled customer amounts. No path gains physical machine admission from a supportable quote.
+
+### 8.2 Start Your Own
+
+The current bounded User 1 brace path is composed through [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html), [three-frames.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/three-frames.html) and [stb-start-own-bench-leg-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-start-own-bench-leg-0.1.html), with the current rule/admission and published-wire translation. Its starting material is SPF, nominal 2×4, and starting length 16 inches. Angle is `asin(8/16)=30°`; spots are at eight inches. It asks for three saw cuts including reference and two identified center spots from one parent at least 60 inches long.
+
+The 60-inch SPF row costs $2.61. Remaining stock is `60 - .125 - 2*(16+.125)=27.625` inches, so it passes the retained-length screen. Predicted time is 86.51908661063948 seconds, service rounds to $6.01 and Q=$8.62. Increasing length to 18 creates new angle 26.387799961243°, centers nine inches and a stock-capacity boundary: 60 inches would leave 23.625, so Store advances to an eligible 72-inch SPF parent. System's integration check verifies the separate $9.13 result for that revision. This SPF inquiry is not historical Project 1's treated 18-inch specimen.
+
+Intent owns material choices and any additional controls; Bench owns the bounded supported variation. A tool request with no supported definition representation remains carried/unresolved, not an implicit new machine instruction. Length outside 16..18 or off the 1/8-inch grid is refused by the bounded System rule before Store. More general Store board definitions have their own envelope and do not expand this customer's published bounded project.
+
+**Exact reconstructed protocol 2 inquiry**
+
+```json
+{
+  "requestType": "USER_DEFINED_BOARD_V1",
+  "requestId": "MASTER-SYO",
+  "demand": {
+    "title": "Start Your Own \u2014 User 1 X brace",
+    "configurationId": "SYO-USER1-XBRACE",
+    "configurationVersion": "0.1",
+    "classId": "app.user-defined-board.v1",
+    "materialDemand": {
+      "species": "spf",
+      "form": "board",
+      "nominalT": 2,
+      "nominalW": 4
+    },
+    "definedWorkpieceLengthIn": 60,
+    "requiredOps": [
+      "MITER_LIMITED",
+      "SPOT_ON_LOCATION"
+    ],
+    "sawAngleDeg": 30,
+    "cutPlane": "miter-face",
+    "datumCMethod": "REFERENCE_CUT",
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge",
+    "declaredSawCuts": 3,
+    "declaredSpotCount": 2,
+    "unresolvedConditions": [],
+    "parts": [
+      {
+        "partId": "PART-1",
+        "lengthIn": 16,
+        "features": [
+          {
+            "featureId": "SPOT-1",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 8,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ]
+      },
+      {
+        "partId": "PART-2",
+        "lengthIn": 16,
+        "features": [
+          {
+            "featureId": "SPOT-2",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 8,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ]
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "SYO-USER1-XBRACE",
+    "revision": "0.1",
+    "boardPartIds": [
+      "PART-1",
+      "PART-2"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [
+      "SPOT-1",
+      "SPOT-2"
+    ],
+    "items": [],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+**Selected complete plan**
+
+| SKU | Quantity | Parent length | Unit USD | Extension USD |
+|---|---:|---:|---:|---:|
+| STB-ZERO-SPF-2X4-60-001 | 1 | 60 | 2.61 | 2.61 |
+
+| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
+|---|---|---:|---:|---:|
+| STB-ZERO-SPF-2X4-60-001 | PART-1, PART-2 | 3.5 | 27.625 | 86.519086611 |
+
+Calculation input hash: `a2bae8c2a18c7aac0280c12a86cc69bd67abb2e1af4a5c295ca4bd8230305c39`; result hash: `e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5`; fixed-clock receipt hash: `4012a25021be499cf9e44208347c6dafcbae84181675c5352e78a9ecf69aec31`.
+
+### 8.3 Alcove
+
+The operative public definition is in [system-build-base-8d8a9dd.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-base-8d8a9dd.html), with current wrapper/admission, [Alcove transport bridge](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-alcove-store-bridge.js) and `cutDemandFromAlcoveInsert` in published-wire. The starting unit is pine/select, height 72 inches, overall width 45.5, depth 14 and five shelves. With .75-inch sides the shelf span is 44. Four upright boards are 72 inches; each shelf is two strips, 7.25 and 6.75 inches wide, each 44 inches long. Shelf-elevation spots start **off**. The narrowing strip names a through longitudinal profile, path 44, Y=6.75, depth=.75, which the engine covers by parent preparation.
+
+The ECONOMY definition thus contains 14 components and five milling features, plus one `ALCOVE-PINS-AND-SCREWS` kit. Full-width upright and full-width shelf packages can merge in the engine; the parent plan below visibly places a 72-inch upright and 44-inch shelf strip on the same 144-inch parent. Narrowed strips require separate preparation-compatible parents. The selected eight board parents cost $283.64; kit $18; 1115.5446527777763 seconds cost $77.47. Q=$379.11.
+
+BALANCED is a separate request for two seven-inch strips; it costs $439.28, with $311.31 material, $109.97 service, $18 kit and 1583.545624999997 seconds. ALL_EDGES requests .125-inch removal on both edges of each seven-inch strip; it costs $499.24 with the same $311.31 material and $18 kit, $169.93 service and 2446.9675000000047 seconds. Extra routing and fence-reference responsibilities explain the difference, not a UI surcharge. All three remain physically blocked. The generic Store Alcove test fixture defaults to a different 65-inch height/strip arrangement; it must not replace this 72-inch public starting definition.
+
+Enabling shelf-elevation spotting generates explicit component feature identities and insets. System's published test checks 20 spots plus five profiles and complete coverage. A missing X, wrong tool diameter, unreconciled two-edge preparation or an offered material lacking the requested source class causes a refusal/unresolved answer; System must not silently shrink the shelf or remove the feature.
+
+**Exact reconstructed protocol 2 inquiry**
+
+```json
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "MASTER-ALCOVE-ECONOMY",
+  "demand": {
+    "configurationId": "ALCOVE-USER1",
+    "configurationVersion": "ALCOVE-UI-72|45.5|14|5|44|pine|ECONOMY|false|10|6|f7123a73c1ca60aa7eb180a86a1c365eaffe95db|8:7.25:ONE-EDGE,8:6.75:ONE-EDGE|",
+    "cutPackages": [
+      {
+        "packageId": "ALCOVE-UPRIGHT-PARENTS-8-TO-7.25",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "grade": "select",
+          "nominalW": 8
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "finishedWidthIn": 7.25,
+        "parts": [
+          {
+            "partId": "ALCOVE-UPRIGHT-01",
+            "lengthIn": 72
+          },
+          {
+            "partId": "ALCOVE-UPRIGHT-02",
+            "lengthIn": 72
+          },
+          {
+            "partId": "ALCOVE-UPRIGHT-03",
+            "lengthIn": 72
+          },
+          {
+            "partId": "ALCOVE-UPRIGHT-04",
+            "lengthIn": 72
+          }
+        ]
+      },
+      {
+        "packageId": "ALCOVE-SHELF-PARENTS-8-TO-7.25",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "grade": "select",
+          "nominalW": 8
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "finishedWidthIn": 7.25,
+        "parts": [
+          {
+            "partId": "ALCOVE-SHELF-01-STRIP-01",
+            "lengthIn": 44
+          },
+          {
+            "partId": "ALCOVE-SHELF-02-STRIP-01",
+            "lengthIn": 44
+          },
+          {
+            "partId": "ALCOVE-SHELF-03-STRIP-01",
+            "lengthIn": 44
+          },
+          {
+            "partId": "ALCOVE-SHELF-04-STRIP-01",
+            "lengthIn": 44
+          },
+          {
+            "partId": "ALCOVE-SHELF-05-STRIP-01",
+            "lengthIn": 44
+          }
+        ]
+      },
+      {
+        "packageId": "ALCOVE-SHELF-PARENTS-8-TO-6.75",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "grade": "select",
+          "nominalW": 8
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "finishedWidthIn": 6.75,
+        "parts": [
+          {
+            "partId": "ALCOVE-SHELF-01-STRIP-02",
+            "lengthIn": 44,
+            "edgeProfiles": [
+              {
+                "featureId": "ALCOVE-SHELF-01-STRIP-02-EDGE",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 6.75,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "partId": "ALCOVE-SHELF-02-STRIP-02",
+            "lengthIn": 44,
+            "edgeProfiles": [
+              {
+                "featureId": "ALCOVE-SHELF-02-STRIP-02-EDGE",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 6.75,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "partId": "ALCOVE-SHELF-03-STRIP-02",
+            "lengthIn": 44,
+            "edgeProfiles": [
+              {
+                "featureId": "ALCOVE-SHELF-03-STRIP-02-EDGE",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 6.75,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "partId": "ALCOVE-SHELF-04-STRIP-02",
+            "lengthIn": 44,
+            "edgeProfiles": [
+              {
+                "featureId": "ALCOVE-SHELF-04-STRIP-02-EDGE",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 6.75,
+                "totalDepthIn": 0.75
+              }
+            ]
+          },
+          {
+            "partId": "ALCOVE-SHELF-05-STRIP-02",
+            "lengthIn": 44,
+            "edgeProfiles": [
+              {
+                "featureId": "ALCOVE-SHELF-05-STRIP-02-EDGE",
+                "kind": "MILL_LONGITUDINAL_PROFILE",
+                "pathLengthIn": 44,
+                "yIn": 6.75,
+                "totalDepthIn": 0.75
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "itemLines": [
+      {
+        "lineId": "ALCOVE-PINS-AND-SCREWS",
+        "qty": 1,
+        "requirementId": "ALCOVE-PINS-AND-SCREWS"
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "ALCOVE-USER1",
+    "revision": "ALCOVE-UI-72|45.5|14|5|44|pine|ECONOMY|false|10|6|f7123a73c1ca60aa7eb180a86a1c365eaffe95db|8:7.25:ONE-EDGE,8:6.75:ONE-EDGE|",
+    "boardPartIds": [
+      "ALCOVE-UPRIGHT-01",
+      "ALCOVE-UPRIGHT-02",
+      "ALCOVE-UPRIGHT-03",
+      "ALCOVE-UPRIGHT-04",
+      "ALCOVE-SHELF-01-STRIP-01",
+      "ALCOVE-SHELF-01-STRIP-02",
+      "ALCOVE-SHELF-02-STRIP-01",
+      "ALCOVE-SHELF-02-STRIP-02",
+      "ALCOVE-SHELF-03-STRIP-01",
+      "ALCOVE-SHELF-03-STRIP-02",
+      "ALCOVE-SHELF-04-STRIP-01",
+      "ALCOVE-SHELF-04-STRIP-02",
+      "ALCOVE-SHELF-05-STRIP-01",
+      "ALCOVE-SHELF-05-STRIP-02"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [
+      "ALCOVE-SHELF-01-STRIP-02-EDGE",
+      "ALCOVE-SHELF-02-STRIP-02-EDGE",
+      "ALCOVE-SHELF-03-STRIP-02-EDGE",
+      "ALCOVE-SHELF-04-STRIP-02-EDGE",
+      "ALCOVE-SHELF-05-STRIP-02-EDGE"
+    ],
+    "items": [
+      {
+        "lineId": "ALCOVE-PINS-AND-SCREWS",
+        "qty": 1
+      }
+    ],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+**Selected complete plan**
+
+| SKU | Quantity | Parent length | Unit USD | Extension USD |
+|---|---:|---:|---:|---:|
+| STB-ZERO-HW-ALCOVE-PACK-001 | 1 | hardware | 18.00 | 18.00 |
+| STB-ZERO-PINE-1X8-120-001 | 4 | 120 | 34.59 | 138.36 |
+| STB-ZERO-PINE-1X8-144-001 | 3 | 144 | 41.51 | 124.53 |
+| STB-ZERO-PINE-1X8-72-001 | 1 | 72 | 20.75 | 20.75 |
+
+| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
+|---|---|---:|---:|---:|
+| STB-ZERO-PINE-1X8-72-001 | ALCOVE-SHELF-01-STRIP-02 | 6.75 | 27.75 | 179.382847222 |
+| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-02-STRIP-02, ALCOVE-SHELF-03-STRIP-02 | 6.75 | 31.625 | 253.330347222 |
+| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-04-STRIP-02, ALCOVE-SHELF-05-STRIP-02 | 6.75 | 31.625 | 253.330347222 |
+| STB-ZERO-PINE-1X8-120-001 | ALCOVE-UPRIGHT-01 | 7.25 | 47.75 | 78.414444444 |
+| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-02, ALCOVE-SHELF-01-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
+| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-03, ALCOVE-SHELF-02-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
+| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-04, ALCOVE-SHELF-03-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
+| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-04-STRIP-01, ALCOVE-SHELF-05-STRIP-01 | 7.25 | 31.625 | 85.146666667 |
+
+Calculation input hash: `314b4711b4fe5c61693706e5d11071dc8009bc1522f054312d31a82409a831d2`; result hash: `e3ae7c1ff7975a17435ba38f0075d0e01ad2023a1015fe9baf78778e77900285`; fixed-clock receipt hash: `7bb0a0c4c3d0e8f3e5919cfb38916bcdcfade003227b48b66f4c6c91d34f2a7b`.
+
+### 8.4 Window Seat
+
+[stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) derives the three-module assembly from the customer's sketch/facts. Starting height is 94 inches, module widths 24/55/24, depth 14, seat height 22, upper clear height 14, two upper bays, two lower cubbies and four shelves in each tower. Stock is select pine, .75-inch thickness. The fewest width runs covering 14 inches is two; each finished run is seven inches, prepared from nominal 1×8 actual 7.25-inch boards.
+
+There are six full-height sides, four shelves in each tower, tower tops/bottoms, center top/bottom/seat/upper shelf, one upper divider and one lower divider. Horizontal clear spans subtract two .75-inch sides: tower spans 22.5, center spans 53.5 inches. Upper divider is 14 inches; lower divider is `22 - 2*.75 = 20.5`. The resulting 24 assembly parts use **48 separately identified board runs**. All require .25-inch far-edge preparation; spots and screws start off.
+
+The optional FRONT knob's stored `P.front` is true, but `INTENT_START.added.front` is false. `has('FRONT')` therefore excludes that optional component from the default definition. Treating the stored boolean alone as admission incorrectly adds a 55-inch 1×4 front board: a separate trial produced $1209.70, not the default. The actual default below reproduces **$1193.10**: 11×120-inch and 10×144-inch pine 1×8 parents cost $795.59, 5724.080625000045 seconds cost $397.51. Milling occupies 3873.3156250000025 seconds, reflecting preparation over remaining parent lengths. Hardware is zero because none is requested.
+
+Tower shelf datums are derived from the upper window-head line and equal spacing rule, not supplied by Store. Fit checks use the narrowest controlling room width/lowest height and declared clearance; floor slope, baseboard, wall conditions and assembly/anchoring remain attributed job questions. Optional side/divider/extra spots and screws create distinct definitions and fresh Store inquiries. Hex-window trim seen in an image remains context, not an invented aperture operation.
+
+**Exact reconstructed protocol 2 inquiry**
+
+```json
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "MASTER-WINDOW-SEAT",
+  "demand": {
+    "configurationId": "WINDOW-SEAT",
+    "configurationVersion": "MASTER-PUBLIC-DEFAULT-1",
+    "cutPackages": [
+      {
+        "packageId": "SIDES-1X8-TO-7",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 8,
+          "grade": "select"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "L-UPRIGHT-01-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "L-UPRIGHT-01-R2",
+            "lengthIn": 94
+          },
+          {
+            "partId": "L-UPRIGHT-02-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "L-UPRIGHT-02-R2",
+            "lengthIn": 94
+          },
+          {
+            "partId": "C-UPRIGHT-01-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "C-UPRIGHT-01-R2",
+            "lengthIn": 94
+          },
+          {
+            "partId": "C-UPRIGHT-02-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "C-UPRIGHT-02-R2",
+            "lengthIn": 94
+          },
+          {
+            "partId": "R-UPRIGHT-01-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "R-UPRIGHT-01-R2",
+            "lengthIn": 94
+          },
+          {
+            "partId": "R-UPRIGHT-02-R1",
+            "lengthIn": 94
+          },
+          {
+            "partId": "R-UPRIGHT-02-R2",
+            "lengthIn": 94
+          }
+        ],
+        "finishedWidthIn": 7
+      },
+      {
+        "packageId": "SHELVES-1X8-TO-7",
+        "material": {
+          "species": "pine",
+          "form": "board",
+          "nominalT": 1,
+          "nominalW": 8,
+          "grade": "select"
+        },
+        "endCut": {
+          "angleDeg": 0
+        },
+        "parts": [
+          {
+            "partId": "L-TOP-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-TOP-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-BOTTOM-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-BOTTOM-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-02-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-02-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-03-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-03-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-04-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "L-SHELF-04-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "C-TOP-01-R1",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-TOP-01-R2",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-BOTTOM-01-R1",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-BOTTOM-01-R2",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-UPPER-SHELF-01-R1",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-UPPER-SHELF-01-R2",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-UPPER-DIVIDER-01-R1",
+            "lengthIn": 14
+          },
+          {
+            "partId": "C-UPPER-DIVIDER-01-R2",
+            "lengthIn": 14
+          },
+          {
+            "partId": "C-SEAT-01-R1",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-SEAT-01-R2",
+            "lengthIn": 53.5
+          },
+          {
+            "partId": "C-LOWER-DIVIDER-01-R1",
+            "lengthIn": 20.5
+          },
+          {
+            "partId": "C-LOWER-DIVIDER-01-R2",
+            "lengthIn": 20.5
+          },
+          {
+            "partId": "R-TOP-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-TOP-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-BOTTOM-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-BOTTOM-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-01-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-01-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-02-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-02-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-03-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-03-R2",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-04-R1",
+            "lengthIn": 22.5
+          },
+          {
+            "partId": "R-SHELF-04-R2",
+            "lengthIn": 22.5
+          }
+        ],
+        "finishedWidthIn": 7
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "WINDOW-SEAT",
+    "revision": "MASTER-PUBLIC-DEFAULT-1",
+    "boardPartIds": [
+      "L-UPRIGHT-01-R1",
+      "L-UPRIGHT-01-R2",
+      "L-UPRIGHT-02-R1",
+      "L-UPRIGHT-02-R2",
+      "C-UPRIGHT-01-R1",
+      "C-UPRIGHT-01-R2",
+      "C-UPRIGHT-02-R1",
+      "C-UPRIGHT-02-R2",
+      "R-UPRIGHT-01-R1",
+      "R-UPRIGHT-01-R2",
+      "R-UPRIGHT-02-R1",
+      "R-UPRIGHT-02-R2",
+      "L-TOP-01-R1",
+      "L-TOP-01-R2",
+      "L-BOTTOM-01-R1",
+      "L-BOTTOM-01-R2",
+      "L-SHELF-01-R1",
+      "L-SHELF-01-R2",
+      "L-SHELF-02-R1",
+      "L-SHELF-02-R2",
+      "L-SHELF-03-R1",
+      "L-SHELF-03-R2",
+      "L-SHELF-04-R1",
+      "L-SHELF-04-R2",
+      "C-TOP-01-R1",
+      "C-TOP-01-R2",
+      "C-BOTTOM-01-R1",
+      "C-BOTTOM-01-R2",
+      "C-UPPER-SHELF-01-R1",
+      "C-UPPER-SHELF-01-R2",
+      "C-UPPER-DIVIDER-01-R1",
+      "C-UPPER-DIVIDER-01-R2",
+      "C-SEAT-01-R1",
+      "C-SEAT-01-R2",
+      "C-LOWER-DIVIDER-01-R1",
+      "C-LOWER-DIVIDER-01-R2",
+      "R-TOP-01-R1",
+      "R-TOP-01-R2",
+      "R-BOTTOM-01-R1",
+      "R-BOTTOM-01-R2",
+      "R-SHELF-01-R1",
+      "R-SHELF-01-R2",
+      "R-SHELF-02-R1",
+      "R-SHELF-02-R2",
+      "R-SHELF-03-R1",
+      "R-SHELF-03-R2",
+      "R-SHELF-04-R1",
+      "R-SHELF-04-R2"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [],
+    "items": [],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+**Selected complete plan**
+
+| SKU | Quantity | Parent length | Unit USD | Extension USD |
+|---|---:|---:|---:|---:|
+| STB-ZERO-PINE-1X8-120-001 | 11 | 120 | 34.59 | 380.49 |
+| STB-ZERO-PINE-1X8-144-001 | 10 | 144 | 41.51 | 415.10 |
+
+| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
+|---|---|---:|---:|---:|
+| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-01-R1 | 7 | 25.75 | 251.806458333 |
+| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-02-R2 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-01-R1 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-02-R2 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-01-R1 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
+| STB-ZERO-PINE-1X8-144-001 | R-UPRIGHT-02-R2, L-BOTTOM-01-R1 | 7 | 27.125 | 290.115069444 |
+| STB-ZERO-PINE-1X8-144-001 | C-BOTTOM-01-R1, C-BOTTOM-01-R2 | 7 | 36.625 | 288.927569444 |
+| STB-ZERO-PINE-1X8-144-001 | C-SEAT-01-R1, C-SEAT-01-R2 | 7 | 36.625 | 288.927569444 |
+| STB-ZERO-PINE-1X8-144-001 | C-TOP-01-R1, C-TOP-01-R2 | 7 | 36.625 | 288.927569444 |
+| STB-ZERO-PINE-1X8-144-001 | C-UPPER-SHELF-01-R1, L-BOTTOM-01-R2, L-SHELF-01-R1, C-LOWER-DIVIDER-01-R1 | 7 | 24.375 | 299.669791667 |
+| STB-ZERO-PINE-1X8-144-001 | C-UPPER-SHELF-01-R2, L-SHELF-01-R2, L-SHELF-02-R1, C-LOWER-DIVIDER-01-R2 | 7 | 24.375 | 299.669791667 |
+| STB-ZERO-PINE-1X8-144-001 | L-SHELF-02-R2, L-SHELF-03-R1, L-SHELF-03-R2, L-SHELF-04-R1, L-SHELF-04-R2 | 7 | 30.75 | 303.478402778 |
+| STB-ZERO-PINE-1X8-144-001 | L-TOP-01-R1, L-TOP-01-R2, R-BOTTOM-01-R1, R-BOTTOM-01-R2, R-SHELF-01-R1 | 7 | 30.75 | 303.478402778 |
+| STB-ZERO-PINE-1X8-144-001 | R-SHELF-01-R2, R-SHELF-02-R1, R-SHELF-02-R2, R-SHELF-03-R1, R-SHELF-03-R2 | 7 | 30.75 | 303.478402778 |
+| STB-ZERO-PINE-1X8-144-001 | R-SHELF-04-R1, R-SHELF-04-R2, R-TOP-01-R1, R-TOP-01-R2, C-UPPER-DIVIDER-01-R1, C-UPPER-DIVIDER-01-R2 | 7 | 25.125 | 308.787013889 |
+
+Calculation input hash: `6728988d028831f4a0e75fa0a30242a3f9f309f33a7ef0e1e7fcc33bf6b0f944`; result hash: `f23cdc32c96d75d0e77ec424b8ee5c1eb470f3ab44301aab02f95a86147c7ea0`; fixed-clock receipt hash: `f22d48e5cfed5d37fa2feda62039860fdf637d4cbee88d195c7168252cfe0d0c`.
+
+### 8.5 Outdoor
+
+[stb-outdoor-picnic-0.4.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-picnic-0.4.html) currently starts from the Classic A-frame plan at 72-inch slat length, above-ground treated SYP, coated hardware, no optional spots/decorative cuts. Its selected source is Ana White's *Easiest to Build Picnic Table*. The demand contains twelve 2×6 slats at 72 (six top/six seat), four 2×6 legs at 31.375 with 25-degree ends, two 2×4 braces at 32.875 with 25-degree ends, two square 2×4 supports at 61, two square 2×2 end cleats at 34.25 and one middle cleat at 29.25: 23 parts. It requests 100 coated #10 2.5-inch wood screws; Store buys two 90-piece packages at $9.44, totaling $18.88 and 180 offered pieces.
+
+The selected 13 parents cost $200.05; 1068.903160409143 modeled seconds cost $74.23; Q=$293.16. Five 192-inch 2×6 parents each carry two long slats, two 120-inch parents carry one each, one 168-inch parent carries four legs, three 96-inch 2×4 parents carry supports/braces, and two 96-inch 2×2 parents carry cleats. Parent choice accounts for complete inventory/cost, not merely the shortest row.
+
+**Unresolved source-to-demand correspondence:** the page's `angleNote` explicitly says the published angled parts are measured **long point to short point**; `packagesFor` declares **parallel, long-long outer-edge, miter-face** for the outgoing angled demand. A reported 31.375 or 32.875-inch number therefore does not yet have a demonstrated source-to-demand transformation. The source cut-plane/angle interpretation must also be reconciled. The master reproduces what current code evaluates and does not certify it as a faithful manufacturing transcription of the published plan. System owns resolving that meaning; no new offset or reinterpretation is inserted here. Q is an answer to the encoded demand while this issue remains identified.
+
+The alternate Table + two benches plan is square-cut, all 2×4, with 13 slats following chosen length and fixed frame lengths. Its hardware counts include project interpretations where the source does not publish totals/gauge. Material/exposure, finish tiers, optional located spots and decorative face-angle cuts are separate choices evaluated independently. Hole diameters/depth and structural/assembly engineering are not supplied by a center-spot operation or a Store quote. BYO hardware changes purchase scope; it does not erase the plan's assembly requirement.
+
+**Exact reconstructed protocol 2 inquiry**
+
+```json
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "MASTER-OUTDOOR",
+  "demand": {
+    "configurationId": "OUTDOOR-PICNIC-A-FRAME",
+    "configurationVersion": "MASTER-PUBLIC-DEFAULT-1",
+    "cutPackages": [
+      {
+        "packageId": "treated|SLATS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "TOP-01",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-02",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-03",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-04",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-05",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-06",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-01",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-02",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-03",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-04",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-05",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-06",
+            "lengthIn": 72
+          }
+        ]
+      },
+      {
+        "packageId": "treated|LEGS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 25,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "LEG-01",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-02",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-03",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-04",
+            "lengthIn": 31.375
+          }
+        ]
+      },
+      {
+        "packageId": "treated|BRACES",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 25,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "BRACE-01",
+            "lengthIn": 32.875
+          },
+          {
+            "partId": "BRACE-02",
+            "lengthIn": 32.875
+          }
+        ]
+      },
+      {
+        "packageId": "treated|SUPPORTS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "SUPPORT-01",
+            "lengthIn": 61
+          },
+          {
+            "partId": "SUPPORT-02",
+            "lengthIn": 61
+          }
+        ]
+      },
+      {
+        "packageId": "treated|CLEATS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 2,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "CLEAT-END-01",
+            "lengthIn": 34.25
+          },
+          {
+            "partId": "CLEAT-END-02",
+            "lengthIn": 34.25
+          },
+          {
+            "partId": "CLEAT-MID-01",
+            "lengthIn": 29.25
+          }
+        ]
+      }
+    ],
+    "itemLines": [
+      {
+        "lineId": "COATED|S25",
+        "qty": 100,
+        "requirement": {
+          "kind": "wood-screw",
+          "gauge": "#10",
+          "lengthIn": 2.5,
+          "finish": "coated",
+          "unit": "piece"
+        }
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "OUTDOOR-PICNIC-A-FRAME",
+    "revision": "MASTER-PUBLIC-DEFAULT-1",
+    "boardPartIds": [
+      "TOP-01",
+      "TOP-02",
+      "TOP-03",
+      "TOP-04",
+      "TOP-05",
+      "TOP-06",
+      "SEAT-01",
+      "SEAT-02",
+      "SEAT-03",
+      "SEAT-04",
+      "SEAT-05",
+      "SEAT-06",
+      "LEG-01",
+      "LEG-02",
+      "LEG-03",
+      "LEG-04",
+      "BRACE-01",
+      "BRACE-02",
+      "SUPPORT-01",
+      "SUPPORT-02",
+      "CLEAT-END-01",
+      "CLEAT-END-02",
+      "CLEAT-MID-01"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [],
+    "items": [
+      {
+        "lineId": "COATED|S25",
+        "qty": 100
+      }
+    ],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+**Selected complete plan**
+
+| SKU | Quantity | Parent length | Unit USD | Extension USD |
+|---|---:|---:|---:|---:|
+| STB-ZERO-HW-COATED-SCR10-2P5-90-001 | 2 | hardware | 9.44 | 18.88 |
+| STB-ZERO-PT-2X4-96-001 | 3 | 96 | 4.81 | 14.43 |
+| STB-ZERO-PTAG-2X2-96-001 | 2 | 96 | 5.54 | 11.08 |
+| STB-ZERO-PTAG-2X6-120-001 | 2 | 120 | 13.23 | 26.46 |
+| STB-ZERO-PTAG-2X6-168-001 | 1 | 168 | 19.43 | 19.43 |
+| STB-ZERO-PTAG-2X6-192-001 | 5 | 192 | 25.73 | 128.65 |
+
+| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
+|---|---|---:|---:|---:|
+| STB-ZERO-PTAG-2X2-96-001 | CLEAT-END-01, CLEAT-END-02 | 1.5 | 27.125 | 75.042500000 |
+| STB-ZERO-PTAG-2X2-96-001 | CLEAT-MID-01 | 1.5 | 66.5 | 67.959583333 |
+| STB-ZERO-PT-2X4-96-001 | SUPPORT-01 | 3.5 | 34.75 | 73.706111111 |
+| STB-ZERO-PT-2X4-96-001 | SUPPORT-02 | 3.5 | 34.75 | 73.706111111 |
+| STB-ZERO-PTAG-2X6-120-001 | SEAT-01 | 5.5 | 47.75 | 76.858888889 |
+| STB-ZERO-PTAG-2X6-120-001 | SEAT-02 | 5.5 | 47.75 | 76.858888889 |
+| STB-ZERO-PTAG-2X6-192-001 | SEAT-03, SEAT-04 | 5.5 | 47.625 | 89.813333333 |
+| STB-ZERO-PTAG-2X6-192-001 | SEAT-05, SEAT-06 | 5.5 | 47.625 | 89.813333333 |
+| STB-ZERO-PTAG-2X6-192-001 | TOP-01, TOP-02 | 5.5 | 47.625 | 89.813333333 |
+| STB-ZERO-PTAG-2X6-192-001 | TOP-03, TOP-04 | 5.5 | 47.625 | 89.813333333 |
+| STB-ZERO-PTAG-2X6-192-001 | TOP-05, TOP-06 | 5.5 | 47.625 | 89.813333333 |
+| STB-ZERO-PT-2X4-96-001 | BRACE-01, BRACE-02 | 3.5 | 29.875 | 79.031180288 |
+| STB-ZERO-PTAG-2X6-168-001 | LEG-01, LEG-02, LEG-03, LEG-04 | 5.5 | 41.875 | 96.673230121 |
+
+Calculation input hash: `5787a8352f6e8f5a8841fccac19c1a67829678faeea61047ece47b94db89311b`; result hash: `79e514477ce8557beaca5e7477bba85efe8c760d1d939e4a637f24ea89593d6d`; fixed-clock receipt hash: `4dfc0a5289f92bae083a88668dd7cb4a68821fca0a17e6031c1f5bc902e15802`.
+
+### 8.6 Playhouse
+
+The current Playhouse sheet path in the composed public base/front-door and [playhouse-admission.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.ts) produces `SHEET_PACKAGE_V1`. The default is one .5-inch 96×48 sheet with centered 36-inch-wide aperture, 24-inch straight height, 12-inch rise, tab retention, vertical center split and crosscuts 18 inches from each end. It returns all pieces.
+
+The opening box is X=30..66, Y=6..42, within the central router field. Radius is 19.5, sweep 2.3520104141902705 radians, nominal perimeter 129.86420307671028 and compensated centerline 128.0761745483586 inches. AUTO raises contour tabs from requested minimum four to **seven** at developed positions 8.72398549452069, 27.276014505479303, 45.828043516437916, 64.38007252739652, 82.93210153835514, 101.48413054931375 and 120.03615956027237 inches. Center-split path is 36 inches with two bridges at 12/24. Retention is geometric, not tested tab strength.
+
+One routing pass is needed. Hourly work is load120 + aperture plunge10/path128.0761745483586/tabs14 + split plunge10/path36/tabs4 + release60 + five labels50 = **432.0761745483586 seconds**. Two separately priced 64.2-second panel cuts add 128.4 occupied seconds, for total **560.4761745483586**. Hourly service $30.01 + sheet $26.55 + fixed cuts $20 gives **$76.56**.
+
+Returned pieces are two outside panels each nominally 17.9375×48, center frame 59.875×48, and two retained routed halves each bounding 17.75×35.5. Their IDs appear in the evaluated `pieces`; bridges keep the routed halves retained. These are modeled nominal bounds, not inspected sizes. The three panel pieces carry the declared ±.25-inch panel positioning tolerance.
+
+A larger rise than half opening width is refused. Added panel cuts change fixed charges and returned labels; cuts too close to the aperture or producing pieces under six inches are refused. A moved pattern must remain inside the registered field. CUSTOM split without explicit positions is unresolved. Exterior rating requires supporting catalog evidence. System cannot turn an unresolved exterior/material/retention question into a supported result by dropping the field.
+
+**Exact reconstructed protocol 2 inquiry**
+
+```json
+{
+  "requestType": "SHEET_PACKAGE_V1",
+  "requestId": "MASTER-PLAYHOUSE",
+  "demand": {
+    "configurationId": "PLAYHOUSE-ARCHED-WINDOW",
+    "configurationVersion": "w36-h24-r12-c18/18",
+    "sheet": {
+      "thicknessIn": 0.5,
+      "lengthIn": 96,
+      "widthIn": 48
+    },
+    "features": [
+      {
+        "featureId": "OPENING",
+        "kind": "ARCHED_APERTURE",
+        "placement": "CENTERED",
+        "widthIn": 36,
+        "straightHeightIn": 24,
+        "riseIn": 12,
+        "retain": "TABS",
+        "requestedTabCount": 4
+      },
+      {
+        "featureId": "CENTER-SPLIT",
+        "kind": "STRAIGHT_SPLIT",
+        "within": "OPENING",
+        "line": "VERTICAL_CENTERLINE"
+      },
+      {
+        "featureId": "CUT-LEFT",
+        "kind": "CROSSCUT",
+        "fromEnd": "LEFT",
+        "distanceIn": 18
+      },
+      {
+        "featureId": "CUT-RIGHT",
+        "kind": "CROSSCUT",
+        "fromEnd": "RIGHT",
+        "distanceIn": 18
+      }
+    ],
+    "returnAllPieces": true
+  },
+  "manifest": {
+    "jobId": "PLAYHOUSE-ARCHED-WINDOW",
+    "revision": "w36-h24-r12-c18/18",
+    "boardPartIds": [],
+    "sheetPackageIds": [
+      "PLAYHOUSE-ARCHED-WINDOW"
+    ],
+    "featureIds": [
+      "OPENING",
+      "CENTER-SPLIT",
+      "CUT-LEFT",
+      "CUT-RIGHT"
+    ],
+    "items": [],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+**Selected complete plan**
+
+| SKU | Quantity | Parent length | Unit USD | Extension USD |
+|---|---:|---:|---:|---:|
+| STB-ZERO-PLY-050-48X96-001 | 1 | 96 | 26.55 | 26.55 |
+
+Calculation input hash: `7c1d6ed0bd5fdebd77b757ab2a35ba101f3493b0c9a23ddbf118363b40a4cbf5`; result hash: `f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31`; fixed-clock receipt hash: `90d62bbc57f3b3fd50d0bab051644facbbf3c1a0fc887dfa24c7082d37f1eb81`.
+
+### 8.7 Variations refusals and commercial scope
+
+A representative supported revision preserves its full component/feature/hardware manifest, obtains a new Store answer and recalculates geometry, stock, occupancy and Q. A refused revision remains a refusal in System custody; the preceding supportable answer is historical rather than permission for the revised job. Changes outside a bounded System control may be blocked before inquiry, while an admitted requirement outside Store's capability is answered by Store with its own reason.
+
+Every path uses System admission, manifest, attributable inquiry/answer, customer decision and packet/evidence handoff. The public `ALCOVE_INSERT_V1` vocabulary is translated by System into Store's generic cut-package class; Store does not maintain a separate Alcove evaluator. System's generic recipe library and the active public defaults can differ. Prices in this chapter deliberately bind to the explicit current default requests rather than whichever old example has the same project title.
+
+Customer Q covers the evaluated manufacturing scope. Labeling, inspection, bundling, protection, sanding, pickup/delivery and assembly requests may exist in System custody without being included in the engine's quote. The seller must state which are included, separately charged, waived, unresolved or outside scope. Job 1 has an explicit simulated demo checkout policy; the other paths do not inherit it automatically. Chapter 10 explains what can progress and what remains pending.
