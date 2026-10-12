@@ -46,7 +46,7 @@ All three definition classes can request virtual evidence. Returned physical adm
 
 # 6. Commercial and fulfillment sequence
 
-The [commercial sequence specification](commercial-sequence-template.md) is shared identically with System. Its executable gate is `src/contracts/commercial-sequence.js`, byte-identical to System's public/live/stb-commercial-sequence.js. This module records identified source evidence and derives transaction state; it performs no payment, reservation, notification or machine side effects. Only SIMULATED sources are currently installed; ACTUAL source records are refused.
+The [commercial sequence design map](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md) is owned by System and is the same text formerly duplicated here. Its executable gate is `src/contracts/commercial-sequence.js`, byte-identical to System's public/live/stb-commercial-sequence.js. This module records identified source evidence and derives transaction state; it performs no payment, reservation, notification or machine side effects. Only SIMULATED sources are currently installed; ACTUAL source records are refused.
 
 C01 attaches a complete manifest-bound Store answer. C02 requires an identified seller, location, exact offer/version/amount/currency/terms/expiry/fulfillment and explicit policy. C03 records the customer's decision only. Seller order acceptance, financial events, reservation/capacity, queue confirmation and production release are separate records with prerequisites and causal references. Seller extras remain explicit included/separate/waived/unresolved/outside-scope dispositions; Q is not silently repriced into a final commercial total.
 
