@@ -73,6 +73,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [6.6 Contact screens and physical restraint](#66-contact-screens-and-physical-restraint)
   - [6.7 Fixed tooling and local lowering](#67-fixed-tooling-and-local-lowering)
   - [6.8 Proposed physical apparatus and commissioning](#68-proposed-physical-apparatus-and-commissioning)
+  - [6.9 Historical apparatus and component engineering](#69-historical-apparatus-and-component-engineering)
 - [7. Complete historical Project 1 walkthrough](#7-complete-historical-project-1-walkthrough)
   - [7.1 Specimen sources and identities](#71-specimen-sources-and-identities)
   - [7.2 Customer geometry and System derivation](#72-customer-geometry-and-system-derivation)
@@ -130,6 +131,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [13.3 Complete customer amount and internal cost](#133-complete-customer-amount-and-internal-cost)
   - [13.4 Waste maintenance and alternatives](#134-waste-maintenance-and-alternatives)
   - [13.5 Laboratory and yard validation](#135-laboratory-and-yard-validation)
+  - [13.6 Research argument and what Store tests](#136-research-argument-and-what-store-tests)
 - [14. Exact source and verification register](#14-exact-source-and-verification-register)
   - [14.1 Store runtime source register](#141-store-runtime-source-register)
   - [14.2 System handoff source register](#142-system-handoff-source-register)
@@ -835,7 +837,7 @@ Placement is centered on the 96×48 parent unless an admitted pattern offset sup
 
 ### 5.11 Retention tabs and split rules
 
-The arched center is retained by tabs. One-inch bridges, at least four tabs, at least five-percent retained perimeter and no more than 24 inches of free span are declared constraints. Perimeter locations are developed distances starting at the bottom-left, then bottom, right side, arc and left side. AUTO mode selects a count sufficient for count, retained fraction and spacing; phase is chosen from transition residues to avoid locating bridges across geometric transitions. It can increase count through at most 64 additional attempts. The resulting tab count can exceed the customer's requested minimum.
+The arched center is retained by tabs. Tab locations and retention fractions use the **nominal contour perimeter** `Ptab = w + 2h + R*theta`; routing time uses the distinct compensated cutter-center perimeter in 5.10. For the default these are 129.86420307671028 and 128.0761745483586 inches respectively. One-inch bridges, at least four tabs, at least five-percent retained perimeter and no more than 24 inches of free span are declared constraints. Perimeter locations are developed distances starting at the bottom-left, then bottom, right side, arc and left side. AUTO mode begins with `max(requestedTabCount, 4, ceil(Ptab*.05/1), ceil(Ptab/(24+1)))`, then increases the count if transition or split-half retention checks fail; phase is chosen from transition residues to avoid locating bridges across geometric transitions. It can increase count through at most 64 additional attempts. The resulting tab count can exceed the customer's requested minimum.
 
 CUSTOM positions are literal developed arclengths. Count must match; positions must be finite in `[0,P)`; bridges must not overlap; free spans and retained fraction must pass; and bridges must clear transitions by at least half bridge length. A center split additionally requires at least two perimeter tabs on each half with sufficient distance from the split corridor. Calling four evenly spaced points “tabs” is insufficient if one falls at a contour transition or leaves a split half uncontrolled.
 
@@ -1000,6 +1002,46 @@ Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-p
 The first useful trial must establish the reference cut and face transformation, repeatable A/B/C references, stock seating and controlled movement, contact/roller restraint under representative loads, tool calibration and real saw stroke, actual spot depth, profile/offcut control, guarded release/labeling and interruption behavior. Measurements compare predicted occupancy with observed operation/handling time and compare modeled geometry with inspected components. Failed attempts and rework remain in the record rather than disappearing from the economic comparison.
 
 Physical authority remains blocked in the adopted code. This is an actual evidence-stage result: the model is declared, not measured or commissioned. Program's proposed cell is a route to resolve these named questions; the master does not appoint it as an already operational Store machine.
+
+### 6.9 Historical apparatus and component engineering
+
+The original Project 1 review supplies an engineering component register, not merely software constants. Its full D-001 reference allocates two manipulating rollers, two downstroke miter stations and positioned spotting/tool functions. The first specimen uses one saw and one spot station. The current adopted core instead evaluates its registered nominal saw/tool/roller geometry; the proposed Program trial must release its own actual layout. This distinction explains why the historical right-saw actuator list is not a missing current engine module.
+
+| Historical commercial reference | Function and allocation | Recorded specification/status in the 2026-10-04 review |
+|---|---|---|
+| Beckhoff CX5340-0195 | One PLC/motion computer | Windows 10 IoT/TwinCAT runtime variant; licenses separate; platform level 50 |
+| TwinCAT TC1250 | PLC and NC point-to-point software | Ten-axis reference class; exact order/build/virtual-axis counting to freeze |
+| AX8620-0000-0000 | One servo DC-link supply | 20-A class on three-phase input; load calculation open |
+| AX8206-0200-0000 | Four dual-axis modules for full reference | 6-A rated/20-A peak per channel; Safe Motion variant is a component fact, not a validated safety system |
+| AM8042 E-winding family | Two feed/roller motors | 4.10-Nm standstill/3.90-Nm rated class; shaft/feedback/brake options unresolved |
+| AM8031 C-winding family | Six full-reference Y/Z/A-L/S-L/A-R/S-R axes | Candidate class; gravity axes require brake/load review |
+| SICK MWS120-12M3AC03600 | Independent stock-length feedback | SSI wheel, 200-mm circumference, 3600 steps/revolution; nominal station X=30 |
+| EL5001 | SSI encoder input | Encoder format/wiring and additional pivot-feedback channels to specify |
+| Nakanishi EMS-3060K, code 7862 | One spot spindle | Separate collet/motor cord needed |
+| Nakanishi E3000, code 8422 |Spindle controller, candidate 200-V version | External control/monitoring; interface and air service unresolved |
+| ABB Baldor EM3615T-G | Two saw motors for full reference | 5-HP three-phase reference; recorded 1755-rpm nameplate differs from modeled 1800 |
+| EL6910/EL1904/EL2904 | Safety logic/input/output component classes | Channel count and complete validated protective design absent |
+| Festo MS6-SV-1/2-E-10V24-SO-AG, 548717 | Pneumatic isolation/exhaust reference | Recorded exhaust/start-prevention functions; system integration still required |
+
+These are historical selections under the [original engineering review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), section 10 and its manufacturer register. They are not current procurement quotations, a complete machine BOM or adopted operating components. An installed selection must reverify exact variants, compatibility, availability and applicable specifications. The original evidence does not claim a purchased/validated assembly.
+
+The motion topology matters. Job 1 uses six physical axes—two feed rollers, Y, Z, A and S—plus the **virtual X master**. The full two-saw reference uses eight physical axes plus that master, nine NC objects if the virtual axis is counted. Saw spindle motors are separate from the positioning-servo channel allocation. A ten-axis software license reference therefore cannot be interpreted as ten proven physical motion functions. EtherCAT carries the proposed drive/I/O communication; IEC 61131-3 Structured Text and PLCopen motion blocks supply the ordinary control language. Controller integration still has to freeze task timing, maps, limits and diagnostics.
+
+The sizing relationships can be inspected without a vendor page. At four-inch roller diameter, 480 in/min stock feed requires
+
+$$n={480\over\pi\times4}=38.197186\ldots\ \text{rev/min}.$$
+
+A 3.90-Nm rated shaft torque at two-inch radius gives ideal tangential force
+
+$$F={3.90\over2\times0.0254}=76.771654\ldots\ \text{N}$$
+
+per roller before gearing, thermal duty, traction losses or stock-load requirements. It does not establish frictional force available on bowed/wet/treatment-variable wood or one-roller control. Bearings, preload, board forces, inertia and continuous low-speed duty remain sizing inputs.
+
+The wheel's ideal indicated increment is 200/3600=.0555556mm, or about .00218723 inch per step. That is resolution, not calibrated travel accuracy or finished-part tolerance. Wheel pressure, contact loss, slip, surface condition and encoder format can defeat the inference that a count means actual board travel. Independent travel feedback is intended to challenge roller-drive position; it does not automatically verify itself.
+
+The historical rack example uses module 1.5 and 20 teeth, giving linear pitch travel $\pi\times1.5\times20=94.2478$mm/revolution. At a 150-mm sector radius that gives 36 degrees per pinion revolution. Both are mechanism assumptions. Actual axis stroke, backlash, stiffness, pivot zero, clamp state and angle validation require measured registration. The modeled saw feed's 1800 rpm must not silently become a 1755 rpm installed motor value; blade choice/kerf and spindle arrangement remain explicit engineering decisions.
+
+Unselected mechanical/electrical elements remain consequential: rails/racks/pinions, frame/mounting, supports, saw arbor and spindle bearings, couplings, restraint, guards, extraction, compatible blade, circuits/disconnects/protection, saw drives/contactors, 24-V budget, terminals/cables, cooling, filters, motor cords and regulated air. The review specifically leaves a compliant blade ordering code unresolved because a preceding blade reference had wider kerf than the model. An attractive component list cannot fill these gaps by omission. The laboratory must establish a dimensioned arrangement and inspected configuration before this topology can support physical output.
 
 ## 7. Complete historical Project 1 walkthrough
 
@@ -2439,7 +2481,7 @@ JS
 
 For the five chapter-8 examples, copy their exact JSON inquiries and evaluate with the same release/clock. Their hashes identify those precise requests; replacing request IDs changes calculation input identity. A separately named evaluation is legitimate, but its hashes must be reported as its own.
 
-The committed [contract examples](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) are deterministic examples built with `recordedCatalog()`, acceptance release `store-zero-acceptance` and fixed 2026-10-08 clock. **Their catalog is the preserved old catalog adapted to the current catalog schema**, not the current disk catalog. They exercise today's code against an identified fixture. Consequently their Project 1 price/identities must not be used as the current $10.81 live-catalog answer or the sealed $11.09 legacy result. `buildExamples()` can be imported and compared in memory; `npm run build:examples` writes fixtures and is not required for this documentation assignment.
+The committed [contract examples](https://github.com/GeorgePlattDemo/store-zero/tree/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) are deterministic examples built with `recordedCatalog()`, acceptance release `store-zero-acceptance` and fixed 2026-10-08 clock. **Their catalog is the preserved old catalog adapted to the current catalog schema**, not the current disk catalog. They exercise today's code against an identified fixture. The acceptance Project 1 fixture also evaluates to $10.81, but its catalog/release/request/receipt identities differ from the current-disk-catalog inquiry. Neither current-core example is the sealed $11.09 legacy result. `buildExamples()` can be imported and compared in memory; `npm run build:examples` writes fixtures and is not required for this documentation assignment.
 
 A complete refusal example is the evidence request `{"packet":{},"expectedMachineConfigId":"WRONG","expectedMachineConfigHash":"WRONG"}`. The engine responds `{"status":"REFUSED","physicalAuthority":false,"reasonCodes":["MACHINE_CONFIGURATION_IDENTITY_MISMATCH"]}` before it attempts malformed-packet lowering. A correct configuration with an altered packet reaches the packet-specific refusal instead. Fault injection on valid records stops replay at the affected state; it never grants partial physical release.
 
@@ -2849,3 +2891,378 @@ Program's [supervised laboratory trial](https://github.com/GeorgePlattDemo/3d-so
 The trial first proves references/stock control, saw face/kerf/stroke, spot location/full-diameter penetration, controller integration/fault recovery and independently inspected components. Later it measures free supervised supplied-material service and, separately, willingness to pay. Record supported/refused/redirected/deferred/abandoned requests, preparation time, material/waste, occupancy, reliability, support, actual receipts/costs and customer results.
 
 A yard pilot must retain the same identified definition through actual equipment and return observed results to its originating owner record. Capability/footprint tradeoffs should follow observed demand and complete service costs. Go/no-go criteria are set before interpretation; negative findings may justify narrowing, changing or stopping. Program owns that research proposal and adoption rationale; this master links it rather than making a duplicate institutional research plan.
+
+### 13.6 Research argument and what Store tests
+
+Helu, Sobel, Nelaturi, Waddell and Hibbard's 2020 *Industry Review of Distributed Production in Discrete Manufacturing*, Journal of Manufacturing Science and Engineering 142(11), 110802, describes matching part requirements to assets under technical, business and logistical constraints. Its manufacturing-as-a-service discussion identifies human planning in quoting; its interoperability discussion identifies repeated reengineering/process-development burden and small-batch scrap risk. A common format is insufficient when systems lack the context needed to interpret requirements and results. The authors distinguish product/process information, asset capability and coordination across lifecycle stages. [Primary NIST manuscript](https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=929339), especially sections 3.2, 4.2, 5.1–5.4, supplies the source argument.
+
+Srai and colleagues' 2016 *Distributed manufacturing: scope, challenges and opportunities*, International Journal of Production Research 54(23), 6917–6935, examines emerging production technology, digital coordination and localized/end-user participation through an expert panel and case studies. It discusses different economic comparisons when flexibility, inventory, transport and shrinkage matter alongside manufacturing cost, and treats organizational/governance and adoption questions as part of production. It is a research agenda with contextual cases, not a demonstrated lumberyard profitability result. [Author accepted manuscript](https://eprints.whiterose.ac.uk/id/eprint/103628/5/GrahamDistributed%20Manufacturing.pdf) and DOI 10.1080/00207543.2016.1192302 identify the source/version; historical research claims retain 2016 context.
+
+The following is the **Store-specific engineering inference**, based on this master’s actual source, rather than a claim that either paper evaluated Store Zero:
+
+| Engineering question | Current explicit Store mechanism | Required next evidence |
+|---|---|---|
+| Can all requirements survive quoting? |Independent manifest, exact shape, revision/demand/receipt binding |Real intake/capture and source-to-demand correspondence |
+| Can a capability be reused without redraw? |Bounded geometry, registered model/tools, deterministic neutral conversion |Commissioned transforms, repeatable inspected parts |
+| Can an available asset supply the whole job? |Catalog eligibility, cumulative inventory, complete parent search |Actual stock condition/lot and capacity admission |
+| Does preparation disappear or shift? |Supported instances reuse pre-engineered mappings |Measured clarification/engineering/support time before and after |
+| Can small-batch failures destroy margin? |Refusal, identified physical gaps and fault stops |Actual failed attempts, scrap/rework/downtime and complete cost |
+| Does decentralized production create local value? |Defined request can reach an identified Store without re-entry |Demand, paid decisions, local receipts/costs and comparable alternatives |
+
+The core supplies a concrete test surface for these questions: it prices and traces a complete stated result under explicit constraints. Evidence then determines whether reusable engineering reduces enough repeated preparation to justify the complete local service. Network connectivity alone does not establish that result. This is why Program's trial measures the customer's accepted result and the entire service, while Store preserves the manufacturing calculation as one identified part of that comparison.
+
+## 14. Exact source and verification register
+
+### 14.1 Store runtime source register
+
+Every link in the following tables uses the frozen **source** commit, not the subsequent documentation commits. A current artifact may contain historical/proposed data; the status column describes its purpose rather than pretending all its contents are live physical evidence. Runtime tests refer to the identified 87-test Node 22 suite.
+
+| Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
+|---|---|---|---|---|---|---|
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/evaluation/engine/store-manufacturing-core.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/engine/store-manufacturing-core.mjs) | Sole neutral compiler, whole-job planner, ledger and Q | Store | 21 core checks; manufacturing-core/protocol2 tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/evaluation/catalog.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/catalog.mjs) | Single catalog reader and validation | Store | Catalog acceptance; check:catalog | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/store-zero-catalog.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/store-zero-catalog.json) | 183 offered supply records and declared inventory/prices | Store | Catalog validation; frozen numerical rechecks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-observations.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-observations.json) | 20 attribution records | Store | Discovery and catalog tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-price-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-price-sheet-2026-09-26.csv) | Reference material-price source | Store | Catalog provenance | Historical/source data |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-hardware-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-hardware-sheet-2026-09-26.csv) | Reference hardware-price source | Store | Catalog provenance | Historical/source data |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/machine/manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/machine/manufacturing-core-0.1.json) | Registered parameter input | Store declared model; local commissioning future | Configuration/hash and protocol2 checks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/configuration.mjs) | Register/expand/hash exact declared configuration | Store modeled evidence boundary | Protocol2/configuration checks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/shape.mjs) | Exact typed field/enum checking | Store contract | Protocol2; packet/service refusals | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/definitions.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/definitions.mjs) | Three public manufacturing shapes | Store contract | Protocol2; contract examples | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/store-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/store-request.mjs) | Single request admission/evaluation/receipt issuer | Store | Protocol2; receipt and service checks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/offering-lookup.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/offering-lookup.mjs) | Bounded SKU/text discovery and provenance | Store | Lookup/service checks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/job-packet.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs) | Accepted packet 2, alteration/currentness verifier | System produces; Store validates | Protocol2; packet/contract acceptance | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/machine-records.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/machine-records.mjs) | Local job and occupancy record shapes | Store current evidence; local physical implementation future | Protocol2; machine examples | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) | Bind accepted ledger without replanning | Store current evidence boundary | Protocol2; all five fresh master cases | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/virtual-run.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs) | State/hash/order/time replay and blocked physical admission | Store model verification | Protocol2; fault cases; all five master cases | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/evidence.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/evidence.mjs) | One evidence endpoint evaluator | Store | Protocol2; HTTP evidence checks | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js) | Shared simulated source-event contract | Shared contract under named source roles | Commercial tests; byte equality with System | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/commercial-request.mjs) | Simulated chain verification/append wrapper | Store transport/gate | Service/commercial tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/service/server.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/service/server.mjs) | HTTP protocols, health, digest, bounds, release | Store | Service and deployment-verifier tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/source-digest.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/source-digest.mjs) | Recompute shipped source identity | Store | Digest recheck | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/verify-deployment.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/verify-deployment.mjs) | Checkout-to-service behavior verifier | Store | verify-deployment.test.mjs | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/check-catalog.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/check-catalog.mjs) | Catalog validation command | Store | 183 SKUs valid | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/build-contract-examples.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/build-contract-examples.mjs) | Deterministic current-code examples against recorded catalog | Store contract evidence | Contract acceptance; no fixture regeneration | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/core-self-checks.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/core-self-checks.mjs) | 21 independent declared-core assertions | Store | manufacturing-core.test.mjs | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/manufacturing-core.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/manufacturing-core.test.mjs) | Engine geometry, inventory, timing/economics | Store | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/protocol2.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/protocol2.test.mjs) | Manifest, packet, current evidence boundary | Store | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/service.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/service.test.mjs) | Transport/release/source-change bounds | Store | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/verify-deployment.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/verify-deployment.test.mjs) | Verifier behavior against controlled services | Store | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/commercial-sequence.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/commercial-sequence.test.mjs) | Simulated prerequisites, policy, retry, alterations | Shared contract | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/project-1.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/project-1.mjs) | Explicit present-grade/end meaning on sealed demand | Store test input | Current $10.81 test; historical bytes unchanged | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/user1-dimensional-travel-fixture.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/user1-dimensional-travel-fixture.mjs) | 16-inch SPF bounded specimen | Store test input | Current $8.62 inquiry | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/alcove-cut-packages.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/alcove-cut-packages.mjs) | Generic Alcove neutral test fixture, distinct defaults | Store test input | Core/protocol tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/manifest.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/manifest.mjs) | Independently listed test expectation helper | Store tests only | Protocol/contract coverage | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/catalog/catalog.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/catalog/catalog.test.mjs) | Catalog data rules and attribution checks | Store | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/contracts/contracts.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/contracts/contracts.test.mjs) | Serialized fixture equality | Store contract | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/boundaries/boundaries.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/boundaries/boundaries.test.mjs) | Owner/import/runtime boundaries | Store governance | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/boundaries/documents.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/boundaries/documents.test.mjs) | Document/evidence custody boundaries | Store governance | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/project-1.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/project-1.test.mjs) | Preserved $11.09 plus distinct current $10.81 benchmark | Store acceptance | Node 22 suite | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/differential/differential.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/differential.test.mjs) | 1786-case classification/new baseline equality | Store migration | 844 current replays; 942 retired internal exports | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/build-migration-audit.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/build-migration-audit.mjs) | Reconstruct new-model migration classification | Store migration | Differential acceptance | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/migration/core-replay-baseline.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/core-replay-baseline.json) | Explicit current-model migration baseline | Store migration | Differential acceptance | Historical migration/current baseline |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/migration/retired-paths.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json) | Removed implementation and replacement coverage register | Store migration | Boundary checks | Historical migration |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [contracts/examples](https://github.com/GeorgePlattDemo/store-zero/tree/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) | Requests, packets and machine outputs | Store contract examples | buildExamples comparison; acceptance fixture catalog | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/STORE-ZERO-SPECIFICATION.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/STORE-ZERO-SPECIFICATION.md) | Enforceable current behavior | Store specification | Boundary/specification tests | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) | Intended attributable operational contract | Shared source roles | Executable gate comparison | Current design; actual integration proposed |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [AGENTS.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/AGENTS.md) | Maintainer governance/owner boundaries | Store governance | Read before edits | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/README.md) | Existing entry point with identified explanatory drift | Store explanation | Audit reconciliation | Current narrative; corrections deferred |
+
+### 14.2 System handoff source register
+
+System's shared definitions remain the one terminology/meaning owner even where its current explanatory contracts lag the implementation. The master identifies that disagreement; it does not redefine terms under Store authority.
+
+| Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
+|---|---|---|---|---|---|---|
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/DEFINITIONS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/DEFINITIONS.md) | Shared meaning and authority boundaries | System | Compared with operative wire/source | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store-candidate.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store-candidate.ts) | Exact inspected Store commit/protocol/model/packet identities | System pin authority | Joint HTTP tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-store-runtime.json](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-store-runtime.json) | Public transport runtime identity | System deployment | Published-wire tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/manifest.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/manifest.ts) | Independent source component/feature/item expectation | System definition | Published-wire; coverage tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/published-wire.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts) | Public-page translation and attributable inquiry | System boundary | Published-wire tests; exact master demands | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/forward.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/forward.ts) | Server-side Store transport/pin boundary | System transport | HTTP integration tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/interpret.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/interpret.ts) | Byte/receipt/revision/authority response interpretation | System custody | System/HTTP tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/acceptance.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/acceptance.ts) | Current simulated decision and packet 2 production | System decision custody | System/HTTP tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/session.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/session.ts) | Revision/attempt/packet/evidence custody and reopening | System record | System tests; packet-loader discrepancy identified | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/compile.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/compile.ts) | Bounded recipe-to-demand compile/trace | System definition | System tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/recipes/library.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/recipes/library.ts) | Generic recipe definitions/defaults | System definition | System tests; distinct from public defaults | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/window-seat.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/window-seat.ts) | Window Seat bounded derivation | System definition | System tests/layout rule | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/shared/definition-contract.mjs](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/shared/definition-contract.mjs) | Public definition identity/admission contract | System public boundary | Admission/public tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/shared/tile-host-admission-contract.mjs](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/shared/tile-host-admission-contract.mjs) | Per-tile admitted inquiry boundary | System public boundary | Published-wire/admission tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html) | Current composed public shell and overrides | System public app | Published-wire tests; source tracing | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-front-door-0.5.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-front-door-0.5.html) | Front door/nested project composition | System public app | Source tracing; dependency retained | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-base-8d8a9dd.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-base-8d8a9dd.html) | Alcove/Playhouse original public generators inside current shell | System public definitions | Alcove exact generator and Playhouse checks | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/three-frames.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/three-frames.html) | Start Your Own host/frames | System public app | Start-own and public tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-start-own-bench-leg-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-start-own-bench-leg-0.1.html) | Current bounded brace presentation/control | System public app | Start-own tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-alcove-store-bridge.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-alcove-store-bridge.js) | Alcove admitted transport vocabulary | System boundary | Published-wire tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) | Public Window Seat geometry/manifest/defaults | System definition | Fresh $1193.10 reproduction | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-outdoor-picnic-0.4.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-picnic-0.4.html) | Current published plan parts/hardware/angle meaning | System definition | Fresh $293.16 encoded-demand result; datum gap | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-outdoor-option-requests.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-option-requests.js) | Independent Outdoor alternative inquiries | System boundary | Published-wire option tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-commercial-sequence.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js) | Byte-identical served shared event gate | Shared contract | Byte compare; public commercial tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-demo-commerce.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-demo-commerce.js) | Explicit Job 1 simulated seller source/policy | System demo source | Published-wire demo tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-terms-flow.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-terms-flow.js) | Customer terms/decision and simulated stage presentation | System UI/custody | Published-wire terms tests | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/published-wire.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.test.ts) | Public five-path and commercial translation tests | System verification | Node 22 joint suite | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/http.integration.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/http.integration.test.ts) | Exact pinned Store and evidence integration | System verification | Node 22 joint suite | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/playhouse-admission.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.test.ts) | Sheet/Playhouse admission tests | System verification | Node 22 suite | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/start-own-bench.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/start-own-bench.test.ts) | Current brace answers/revisions/refusals | System verification | Node 22 suite | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/rules/window-seat-layout.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/rules/window-seat-layout.md) | Named tower-layout rule | System meaning | Window Seat derivation | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/verification/start-your-own.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/verification/start-your-own.md) | Current proof note for five paths | System verification | Compared to fresh results | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/commercial-sequence-template.md) | Shared transaction design copy | Shared contract | Compare Store copy | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [startup.sh](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/startup.sh) | Runtime pin/startup contract | System deployment | Inspected source; unchanged | Current |
+| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [AGENTS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/AGENTS.md) | System maintainer boundaries | System governance | Read-only consultation | Current |
+
+### 14.3 Program and historical source register
+
+| Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
+|---|---|---|---|---|---|---|
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) | Proposed apparatus, engineering/service measurements | Program | Source compared to current evidence stage | Proposed |
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [EVIDENCE.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/EVIDENCE.md) | Research/statistical/patent/historical provenance | Program | Source reading; documentary check | Current research narrative with historical evidence |
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [README.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/README.md) | Research purpose and public entry | Program | Documentary check | Current |
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [AGENTS.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/AGENTS.md) | Research/runtime owner boundaries | Program governance | Read-only consultation | Current |
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [tools/check_program.py](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/tools/check_program.py) | Small local Markdown-link check | Program verification | PASS: 4 local links | Current |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/patents/US9720401B2.pdf](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US9720401B2.pdf) | Original issued 2017 text, 18 claims and figures | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/patents/US10768609B2.pdf](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US10768609B2.pdf) | Original issued 2020 text, 15 claims and figures | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/patents/SHA256SUMS.txt](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/SHA256SUMS.txt) | Recorded issued-PDF identities | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/patents/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/README.md) | Existing patent navigation; stale matrix target identified | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/project-1-digital-trail/D001_Project1_Review.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md) | Complete historical engineering manuscript | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/project-1-digital-trail/D001_Project1_Review.docx](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx) | Preserved 22-page review presentation | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/project-1-digital-trail/D001_Project1_Evidence.zip](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Evidence.zip) | Sealed source/generator/controller/evidence package | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/project-1-digital-trail/publication-identities.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/publication-identities.json) | Publication checksums/bytes/date | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/project-1-digital-trail/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/README.md) | Existing publication wrapper; current links drift | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/migration/previous-specification.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) | Complete old specification and historical claim/function matrix | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/fixtures/pin-9c62d9d-catalog.json.gz](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/fixtures/pin-9c62d9d-catalog.json.gz) | Immutable original catalog recording | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/fixtures/recorded-catalog.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/fixtures/recorded-catalog.mjs) | Explicit current-schema adaptation of old catalog | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/differential/pin-9c62d9d-answers.jsonl.gz](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/pin-9c62d9d-answers.jsonl.gz) | Immutable 1786-case original answer corpus | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/differential/approved-changes.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/approved-changes.json) | Recorded original migration changes | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/differential/recording/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/recording/README.md) | Recording provenance/process | Store evidence custody | Checksums; historical/migration acceptance | Historical or evidence custody |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/definition-and-demand.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/definition-and-demand.json) | Preserved generated definition-and-demand.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/hypothetical-60-in-check.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/hypothetical-60-in-check.json) | Preserved generated hypothetical-60-in-check.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/local-job.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/local-job.json) | Preserved generated local-job.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/motion-ir.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/motion-ir.json) | Preserved generated motion-ir.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/physical-admission.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/physical-admission.json) | Preserved generated physical-admission.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/proof-results.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/proof-results.json) | Preserved generated proof-results.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/review-summary.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/review-summary.json) | Preserved generated review-summary.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/store-answer.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/store-answer.json) | Preserved generated store-answer.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/from-evidence/virtual-trace.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/from-evidence/virtual-trace.json) | Preserved generated virtual-trace.json | Store historical custody | Original ZIP reproduction; identity comparison | Historical |
+
+**Retained source identities inside the sealed ZIP**
+
+| Original repository | Revision | ZIP path | Git blob | SHA-256 |
+|---|---|---|---|---|
+| scan-to-build-store | `9c62d9d6f7775deef83d47196d32c9b5174a352c` | `store-source/d001-travel-standard.mjs` | `45f819f45e9219f587feb62bf5a09926d77451fb` | `ac11682c0c2f3e67b95095514c3006a157357c793946028ed1a5dcb79ea1d342` |
+| scan-to-build-store | `9c62d9d6f7775deef83d47196d32c9b5174a352c` | `store-source/store-zero-pricing-engine.mjs` | `d688ed7118d3ed5e0ff237658f2e0bca3ad2ffd3` | `cf3c9f52a738c3bd1a6b9f9985c09239f787c2b9e8f54fd222d65dfe6d5b785a` |
+| scan-to-build-store | `9c62d9d6f7775deef83d47196d32c9b5174a352c` | `store-source/d001-stage2-envelope.mjs` | `467cb69def3618767165051a9b2bf69a6946f0f7` | `f781ba896464654e121c6464003a8eb869b6e6b5533ec082594cd5d154f57163` |
+| scan-to-build-store | `9c62d9d6f7775deef83d47196d32c9b5174a352c` | `store-source/store-zero-catalog.json` | `fd871d9d8b6f36baa9781beeb86611e724de683a` | `ed2c1638ca13f874a7cab865870992b41a093c8515e2d1c1b4d80fb77b5358a0` |
+| scan-to-build-store | `9c62d9d6f7775deef83d47196d32c9b5174a352c` | `store-source/store-zero-stage2-store.mjs` | `3d892113de07dd2364337dc82bf77e335b842ea7` | `179bfac09bc9fee70d66abae0721ebd7a7e5ec621cb778c3502c4770c3b093ef` |
+| scan-to-build-system | `1cbee7dd91fa718ae077d0eafe58070d4853d141` | `system-source/user1-xbrace-rule.mjs` | `e0b8baf029f76af0d20f810a4577751944389631` | `4215ebe73c87dd7f4f132dacf86df278a3c2d1b62c7e79a4b321873d84236d8a` |
+| scan-to-build-system | `1cbee7dd91fa718ae077d0eafe58070d4853d141` | `system-source/canonical.mjs` | `de635da99c7ca225bc5fe24d03862ef062a67dd3` | `5118729cc06a3a288340ca4d290a7749c49152b300a3abf862f6cbea2361c6d9` |
+
+**Full documentary reading inventory from the attached audit**
+
+The primary audit supplied 34 document records, including static/generated HTML explanations. Those sources were consulted alongside the actual implementation, not used as a substitute for reading code. PDF/DOCX text counts below are not page counts. The ZIP source/generator/controller/outputs and current code/test/data files are covered by the preceding registers.
+
+| Repository | Exact document at frozen revision | Words in audit extraction | Reading/evidence role |
+|---|---|---:|---|
+| 3d-solutions-program | [AGENTS.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/AGENTS.md) | 718 | Full documentary source |
+| 3d-solutions-program | [EVIDENCE.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/EVIDENCE.md) | 1540 | Full documentary source |
+| 3d-solutions-program | [README.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/README.md) | 991 | Full documentary source |
+| 3d-solutions-program | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) | 3193 | Full documentary source |
+| store-zero | [AGENTS.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/AGENTS.md) | 866 | Full documentary source |
+| store-zero | [README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/README.md) | 1136 | Full documentary source |
+| store-zero | [acceptance/differential/recording/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/recording/README.md) | 174 | Full documentary source |
+| store-zero | [docs/STORE-ZERO-SPECIFICATION.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/STORE-ZERO-SPECIFICATION.md) | 1418 | Full documentary source |
+| store-zero | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) | 2740 | Full documentary source |
+| store-zero | [docs/migration/previous-specification.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) | 31684 | Full documentary source |
+| store-zero | [docs/patents/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/README.md) | 137 | Full documentary source |
+| store-zero | [docs/patents/SHA256SUMS.txt](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/SHA256SUMS.txt) | 4 | Full documentary source |
+| store-zero | [docs/patents/US10768609B2.pdf](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US10768609B2.pdf) | 28357 | Issued text, claims, figures and checksum |
+| store-zero | [docs/patents/US9720401B2.pdf](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US9720401B2.pdf) | 26166 | Issued text, claims, figures and checksum |
+| store-zero | [docs/project-1-digital-trail/D001_Project1_Review.docx](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx) | 8121 | Word/manuscript comparison and 22-page render |
+| store-zero | [docs/project-1-digital-trail/D001_Project1_Review.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md) | 9162 | Full documentary source |
+| store-zero | [docs/project-1-digital-trail/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/README.md) | 489 | Full documentary source |
+| new-system | [AGENTS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/AGENTS.md) | 3271 | Full documentary source |
+| new-system | [README.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/README.md) | 1105 | Full documentary source |
+| new-system | [docs/DEFINITIONS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/DEFINITIONS.md) | 6387 | Full documentary source |
+| new-system | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/commercial-sequence-template.md) | 2740 | Full documentary source |
+| new-system | [docs/intent-imagery-brief.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/intent-imagery-brief.md) | 405 | Full documentary source |
+| new-system | [docs/rules/window-seat-layout.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/rules/window-seat-layout.md) | 122 | Full documentary source |
+| new-system | [docs/verification/start-your-own.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/verification/start-your-own.md) | 2116 | Full documentary source |
+| new-system | [public/live/STB-OUTDOOR-ANGLED-FRAME-RESEARCH-DOSSIER-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/STB-OUTDOOR-ANGLED-FRAME-RESEARCH-DOSSIER-0.1.html) | 8602 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/stb-outdoor-picnic-0.4.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-picnic-0.4.html) | 1316 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/stb-outdoor-reference-authority-0.3.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-reference-authority-0.3.html) | 5109 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/stb-start-own-bench-leg-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-start-own-bench-leg-0.1.html) | 9 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) | 900 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/system-build-base-8d8a9dd.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-base-8d8a9dd.html) | 5786 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html) | 4 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/system-build-front-door-0.5.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-front-door-0.5.html) | 4 | Static and generated explanations; source code also inspected |
+| new-system | [public/live/three-frames.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/three-frames.html) | 1269 | Static and generated explanations; source code also inspected |
+| new-system | [scripts/install-page.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/scripts/install-page.html) | 62 | Static and generated explanations; source code also inspected |
+
+### 14.4 Content identities
+
+File SHA-256 hashes bytes. Git blob identity additionally hashes the Git object header and bytes. Canonical object hashes identify parsed calculation/contract values. They answer different identity questions and must not be compared as if interchangeable.
+
+| Store path at f7123a73 | Bytes | File SHA-256 | Git blob |
+|---|---:|---|---|
+| `src/evaluation/engine/store-manufacturing-core.mjs` | 69695 | `865baea1673623c5be6994503e2575b32d56182c76df573298dba316cde500b6` | `5a4938cb432c41d8cdf319da1d96a11158e1ad77` |
+| `data/machine/manufacturing-core-0.1.json` | 315 | `69640aec1f12afceccf49eed6d662312b31572306ee5e1fe22e6a004b58e769c` | `5293c61535efed5a43bcd4431304b4d5d9b9b12b` |
+| `data/store-zero-catalog.json` | 328692 | `d8c6fc3539e903270c4dea2ecccb5ccec023d6b4301714965a33bfa39316da39` | `5e899b218fe7b45fb1cb35ae0b8535bdad9bcb35` |
+| `src/contracts/definitions.mjs` | 4377 | `7816b1300e38a93de4d0e7a98242b6481dc82b5e99ee016318bbb90acfe872d5` | `370c9858a16e3cefdd0f78aabe3a9d2b5342de1a` |
+| `src/contracts/job-packet.mjs` | 9585 | `4b1e52abac19ed3a3569b5028a2c63672ac33200ed2398f97ae315913041cf0b` | `c06deea4706a86e0bc695821e746ca41a4aebd4d` |
+| `src/contracts/machine-records.mjs` | 5106 | `bb0152f382e1d7ebe0622110024932ee187a7bf2ab2083e19c2535d7f24097f6` | `641080a0ad0a9a6938f625d346b11cf378497fac` |
+| `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
+| `src/requests/store-request.mjs` | 6760 | `3c5c81a9c622f5b6ce0942de026f1f78e21d402053d27cf5856a7e3373415b46` | `201a032b4e6a193b8e388a51e39de59b82dbc9ea` |
+| `src/machine/lowering.mjs` | 3245 | `180aebb943edc78c6a842bbb672ef27384b18f741c4c628caf05507672781555` | `4b93497bf9926423b029b25e053091f3451c9785` |
+| `src/machine/virtual-run.mjs` | 4280 | `abea9ba3b04bad62dfc993a22e5d338a14aaff4aafc8e0b9069ddc6bd10af620` | `2660358c2d1ed13577d200ece025499a30223729` |
+| `docs/project-1-digital-trail/D001_Project1_Review.md` | 61789 | `30d6cf8d27894dd0342a368c4f674c415198349838a0cf1fcc746b1403301136` | `db75609c5ad6bcae26d551cdaed89a86382295b1` |
+| `docs/project-1-digital-trail/D001_Project1_Review.docx` | 70136 | `5439bd25e7870b6155468dc0da7e3dd0c574f98aaf456c7ff0f1d5c6f7c10eba` | `ecaa3d3c72ae627497fd125345f225c05aa34f6b` |
+| `docs/project-1-digital-trail/D001_Project1_Evidence.zip` | 79479 | `c65b62bfa9a389f01f5c387ce03726d94e2858fd0bf9e8236201a4d96f624366` | `7eb203d0bef9ee8b1b0496a75e7cfd9da272f726` |
+| `docs/patents/US9720401B2.pdf` | 4214186 | `d6ff401ee0a60720c0d8b9819a0f828e15036deee1882da06dab7282da0311a4` | `3424036062890657d90ef08396742ef983f0003c` |
+| `docs/patents/US10768609B2.pdf` | 4361544 | `3fd23f9dab7419098162836af25257d2736771bf27196824ad972b479a02b092` | `8df92c5e5b0b3e005c948a09c12406b9bbb41aac` |
+
+| Canonical identity | SHA-256 |
+|---|---|
+| Current runtime catalog | `4183b76beb3b1009544612e4e19662804df40530d6cf94c858b0e525b4885caa` |
+| Expanded registered manufacturing model | `f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18` |
+| Loaded configuration including model | `87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884` |
+| Current-schema recorded acceptance catalog | `392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a` |
+| Historical original receipt catalog | `814ec96d86047819bd1126899864f2c36b0c86c76520bdaa2e977f1f804fdb74` |
+| Shipped 21-file source digest | `b295f674af8213165de3dea2183b60461612f9d86fd6e523d7c1e4bb08d58a92` |
+
+The acceptance catalog/current core also produces $10.81 for its Project 1 fixture. That numerical agreement does not make its acceptance release, catalog hash, request identity or receipt identical to the current-disk-catalog master inquiry. Historical $11.09 belongs to the original evaluator's shortest-complete-parent selection, not a required invariant of the adopted search.
+
+### 14.5 Reproduction commands and verification results
+
+Run Store checks at the frozen source or at this documentation-only main; runtime bytes are unchanged:
+
+```sh
+node --version
+npm run check:catalog
+npm test
+npm run source-digest
+(cd docs/patents && sha256sum -c SHA256SUMS.txt)
+```
+
+Historical reproduction, keeping the repository evidence immutable:
+
+```sh
+STORE_SOURCE=/absolute/path/to/store-zero
+PROJECT1_WORK=$(mktemp -d)
+unzip -q "$STORE_SOURCE/docs/project-1-digital-trail/D001_Project1_Evidence.zip" -d "$PROJECT1_WORK"
+find "$PROJECT1_WORK" -name reproduce.mjs -print
+# Enter the extracted directory containing reproduce.mjs, then:
+node reproduce.mjs
+```
+
+The displayed `find` is a portable locator for the archive's root, not a new repository dependency. All artifacts emitted by the reproduction belong in that scratch extraction. For current full input/output use the executable 9.6 example and the five exact 8.x JSON inquiries.
+
+System joint checks use an independent read-only checkout whose HEAD is **exactly f7123a73**, since System correctly refuses a test Store at another commit even when only documentation differs:
+
+```sh
+STORE_ZERO_ROOT=/absolute/path/to/f7123a73-store-checkout npm test
+```
+
+For Program: `python tools/check_program.py` at its frozen source. Do not move any operating pin to make a documentation commit pass a joint test.
+
+| Actual check for this master | Result | Scope |
+|---|---|---|
+| Node 22 | v22.23.3 | Required Store runtime check environment |
+| Catalog | PASS, 183 valid SKUs | Current fixture catalog data rules |
+| Store suite before/after coherent chapter groups | **87 passed, 0 failed** | Runtime/acceptance checks; no test changes |
+| System full suite, exact pinned Store | **334 passed, 0 failed** (197+55+36+46) | Frozen System and Store; all public/integration groups |
+| Program documentary check | PASS, 4 local Markdown links | Current Program local navigation |
+| Original Project 1 reproduction | **14 passed, 0 failed** | Original seven sources; Q $11.09, Store 85.5001 s, virtual 86.46953628299116 s |
+| Five starting Q reevaluations | $8.62 / $379.11 / $1193.10 / $293.16 / $76.56 | Exact chapter-8 requests/current catalog/model |
+| Current Project 1 inquiry | $10.81, 86.46953628299116 s | Explicit grade/end meaning, current whole-job core |
+| Five current accepted packet/lowering/replays | VIRTUAL_EVIDENCE_READY; replay seconds equal quoted seconds | All three classes; physical BLOCKED |
+| Full executable 9.6 example | PASS; complete evidence equals independent probe serialization | Actual document code exercised |
+| Shared commercial gate | Byte-identical Store/System served copy | One shared executable contract |
+| Issued PDFs | Both SHA256SUMS checks pass | Original bytes preserved |
+| Protected publication artifacts | Hash/byte identities unchanged | Markdown/DOCX/ZIP and patents |
+| Shipped source digest | Unchanged, 21 files | No runtime/data/pin mutation |
+
+An initial System full-run attempt had one harness failure because the environment injected a Node warning before a CLI's expected JSON stderr. Repeating with the environment's Node preload removed and warnings suppressed produced the complete 334-pass run above; no source or test was changed. The numerical/evidence probes were rerun on Node 22. The GitHub acceptance workflow also runs Node 22 on each main documentation save; exact run/commit evidence is visible in [Store Actions](https://github.com/GeorgePlattDemo/store-zero/actions).
+
+## 15. Historical reconciliation and consolidation appendix
+
+### 15.1 Architectural migration
+
+The archived [previous specification](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) retains useful detailed reasoning, historical machine functions, geometric derivations, early economics, boundary examples and claim correspondence. Its 1839 lines/31,684 words describe an older adopted structure. The current 95-line operative specification and consolidated core supersede many runtime paths. They do not erase the archive's dated evidence or authorize treating its retired modules as live dependencies.
+
+The migration `ADOPT-SHARED-MANUFACTURING-CORE-AND-MANIFEST-2` replaces separate evaluators, envelopes, travel/pricing/circular geometry and stencil-tab implementations with one manufacturing core and protocol-2 independent coverage. [retired-paths.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json) identifies removed paths and replacement coverage. Some old test filenames in that migration record now exist with newly rewritten coverage; filename survival does not mean their historical implementation survived.
+
+| Historical function/path family | Current governing target | Significant difference |
+|---|---|---|
+| Separate user-board/cut/sheet evaluators | `store-manufacturing-core.mjs` compiler/evaluator | One neutral whole-job planner, ledger and Q |
+| Separate D-001/S-001 envelopes | Expanded registered core model/configuration | Current geometry/timing registered together |
+| `d001-travel-standard.mjs` and old pricing engine | Core motion, boardCycle, search and economics | State-dependent detailed timing and complete-cost parent search |
+| Circular-segment and stencil-tab modules | Core sheetGeometry/arch/tab planning | Current exact compensated perimeter/retention rules |
+| Historical local reference configuration/IR | Current packet2/local-job/occupancy schemas | Ledger evidence, not restoration of controller-oriented IR |
+| Three-field request narrative | Protocol2 request plus independent manifest | Complete expected component/feature/item coverage |
+| Historical shortest-complete parent policy | Current complete-job cost search | Different parent can reduce material cost even if longer |
+| Partial support narrative | Complete whole-job disposition | No favorable partial Q hiding an unevaluated requirement |
+
+The old answer corpus has 1786 immutable cases: 44 Alcove,114 cut-package,754 envelope,653 dimensional travel,77 sheet,137 D001 user-board and7 circular-segment internal cases. Current migration classification has **844 NEW_MODEL_REPLAY** and **942 RETIRED_INTERNAL_EXPORT**. Replay adds explicitly identified current grade/end facts and a test manifest where necessary; it is an explicit new baseline, not a claim that old hashes/Q remain equal. Historical corpus SHA-256 is `61696ab3f777b86a38adb7289afe65f8dae48db7defc659b08d16a16b7b5cbe0`.
+
+### 15.2 Audit issues and resolution status
+
+The attached *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md* examined the same three source revisions. It was read in full, including implementation findings, patent rows, document inventory and repair sequence. Its file content is identified by SHA-256 `cb59aaf1f8f3901bc616de7fc1cd812f133e9cb368c34a146855b4c80a5dfb43`. The master supplies the complete explanatory record; this assignment does **not** apply the audit's code or old-document repairs.
+
+| Issue in audit | Present resolution in this master | Original-source status and appropriate next owner/target |
+|---|---|---|
+| Outdoor long-short vs long-long, plane/source correspondence | Exact encoded demand/Q shown; discrepancy expressly retained in 8.5 | Unresolved; System source/definition reconciliation required |
+| Shared definitions describe old request/manifest/lowering contracts | Actual protocol2, packet2 and all-class evidence explained in 3/9 | System definitions unchanged; reconcile under System meaning authority |
+| Current patent navigation points to removed active-spec matrix | All 33 current claim/function rows and evidence stage supplied in2 | Patent README's old navigation unchanged; later point to master claim chapters |
+| Store README says core active then not imported | Sole runtime core authority fully documented in1/5 | README unchanged; later concise owner/behavior entry correction |
+| Commercial template adoption wording drifts | Executable simulated gate vs intended source integration explained in10 | Template unchanged; shared owner reconciles prose/envelope deliberately |
+| Project 1 wrapper links old pin/removed sections | Sealed original and current inquiry/identities separated in7 | Wrapper unchanged; later current navigation without changing evidence |
+| Window Seat old exported command lacks manifest | Complete current48-run inquiry supplied in8.4 and protocol explained | Existing stale command unchanged; System must correct its example |
+| Live reviewer guides say formal manifest absent or miss discovery scope | Actual public admission/manifest/discovery described in3/8 | Guides unchanged; concise corrections under System |
+| Program opening describes current virtual commands too broadly | Current occupancy ledger vs historical controller sequence separated in6/7/9 | Program unchanged; its own evidence-stage correction remains |
+| Broken moved paths/removed specification anchors | All master references use existing owner paths at exact revisions | Old document links remain unchanged; later repair specific current links |
+| README clutter and potentially unused candidate artifacts | Content consolidated here; dependency-sensitive retention recommended | No deletions; verify runtime/record/asset dependencies before later cleanup |
+| Historical statistics/price figures mixed with current context | Dated sources/evidence kept separate from current exact evaluations | Do not redate history or replace it with current prices silently |
+
+The audit's proposed ordering remains sensible: resolve meaning/authority first, repair current navigation/explanation next, make only demonstrated implementation repairs under their owners, then simplify entry pages and retire proven-unused narratives. The master is now the long explanatory reconciliation surface; it is not a silent amendment to those owners' enforceable contracts.
+
+### 15.3 Additional source discrepancies
+
+Further source inspection during reconstruction identified the following qualifications:
+
+- **Generic System saved-record loader:** `session.ts` packetOk checks packet1, while current acceptance emits packet2. Current acceptance/evidence can work while a saved current packet fails that structural reopening path. Source remains unchanged.
+- **Commercial exception recovery:** historical unresolved exceptions continue blocking normal events after a later resolved exception. The installed gate has no general hold-clearing policy.
+- **Commercial template envelope:** broader illustrative links/uppercase role do not match exact ten-field/lower-case executable binding. Actual event serialization must follow the executable contract.
+- **Commercial semantic limits:** amount/extra reconciliation, full allocation/component coverage, actual source authentication, order-time expiry recheck and durable cross-order concurrency are not supplied by the in-memory gate. They require explicit owner integrations.
+- **Catalog operation breadth:** DRILL/MILL_END_PROFILE declarations remain on some rows while the current core implements the narrower represented operations. The master lists these as declarations without promoting them to callable machining.
+- **Core comments/document dates:** the engine's introductory Program review references an earlier Program revision and removed Program research paths. Current Program root documents, frozen here, govern the research explanation. Its commercial comment calling the sequence C01–C16 does not define the installed twenty event types.
+- **Project 1 fixture comment:** assertion of reproducing the old full answer/hashes is stale; actual acceptance checks preserve $11.09 and verify a separate current $10.81 result.
+- **Rounding language:** exact implementation rounds whole-job hourly service then total Q; parent summaries are not an independent total authority.
+- **Replay independence:** state/order/hash replay is separate, but the motion formula is shared and sheet XY controller geometry is not independently executed.
+- **Window Seat default:** optional front boolean alone is not admission; Intent's starting added.front=false determines the current $1193.10 definition. Generic recipe and admitted optional-front variants have different results.
+
+These findings are bounded documentation/engineering facts. No source repair, changed catalog, pin movement or deployment is made by this assignment. The code and test passing evidence do not erase the identified source discrepancies.
+
+### 15.4 Protected evidence and future consolidation
+
+Keep issued patent PDFs/checksums; original Project 1 Markdown/DOCX/ZIP/publication identities; retained original sources and generated acceptance evidence; current executable source/data/contracts/tests/workflows; and immutable migration recordings in their appropriate custody. They are primary evidence and implementation, not competing public narratives. The old specification remains a dated historical source; any later reduction or relocation must preserve its identity and historical interpretation.
+
+After this master is verified, a simple Store entry structure can be considered:
+
+| Public document | Later role |
+|---|---|
+| README.md | Short engaging introduction, app path and master/specification entry links |
+| STORE-ZERO-MASTER.md | Complete technical/manufacturing/operational explanation and source register |
+| Short Store specification | Enforceable current contracts, behavior, identities and refusals |
+| Short Store operating specification | Roles, workflow, custody, inspection/release and recovery rules |
+| AGENTS.md | Maintainer governance and owner boundaries |
+
+The existing README can be shortened after its useful explanations are reconciled here. Patent navigation can directly enter the current matrices while retaining issued sources. Project 1's wrapper can explain original/current distinction and point to the complete walkthrough; its sealed manuscript/evidence remain unchanged. Repeated old machine/economics narratives may be redirected or retired only after primary evidence and working dependencies are accounted for. Shared commercial and System meaning contracts keep their present single owner; the master is explanatory, not another specification.
+
+No shortening, deletion, retirement, wrapper rewrite or new operating-specification file is performed in this first pass. No System or Program file is altered.
+
+### 15.5 Master completion and navigation checks
+
+The complete reference has **15 substantive chapters**, with **112 linked subsections and 127 contents entries**, in addition to its opening. The final navigation register checks 366 links and 120 distinct commit-specific primary paths. It covers every issued claim, all three current manufacturing classes, all five public project paths, the original 45-command Project 1 sequence and separate current evaluation, registered model/parameters, catalog of 183 rows, current evidence pipeline, twenty commercial event types, refusals/recovery, inspection/custody, economics, exact sources and historical reconciliation. The contents is generated from the actual completed headings; no placeholder chapter is retained.
+
+Final verification reopens the full GitHub file and compares every byte with the completed local master, reads the chapters, checks heading/contents correspondence, resolves internal anchors and all source paths against frozen Git trees, verifies the example calculations/identities, checks all 33 claim rows and original 45 commands, executes the representative current example and applicable suites, and inspects the full baseline-to-final GitHub diff. Only `STORE-ZERO-MASTER.md` is changed. Source pins, operating deployments, sealed evidence, application/data/tests and existing documentation remain unchanged. All publication commits are directly on main; this task creates no branch or pull request.
+
+Remaining discrepancies are identified in 15.2–15.3 rather than left as missing chapters. Physical and actual commercial questions retain their responsible owner and evidence stage. A future source change requires a new identified reconciliation; this document's frozen source record remains independently reproducible.
