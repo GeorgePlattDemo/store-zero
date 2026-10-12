@@ -995,7 +995,7 @@ Current [lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a
 
 ### 6.8 Proposed physical apparatus and commissioning
 
-Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/research/bounded-cell-trial.md) proposes supervised dimensional verification and whole-service measurement. Its research authority defines questions, experiment scope and adoption rationale. Store owns the declared manufacturing answer, System the customer's meaning/decision record, and the local apparatus owner commissioned configuration, material admission, motion and inspection.
+Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) proposes supervised dimensional verification and whole-service measurement. Its research authority defines questions, experiment scope and adoption rationale. Store owns the declared manufacturing answer, System the customer's meaning/decision record, and the local apparatus owner commissioned configuration, material admission, motion and inspection.
 
 The first useful trial must establish the reference cut and face transformation, repeatable A/B/C references, stock seating and controlled movement, contact/roller restraint under representative loads, tool calibration and real saw stroke, actual spot depth, profile/offcut control, guarded release/labeling and interruption behavior. Measurements compare predicted occupancy with observed operation/handling time and compare modeled geometry with inspected components. Failed attempts and rework remain in the record rather than disappearing from the economic comparison.
 
@@ -2221,7 +2221,7 @@ Calculation input hash: `5787a8352f6e8f5a8841fccac19c1a67829678faeea61047ece47b9
 
 ### 8.6 Playhouse
 
-The current Playhouse sheet path in the composed public base/front-door and [playhouse-admission.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.ts) produces `SHEET_PACKAGE_V1`. The default is one .5-inch 96×48 sheet with centered 36-inch-wide aperture, 24-inch straight height, 12-inch rise, tab retention, vertical center split and crosscuts 18 inches from each end. It returns all pieces.
+The current Playhouse sheet path in the composed public base/front-door and [Playhouse admission tests](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.test.ts) produces `SHEET_PACKAGE_V1`. The default is one .5-inch 96×48 sheet with centered 36-inch-wide aperture, 24-inch straight height, 12-inch rise, tab retention, vertical center split and crosscuts 18 inches from each end. It returns all pieces.
 
 The opening box is X=30..66, Y=6..42, within the central router field. Radius is 19.5, sweep 2.3520104141902705 radians, nominal perimeter 129.86420307671028 and compensated centerline 128.0761745483586 inches. AUTO raises contour tabs from requested minimum four to **seven** at developed positions 8.72398549452069, 27.276014505479303, 45.828043516437916, 64.38007252739652, 82.93210153835514, 101.48413054931375 and 120.03615956027237 inches. Center-split path is 36 inches with two bridges at 12/24. Retention is geometric, not tested tab strength.
 
@@ -2311,3 +2311,265 @@ A representative supported revision preserves its full component/feature/hardwar
 Every path uses System admission, manifest, attributable inquiry/answer, customer decision and packet/evidence handoff. The public `ALCOVE_INSERT_V1` vocabulary is translated by System into Store's generic cut-package class; Store does not maintain a separate Alcove evaluator. System's generic recipe library and the active public defaults can differ. Prices in this chapter deliberately bind to the explicit current default requests rather than whichever old example has the same project title.
 
 Customer Q covers the evaluated manufacturing scope. Labeling, inspection, bundling, protection, sanding, pickup/delivery and assembly requests may exist in System custody without being included in the engine's quote. The seller must state which are included, separately charged, waived, unresolved or outside scope. Job 1 has an explicit simulated demo checkout policy; the other paths do not inherit it automatically. Chapter 10 explains what can progress and what remains pending.
+
+## 9. Lowering packets and virtual evidence
+
+### 9.1 Accepted packet verification
+
+[STB-ACCEPTED-JOB-PACKET-2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs) is the current machine-side input. System supplies packet identity, project identity/class/title, identified definition/revision/request type, exact demand, independent manifest, carried requirements, the exact Store answer, accepted simulated decision and authority with `physicalRelease: false`. User-board carried end relation/datum/identity must agree with the priced demand. An unpriced independent geometry fact cannot override the geometry Store actually evaluated.
+
+`packetProblems` enforces declared shape, required/nonblank identities, accepted decision, simulated evidence, false physical release and a real UTC timestamp. `verifyJobPacket` checks request type, supportable answer, fresh receipt, the receipt hash and exact receipt fields, timestamp validity and decision no earlier than evaluation, request identity, calculation/receipt agreement, demand hash, manifest hash and expected Store release. It then **reevaluates the same request** against the applicable current catalog/model. A changed answer with the same calculation identity is alteration; a genuinely changed calculation or authority is stale and requires re-quotation. JSON serialization removes fields that do not survive a saved file before answer comparison, avoiding undefined-value artifacts.
+
+Verification establishes content consistency and currentness. System still owns whether this accepted packet belongs to its saved project/decision; the hash does not authenticate the customer's actor. A stale packet is retained as history, not repaired by editing its old answer. Changes to material price, inventory, model, definition or manifest can require a new quote and decision.
+
+### 9.2 Current local job
+
+[lowerJobPacket](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) first verifies the packet, then verifies the registered configuration and accepted model identity. It requires the accepted operations, parents and time. It copies them into `STB-LOCAL-MANUFACTURING-JOB-1`, binding packet/project/definition/revision, demand and manifest hashes, Store release/calculation, packet hash, configuration ID/hash, model hash, execution class, exact operations/parents and predicted time. `localJobHash` is the canonical hash of that complete object before adding the hash itself.
+
+This lowerer does not change part dimensions, substitute a parent, choose another route or recalculate Q. It adds machine-binding/evidence facts to the accepted ledger. Release blockers combine `CONFIGURATION_NOT_COMMISSIONED`, `LOCAL_MATERIAL_AND_READINESS_NOT_ADMITTED` and all evaluated physical gaps. Local job creation is a modeled transformation, not a production-release event.
+
+### 9.3 Modeled operation records
+
+`motionRecords` verifies local-job shape/hash and registered configuration, then emits `STB-MODELED-OPERATIONS-1`. Binding includes packet ID, demand/manifest/packet hashes, configuration ID/hash, model hash and local-job hash. It records expected seconds, parent thickness/cell map, and the **same ledger sequence**. Evidence class is `PREDICTED_OCCUPANCY_ONLY`; physical authority is false. `binding.motionHash` hashes the records before its own insertion.
+
+The current function name `motionRecords` does not expand its evidence scope into commissioned controller instructions. Dimensional ledger records contain nominal axis facts and tool-state relationships; sheet records include evaluated path/allowance events, not a complete servo XY trajectory. The historical Project 1 IR/controller-oriented sequence belongs to a different preserved generator and evidence stage.
+
+### 9.4 Independent virtual replay
+
+[runVirtual](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs) validates record shape/hash, caller-expected binding and current registered model/configuration. It checks sequence numbers, nonnegative finite durations, cumulative start/end consistency, starting pose and every modeled MOVE duration. It independently tracks C/Y/A/S/Z/RZ, saw and spot state and elapsed time while replaying the accepted ledger. It shares `moveSeconds` with the engine: this is an independent state/sequence replay, not an independently implemented kinematic formula.
+
+It stops for stock-position faults, unconfirmed retract, C indexing with a tool down, saw stroke with saw off, spot plunge with spindle off, angle movement with saw down, invalid router state/path duration, datum capture with saw down, completion with active tools or time mismatch. Router-cut events update longitudinal pose while engaged; ordinary index moves require clearance. Fault injection fields `slipAtSeq` and `retractUnconfirmedAtSeq` exercise interruption without generating physical I/O.
+
+Sheet occupancy events are replayed for duration/order/binding but no physical contour is independently reconstructed and cut. A successful replay says the serialized occupancy model is coherent under its registered rules. It does not measure clamp strength, tool cutting behavior, actual reference, payment, part acceptance or customer handoff.
+
+| Fresh master case | Ledger records | Replay move count | Replay seconds | Physical admission |
+|---|---:|---:|---:|---|
+| SYO | 51 | 22 | 86.519086610639 | BLOCKED |
+| PROJECT1 | 51 | 22 | 86.469536282991 | BLOCKED |
+| ALCOVE-ECONOMY | 269 | 115 | 1115.544652777776 | BLOCKED |
+| WINDOW-SEAT | 940 | 442 | 5724.080625000045 | BLOCKED |
+| OUTDOOR | 386 | 156 | 1068.903160409143 | BLOCKED |
+| PLAYHOUSE | 15 | 0 | 560.476174548359 | BLOCKED |
+
+The current Project 1 case has 51 ledger records and 22 replayed move events; historical IR has 45 records and 21 axis commands. The counts are not interchangeable. Playhouse's zero replay move count does not mean no manufacturing work: its 15 records describe sheet path/handling/panel occupancy rather than serialized servo MOVE records.
+
+### 9.5 Evidence request and response
+
+`POST /v1/machine-evidence` uses `STORE-ZERO-MACHINE-EVIDENCE-2`. Its complete input is `{packet, expectedMachineConfigId, expectedMachineConfigHash}`. It rejects missing/extra/mistyped fields and configuration mismatch before lowering. A successful answer is `{status: 'VIRTUAL_EVIDENCE_READY', physicalAuthority: false, localJob, records, run, admission}`; all six fields are serialized under the transport envelope with protocol, Store release, byte payload digest and respondedAt.
+
+For the master Project 1 packet, the complete binding and disposition values are:
+
+```json
+{
+  "status": "VIRTUAL_EVIDENCE_READY",
+  "physicalAuthority": false,
+  "recordsBinding": {
+    "packetId": "MASTER-PACKET-PROJECT1",
+    "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
+    "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
+    "packetHash": "ab6b3ad36801bf59521cfccf5114651ab7fc6363729089176b630b57ec6a82c2",
+    "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
+    "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
+    "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+    "localJobHash": "7c900b71fc909b9acfb37260bb16cd91b1c6d961b894f5d86ce363400e5a383f",
+    "motionHash": "a20737b08afc3d656d540e04760645fa8d67f2a0d145a2523b40fb6d03d38da4"
+  },
+  "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
+  "expectedSeconds": 86.46953628299116,
+  "run": {
+    "status": "VIRTUAL_MODEL_COMPLETE",
+    "physicalAuthority": false,
+    "model": "STB-VIRTUAL-OCCUPANCY-MODEL-1",
+    "timeSec": 86.46953628299116,
+    "motionCommands": 22
+  },
+  "admission": {
+    "status": "BLOCKED",
+    "physicalAuthority": false,
+    "motionPermitted": false,
+    "motionCommands": 0,
+    "reasonCodes": [
+      "CONFIGURATION_NOT_COMMISSIONED",
+      "LOCAL_MATERIAL_AND_READINESS_NOT_ADMITTED",
+      "TWO_ROLLER_CONTACT_NOT_ESTABLISHED",
+      "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
+      "SAW_STROKE_IS_VIRTUAL_BENCHMARK"
+    ]
+  }
+}
+```
+
+The displayed response projection omits only the long arrays whose content is the previously explained accepted ledger/parents and replay trace. The following executable example constructs the full input and emits the **entire serialized output**, including those arrays, rather than using invented abbreviated packet content.
+
+### 9.6 Complete reproducible examples
+
+From a checkout of the frozen Store source, use Node 22. This read-only example writes no repository files. It reads the current fixture definition, explicitly lists its independent component/feature manifest, obtains a fresh current-catalog answer, builds a complete simulated packet, and prints the full packet/evidence request and response. The sample request identity `MASTER-PROJECT1` matches chapter 7's current calculation. No historical catalog is substituted.
+
+```sh
+node --input-type=module <<'JS'
+import {project1Demand} from './tests/fixtures/project-1.mjs';
+import {evaluateStoreRequest} from './src/requests/store-request.mjs';
+import {evaluateMachineEvidence,machineEvidenceIdentity} from './src/machine/evidence.mjs';
+const release='f7123a73c1ca60aa7eb180a86a1c365eaffe95db';
+const demand=project1Demand();
+const manifest={jobId:demand.configurationId,revision:demand.configurationVersion,
+  boardPartIds:['PART-1','PART-2'],sheetPackageIds:[],featureIds:['SPOT-1','SPOT-2'],
+  items:[],unresolvedRequirements:[]};
+const request={requestType:'USER_DEFINED_BOARD_V1',requestId:'MASTER-PROJECT1',demand,manifest};
+const options={release,now:()=> '2026-10-12T16:00:00.000Z'};
+const storeAnswer=JSON.parse(JSON.stringify(evaluateStoreRequest(request,options)));
+const packet={schema:'STB-ACCEPTED-JOB-PACKET-2',packetId:'MASTER-PACKET-PROJECT1',
+ project:{projectId:'MASTER-PROJECT-PROJECT1',classId:demand.classId,title:'PROJECT1'},
+ definition:{definitionId:'MASTER-DEFINITION-PROJECT1',revisionId:demand.configurationVersion,
+  requestType:request.requestType,demand,manifest,
+  requirements:{endRelation:demand.endRelation,lengthDatum:demand.lengthDatum}},
+ storeAnswer,decision:{decisionId:'MASTER-DECISION-PROJECT1',kind:'ACCEPTED',
+  offerId:'MASTER-OFFER-PROJECT1',decidedAt:'2026-10-12T16:05:00.000Z',evidenceClass:'SIMULATED'},
+ authority:{physicalRelease:false,evidenceClass:'SIMULATED'}};
+const identity=machineEvidenceIdentity();
+const evidenceRequest={packet,expectedMachineConfigId:identity.machineConfigId,
+ expectedMachineConfigHash:identity.machineConfigHash};
+const evidence=evaluateMachineEvidence(evidenceRequest,options);
+if(storeAnswer.Q!==10.81||evidence.status!=='VIRTUAL_EVIDENCE_READY'||
+ evidence.run.timeSec!==storeAnswer.time.totalSeconds||evidence.admission.status!=='BLOCKED')
+ throw Error('Example verification failed');
+console.log(JSON.stringify({request,storeAnswer,evidenceRequest,evidence},null,2));
+JS
+```
+
+For the five chapter-8 examples, copy their exact JSON inquiries and evaluate with the same release/clock. Their hashes identify those precise requests; replacing request IDs changes calculation input identity. A separately named evaluation is legitimate, but its hashes must be reported as its own.
+
+The committed [contract examples](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) are deterministic examples built with `recordedCatalog()`, acceptance release `store-zero-acceptance` and fixed 2026-10-08 clock. **Their catalog is the preserved old catalog adapted to the current catalog schema**, not the current disk catalog. They exercise today's code against an identified fixture. Consequently their Project 1 price/identities must not be used as the current $10.81 live-catalog answer or the sealed $11.09 legacy result. `buildExamples()` can be imported and compared in memory; `npm run build:examples` writes fixtures and is not required for this documentation assignment.
+
+A complete refusal example is the evidence request `{"packet":{},"expectedMachineConfigId":"WRONG","expectedMachineConfigHash":"WRONG"}`. The engine responds `{"status":"REFUSED","physicalAuthority":false,"reasonCodes":["MACHINE_CONFIGURATION_IDENTITY_MISMATCH"]}` before it attempts malformed-packet lowering. A correct configuration with an altered packet reaches the packet-specific refusal instead. Fault injection on valid records stops replay at the affected state; it never grants partial physical release.
+
+### 9.7 Source digest and deployment verification
+
+The HTTP process uses protocol `STORE-ZERO-REQUEST-2`, with health, inquiry, machine-evidence and commercial endpoints. Maximum body is 256 KiB, request timeout 15 seconds and headers timeout 10 seconds. CORS defaults to `https://georgeplattdemo.github.io` or configured allowed origins; a no-Origin server request is accepted. CORS is a browser-origin restriction, not authentication of a seller/operator. Cache-Control is no-store.
+
+Release is the host commit (`RENDER_GIT_COMMIT` or `RAILWAY_GIT_COMMIT_SHA`), or required `STORE_ZERO_RELEASE` where the host supplies none. A contradictory host/label refuses startup. Health reports a digest of **actual runtime bytes**, computed as SHA-256 over sorted lines `<path> NUL <sha256(file bytes)> LF` for package.json and every file under src/ and data/. At the frozen source this is 21 files, digest `b295f674af8213165de3dea2183b60461612f9d86fd6e523d7c1e4bb08d58a92`. Documentation is excluded. The service recalculates this digest before answering; changed runtime bytes produce a service error instead of continuing under the old startup identity.
+
+`npm run source-digest` reproduces the digest. [verify-deployment.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/verify-deployment.mjs) can compare health and representative wire behavior to a checkout; its tests exercise the verifier with controlled local services. This task does not deploy, alter operating pins, or claim a newly verified remote production machine. A documentation-only main commit need not become System's inspected runtime pin.
+
+## 10. Commercial sequence and full transaction
+
+### 10.1 Contract ownership and installed scope
+
+The shared executable authority is [commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js), served as the byte-identical [System public commercial contract](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js). The [commercial template](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) supplies the intended source-owned transaction design. This chapter explains those primary sources; it does not introduce a competing normative contract. [commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/commercial-request.mjs) exposes the simulated gate at `/v1/commercial-events`, protocol `STORE-ZERO-COMMERCIAL-EVIDENCE-1`.
+
+Manufacturing Q, seller offer, customer decision, seller order, finance, reservation, allocation, queue, release, operation and custody are distinct facts. A supportable calculation does not cause the rest to occur. The installed gate accepts **SIMULATED** source records, rejects ACTUAL records with `ACTUAL_SOURCE_ADAPTER_NOT_INSTALLED`, and performs no payment, stock mutation, persistent order write, notification or machine act. It validates an attributable event sequence and returns the resulting simulated record.
+
+### 10.2 Event envelope and identity binding
+
+Every source event has exactly the declared root fields: schema `STB-COMMERCIAL-EVENT-1`, eventId, eventType, streamId, sequence, expectedPreviousSequence, causedByEventIds, idempotencyKey, occurredAt, recordedAt, actor, evidenceClass, authority, links and payload. Stored events add `previousHash` and `hash`. Actor carries nonblank partyId and the appropriate lower-case role. Authority carries nonblank sourceSystem, sourceRecordId, verificationRecordId, policyId and policyVersion. These are attribution fields, not an installed source authenticator.
+
+Links contain **exactly ten permitted identity fields**: projectId, definitionId, revisionId, manifestHash, requestId, receiptHash, storeRevision, modelHash, inputHash and resultHash. They stay equal across the stream. Offer/order/packet/allocation identities belong in the appropriate event payload, not extra link fields. The template's broader illustrative identity list and uppercase SELLER label must not be sent unchanged to this strict executable envelope.
+
+Times are real UTC millisecond ISO instants; recordedAt cannot precede occurredAt. Sequence is prior length+1; expectedPreviousSequence equals prior length. Every cause ID must exist. Each declared prerequisite's **latest event ID** must be included among causes. Event IDs are unique, and normal stages cannot repeat except finance, execution and exception records. A revision change needs an appropriately separate bound record and fresh Store answer/offer; overwriting links cannot preserve the old sequence's validity.
+
+A valid first event can be constructed directly from an actually evaluated answer:
+
+```js
+const links={projectId:'MASTER-PROJECT-PROJECT1',definitionId:'MASTER-DEFINITION-PROJECT1',
+ revisionId:demand.configurationVersion,manifestHash:storeAnswer.evaluationReceipt.manifestHash,
+ requestId:storeAnswer.requestId,receiptHash:storeAnswer.evaluationReceipt.receiptHash,
+ storeRevision:storeAnswer.evaluationReceipt.authority.storeRevision,
+ modelHash:storeAnswer.evaluationReceipt.authority.manufacturingModel.hash,
+ inputHash:storeAnswer.calculationIdentity.inputHash,resultHash:storeAnswer.calculationIdentity.resultHash};
+const sourceEvent={schema:'STB-COMMERCIAL-EVENT-1',eventId:'MASTER-C01',
+ eventType:'StoreAnswerAttached',streamId:'MASTER-COMMERCE-PROJECT1',sequence:1,
+ expectedPreviousSequence:0,causedByEventIds:[],idempotencyKey:'MASTER-C01',
+ occurredAt:'2026-10-12T16:06:00.000Z',recordedAt:'2026-10-12T16:06:00.000Z',
+ actor:{partyId:'master-system-simulation',role:'system'},evidenceClass:'SIMULATED',
+ authority:{sourceSystem:'master-reproduction',sourceRecordId:'MASTER-C01',
+ verificationRecordId:'MASTER-STORE-RECEIPT-CHECK',policyId:'MASTER-DEMO',policyVersion:'1'},
+ links,payload:{status:'SUPPORTABLE',complete:true,manifestCoverageComplete:true}};
+const commercialRequest={events:[],expectedSequence:0,links,sourceEvent,
+ streamId:'MASTER-COMMERCE-PROJECT1'};
+```
+
+The wrapper verifies supplied prior events, reconstructs the stream and records this one new event. It returns `RECORDED`, stored event, derived state, SIMULATED class, false physical authority and false payment authority. The caller must preserve the returned chain. The wrapper accepts at most 1000 prior events and does not provide a database or cross-order inventory lock.
+
+### 10.3 Answer offer decision and order
+
+| Event | Role | Required prior event | Required payload and principal gate |
+|---|---|---|---|
+| StoreAnswerAttached | system | none | status SUPPORTABLE, complete true, manifestCoverageComplete true |
+| OfferIssued | seller | StoreAnswerAttached | offer ID/version, seller/location, currency, manufacturingQMinor, amountMinor, scope, terms ID/version, validUntil, fulfillment, policy, extras |
+| CustomerDecisionRecorded | customer | OfferIssued | decision ID, same offer ID/version, ACCEPTED/DECLINED/DEFERRED/REVISION_REQUESTED; decision before expiry |
+| OrderAccepted | seller | CustomerDecisionRecorded | order ID, same offer/version; customer ACCEPTED; availabilityConfirmed/capabilityConfirmed true |
+
+The seller owns its offer: manufacturing Q reference, complete offered amount, currency, terms, validity and fulfillment. Money is safe nonnegative integer minor units; $10.81 is 1081 cents. Extras are INCLUDED, SEPARATE, WAIVED, UNRESOLVED or OUTSIDE_SCOPE. An unresolved extra is permitted only for `MANUFACTURING_MODEL_ONLY` scope; a broader complete offer cannot leave unresolved extra scope.
+
+The gate requires an explicit policy ID/version, required financial kind NONE/AUTHORIZED/CAPTURED/SETTLED, reservationRequired/capacityRequired booleans and a nonduplicated stageOrder array. It does not independently total extra amounts, reconcile manufacturingQMinor against the attached engine receipt, authenticate a seller or establish tax treatment. System's prior answer validation and seller's attributable offer must supply those facts.
+
+Acceptance records the customer's decision on that offer/version. Seller order acceptance separately confirms availability and capability. The executable gate checks expiry at customer decision, but does not recheck it at seller OrderAccepted or obtain a fresh stock count. An operational seller must define those timing/availability checks in its source integration; they cannot be claimed merely because a simulated boolean passed.
+
+### 10.4 Finance reservation capacity and queue
+
+| Event | Role | Required prior event | Payload and behavior |
+|---|---|---|---|
+| FinancialEventRecorded | finance | OrderAccepted | financialEventId, kind, currency, amountMinor, providerRecordId |
+| ReservationConfirmed | inventory | OrderAccepted | reservationId, expiresAt, stock |
+| CapacityCommitmentRecorded | scheduler | OrderAccepted | capacityId, expiresAt, slot |
+| QueueEntryConfirmed | scheduler | OrderAccepted | queueEntryId, position; policy finance/reservation/capacity and stage order must pass |
+
+Finance kinds are AUTHORIZED, CAPTURED, SETTLED, FAILED, VOIDED and REFUNDED. Positive financial states must match offer currency/amount; SETTLED requires a previous CAPTURED; VOIDED/REFUNDED require a preceding successful state. A simulated CAPTURED event is neither bank settlement nor a payment-provider side effect. The source adapter required for actual provider evidence is not installed.
+
+Reservation and capacity commitments require a future expiry at recording. Queue and production release reject expired recorded commitments, missing policy-required finance/reservation/capacity or any recorded FAILED/VOIDED/REFUNDED financial event. A policy's stageOrder requires preceding named stages before a later included stage. This allows different explicitly stated seller policies; the master does not universalize one ordering.
+
+Reservation is a commitment, allocation an identified stock assignment, capacity a scheduled capability and queue a position. None can be inferred from selectedStock. The installed payload checks do not independently verify every stock/slot data item or perform the atomic transactions an actual inventory/scheduler service would require.
+
+### 10.5 Allocation issue release and local admission
+
+| Event | Role | Prerequisites | Required payload and gate |
+|---|---|---|---|
+| MaterialAllocated | inventory | OrderAccepted | allocationId, nonempty assignments, atomic=true; each assignment parentId/materialId/lotId/location/condition/compatibleDefinitionId and positive integer qty |
+| MaterialIssued | inventory | MaterialAllocated | issueId, same allocationId, nonempty materialIds all assigned, location |
+| ProductionReleaseRecorded | release | QueueEntryConfirmed, MaterialAllocated | releaseId, packetId, same allocationId, releaseAuthorityId; policy gates pass |
+| LocalPlanBound | local | ProductionReleaseRecorded, MaterialIssued | localPlanId, same packet/allocation, planHash, machineConfigHash |
+| LocalAdmissionRecorded | local | LocalPlanBound | admissionId, same localPlanId, readinessRecordId, admitted=true |
+
+Assignments must name the stream's definition; a different compatibleDefinitionId is rejected. `atomic: true` is required evidence language, not an executed inventory database transaction. Material issue means specific allocated material is handed to the local process; the record does not measure a board moving.
+
+Production release is separate from customer acceptance and from the physical machine layer's blocked admission. LocalPlanBound's hashes are required fields, but the commercial gate does not invoke the packet/lowering verifier to establish that they are authentic outputs. The current evidence pipeline does that separately. A simulated LocalAdmissionRecorded event with `admitted:true` is a demonstration event; it does not override `physicalAdmission()` returning BLOCKED for the adopted declared configuration.
+
+### 10.6 Execution inspection staging and handoff
+
+| Event | Role | Prerequisite | Payload and binding |
+|---|---|---|---|
+| ExecutionEventRecorded | local | LocalAdmissionRecorded | executionId, matching admissionId, STARTED/PROGRESS/FAILED/COMPLETED |
+| InspectionDispositionRecorded | quality | ExecutionEventRecorded | inspectionId, matching latest executionId; latest execution COMPLETED; ACCEPTED/REWORK/SCRAP/HOLD; nonempty components |
+| StagingRecorded | fulfillment | InspectionDispositionRecorded | matching inspectionId and ACCEPTED; stagingId, nonempty packages, components/remnants arrays, location |
+| ReadyNoticeRecorded | fulfillment | StagingRecorded | noticeId, matching stagingId, recipientId, noticeRecordId |
+| CustodyTransferred | fulfillment | ReadyNoticeRecorded | handoffId, matching notice/recipient, exact staged package list, handoffEvidenceId |
+| ProjectCloseoutRecorded | system | CustodyTransferred | closeoutId, matching handoffId, records, assemblyStatus |
+| ExceptionRecorded | any attributed role | StoreAnswerAttached | exceptionId, kind, disposition, affectedEventIds |
+
+Execution's installed gate validates allowed kind and admission identity, but does not enforce STARTED before COMPLETED. Inspection requires the latest execution record be COMPLETED and ties the disposition to it. Physical quality still needs measured conformance against the same component requirements; a nonempty component array is not an inspection result by itself.
+
+Staging cannot pass a REWORK/SCRAP/HOLD disposition. Ready notice identifies what is available and for whom. Custody uses the exact staged package list and notice recipient. Closeout records the handoff and remaining assembly status. These identity relationships stop an arbitrary package list being substituted late in the chain. The gate does not fully prove component coverage, label readability, packaging condition, actual notification delivery or physical transfer; those remain source-owned evidence obligations.
+
+### 10.7 Idempotency hash chains and concurrency
+
+Every stored event hashes its source envelope plus previousHash. Verify reconstructs the stream, reapplies validation and checks every hash/previousHash. Editing an earlier amount, identity or disposition invalidates the chain. Hashes are not signatures and cannot authenticate the asserted parties/source records.
+
+A retry with the same idempotencyKey and exactly identical source event returns the existing event, even though its old expected sequence has already been consumed. Reusing that key with changed data returns `COMMERCIAL_IDEMPOTENCY_CONFLICT`. A new event with a stale expected sequence is refused. An asynchronous `held` flag prevents overlapping appends in one in-memory stream while its hash is being computed; it is not a durable multi-process transaction or global stock reservation mechanism.
+
+Most stages may occur once in the stream. Finance, execution and exceptions may append multiple records. Any unresolved prior exception blocks later normal events. The current implementation tests **all historical exception dispositions**; appending a later RESOLVED exception does not remove an earlier unresolved hold. That recovery limitation is recorded in 11.4 and 15.3. No automatic hold-clearing behavior is claimed.
+
+Derived state reports sequence/latest stage, complete event list, SIMULATED class and false physical/payment authority. Its `pending` progresses from seller acceptance, to policy queue gate, to production release, then null. Null after release is not proof of execution/inspection/handoff/closeout completion; use the actual latest stage and event evidence.
+
+### 10.8 Job 1 demo and other pending flows
+
+System's [stb-demo-commerce.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-demo-commerce.js) declares `STB-DEMO-PICKUP / 1` and `STB-DEMO-TERMS / 1`, seller `store-zero-demo`, Demo yard, USD, 24-hour offer and pickup fulfillment. It consumes the current Store Q and selected stock; it does not calculate a replacement price. Tax, delivery and additional services are OUTSIDE_SCOPE. Policy requires CAPTURED, no reservation/capacity, and stage order order→finance→queue→allocation→release.
+
+In Start Your Own, the explicit demo flow prepares the offer, records customer acceptance separately, appends seller order acceptance, simulated capture for the exact amount and queue position one. Yard simulation assigns generated parent/material/lot IDs, records issue/release/local plan and simulated admission, directly records execution COMPLETED, inspection ACCEPTED, staging and ready notice. Pickup records custody and closeout, with assembly status OWNER_BUILDS. Generated hashes/IDs carry explicit demo basis; they are not commissioned configuration evidence or inspected actual lots.
+
+The helper checks current revision and stream identity before and after appending. A revised job cannot continue an earlier checkout under changed geometry. Other tiles may preserve extra-service requests and offers but do not inherit this Job 1 seller policy merely because they share the terms UI. Missing source-owned policy/offer/order/finance records remain pending. The executable sequence is the actual evidence of progression, not the button label alone.
+
+### 10.9 Intended workflow and executable limits
+
+The intended full transaction is: customer definition → fresh inquiry → manufacturing Q → seller offer → customer decision → seller order → policy-bound finance/reservation/capacity/queue → actual allocation/issue → production release → bound local plan → commissioned readiness/admission → operation → inspection → labels/staging → notice → pickup/custody → closeout in the owner's record. A revision returns to definition/evaluation and the appropriate offer/change process while retaining preceding evidence.
+
+The current software implements the simulated envelope, bindings, prerequisites, policy checks, hash-chain verification and attributable UI demonstration. Actual seller/provider/inventory/scheduler adapters, durable concurrency, physical release and measured fulfillment are future integrations under their owners. The template's broader operational expectations remain valuable design requirements; the narrower installed checks above describe current behavior precisely. Source-owned decisions must be installed without creating a second pricing, definition or machine authority.
