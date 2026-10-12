@@ -1,52 +1,46 @@
-# Agent instructions — Store Zero
+# Store Zero — engineering rules for agents and maintainers
 
-This repository is Store Zero: the catalog, capability, modeled work and time, economics, and answers for identified job definitions. The [specification](docs/STORE-ZERO-SPECIFICATION.md) states every rule; the code, data and checks here implement it. When they disagree, that is a defect to fix, not a choice to make.
+Store Zero evaluates identified neutral manufacturing definitions against its own catalog, available stock, declared machine capability, occupied-time model and economics. It returns a complete budgetary Q with attributable evidence, or a specific refusal. The public five-project app is in [System](https://github.com/GeorgePlattDemo/new-system); research and supervised laboratory questions belong to Program.
 
-## Who owns what
+## Objective and method
 
-- **System** owns every shared definition: `docs/DEFINITIONS.md` in `new-system`, the System the working application runs. Store keeps no definitions file and does not define, rename or redefine a term. If a term is missing there, say so; do not define it here. The predecessor System (`scan-to-build-system`) and its `docs/definitions/README.md` are history, not an authority for this Store.
-- **System** owns the job's meaning and the application. Store answers the definition it is sent and never rewrites it to make it fit.
-- **Program** is the menu, not the meal: it points here for the Store, the Project 1 trail and the patents.
+1. **Repair the underlying implementation, preserving the intended objective.** Reproduce the actual defect, locate the one responsible evaluator/request/contract, correct its cause and prove that the complete job and unfavorable cases still work. Never introduce a hidden fallback, test-only price, partial work claim or special project-shaped path for a green result.
+2. **Leave no unnecessary replacement code behind.** Before introducing an implementation or test, find the existing owner. Retire its genuinely superseded path and duplicate assertions in the same verified change. Keep distinct invariants and original evidence. No parallel evaluator or second price/receipt authority.
+3. Work on **`main` only**, with fast-forward, truthful incremental commits. No task branches, force pushes, new repositories, silent pin changes or changes in other repos without explicit authorization.
+4. Record the objective, changed executable behavior, deleted artifacts, before/after measurement and test evidence. An unexplained change to selected stock, machine events, inventory or Q is a defect, not an optimization.
 
-## Rules
+## Source-of-truth map
 
-- Clean definitions only. A request that is not one is refused with its reason. "No" is an answer. Never add a compatibility request type, a count-only price, a default, a fallback, or a second path to get a pass.
-- One request layer (`src/requests/store-request.mjs`). Evaluators never issue receipts, read the clock or environment, or import the request layer.
-- One authority per decision (specification §20.2): one catalog reader, one grade rule, one board geometry, one price source, one receipt builder, one path to machine evidence. A second implementation is a defect even if it gives the same answer; `acceptance/authority` checks the structure.
-- No project or tile names in Store code. A project is sent as neutral definitions; there are no project-shaped evaluators.
-- Store answers the definition it is sent and never chooses for the user. When a job can be made several ways (board widths for a depth, for example), each way is its own definition with its own answer, and the user chooses in System.
-- Adding or changing an offering is a data change in `data/store-zero-catalog.json`, checked with `npm run check:catalog`. It needs no code change. Do not loosen a catalog rule to admit a row; fix the row. A changed catalog is a new deployment: a running Store refuses to answer if its shipped files change under it (specification §6A.14).
-- Recorded answers are evidence. Do not edit `acceptance/differential/*.gz`, `acceptance/fixtures/`, `acceptance/project-1/from-evidence/`, `docs/project-1-digital-trail/` or `docs/patents/` to make a test pass. A deliberate change to an answer needs the owner's approval in that change, and the specification must say what changed and why.
-- The contracts (`src/contracts/`, `contracts/examples/`) are what System and the machine side build against. Change them only deliberately, regenerate the examples with `npm run build:examples`, and say in the specification what changed. Never loosen a shape to admit a definition; fix the definition.
-- Machine facts live in `data/machine/` as a registered configuration. The machine side reads the accepted job packet and that configuration and nothing else; it never changes what was accepted, and it refuses when the configuration and the Store's plan disagree. Physical admission stays BLOCKED until a commissioned configuration exists.
-- Delete a replaced path in the same change. Keep comments and the specification current with the code.
-- If a check fails on untouched `main`, say so; do not fix it inside another task.
+| Function | Authoritative executable source |
+| --- | --- |
+| Service transport, request routing and health | `src/service/server.mjs` |
+| Job admission, independent manifest, receipt and Store release | `src/requests/store-request.mjs` |
+| Offering discovery and commercial-event requests | `src/requests/offering-lookup.mjs`, `src/requests/commercial-request.mjs` |
+| One complete stock planner, modeled machine work and Q | `src/evaluation/engine/store-manufacturing-core.mjs` |
+| Catalog interpretation and price basis | `src/evaluation/catalog.mjs`, `data/store-zero-catalog.json`, `data/sources/` |
+| Declared machine configuration and accepted packet lowering | `data/machine/`, `src/machine/configuration.mjs`, `lowering.mjs`, `evidence.mjs`, `virtual-run.mjs` |
+| Definition, packet, machine and commercial data contracts | `src/contracts/`; published fixture exchanges in `contracts/examples/` |
+| Structural and document authority checks | `acceptance/boundaries/`, `acceptance/contracts/` |
+| Catalog and manufacturing invariants | `acceptance/catalog/`, `tests/manufacturing-core.test.mjs`, `tests/core-self-checks.mjs` |
+| Protocol, service, commercial and runtime verification | `tests/protocol2.test.mjs`, `tests/service.test.mjs`, `tests/commercial-sequence.test.mjs` |
+| Historical replay and independently preserved evidence | `acceptance/differential/`, `acceptance/project-1/`, `docs/project-1-digital-trail/`, `docs/patents/` |
+| Fresh performance measurement | `scripts/benchmark-evaluation.mjs` |
+| Deployment verification | `scripts/verify-deployment.mjs`, `Dockerfile`, `railway.json`, `.github/workflows/acceptance.yml` |
 
-## Checks
+`README.md` is the public entrance; `STORE-ZERO-MASTER.md` contains the complete explanation; `docs/STORE-ZERO-SPECIFICATION.md` states adopted technical contracts. Shared job vocabulary is governed by System's `docs/DEFINITIONS.md`. When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient.
 
-Run both before and after every change, on Node 22:
+## Unbreakable boundaries
 
-```sh
-npm run check:catalog
-npm test
-```
+- One Store request layer, one catalog, one manufacturing planner, one Q and occupied-time ledger, one receipt authority and one machine-evidence route. The service is a transport; evaluators do not issue receipts, contact the network, read a clock or inspect the environment. `acceptance/boundaries/boundaries.test.mjs` enforces these boundaries.
+- System defines the customer job. Store evaluates neutral parts, stock and tools; **never import System, a project name, a tile-specific surrogate or legacy Store code** into runtime evaluation. Missing material/grade/geometry/operation facts remain missing; no selected requirement can disappear.
+- Every job request carries an independent manifest. Exact part, sheet, feature and sourced-item coverage must reconcile. If a declared operation, required tool or physical condition cannot be evaluated, report the proper refusal/UNRESOLVED result; do not attach complete Q to an incomplete plan.
+- Search considers declared stock and inventory cumulatively and reports its actual search-completion status. Never claim a global optimum beyond the declared search space. Performance optimization must preserve the modeled event sequence, Q, stock selection, search bounds, refusal and manifest coverage. A cycle cache must be evaluation-local, keyed by all relevant machine state; never cache an entire customer answer.
+- Catalog/offering changes belong in `data/` and pass `npm run check:catalog`. Changes to definition shapes, examples and machine configuration are explicit contract/model revisions with matching tests. Never relax a shape or insert a catalog row solely to make a test pass.
+- Source and contract hash identities trace versions but do not prove physical readiness or actor identity. Payment, reservation, allocation, release, actual machine work, inspection and handoff remain separately recorded. **Physical admission and release are BLOCKED** without commissioned evidence.
+- Do not modify issued patents, sealed Project 1 files, their identity manifests, recorded historical answers or replay fixtures to satisfy a current test. Preserve original claims, original revision identities and Git history. **NO BLOOD ON WOOD.**
 
-## Not from here
+## Verification and publishing
 
-The working application is `new-system`, deployed on Railway. It answers through this Store at the one commit System names: `STORE_CANDIDATE.inspectedCommit` in `src/system/store-candidate.ts`, with the same commit in its published runtime pin, its CI Store checkout and `startup.sh`. A newer commit on this `main` is not that pin and does not move it; System moves it, deliberately, after its joint test passes against a checkout of exactly that commit. The predecessor Store (`scan-to-build-store`) and the predecessor System's `STORE_PIN` are history, not the live answering path.
+Run `npm run check:catalog`, `npm test` and `node scripts/benchmark-evaluation.mjs` on Node 22; the existing `.github/workflows/acceptance.yml` runs all three. For a source cleanup, demonstrate consumers are absent and surviving boundaries/tests remain representative; deleting an old test is warranted only when its implementation is also retired or the invariant is independently covered. A performance improvement needs measured before/after data and identical manufacturing facts.
 
-Do not change System, its pin, its workflows, or any Railway setting from this repository. If a task seems to need that, stop and ask.
-
-## Working
-
-Keep authorized work on `main`, in a few meaningful commits after the checks pass. Publish only a fast-forward from the reviewed main head; if main changes, inspect and retest before publishing. Do not create task branches or other repositories.
-
-**NO BLOOD ON WOOD.**
-
-## Shared rules (the same block in Program, System and Store)
-
-1. One branch: `main`. Work lands on `main`; no other branch is left behind.
-2. The rebuild carries nothing from the original repositories that it does not use. Store offers only operations it handles; Store's CI fails if an offered operation has nothing that handles it.
-3. One Store commit. System's candidate record, published runtime pin, CI Store checkout and `startup.sh` name the same Store commit, and move together, after System's tests pass against a checkout of exactly that commit.
-4. A missing fact stays missing. A Store answer is used only for the definition revision it answers.
-5. A change is finished when it is on `main`, CI is green, and every document that describes the changed behavior says the same thing.
+System owns the pinned Store SHA in `src/system/store-candidate.ts`, its published runtime config, its CI checkout and `startup.sh`. Updating this Store's `main` does **not** repin deployed System. Changing that pin requires a separately verified System change. Keep both deployed services independent; no predecessor service or local simulation may replace Store's real response.
