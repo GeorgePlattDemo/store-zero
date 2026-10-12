@@ -1,6 +1,6 @@
 # Store Zero specification — adopted manufacturing core
 
-This is the operative protocol 2 specification. The preceding specification is preserved in [migration history](migration/previous-specification.md). Historical Project 1 artifacts and differential recordings remain evidence of their original calculations; they are not runtime authorities for this release.
+This is the operative protocol 2 specification. The preceding specification remains available at the [immutable source revision](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md). Historical Project 1 artifacts and differential recordings remain evidence of their original calculations; they are not runtime authorities for this release.
 
 # 1. Authority and input
 
@@ -62,11 +62,11 @@ Physical authority remains blocked pending commissioning, local material/readine
 
 Preserved records include `acceptance/project-1/from-evidence/`, `acceptance/fixtures/`, `acceptance/differential/pin-9c62d9d-answers.jsonl.gz`, `docs/project-1-digital-trail/` and `docs/patents/`. Historical patent and publication byte identities are checked unchanged. The supplied 21 independent self-checks are in `tests/core-self-checks.mjs`, executed by `tests/manufacturing-core.test.mjs`.
 
-`docs/migration/core-replay-baseline.json` explicitly classifies every 1,786 historical recording: 844 public job inputs replay against the new declared model, with no guessed missing facts, and 942 retired internal-export cases are classified as retired. `scripts/build-migration-audit.mjs` reproduces this NEW baseline; it does not claim equality with the old engine. Protocol, forged/stale packets, occupancy faults, catalog rules, independent Q reconciliation, current HTTP transport, exact examples, source digest and commercial prerequisites have current tests.
+`acceptance/differential/core-replay-baseline.json` explicitly classifies every 1,786 historical recording: 844 public job inputs replay against the new declared model, with no guessed missing facts, and 942 retired internal-export cases are classified as retired. `scripts/build-migration-audit.mjs` reproduces this NEW baseline; it does not claim equality with the old engine. Protocol, forged/stale packets, occupancy faults, catalog rules, independent Q reconciliation, current HTTP transport, exact examples, source digest and commercial prerequisites have current tests.
 
 # 20.2. One authority per decision
 
-One catalog, one manufacturing planner/time/Q, one receipt, one accepted-packet verifier, one lowering path and one shared commercial gate. The removed engine/evaluator/envelope modules and their implementation-specific tests are listed in `docs/migration/retired-paths.json`. The historical test data remain immutable. No parallel legacy evaluation path is retained.
+One catalog, one manufacturing planner/time/Q, one receipt, one accepted-packet verifier, one lowering path and one shared commercial gate. The removed engine/evaluator/envelope modules and their implementation-specific tests are recorded in the [immutable prior-path register](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json). The historical test data remain immutable. No parallel legacy evaluation path is retained.
 
 # 23. The Store membrane and commercial sovereignty
 
