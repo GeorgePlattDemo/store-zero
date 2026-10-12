@@ -73,9 +73,9 @@ The replacement application consumes the exact Store version recorded in Systemâ
 | [Sheet-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Routed sheet work, tabs, and supported panel cuts. |
 | [D-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) Â· [S-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) | Machine-readable capability facts. |
 | [Adopted shared manufacturing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Store-owned engine for neutral-job SKU selection, handling, modeled machine time and Q; active under protocol 2. |
-| [Shared commercial sequence map](docs/commercial-sequence-template.md) | Same proposed map as System: event sources, prerequisites, records, exceptions and custody. |
+| [Commercial event contract](src/contracts/commercial-sequence.js) | Executable prerequisites, events, evidence identities and custody; the [design map](docs/commercial-sequence-template.md) retains its source context. |
 
-The proposed manufacturing file is published only in Store and is not yet imported by the answering path. The commercial map is shared with [System's canonical proposal](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md); System owns shared workflow meanings, and Store owns its commercial acts, stock selection, modeled time and Q.
+The active request path is [the Store request layer](src/requests/store-request.mjs), which compiles admitted neutral definitions into [the single manufacturing core](src/evaluation/engine/store-manufacturing-core.mjs). Its catalog, operation sequence, modeled time and Q are Store-owned. Commercial events have their own [executable gate](src/contracts/commercial-sequence.js), separate from evaluation; System owns the definition and shared workflow meaning.
 
 Code is in [`src/`](src/), catalog and price sheets in [`data/`](data/), and checks in [`tests/`](tests/) and [`acceptance/`](acceptance/). [`docs/`](docs/) holds the [Store Zero specification](docs/STORE-ZERO-SPECIFICATION.md), the Project 1 trail, and the [issued patents](docs/patents/).
 
