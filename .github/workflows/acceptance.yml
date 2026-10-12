@@ -19,3 +19,5 @@ jobs:
         run: npm run check:catalog
       - name: Tests and acceptance
         run: npm test
+      - name: Evaluation timing baseline
+        run: node scripts/benchmark-evaluation.mjs
