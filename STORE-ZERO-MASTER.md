@@ -768,7 +768,7 @@ $$t(d,v,a)=\begin{cases}0&d=0\\2\sqrt{d/a}&d<v^2/a\\d/v+v/a&d\ge v^2/a.\end{case
 
 Distance is inches for linear axes and degrees for A; velocity is units/second and acceleration units/second². Short moves use a triangular profile; long moves attain the commanded limit. C uses the declared X-axis kinematics, router Z uses the Z-axis kinematics. No jerk limit, blending, servo-following error, real safety delay or machine-controller cycle resolution is established by this equation.
 
-For X/C, $v=8$, $a=32$: a 27-inch index takes $27/8+8/32=3.625$ seconds; a two-inch move is at the transition and takes 0.5 seconds. An angle move to 26.387799961243 degrees at 30 degrees/s and 120 degrees/s² takes about 0.93710 seconds before the 0.1-second angle-settle allowance.
+For X/C, $v=8$, $a=32$: a 27-inch index takes $27/8+8/32=3.625$ seconds; a two-inch move is at the transition and takes 0.5 seconds. An angle move to 26.387799961243 degrees at 30 degrees/s and 120 degrees/s² takes 1.1295933320414333 seconds before the 0.1-second angle-settle allowance.
 
 Saw processing speed is declared from tooling:
 
@@ -1000,3 +1000,241 @@ Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-p
 The first useful trial must establish the reference cut and face transformation, repeatable A/B/C references, stock seating and controlled movement, contact/roller restraint under representative loads, tool calibration and real saw stroke, actual spot depth, profile/offcut control, guarded release/labeling and interruption behavior. Measurements compare predicted occupancy with observed operation/handling time and compare modeled geometry with inspected components. Failed attempts and rework remain in the record rather than disappearing from the economic comparison.
 
 Physical authority remains blocked in the adopted code. This is an actual evidence-stage result: the model is declared, not measured or commissioned. Program's proposed cell is a route to resolve these named questions; the master does not appoint it as an already operational Store machine.
+
+## 7. Complete historical Project 1 walkthrough
+
+### 7.1 Specimen sources and identities
+
+Project 1 is the preserved **D001 PROJECT1 DIGITAL TRAIL REVIEW 0.2**, published 2026-10-04, in Store documentary custody. Read the original [Markdown review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), [Word review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx), [evidence ZIP](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Evidence.zip) and [publication identities](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/publication-identities.json). The Markdown and DOCX are publication formats of the engineering review; the ZIP contains the executable reproduction, retained source modules, source identities, controller reference and generated results. Their byte identities are in 14.4. The source package, not a later paraphrase, is the historical calculation authority.
+
+Its System source is predecessor repository `scan-to-build-system` at `1cbee7dd91fa718ae077d0eafe58070d4853d141`; its consumed Store is predecessor `scan-to-build-store` at `9c62d9d6f7775deef83d47196d32c9b5174a352c`. Those identities remain in the package even though successor repositories now own current functions. An old source filename inside the ZIP is a preserved artifact, not a link to a missing current runtime module. Reproduction requires no substitution from current Store.
+
+The specimen definition is `SYO-USER1-XBRACE-0.1`, revision `SYO-USER1-XBRACE-0.1-v5`; configuration `SYO-USER1-XBRACE`, version `0.2`; rule `user1.xbrace/0.1`. Its demand hash is `b3e55a4e7ef3afad407f96aa00ae59da904eaa9580b433daa1b6238b0cf5cc86`. The fixed historical inquiry is `D001-REVIEW-0.2`, evaluated at `2026-10-04T03:00:00Z`. These are specimen/reproduction identities, not a claimed live customer order.
+
+### 7.2 Customer geometry and System derivation
+
+The customer-defined object has two identical diagonal brace parts. The bounded control varies length from 16 through 18 inches in 1/8-inch increments; the horizontal span remains eight inches. For the selected 18-inch setting:
+
+$$\theta=\arcsin(8/18)\,{180\over\pi}=26.387799961243^\circ.$$
+
+Each part receives a longitudinal center spot at $18/2=9$ inches. Required material is treated SYP board, nominal 2×4, actual selected section 1.5×3.5 inches; required operations are limited face miters and two located spots, with a reference cut establishing C. The workpiece requirement states at least 60 inches. It is not an instruction to price exactly 60 inches or to omit retained control stock.
+
+The published specimen's explanatory requirements establish parallel face miters measured on the long-long outer edge. Its original demand omitted an explicit grade and carried some end meaning beside the demand. Current protocol requires those facts within its current accepted representation; the current comparison explicitly supplies above-ground grade, parallel ends and long-long datum. This is an identified new inquiry, not a rewrite of the sealed specimen.
+
+System's rule admits only the bounded range/grid and derives angle and features for every admitted value. It rejects 18.125 inches and off-grid 16.01 inches. It does not choose Store's SKU, stock count, machine rate or physical permission.
+
+### 7.3 Historical material and parent decision
+
+The old evaluator selects `STB-ZERO-PTAG-2X4-72-001`, described as 2×4×72-inch SYP AC2 #2 Prime AG. Its declared on-hand count is 30, allocated zero. Reference price $4.90 marked on five percent rounds to $5.15. That reference price is marked plausible, not observed retail evidence. The historical selection policy is `SHORTEST_COMPLETE_STORE_OFFERING`; it is different from today's whole-job mixed-parent cost search.
+
+Reference cut consumes .125 inch; each 18-inch part consumes 18.125. The 72-inch parent therefore leaves $72-.125-2(18.125)=35.625$ inches. After the first part, 53.75 inches remain. A **counterfactual** 60-inch parent would leave 23.625 inches, below the 24-inch declared control rule, and returns historical reason `LAST_REMAIN_BELOW_TWO_ROLLER_CONTROL`. There was no offered 60-inch treated row in this original selection. The counterfactual proves the length rule; it must not be presented as a rejected actual catalog purchase.
+
+### 7.4 Historical Store route and Q
+
+The historical travel standard is `STB-D001-DIMENSIONAL-TRAVEL-0.1`, version `0.2.0`; envelope `D001-STAGE2-ENVELOPE-0.3`; price engine `STB-STORE-ZERO-PRICE-1`, version `0.3.0`; economics `STB-D001-STORE-ECONOMICS-S2-0.1`, version `0.1.0`. All are declared models, not measured/commissioned machine performance.
+
+The old Store's meaningful operation sequence is below. The finer virtual sequence follows in 7.6; its durations must not replace this table's historical Store durations.
+
+| Order | Operation | Transformation and intended result | Historical Store seconds |
+|---:|---|---|---:|
+| Before route | Load/seat parent | Seat one selected 72-inch parent | 36 |
+| 1 | OP-REF-CUT | Reference face at saw, angle 26.387799961243°, nominal C establishment | 3.0853 |
+| 2 | OP-INDEX-2 | C 0→27; first global spot 9 reaches fixed station 36 | 3.625 |
+| 3 | SPOT-1 | PART-1 center; Y=1.75, full-diameter spot depth .1875 | 1.9971 |
+| 4 | OP-INDEX-4 | C 27→8.875; second global spot 27.125 reaches 36 | 2.5156 |
+| 5 | SPOT-2 | PART-2 center at same Y/depth | 1.9971 |
+| 6 | OP-INDEX-CUT-1 | C 8.875→-18, distance 26.875 | 3.6094 |
+| 7 | OP-CUTOFF-1 | Separate PART-1; retained length 53.75 | 3.0853 |
+| 8 | OP-REBASE-C-1 | Nominal fresh-cut-face origin | 0 |
+| 9 | OP-INDEX-CUT-2 | C 0→-18, distance 18 | 2.5 |
+| 10 | OP-CUTOFF-2 | Separate PART-2; retained length 35.625 | 3.0853 |
+| 11 | OP-REBASE-C-2 | Nominal origin after second separation | 0 |
+| After route | Release/label | Release two modeled parts and retained stock | 24 |
+
+The internal calculation reports **85.5001 seconds** (the less-rounded internal sum is about 85.5000646). Its published categories are load 36, reference 3.0853, index 12.25, saw 6.1706, drill spot 3.9942, mill zero, release 24. At $250/hour:
+
+$$\operatorname{round}_{0.01}(85.5001/3600\times250)=5.94,$$
+$$Q_{historical}=5.15+0+5.94=\mathbf{11.09}.$$
+
+This is a budgetary declared-model answer, not a seller's binding offer. Original input hash is `30b6c02b11db30cf100be72ea4696c03b8ed7d2f217979c53cdae6ce73325e91`; result hash `de1e0e0bdf0f77a6c5ea205191765ba0b846472fc0813fe71d9ddf28fd176333`; receipt hash `992384c7a828c9cc2247bed0f8b964b730c42e219d22d62535c3c4838682a654`. The package confirms they match the reported legacy identities.
+
+### 7.5 Neutral requirements and local coordinates
+
+The preserved neutral requirements name two 18-inch parts and their center spots. Local lowering adds fixed machine station identities, actual section, tool facts, signed coordinates and the local reference convention. `D001-REFERENCE-REVIEW-0.2` is the candidate local configuration; `D001_REVIEW_LOCAL_JOB / 0.2` is the local-job record. Both remain nonphysical reference evidence.
+
+Before cuts, the first part starts at global X=0 and the second starts at X=18.125, including the first separation kerf. Their global centers are 9 and 27.125 inches. Fixed spot station is X=36, so targets are C=27 and C=8.875. Checking forward placement gives `27+9=36` and `8.875+27.125=36`. Both spots occur while parts remain in the parent.
+
+Y=3.5/2=1.75 locates the wide-face center. The 118-degree, .1875-inch drill's point height is .056330683034 inches. Total plunge .243830683034 produces the required .1875-inch full-diameter depth. Initial/retracted Z=1.75, surface Z=1.5, bottom target Z=1.256169316966. Nominal saw process span is $3.5/\cos\theta=3.9070941395600665$ inches; after 1.5-inch approach the virtual S target is 5.4070941395600665.
+
+Continuous X master is not reset. Capturing C sets offset to the current master position. A subsequent local C target is transformed to master=`offset+target`. After the first -18 cut, offset is -18; the second local -18 cut reaches master -36. This reproduces the nominal model while leaving the retained-face kerf problem visible.
+
+### 7.6 Every historical virtual command
+
+The table transcribes **all 45 records**, in order, from `generated/motion-ir.json`, joined with executed `virtual-trace.json`. Times are seconds; linear targets inches; A degrees. `C/X` target means a local C target executed through X-master plus current offset. DELAY targets are durations, not positions. For MOVE rows the speed/acceleration are the actual IR limits; other rows have no axis move. The purpose column explains what each command contributes.
+
+| Seq | Command and target | Speed / acceleration | Duration | Cumulative end | Purpose and expected state |
+|---:|---|---|---:|---:|---|
+| 1 | DELAY 36 | — | 36.000000000 | 36.000000000 | Load/seat allowance; stock nominally seated |
+| 2 | MOVE A 26.387799961243 | 30 / 120 | 1.129593332 | 37.129593332 | Set common face-miter angle |
+| 3 | DELAY 0.1 | — | 0.100000000 | 37.229593332 | Angle-settle allowance |
+| 4 | DELAY 0.25 | — | 0.250000000 | 37.479593332 | Reference clamp allowance |
+| 5 | SET_SAW 1 | — | 0.000000000 | 37.479593332 | Saw command on before entry |
+| 6 | MOVE S 1.5 | 6 / 24 | 0.500000000 | 37.979593332 | Rapid saw approach |
+| 7 | MOVE S 5.4070941395600665 | 3.6 / 24 | 1.235303928 | 39.214897260 | Virtual reference cut through width/cos(angle) |
+| 8 | MOVE S 0 | 6 / 24 | 1.151182357 | 40.366079616 | Retract saw clear of stock |
+| 9 | DELAY 0.05 | — | 0.050000000 | 40.416079616 | Saw-off allowance |
+| 10 | SET_SAW 0 | — | 0.000000000 | 40.416079616 | Saw command off |
+| 11 | CAPTURE_C 0 | — | 0.010000000 | 40.426079616 | Capture nominal C=0; offset follows continuous X |
+| 12 | MOVE_C C/X 27 | 8 / 32 | 3.625000000 | 44.051079616 | Place first global center 9 at station 36 |
+| 13 | VERIFY_X 27 | — | 0.050000000 | 44.101079616 | Verify first longitudinal target before tool entry |
+| 14 | MOVE Y 1.75 | 4 / 16 | 0.687500000 | 44.788579616 | Place drill on wide-face center |
+| 15 | SET_SPOT 1 | — | 0.000000000 | 44.788579616 | Spot spindle command on |
+| 16 | DELAY 0.5 | — | 0.500000000 | 45.288579616 | Spot spindle-ready allowance |
+| 17 | MOVE Z 1.5 | 2 / 16 | 0.250000000 | 45.538579616 | Rapid to first part surface |
+| 18 | MOVE Z 1.256169316966166 | 0.4 / 16 | 0.634576708 | 46.173156324 | Plunge first full-diameter center spot |
+| 19 | MOVE Z 1.75 | 2 / 16 | 0.371915342 | 46.545071665 | Retract spot tool to clearance |
+| 20 | MOVE_C C/X 8.875 | 8 / 32 | 2.515625000 | 49.060696665 | Place second global center 27.125 at station 36 |
+| 21 | VERIFY_X 8.875 | — | 0.050000000 | 49.110696665 | Verify second spot target |
+| 22 | MOVE Z 1.5 | 2 / 16 | 0.250000000 | 49.360696665 | Rapid to second part surface |
+| 23 | MOVE Z 1.256169316966166 | 0.4 / 16 | 0.634576708 | 49.995273373 | Plunge second full-diameter center spot |
+| 24 | MOVE Z 1.75 | 2 / 16 | 0.371915342 | 50.367188714 | Retract spot tool clear |
+| 25 | MOVE_C C/X -18 | 8 / 32 | 3.609375000 | 53.976563714 | Index first separation length under saw |
+| 26 | VERIFY_X -18 | — | 0.050000000 | 54.026563714 | Verify first cut target |
+| 27 | SET_SAW 1 | — | 0.000000000 | 54.026563714 | Saw command on |
+| 28 | MOVE S 1.5 | 6 / 24 | 0.500000000 | 54.526563714 | Rapid approach first separation |
+| 29 | MOVE S 5.4070941395600665 | 3.6 / 24 | 1.235303928 | 55.761867642 | Virtual first miter separation |
+| 30 | MOVE S 0 | 6 / 24 | 1.151182357 | 56.913049999 | Retract saw clear |
+| 31 | DELAY 0.05 | — | 0.050000000 | 56.963049999 | Saw-off allowance |
+| 32 | SET_SAW 0 | — | 0.000000000 | 56.963049999 | Saw command off |
+| 33 | CAPTURE_C 0 | — | 0.010000000 | 56.973049999 | Capture nominal fresh-face C=0; X offset=-18 |
+| 34 | MOVE_C C/X -18 | 8 / 32 | 2.500000000 | 59.473049999 | Index second local -18; X master reaches -36 |
+| 35 | VERIFY_X -18 | — | 0.050000000 | 59.523049999 | Verify second separation target |
+| 36 | SET_SAW 1 | — | 0.000000000 | 59.523049999 | Saw command on |
+| 37 | MOVE S 1.5 | 6 / 24 | 0.500000000 | 60.023049999 | Rapid approach second separation |
+| 38 | MOVE S 5.4070941395600665 | 3.6 / 24 | 1.235303928 | 61.258353926 | Virtual second miter separation |
+| 39 | MOVE S 0 | 6 / 24 | 1.151182357 | 62.409536283 | Retract saw clear |
+| 40 | DELAY 0.05 | — | 0.050000000 | 62.459536283 | Saw-off allowance |
+| 41 | SET_SAW 0 | — | 0.000000000 | 62.459536283 | Saw command off |
+| 42 | CAPTURE_C 0 | — | 0.010000000 | 62.469536283 | Capture nominal C=0; X offset=-36 |
+| 43 | SET_SPOT 0 | — | 0.000000000 | 62.469536283 | Spot spindle command off |
+| 44 | DELAY 24 | — | 24.000000000 | 86.469536283 | Release/label allowance |
+| 45 | COMPLETE 0 | — | 0.000000000 | 86.469536283 | Complete virtual sequence; tools inactive |
+
+Tool ON/OFF and COMPLETE records consume no modeled time. CAPTURE_C costs .01 seconds each and VERIFY_X .05. The executed model records 21 motion commands; 45 is the total command-record count. The two counts answer different questions. The complete generated data also retain tool commands, positions, C offsets and source-operation IDs for every record.
+
+### 7.7 Controller interpreter and state lifecycle
+
+`Controller_Reference.st` in the ZIP supplies a candidate TwinCAT-style Structured Text interpreter. `Job1_Data.st` serializes this particular command array and expected identities. The reproduction executes a JavaScript virtual kinematic interpreter, **not** the Structured Text in a TwinCAT runtime. The controller reference was not compiled, commissioned or connected to physical outputs.
+
+The reference has X master, R1/R2 roller slaves, Y, Z, A and S axes, power/gearing/stop function blocks and a virtual-mode boundary. Roller feeds are geared to the continuous X master; local C offsets change only interpretation of longitudinal targets. Spindle commands are reference state variables without commissioned physical I/O mapping. Virtual mode must be explicitly selected; no generated job creates physical authority.
+
+A move wrapper avoids leaving an old `Done` bit latched: phase 0 detects a start edge and captures target/limits; phase 10 drives Execute low; phase 20 raises Execute; phase 30 waits for Done, Error or CommandAborted; phase 40 drops Execute and waits for Busy/Done to clear. PLCopen motion blocks are called cyclically. A completion from an earlier move cannot be used as the next move's completion merely by keeping Execute true.
+
+The sequencer checks expected job/controller identities before motion, transforms C targets through the offset, verifies longitudinal placement before tool entry, tracks spindle command state and prevents index progression with unconfirmed retract. Faults stop progression, invalidate position as appropriate and require release/readiness recovery. Candidate PLC logic illustrates those engineering obligations; only the executed JavaScript checks provide runtime evidence in this package.
+
+### 7.8 Historical virtual timing reconciliation
+
+The separately executed stop-to-stop virtual benchmark totals **86.46953628299116 seconds**, with its own detailed angle, motion, ready, capture and verification allowances. Its difference from the historical Store figure is **0.969436282991154 seconds**. The two use related geometry but different granularity/timing treatment: the Store's travel-standard operation allowance and per-spot placement are not identical to the virtual interpreter's state-dependent moves and explicit controller-oriented delays.
+
+A prior draft reported 86.419536 seconds. The executed result corrects that draft by approximately .05 seconds: the two short process plunges each require .025 seconds acceleration/deceleration allowance beyond simple distance/feed. The executed trace is the benchmark authority. None of these comparisons retroactively changes the old Store Q.
+
+At the old material price, charging the virtual benchmark at $250/hour would round service to $6.00 and produce a **hypothetical $11.15**, not the preserved $11.09 Store answer. At the adopted current $4.81 material price, the adopted ledger's same numerical benchmark rounds to $10.81. Keeping the three figures distinct prevents timing reconciliation from rewriting a historical receipt.
+
+### 7.9 Contact face and stroke findings
+
+| Nominal state | C | Remaining length | R1 at 24 | Tool at 36 | R2 at 48 | Consequence |
+|---|---:|---:|---|---|---|---|
+| Reference established | 0 | 71.875 | yes | yes | yes | Nominal overlap at all stations |
+| First spot | 27 | 71.875 | no | yes | yes | One-roller state must be physically resolved |
+| Second spot | 8.875 | 71.875 | yes | yes | yes | Nominal overlap, no load/traction proof |
+| First cut before removal | -18 | 71.875 | yes | yes | yes | Nominal cut state |
+| Second cut before removal | -18 | 53.75 | yes | yes | no | Opposite one-roller state |
+| Final nominal reference | 0 | 35.625 | yes | no | no | Retained piece not under every station |
+
+The review's blockers are `ONE_ROLLER_CONTROL_UNRESOLVED`, `KERF_FACE_AND_REBASE_UNRESOLVED`, `SAW_STROKE_GEOMETRY_UNRESOLVED` and `COMMISSIONING_ABSENT`. Two-roller control, retained-face placement and actual blade stroke are separate questions. Successful virtual placement and timing resolve none of them physically. The current adopted core preserves related named physical gaps rather than granting production permission.
+
+### 7.10 Reproduction and fourteen checks
+
+Unpack the original ZIP into a temporary directory, enter that package and run `node reproduce.mjs` under Node 22. The script verifies seven source blobs using Git blob identities and SHA-256, invokes the retained System rule and old Store evaluator, emits neutral requirements/local job/IR/ST command data, executes the virtual interpreter, and regenerates results under `generated/`. Running it in scratch avoids changing sealed Store publications or acceptance copies.
+
+The seven retained modules are `store-source/d001-travel-standard.mjs`, `store-zero-pricing-engine.mjs`, `d001-stage2-envelope.mjs`, `store-zero-catalog.json`, `store-zero-stage2-store.mjs`, and `system-source/user1-xbrace-rule.mjs`, `canonical.mjs`. `source-identities.json` binds each to the original repository/revision/blob/hash. It does not depend on a missing successor runtime path.
+
+| Executed check | What it establishes |
+|---|---|
+| Seven source blobs match | Reproduction uses retained exact source bytes |
+| 18-inch definition and Q | Derived center is 9 inches; old Store Q $11.09 |
+| Counterfactual 60-inch parent | Retained-length rule rejects it; offered 72-inch parent selected |
+| Forward spot placement | Both nominal stock+feature coordinates reach station 36 |
+| All 17 length settings | Bounded grid propagates consistently through rule and Store |
+| Range/grid refusal | Outside-range and off-grid requests rejected |
+| Changed demand | Previous answer cannot authorize revised lowering |
+| Altered identity | Tampered result identity rejected |
+| Wrong controller identity | Fault before motion |
+| Position fault | Following tool command prevented |
+| Retract fault | Next index prevented |
+| Contact audit | Single-roller states remain identified |
+| Finite kerf | Coordinate relabeling cannot erase physical kerf |
+| Physical admission | BLOCKED with zero permitted physical motion |
+
+Fresh reproduction for this master passes **14/14**, with no failed checks. Scope remains local reference software and virtual kinematics; no TwinCAT runtime, actual cut or inspected component is added by rerunning it.
+
+### 7.11 Separate current adopted-core evaluation
+
+The current fixture [project-1.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/project-1.mjs) reads the sealed demand and explicitly supplies the required grade/end meaning. Its comment retains an older assertion about reproducing the whole old answer; the actual current engine does not return the old calculation hashes or Q. Current tests distinguish the surviving geometry evidence from the adopted calculation.
+
+| Fact | Sealed historical Store | Current adopted core, source f7123a73 |
+|---|---|---|
+| Parent | PTAG 2×4×72 | PT 2×4×96 |
+| Material | $5.15 | $4.81 |
+| Remaining stock | 35.625 in | 59.625 in |
+| Store occupancy | 85.5001 s | 86.46953628299116 s |
+| Hourly service | $5.94 | $6.00 |
+| Q | **$11.09** | **$10.81** |
+| Calculation source | Preserved stage-2 evaluator | Adopted whole-job core |
+| Machine evidence | Controller-oriented virtual reference, physical blocked | Occupancy ledger, `PREDICTED_OCCUPANCY_ONLY`, physical blocked |
+
+Current selection considers the present catalog and complete modeled cost. The longer parent is cheaper in that catalog; identical part/spot geometry gives the same current index/cut benchmark despite the different retained length. Larger stock length changes contact-screen coverage and material consumption but does not add this job's nonexistent milling route. In jobs with parent-length edge preparation, a longer parent can also change work/time.
+
+The current example is regenerated under an explicit master request identity and fixed clock below. Its hashes differ from a separately identified published example even when geometry/Q match, because the calculation input includes source request identity. Use the exact example request when comparing hashes.
+
+```json
+{
+  "requestId": "MASTER-PROJECT1",
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "USER_DEFINED_BOARD_V1",
+    "requestId": "MASTER-PROJECT1",
+    "evaluatedAt": "2026-10-12T16:00:00.000Z",
+    "authority": {
+      "storeRevision": "f7123a73c1ca60aa7eb180a86a1c365eaffe95db",
+      "catalogHash": "4183b76beb3b1009544612e4e19662804df40530d6cf94c858b0e525b4885caa",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
+    "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "41da9c6b36db407efc8ede967f6fb4f5fc7805ec66da1bd97a73779313ed6a55",
+      "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+    },
+    "receiptHash": "e81602968711b5d0a125a1521be161ecde6f7eb03825a815e60585cd4b662e55"
+  },
+  "Q": 10.81,
+  "timeSeconds": 86.46953628299116
+}
+```
+
+### 7.12 Transaction handoffs and resulting record
+
+The original review identifies H01–H12 as explanatory handoffs, not installed commercial event types: source→definition; definition→derivation; derivation→inquiry; inquiry→evaluation; answer→System custody; answer→customer decision; decision→order; order→local planning; planning→admission; admission→execution; execution→inspection; inspection→handoff. The reproduced package executes derivation, old evaluation, local reference generation and virtual checks. It does not contain a real customer acceptance, seller order, payment, stock reservation, allocation, commissioned release, physical inspection or custody transfer.
+
+The expected modeled components are PART-1 and PART-2, each 18-inch parallel-miter brace with its own center SPOT identity. The retained 35.625-inch historical stock is also part of material accounting. A physical result would have to connect those identities to measured dimensions/features, source parent/lot, machine record, inspection disposition and customer handoff. Virtual COMPLETE is evidence of sequence completion, not evidence that two accepted parts now exist.
+
+The current commercial chain in chapter 10 consumes the appropriate current receipt and offer identities. It cannot turn the original review's H07 description into payment evidence or treat its H09 candidate admission discussion as a live manufacturing release.
