@@ -2573,3 +2573,279 @@ The helper checks current revision and stream identity before and after appendin
 The intended full transaction is: customer definition → fresh inquiry → manufacturing Q → seller offer → customer decision → seller order → policy-bound finance/reservation/capacity/queue → actual allocation/issue → production release → bound local plan → commissioned readiness/admission → operation → inspection → labels/staging → notice → pickup/custody → closeout in the owner's record. A revision returns to definition/evaluation and the appropriate offer/change process while retaining preceding evidence.
 
 The current software implements the simulated envelope, bindings, prerequisites, policy checks, hash-chain verification and attributable UI demonstration. Actual seller/provider/inventory/scheduler adapters, durable concurrency, physical release and measured fulfillment are future integrations under their owners. The template's broader operational expectations remain valuable design requirements; the narrower installed checks above describe current behavior precisely. Source-owned decisions must be installed without creating a second pricing, definition or machine authority.
+
+## 11. Refusal interruption and recovery
+
+### 11.1 Current result states
+
+A clean, fully covered, feasible evaluated job is `SUPPORTABLE`, complete and fresh, with Q. `REFUSED` identifies an invalid/unsupported declaration or represented boundary violation. `UNRESOLVED` identifies missing meaning/evidence or a bounded calculation not established. `UNAVAILABLE` identifies failure to obtain a complete plan from eligible available inventory. Admission refusals that never reach calculation are `complete:false`, `freshEvaluation:false`, with null calculation identity and receipt. A clean job that reaches evaluation receives the Store's evaluated disposition and receipt even if not supportable.
+
+Machine packet verification additionally uses VERIFIED, REFUSED and STALE; lowering uses LOWERED; virtual replay uses VIRTUAL_MODEL_COMPLETE or STOPPED; physical admission uses BLOCKED. Commercial evidence uses RECORDED/REFUSED under SIMULATED class. These names belong to their respective stages. A modeled geometry refusal is not a physical machine stop; a model physicalGap is not a fake part inspection failure.
+
+The retired partial aggregate `NOT_ALL_LINES_SUPPORTABLE` survives in some System compatibility display-state vocabulary and old evidence. The adopted whole-job core does not return a purchasable partial Q. An unresolved component cannot be dropped to call the remainder a completed job.
+
+### 11.2 Admission and manufacturing reason register
+
+The public request boundary's principal reasons are REQUEST_MUST_BE_AN_OBJECT, REQUEST_FIELD_NOT_DECLARED:<field>, REQUEST_TYPE_NOT_ACCEPTED, STORE_EVALUATION_REQUEST_ID_REQUIRED, DEFINITION_REQUIRED, MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED, INDEPENDENT_SYSTEM_MANIFEST_REQUIRED and DISCOVERY_MANIFEST_NOT_ACCEPTED. Typed definition validation adds DEFINITION_FIELD_NOT_DECLARED:<path>, DEFINITION_FIELD_TYPE:<path> and the declared enum/type reason variants produced by [shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/shape.mjs). Missing identity/manifest is unresolved; undeclared/mistyped or machine-local language is refused. These checks precede manufacturing.
+
+The following register gives the actual core conditions, extracted from the frozen source. A condition shown must be **true** to proceed; its failure emits the adjacent reason. Dynamic reason prefixes end in `:` and append the actual field/operation. REFUSED is the default; explicit UNRESOLVED/UNAVAILABLE distinctions are preserved. The same code can occur in more than one check, with a different condition/status, and both occurrences are included. Model-input/internal consistency checks are listed because an invalid registered model is also a refusal, not permission to estimate anyway. Detailed physical meaning and numerical boundaries are developed in chapters 5–6.
+
+| Reason code | Disposition | Required condition or originating context |
+|---|---|---|
+| `OBJECT_REQUIRED` | REFUSED | `object(v)` |
+| `FIELD_NOT_DECLARED:` | REFUSED | `allowed.includes(k)` |
+| `IDENTITY_REQUIRED` | UNRESOLVED | `text(v)` |
+| `MANIFEST_LIST_REQUIRED` | UNRESOLVED | `Array.isArray(a) && Array.isArray(b)` |
+| `DUPLICATE_OR_INVALID_IDENTITY` | REFUSED | `a.every(text) && unique(a).length === a.length && unique(b).length === b.length` |
+| `MANIFEST_COVERAGE_MISMATCH` | REFUSED | `canonical([...a].sort()) === canonical([...b].sort())` |
+| `MODEL_POSITIVE_VALUES_REQUIRED` | REFUSED | `[routerDiameterIn, routerPassDepthIn, longitudinalFeedInPerMin, productiveHours].every(positive)` |
+| `SEARCH_LIMIT_INVALID` | REFUSED | `Number.isInteger(searchNodeLimit) && searchNodeLimit > 0` |
+| `MOTION_FACT_REQUIRED` | UNRESOLVED | `number(distance) && positive(velocity) && positive(acceleration)` |
+| `ECONOMICS_INVALID` | REFUSED | `positive(e.annualCostPoolUsd) && positive(e.productiveHours) && number(e.targetGrossMargin) && e.targetGrossMargin >= 0 && e.targetGrossMargin < 1` |
+| `COST_POOL_DOES_NOT_RECONCILE` | REFUSED | `Math.abs(Object.values(e.components).reduce((s, v) => s + v, 0) - e.annualCostPoolUsd) < EPS` |
+| `DEFINITION_REQUIRED` | UNRESOLVED | `object(d)` |
+| `END_GEOMETRY_NOT_DECLARED` | REFUSED | `d.endRelation === 'parallel' && d.lengthDatum === 'long-long-outer-edge' && d.endIdentity == null` |
+| `REFERENCE_PROCESS_NOT_DECLARED` | REFUSED | `d.cutPlane === 'miter-face' && d.datumCMethod === 'REFERENCE_CUT'` |
+| `CARRIED_REQUIREMENT_UNRESOLVED` | UNRESOLVED | `Array.isArray(d.unresolvedConditions) && !d.unresolvedConditions.length` |
+| `DEFINED_WORKPIECE_LENGTH_REQUIRED` | UNRESOLVED | `positive(d.definedWorkpieceLengthIn)` |
+| `PARTS_REQUIRED` | UNRESOLVED | `Array.isArray(d.parts) && d.parts.length` |
+| `FEATURE_LIST_REQUIRED` | UNRESOLVED | `Array.isArray(p.features)` |
+| `FEATURE_KIND_NOT_HANDLED` | REFUSED | `p.features.every(f => f.kind === 'SPOT_ON_LOCATION')` |
+| `DECLARED_SAW_COUNT_MISMATCH` | REFUSED | `d.declaredSawCuts === parts.length + 1` |
+| `DECLARED_SPOT_COUNT_MISMATCH` | REFUSED | `d.declaredSpotCount === parts.reduce((s, p) => s + p.spots.length, 0)` |
+| `REQUIRED_OPERATIONS_REQUIRED` | UNRESOLVED | `Array.isArray(d.requiredOps)` |
+| `CUT_PACKAGES_REQUIRED` | UNRESOLVED | `Array.isArray(d.cutPackages)` |
+| `REQUEST_TYPE_NOT_HANDLED` | REFUSED | `Raised when this named condition prevents a complete supported plan` |
+| `JOB_SCHEMA_NOT_HANDLED` | REFUSED | `job.schema === 'STORE-MANUFACTURING-JOB-1'` |
+| `JOB_LIST_REQUIRED` | UNRESOLVED | `Array.isArray(job[k])` |
+| `EMPTY_JOB` | REFUSED | `job.boards.length + job.sheets.length + job.items.length > 0` |
+| `MANIFEST_REVISION_MISMATCH` | REFUSED | `m.jobId === job.jobId && m.revision === job.revision` |
+| `JOB_REQUIREMENTS_REMAIN_UNEVALUATED` | UNRESOLVED | `Array.isArray(m.unresolvedRequirements) && m.unresolvedRequirements.length === 0` |
+| `BOARD_MATERIAL_REQUIRED` | UNRESOLVED | `text(b.material.species) && b.material.form === 'board' && positive(b.material.nominalT) && positive(b.material.nominalW)` |
+| `END_ANGLE_OUTSIDE_MODEL` | REFUSED | `number(b.endCut.angleDeg) && b.endCut.angleDeg >= 0 && b.endCut.angleDeg <= 45` |
+| `MITER_END_GEOMETRY_NOT_EVALUATED` | UNRESOLVED | `b.endCut.endRelation === 'parallel' && b.endCut.lengthDatum === 'long-long-outer-edge' && b.endCut.plane === 'miter-face'` |
+| `END_RELATION_NOT_DECLARED` | REFUSED | `b.endCut.endRelation === 'parallel'` |
+| `LENGTH_DATUM_NOT_DECLARED` | REFUSED | `b.endCut.lengthDatum === 'long-long-outer-edge'` |
+| `CUT_PLANE_NOT_DECLARED` | REFUSED | `b.endCut.plane === 'miter-face'` |
+| `FINISHED_WIDTH_INVALID` | REFUSED | `positive(b.finishedWidthIn)` |
+| `TWO_EDGE_GEOMETRY_REQUIRED` | REFUSED | `positive(b.finishedWidthIn) && positive(b.edgePreparation.farEdgeRemovalIn) && positive(b.edgePreparation.fenceEdgeRemovalIn)` |
+| `MINIMUM_PARENT_LENGTH_INVALID` | REFUSED | `positive(b.minimumParentLengthIn)` |
+| `BOOLEAN_REQUIRED:` | REFUSED | `typeof b[flag] === 'boolean'` |
+| `REQUIRED_OPERATIONS_INVALID` | REFUSED | `Array.isArray(b.requiredOps) && b.requiredOps.every(text)` |
+| `PARTS_REQUIRED` | UNRESOLVED | `Array.isArray(b.parts) && b.parts.length` |
+| `PART_LENGTH_REQUIRED` | UNRESOLVED | `positive(p.lengthIn)` |
+| `FEATURE_LIST_REQUIRED` | REFUSED | `Array.isArray(p[name])` |
+| `SHEET_SIZE_REQUIRED` | UNRESOLVED | `[s.sheet.thicknessIn, s.sheet.lengthIn, s.sheet.widthIn].every(positive)` |
+| `SHEET_FEATURES_REQUIRED` | UNRESOLVED | `Array.isArray(s.features)` |
+| `ALL_PIECES_MUST_BE_RETURNED` | REFUSED | `s.returnAllPieces === true` |
+| `EXTERIOR_REQUEST_INVALID` | REFUSED | `typeof s.exteriorRatingRequested === 'boolean'` |
+| `ITEM_QUANTITY_INVALID` | REFUSED | `Number.isInteger(i.qty) && i.qty > 0` |
+| `ITEM_IDENTITY_AMBIGUOUS` | REFUSED | `['storeSku', 'requirementId', 'requirement'].filter(k => i[k] !== undefined).length === 1` |
+| `PACKAGE_ID_DUPLICATED` | REFUSED | `unique(packageIds).length === packageIds.length` |
+| `ITEM_ID_DUPLICATED` | REFUSED | `unique(job.items.map(i => i.lineId)).length === job.items.length` |
+| `MANIFEST_ITEMS_REQUIRED` | UNRESOLVED | `Array.isArray(m.items)` |
+| `MANIFEST_QUANTITY_INVALID` | REFUSED | `Number.isInteger(i.qty) && i.qty > 0` |
+| `MANIFEST_ITEM_QUANTITY_MISMATCH` | REFUSED | `m.items.every(i => job.items.find(l => l.lineId === i.lineId).qty === i.qty)` |
+| `DURATION_UNRESOLVED` | UNRESOLVED | `number(seconds) && seconds >= 0` |
+| `AXIS_POSE_REQUIRED` | UNRESOLVED | `number(target) && number(this.state[axis])` |
+| `INDEX_WITH_TOOL_ENGAGED` | REFUSED | `this.state.S === 0 && (this.state.Z == null \|\| this.state.Z >= this.stock.actualT + d.spot.clearanceIn - EPS) && (this.state.RZ == null \|\| this.state.RZ >= this.stock.actualT + d.router.clearanceIn - EPS)` |
+| `SPOT_KIND_NOT_DECLARED` | REFUSED | `feature.kind === 'SPOT_ON_LOCATION'` |
+| `SPOT_LOCATION_RULE_NOT_DECLARED` | REFUSED | `feature.locationRule === 'CENTERED_ON_PART'` |
+| `SPOT_DIAMETER_NOT_DECLARED` | REFUSED | `feature.toolDiameterIn === s.diameterIn` |
+| `SPOT_DEPTH_NOT_DECLARED` | REFUSED | `feature.fullDiameterDepthIn === s.fullDiameterDepthIn` |
+| `CENTERED_SPOT_HAS_INSET` | REFUSED | `feature.insetFromEdgeIn === undefined` |
+| `SPOT_INSET_NOT_DECLARED` | REFUSED | `feature.acrossWidthRule === 'INSET_FROM_EDGE' && s.insetsIn.includes(feature.insetFromEdgeIn)` |
+| `SPOT_TOOL_LEAVES_FACE` | REFUSED | `y >= s.diameterIn / 2 && y + s.diameterIn / 2 <= width + EPS` |
+| `ROUTER_GEOMETRY_INVALID` | REFUSED | `positive(path) && positive(depth) && depth <= ledger.stock.actualT + EPS` |
+| `ROUTER_Y_TRAVEL_EXCEEDED` | REFUSED | `Math.abs(y) <= r.maxTravelYIn + EPS` |
+| `PREPARED_WIDTH_OUTSIDE_CONTROL_ENVELOPE` | REFUSED | `width >= d.stock.minWidthIn - EPS && width <= stock.actualW + EPS` |
+| `EDGE_REMOVALS_DO_NOT_RECONCILE` | REFUSED | `Math.abs(stock.actualW - far - fence - width) < 1e-6` |
+| `EDGE_REMOVAL_NEGATIVE` | REFUSED | `far >= -EPS && fence >= -EPS` |
+| `RADIAL_REMOVAL_EXCEEDS_DECLARED_TOOL_OR_LIMIT` | REFUSED | `removal <= Math.min(rimDiameter(model), d.router.maxRadialRemovalPerSideIn) + EPS` |
+| `PROFILE_GEOMETRY_REQUIRED` | REFUSED | `f.kind === 'MILL_LONGITUDINAL_PROFILE' && positive(f.pathLengthIn) && positive(f.totalDepthIn) && number(f.yIn)` |
+| `PROFILE_EXCEEDS_PART` | REFUSED | `f.pathLengthIn <= p.lengthIn + EPS && f.totalDepthIn <= stock.actualT + EPS` |
+| `PROFILE_DOES_NOT_MATCH_EDGE_PREPARATION` | REFUSED | `Math.abs(f.pathLengthIn - p.lengthIn) < EPS && Math.abs(f.yIn - width) < EPS && Math.abs(f.totalDepthIn - stock.actualT) < EPS` |
+| `STATION_PROFILE_LENGTH_EXCEEDED` | REFUSED | `f.pathLengthIn <= d.router.maxProfileLengthIn` |
+| `SPOT_TOOL_LEAVES_PART_END` | REFUSED | `number(f.xIn) && f.xIn >= d.spot.diameterIn / 2 && f.xIn <= p.lengthIn - d.spot.diameterIn / 2` |
+| `CENTERED_SPOT_LOCATION_MISMATCH` | REFUSED | `Math.abs(f.xIn - p.lengthIn / 2) < EPS` |
+| `SPOT_PENETRATION_EXCEEDS_STOCK` | REFUSED | `plunge <= stock.actualT + EPS` |
+| `RETAINED_CONTROL_LENGTH_TOO_SHORT` | REFUSED | `remaining >= d.stock.minRetainedLengthIn - EPS` |
+| `REQUIRED_OPERATION_NOT_REPRESENTED:` | REFUSED | `ops.includes(op)` |
+| `NO_MATCHING_OFFERING` | REFUSED | `matches.length` |
+| `NOT_OFFERED` | REFUSED | `offered.length` |
+| `OPERATIONS_NOT_ON_OFFERING:` | REFUSED | `capable.length` |
+| `MISSING_PRICE` | UNRESOLVED | `priced.length` |
+| `GRADE_CHOICE_REQUIRED` | UNRESOLVED | `No ambiguous offered grades` |
+| `STOCK_OUTSIDE_CONTROL_ENVELOPE` | REFUSED | `row.actualW >= st.minWidthIn && row.actualW <= st.maxWidthIn && row.actualT >= st.minThicknessIn && row.actualT <= (ops.includes('MILL_LONGITUDINAL_PROFILE') ? st.maxRouterThicknessIn : st.maxSawThicknessIn)` |
+| `PARENT_BELOW_DEFINED_WORKPIECE_LENGTH` | REFUSED | `row.stockL_in >= b.minimumParentLengthIn` |
+| `NO_MATCHING_BOARD_OFFERING` | REFUSED | `Raised when this named condition prevents a complete supported plan` |
+| `ARCH_GEOMETRY_INVALID` | REFUSED | `[w, h, rise].every(positive) && rise <= w / 2 + EPS` |
+| `ROUTER_TOO_LARGE_FOR_ARCH` | REFUSED | `innerR > 0 && innerHalf > 0 && innerHalf <= innerR + EPS` |
+| `OFFSET_PROFILE_COLLAPSES` | REFUSED | `innerTop > r` |
+| `TAB_OUTSIDE_CONTOUR` | REFUSED | `positions.every(v => number(v) && v >= 0 && v < P)` |
+| `TAB_BRIDGES_OVERLAP` | REFUSED | `gaps.every(v => v >= bridge - EPS)` |
+| `TAB_UNCUT_SPAN_EXCEEDED` | REFUSED | `gaps.every(v => v - bridge <= policy.maxUncutSpanIn + EPS)` |
+| `TAB_RETENTION_FRACTION_TOO_SMALL` | REFUSED | `sorted.length * bridge / P >= policy.retainedFraction - EPS` |
+| `TAB_AT_PROFILE_TRANSITION` | REFUSED | `sorted.every(s => transitions.every(t => cyclic(s, t) >= bridge / 2 - EPS))` |
+| `TAB_LOCATIONS_DO_NOT_RETAIN_BOTH_HALVES` | REFUSED | `xs.filter(x => x < -bridge / 2).length >= policy.minPerSplitHalf && xs.filter(x => x > bridge / 2).length >= policy.minPerSplitHalf` |
+| `TAB_COUNT_REQUIRED` | UNRESOLVED | `Number.isInteger(feature.requestedTabCount) && feature.requestedTabCount > 0` |
+| `TAB_MODE_NOT_DECLARED` | REFUSED | `['AUTO_PLAN', 'CUSTOM'].includes(mode)` |
+| `TAB_CUSTOM_POSITIONS_REQUIRED` | UNRESOLVED | `Array.isArray(feature.tabPositionsIn) && feature.tabPositionsIn.length` |
+| `TAB_CUSTOM_COUNT_MISMATCH` | REFUSED | `feature.tabPositionsIn.length === feature.requestedTabCount` |
+| `CUSTOM_TAB_POSITIONS_WITH_AUTO_MODE` | REFUSED | `feature.tabPositionsIn === undefined` |
+| `AUTO_TAB_PLAN_NOT_FOUND` | UNRESOLVED | `Raised when this named condition prevents a complete supported plan` |
+| `SHEET_OUTSIDE_ENVELOPE` | REFUSED | `parent.lengthIn === e.stock.lengthIn && parent.widthIn === e.stock.widthIn && parent.thicknessIn >= e.stock.minThicknessIn && parent.thicknessIn <= e.stock.maxThicknessIn` |
+| `SHEET_FEATURE_KIND_NOT_HANDLED` | REFUSED | `kinds.includes(f.kind)` |
+| `PATTERN_HOST_REQUIRED` | REFUSED | `features.some(a => a.kind === 'ARCHED_APERTURE' && a.featureId === f.within)` |
+| `PATTERN_DEFINITION_INVALID` | REFUSED | `!modifiers.has(f.within) && number(f.offsetXIn) && number(f.offsetYIn)` |
+| `SPLIT_HOST_REQUIRED` | REFUSED | `features.some(a => a.kind === 'ARCHED_APERTURE' && a.featureId === f.within)` |
+| `SPLIT_DEFINITION_INVALID` | REFUSED | `!splits.has(f.within) && f.line === 'VERTICAL_CENTERLINE'` |
+| `APERTURE_PLACEMENT_OR_RETENTION_NOT_DECLARED` | REFUSED | `f.placement === 'CENTERED' && f.retain === 'TABS'` |
+| `APERTURE_TOO_SMALL` | REFUSED | `f.widthIn >= e.router.minFeatureIn && f.straightHeightIn >= e.router.minFeatureIn` |
+| `ROUTED_PROFILE_OUTSIDE_WORK_FIELD` | REFUSED | `box.x0 >= field.x0 - EPS && box.x1 <= field.x1 + EPS && box.y0 >= field.y0 - EPS && box.y1 <= field.y1 + EPS` |
+| `SPLIT_HALF_TOO_NARROW` | REFUSED | `(host.geometry.w - e.router.diameterIn) / 2 >= e.router.minSplitWidthIn - EPS` |
+| `SPLIT_TAB_MODE_NOT_DECLARED` | REFUSED | `['AUTO_PLAN', 'CUSTOM'].includes(mode)` |
+| `SPLIT_TAB_POSITIONS_REQUIRED` | UNRESOLVED | `Array.isArray(f.splitTabPositionsIn) && f.splitTabPositionsIn.length` |
+| `SPLIT_POSITIONS_WITH_AUTO_MODE` | REFUSED | `f.splitTabPositionsIn === undefined` |
+| `SPLIT_TAB_OUTSIDE_PATH` | REFUSED | `positions.every(v => number(v) && v >= e.tabs.bridgeIn / 2 && v <= length - e.tabs.bridgeIn / 2)` |
+| `SPLIT_TAB_SPACING_INVALID` | REFUSED | `gaps.every(v => v >= e.tabs.bridgeIn - EPS && v - e.tabs.bridgeIn <= e.tabs.maxUncutSpanIn + EPS)` |
+| `SPLIT_RETENTION_TOO_SMALL` | REFUSED | `positions.length * e.tabs.bridgeIn / length >= e.tabs.retainedFraction - EPS` |
+| `PANEL_CUT_DATUM_REQUIRED` | REFUSED | `number(f.distanceIn) && (vertical ? ['LEFT', 'RIGHT'].includes(f.fromEnd) : ['BOTTOM', 'TOP'].includes(f.fromEdge))` |
+| `PANEL_CUT_OUTSIDE_SHEET` | REFUSED | `at > 0 && at < limit` |
+| `PANEL_CUT_INTERSECTS_ROUTED_FEATURE` | REFUSED | `apertures.every(a => vertical ? at < a.box.x0 - clear - EPS \|\| at > a.box.x1 + clear + EPS : at < a.box.y0 - clear - EPS \|\| at > a.box.y1 + clear + EPS)` |
+| `ORTHOGONAL_PANEL_STAGING_NOT_DEFINED` | REFUSED | `!cuts.some(c => c.kind === 'CROSSCUT') \|\| !cuts.some(c => c.kind === 'RIP')` |
+| `PANEL_PIECE_BELOW_MINIMUM` | REFUSED | `boundaries[i] - boundaries[i - 1] - allowances >= e.panelSaw.minPieceIn - EPS` |
+| `APERTURES_OVERLAP` | REFUSED | `a.x1 < b.x0 - EPS \|\| b.x1 < a.x0 - EPS \|\| a.y1 < b.y0 - EPS \|\| b.y1 < a.y0 - EPS` |
+| `HARDWARE_REQUIREMENT_INCOMPLETE` | UNRESOLVED | `text(r.kind) && text(r.finish) && positive(r.lengthIn) && ((r.gauge !== undefined) !== (r.diameterIn !== undefined)) && (r.unit === undefined \|\| r.unit === 'piece')` |
+| `HARDWARE_DIAMETER_INVALID` | REFUSED | `positive(r.diameterIn)` |
+| `NO_MATCHING_HARDWARE_OFFERING` | REFUSED | `rows.length` |
+| `HARDWARE_NOT_OFFERED` | REFUSED | `offered.length` |
+| `HARDWARE_PRICE_MISSING` | UNRESOLVED | `priced.length` |
+| `SHEET_MATERIAL_CHOICE_REQUIRED` | UNRESOLVED | `unique(rows.filter(o => o.offered).map(o => o.species + '/' + o.grade)).length <= 1` |
+| `EXTERIOR_RATING_NOT_ESTABLISHED` | UNRESOLVED | `rows.length` |
+| `SEARCH_PART_TYPE_LIMIT_EXCEEDED` | UNRESOLVED | `kinds.size <= model.search.maxPartTypesPerGroup` |
+| `CATALOG_REQUIRED` | UNRESOLVED | `object(catalog) && Array.isArray(catalog.offerings)` |
+| `CATALOG_SKU_DUPLICATED` | REFUSED | `!seen.has(o.storeSku)` |
+| `CATALOG_INVENTORY_INVALID` | REFUSED | `Number.isInteger(o.onHand) && Number.isInteger(o.allocated) && o.allocated >= 0 && o.onHand >= o.allocated` |
+| `SEARCH_LIMIT_WITHOUT_COMPLETE_PLAN` | UNRESOLVED | `Raised when this named condition prevents a complete supported plan` |
+| `NO_COMPLETE_PLAN_WITH_AVAILABLE_INVENTORY` | UNAVAILABLE | `Raised when this named condition prevents a complete supported plan` |
+
+The full result also carries subject identities and, for grade ambiguity, offeredGrades. Candidate-local failures can be bypassed by another feasible eligible candidate, but the search cannot discard a requested component. An offered row with optimistic operation labels does not suppress REQUIRED_OPERATION_NOT_REPRESENTED. Inventory exhaustion does not masquerade as structural suitability or tooling capability.
+
+### 11.3 Packet evidence and transport failures
+
+Packet refusals include PACKET_MUST_BE_AN_OBJECT, PACKET_FIELD_REQUIRED:<path>, PACKET_FIELD_NONBLANK:<path>, PACKET_DECISION_TIME_INVALID, PACKET_SCHEMA_NOT_ACCEPTED, PACKET_REQUIRES_ACCEPTED_DECISION, PACKET_DECISION_MUST_BE_SIMULATED, PHYSICAL_RELEASE_NOT_AVAILABLE, PACKET_AUTHORITY_MUST_BE_SIMULATED, PACKET_STORE_ANSWER_REQUIRED, PACKET_ANSWER_REQUEST_TYPE_MISMATCH, PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION, PACKET_ANSWER_NOT_SUPPORTABLE, PACKET_ANSWER_HAS_NO_RECEIPT, PACKET_RECEIPT_ALTERED, PACKET_DECISION_PRECEDES_ANSWER, PACKET_ANSWER_ALTERED, PACKET_DEMAND_CHANGED, PACKET_MANIFEST_CHANGED and PACKET_STORE_RELEASE_MISMATCH. Intact but outdated evaluation/authority yields STALE with PACKET_STORE_ANSWER_NOT_CURRENT or PACKET_STORE_AUTHORITY_NOT_CURRENT.
+
+Machine configuration/evidence failures include MACHINE_EVIDENCE_REQUEST_REQUIRED, MACHINE_EVIDENCE_FIELD_REQUIRED:<field>, MACHINE_CONFIGURATION_IDENTITY_MISMATCH, ACCEPTED_MODEL_CONFIGURATION_MISMATCH, ACCEPTED_LEDGER_REQUIRED, LOCAL_JOB_ALTERED and LOCAL_MODEL_CONFIGURATION_MISMATCH, plus schema/type reasons from the machine-record/configuration contracts. Replay STOPPED reasons are MODELED_RECORDS_REQUIRED, MOTION_RECORDS_ALTERED, MOTION_BINDING_MISMATCH, MOTION_CONFIGURATION_MISMATCH, OCCUPANCY_SEQUENCE_INVALID, POSITION_INVALID, TOOL_RETRACT_UNCONFIRMED, MOVE_MODEL_INVALID, INDEX_WITH_TOOL_DOWN, SAW_STROKE_WITH_TOOL_OFF, SPOT_PLUNGE_WITH_TOOL_OFF, ANGLE_CHANGE_WITH_SAW_DOWN, ROUTER_MODEL_INVALID, DATUM_CAPTURE_WITH_TOOL_DOWN, COMPLETE_WITH_TOOL_ACTIVE and OCCUPANCY_TOTAL_MISMATCH. The evidence endpoint wraps a failed replay as VIRTUAL_EVIDENCE_NOT_COMPLETE:<reason>.
+
+Transport failures are separate from Store manufacturing refusal. Wrong method/path, malformed JSON, content type/origin, body limit, timeout and runtime-source change produce HTTP/protocol errors, not a supportable quote. System interpretation rejects wrong release, wrong request/demand identity, changed byte digest, absent/altered receipt, non-JSON response and late answers. Its attempt states distinguish pending, answered, transport, protocol and rejected-late. After edit, project switch or reopen, old attempts/answers remain history and pricesCurrent becomes false.
+
+### 11.4 Commercial holds and exceptions
+
+The commercial reason families are strict shape/identity/time/source/actor/sequence/cause/prerequisite errors; COMPLETE_STORE_ANSWER_REQUIRED; OFFER_AMOUNT_OR_EXPIRY_INVALID; COMMERCIAL_POLICY_UNRESOLVED; COMMERCIAL_EXTRAS_UNRESOLVED; CUSTOMER_DECISION_MISMATCH; SELLER_ORDER_ACCEPTANCE_REQUIRED; FINANCIAL_EVENT_MISMATCH, FINANCIAL_CAPTURE_REQUIRED, FINANCIAL_PRIOR_EVENT_REQUIRED and FINANCIAL_DISPOSITION_BLOCKED; COMMERCIAL_POLICY_ORDER_BLOCKED, COMMERCIAL_POLICY_GATE_BLOCKED, COMMERCIAL_COMMITMENT_EXPIRED and COMMERCIAL_COMMITMENT_EXPIRY_REQUIRED; ACTUAL_ALLOCATION_RECORD_REQUIRED; MATERIAL_ISSUE_MISMATCH; RELEASE_ALLOCATION_MISMATCH; LOCAL_PLAN_BINDING_MISMATCH; LOCAL_ADMISSION_REQUIRED; EXECUTION_ADMISSION_MISMATCH; INSPECTION_COMPLETION_REQUIRED; QUALITY_DISPOSITION_BLOCKED; READY_STAGING_MISMATCH; CUSTODY_HANDOFF_MISMATCH; CLOSEOUT_HANDOFF_MISMATCH; COMMERCIAL_EXCEPTION_HOLD; and idempotency/chain failures described in chapter 10.
+
+The wrapper additionally returns COMMERCIAL_REQUEST_SHAPE or COMMERCIAL_PRIOR_EVIDENCE_ALTERED. These are executable reason identifiers, not claims that a payment provider or yard returned them. Source integration must retain the actual provider/operational record alongside the gate result.
+
+A pending state requires the appropriate owner's next attributable act. It is not cured by repeating customer acceptance, copying selected stock into a reservation, setting a fabricated settled flag or accepting another revision's packet. The installed exception hold is conservative but incomplete for recovery: any historically unresolved ExceptionRecorded blocks normal progression even after a later RESOLVED record. A proper adopted correction/change-stream policy must be engineered by the contract owner before claiming recovery. This master documents that limitation and changes no executable gate.
+
+### 11.5 Physical interruption datum invalidation and recovery
+
+For a commissioned apparatus, stock slip, lift, contact loss, restraint disturbance, tool/retract uncertainty, unexpected tool load, fence movement, removed/reseated stock, power interruption or a changed tool/configuration can invalidate assumptions of the current local plan. The local authority must stop according to its validated protective/operating process, record the fault and affected operation/components, and prevent a following tool action from relying on invalid position.
+
+Recovery starts with what remains physically true: actual stock/part identity and condition, tools clear or otherwise safely controlled, valid machine references, measured remaining material, preserved completed features and the extent of nonconformance. Reestablish A/B/C and material readiness as required; inspect potentially affected output; obtain an appropriate new local plan and release bound to the same or explicitly revised requirements. Resume is not just incrementing a sequence number. If the customer geometry/material changes, System issues a new definition and Store evaluates it afresh.
+
+Rejected components receive an attributable REWORK/SCRAP/HOLD disposition. Replacement consumption, extra occupancy and delay belong in both custody and economics. The current fault tests prove software prevents modeled continuation; they do not supply an actual risk assessment, protective circuit or commissioned restart procedure. Program's proposed trial assigns those physical validations to responsible technical personnel.
+
+## 12. Acceptance inspection and evidence custody
+
+### 12.1 Test evidence and proof scope
+
+Store's 87-test suite combines manufacturing/core independent checks, protocol 2, catalog, packet/contract examples, historical evidence custody, differential migration, owner boundaries, service transport, deployment-verifier behavior and commercial gate checks. These establish the tested source behaviors and identity preservation. A passing suite does not turn declared feed, clamp allowance, stock condition or geometric tabs into measured facts.
+
+The engine's independent checks reconcile the guide benchmark, motion equation, cost pool, kerf/retained stock, geometry/manifest coverage, inventory, router passes and sheet constraints. The replay adds state/order/hash/time checks while sharing the core motion helper. The original ZIP separately reproduces 14 reference checks under its own old sources. These three bodies have different scope; their agreement is useful without treating them as three independent physical experiments.
+
+Current System tests exercise admission, public translation, current pin/receipt interpretation, late/revised answer rejection, saved owner records, project variations, simulated commercial progression and machine evidence. Program's documentary check validates its small local link surface. Exact fresh outcomes and environment qualification are recorded in 14.5.
+
+### 12.2 Physical component acceptance
+
+Before a physical trial, responsible design/inspection owners must set measurable acceptance criteria for each requested component and feature: length datum and tolerance, end angle/relation/plane, finished width/thickness, spot X/Y/depth/diameter, profile geometry, sheet aperture/piece bounds, surface/edge condition and assembly-critical requirements. The current requests/model dimensions do not define a universal finished-part tolerance. The panel model's ±.25-inch position allowance is a particular declared process value, not a guarantee for all component dimensions.
+
+Inspect independent of commanded coordinates and drive encoder counts, using suitable instruments/calibrated references and a predetermined sampling/repetition method. Record instruments, procedure, operator, source material/lot/condition, configuration/tool registration, measured values, deviations and ACCEPTED/REWORK/SCRAP/HOLD disposition. A motor reaching target cannot prove the board did not slip, a drill reached full-diameter depth or a separated part has the desired length.
+
+For Project 1, measure each long-long 18-inch requirement under the adopted face convention, both end angles and parallel relation, center location on the actual prepared face and full-diameter spot depth. For width preparation, inspect actual width and fence relationship after material removal. For Playhouse, inspect contour compensation, tabs/retained halves and panel dimensions/clearance. Do not treat a modeled retained bridge as already manually released and finished.
+
+### 12.3 Identity labels and remnants
+
+The engine returns components named by the customer's part IDs and features, or sheet piece IDs tied to the package/aperture/cut history. Labels are modeled identity/occupancy output: dimensional release/label allowance is per parent; sheets add ten seconds per returned piece. Actual label printing, attachment, readability, durability and assembly grouping require the fulfillment/local implementation.
+
+A useful physical label links component ID, project/definition revision, relevant packet/result, material/lot, inspection disposition and assembly destination. It need not expose every hash on its face; a durable record link can carry them. Parent identities and retained lengths allow material accounting; allocated material IDs and lots connect that proposed plan to actual stock. Hardware packages must remain distinguishable from fabricated components.
+
+Remnants have their own identity, condition and keep/return/scrap decision. Store's current search gives no remnant reuse or credit, even when a customer physically retains it. The same remnant cannot simultaneously be credited as free material on the current job and sold as unrecorded stock on another. A later adopted inventory policy would need explicit condition/admission, location and accounting.
+
+### 12.4 Custody and historical reproduction
+
+The consequential record connects original customer evidence, controlling definition revision, independent manifest, serialized inquiry/digest, exact Store answer/receipt, seller offer/version, decision, order/finance/allocation, packet, local configuration/plan, operation/faults, inspection, labels, staging, custody and closeout. Later stages add their owned evidence; they do not re-enter or silently reconstruct the earlier definition. Corrections append identified records rather than changing sealed earlier outcomes.
+
+System's [session.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/session.ts) preserves revisions, attempts, decisions, packets and evidence attempts. Edits, reopening and project switches retire active answer/evidence eligibility. Saved JSON is owner custody, not a new live Store evaluation. Current loading contains a discrepancy: `packetOk` still checks packet schema 1 while current acceptance emits packet schema 2. An accepted current packet can therefore fail that saved-record structural path; this is identified, not claimed fixed. Public tile/demo record paths and the generic session path must be distinguished when asserting persistence.
+
+Historical custody preserves issued PDFs, publication Markdown/DOCX/ZIP, original sources/checksums and generated acceptance copies. Rerun the ZIP in scratch and compare exact identities; do not overwrite the Store's sealed copies. Current answers use current identified code/catalog/model and remain separate. A source-content hash and an event-chain hash each detect alteration within their scope; neither proves actor authorship without a trust/authentication system.
+
+### 12.5 Release responsibility
+
+System admits meaning and maintains customer revision/decision custody. Store admits a clean manufacturing inquiry and declares its modeled feasibility/Q. The seller accepts commercial responsibility and terms; finance/inventory/scheduler supply their records. The local apparatus owner establishes commissioned configuration/readiness, material condition and applicable release; the authorized operator performs the local start under the operating procedure. Quality determines component conformance; fulfillment records staging/transfer; the owner retains the resulting project record.
+
+The current shared software never transfers physical authority to a browser or Store price. Program supplies the test plan to obtain the missing measurements and operating evidence. Each authority must be demonstrably present at the stage where its fact is used.
+
+## 13. Economics and operating implications
+
+### 13.1 Current declared cost pool
+
+| Annual component | USD | Declared purpose |
+|---|---:|---|
+| Operator | 50,000 | Burdened operating labor allocation |
+| Capital | 25,000 | Equipment/capital recovery allocation |
+| Premises | 20,000 | Facility/insurance/administration scenario |
+| Maintenance and tooling | 15,000 | Upkeep/tool cost scenario |
+| Energy dust IT | 10,000 | Power, extraction and information support scenario |
+| Total | **120,000** | Registered model pool |
+
+At 600 productive hours, pool cost is $200/hour and selling rate at .20 gross margin is $250/hour. Productive hours are modeled billable occupancy, not calendar hours, total staffed time or a proven utilization forecast. The declared component sum is checked; actual costs require measurements/accounts. The model applies one hourly rate to its hourly ledger and fixed prices to panel cuts. It does not provide a measured asset-by-asset cost allocation between D-001 and S-001.
+
+### 13.2 Productive utilization and service burden
+
+Holding the pool/margin and current Project 1's 86.46953628299116 seconds constant illustrates utilization sensitivity:
+
+| Productive hours/year | Break-even USD/h | Sell USD/h | Current Project 1 service USD | Q with current $4.81 parent |
+|---:|---:|---:|---:|---:|
+| 300 | 400 | 500 | 12.01 | 16.82 |
+| 600 | 200 | 250 | 6.00 | 10.81 |
+| 900 | 133.333333 | 166.666667 | 4.00 | 8.81 |
+| 1200 | 100 | 125 | 3.00 | 7.81 |
+
+These are scenario arithmetic, not new operating prices or catalog changes. The old review's service sensitivities ($11.88/$5.94/$3.96/$2.97) use the old 85.5001-second Store time and remain historical. Capacity/utilization claims must identify which time/cost boundary they use.
+
+The full service includes clarification, site measurement, customer assistance, registration/preparation, loading, cutting, inspection, failed attempts, rework, labeling, bundling, protection, staging, notification and pickup. Current ledger already includes specified handling and labels; adding all handling again as an extra would double count. Conversely ignoring time outside the declared ledger understates the burden. Track operator occupancy and machine occupancy separately when an operator tends several machines or performs parallel work; current serial occupancy assumes no concurrency savings.
+
+### 13.3 Complete customer amount and internal cost
+
+Manufacturing Q consists of parent stock, purchased hardware, hourly modeled work and fixed panel-cut service. A seller's complete offered amount may additionally include tax, delivery, installation, protection, special preparation, inspection beyond included scope, handoff services or explicit allowances/subsidies. The offer must attribute scope and each extra. The installed commercial gate preserves amountMinor/terms/policy but is not a tax calculator or accounting ledger.
+
+Internal cost is different from customer selling price. Material reference cost, mark-on, gross margin, operator/capital allocations and fixed-cut economics must be reconciled without charging the same burden twice. A fixed $10 panel cut is a declared service price; its 64.2/83.4 seconds remain in occupancy but are not additionally hourly billed. Actual profitability depends on complete costs and receipts, not the name of a quote field.
+
+A free supervised lab service measures uptake/usefulness while subsidized. It cannot prove willingness to pay at an eventual complete amount. Donated equipment reduces immediate cash procurement but not replacement cost, maintenance or the expertise needed to install/support it. Bring-your-own wood requires actual supplied-material admission and cost treatment; it must not be represented as a fictional purchase from declared Store inventory.
+
+### 13.4 Waste maintenance and alternatives
+
+Whole-parent charging is explicit. Finished lengths, kerf, profile removal, retained control stock and unused stock all affect material utilization. The current search can improve parent combinations but cannot rotate cross-sections, reuse remnants or assume concurrent cells. A geometrically feasible shortest parent can be worse economically than a longer cheaper parent or a mixed combination. A retained end may be useful later, but current Q gives no recovery credit.
+
+Tool life, actual feed/load, sharpening/replacement, calibration, roller wear, extraction cleaning, maintenance downtime, failed attempts, software/control licenses and integration/support hours must be observed. The declared maintenance/tooling pool is a scenario, not evidence that a one-inch cutter removes every admitted wood at the assumed feed without damage. Unsupported requests and rework are economically consequential even when they never produce a billable success.
+
+Compare the same accepted result to manual preparation, existing yard saw service, local shop, standard purchased product, repair, another supplier or refusal. Include customer travel, interpretation/drawing/CAM preparation, material/transport, installation and inspection consistently. The registered-machine proposition removes repeated professional preparation for **supported instances**; it still pays for initial engineering, commissioning, maintenance and changes. Benefit is measured avoided/reduced preparation plus customer value, not just faster blade travel.
+
+### 13.5 Laboratory and yard validation
+
+Program's [supervised laboratory trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) separates demand/baseline observation, engineering validation and bounded service testing. It starts with a dimensional cell; sheet machinery is added when demand warrants it. Current proposed layout is two manipulating rollers with restraint, two downstroke miter stations, up to three qualified router stations, **one minimum spot station** with a second only if measured need justifies it, rigid base/supports and local controls/sensing/guarding/extraction. The core target is about five feet wide by three deep, but the complete operating footprint must include stock travel/supports/access/protection. It is not today's single benchmark station set instantiated as a physical bill of materials.
+
+The trial first proves references/stock control, saw face/kerf/stroke, spot location/full-diameter penetration, controller integration/fault recovery and independently inspected components. Later it measures free supervised supplied-material service and, separately, willingness to pay. Record supported/refused/redirected/deferred/abandoned requests, preparation time, material/waste, occupancy, reliability, support, actual receipts/costs and customer results.
+
+A yard pilot must retain the same identified definition through actual equipment and return observed results to its originating owner record. Capability/footprint tradeoffs should follow observed demand and complete service costs. Go/no-go criteria are set before interpretation; negative findings may justify narrowing, changing or stopping. Program owns that research proposal and adoption rationale; this master links it rather than making a duplicate institutional research plan.
