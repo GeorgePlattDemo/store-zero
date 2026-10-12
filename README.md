@@ -93,7 +93,7 @@ Store Zero uses declared reference stock, budgetary prices, and modeled machine 
 - [**Store Job 001**](docs/STORE-ZERO-SPECIFICATION.md#9-safety-setup-validation-and-operating-authority) — a modeled Store-side production narrative.
 - [**Store 1**](docs/STORE-ZERO-SPECIFICATION.md#2-catalog-and-material-selection) — the surface for a later real Store implementation.
 - [**System definitions**](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) — shared job meaning and local yard vocabulary, owned by the System the working application runs.
-- [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/tree/main/research/machine-development) — the broader development work in Program.
+- [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md#build-and-verify-the-dimensional-machine) — the broader development work in Program.
 
 **NO BLOOD ON WOOD.**
 
