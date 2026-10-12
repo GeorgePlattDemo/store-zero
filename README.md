@@ -73,7 +73,7 @@ The replacement application consumes the exact Store version recorded in Systemâ
 | [Sheet-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Routed sheet work, tabs, and supported panel cuts. |
 | [D-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) Â· [S-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) | Machine-readable capability facts. |
 | [Adopted shared manufacturing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Store-owned engine for neutral-job SKU selection, handling, modeled machine time and Q; active under protocol 2. |
-| [Commercial event contract](src/contracts/commercial-sequence.js) | Executable prerequisites, events, evidence identities and custody; the [design map](docs/commercial-sequence-template.md) retains its source context. |
+| [Commercial event contract](src/contracts/commercial-sequence.js) | Executable prerequisites, events, evidence identities and custody; the [System-owned design map](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md) retains its source context. |
 
 The active request path is [the Store request layer](src/requests/store-request.mjs), which compiles admitted neutral definitions into [the single manufacturing core](src/evaluation/engine/store-manufacturing-core.mjs). Its catalog, operation sequence, modeled time and Q are Store-owned. Commercial events have their own [executable gate](src/contracts/commercial-sequence.js), separate from evaluation; System owns the definition and shared workflow meaning.
 
