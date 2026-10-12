@@ -777,6 +777,11 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
     }
     const hourly = machineHourlyRate(model), tasks = groupsFor(job, catalog, model), nodes = { count: 0, limited: false };
     let best = null; const memo = new Map(); const planningProblems = [],consideredCandidates=[];
+    // Per-evaluation reuse only: an identical SKU, identified part subset and
+    // incoming axis state produce an identical modeled cycle. Never cache a
+    // Store answer, inventory snapshot, receipt or result between requests.
+    const cycleCache = new Map();
+    const MAX_CACHED_CYCLES = 512;
     function search(at, remaining, used, plans, state, rawCost) {
       if (++nodes.count > model.search.nodeLimit) { nodes.limited = true; return; }
       if (best && rawCost > best.rawCost + EPS) return;
@@ -805,7 +810,14 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
           for (const subset of parentPatterns(t, remaining, row, model)) {
           if (nodes.limited) return;
           try {
-            const cycle = boardCycle(model, row, t.group, subset.map(i => t.group.parts[i]), state);
+            const cycleKey = canonical([at, row.storeSku, subset, state]);
+            let cycle = cycleCache.get(cycleKey);
+            if (!cycle) {
+              cycle = boardCycle(model, row, t.group, subset.map(i => t.group.parts[i]), state);
+              // Bound memory independently of the search node limit.
+              if (cycleCache.size >= MAX_CACHED_CYCLES) cycleCache.clear();
+              cycleCache.set(cycleKey, cycle);
+            }
             tryChoice(row, 1, cycle, remaining.filter(i => !subset.includes(i)), null);
           } catch (p) { if (!(p instanceof Problem)) throw p; planningProblems.push(p);if(t.group.singleParent)consideredCandidates.push({storeSku:row.storeSku,stockLengthIn:row.stockL_in,candidateStatus:p.status,reason:p.code}); }
           }
