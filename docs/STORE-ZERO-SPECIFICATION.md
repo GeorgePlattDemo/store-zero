@@ -4,7 +4,7 @@ This is the operative protocol 2 specification. The preceding specification rema
 
 # 1. Authority and input
 
-System defines the job, named components/features, geometry and requirements. Store evaluates that definition against its current catalog and the registered declared manufacturing model. Store does not infer a project from a tile name, select missing customer requirements, read a prior Q, or supply a missing System manifest.
+Machine functions are registered before the customer arrives. System derives customer job meaning, component geometry, required operations/values, feature identity, independent manifest and revision. Store resolves material, supported capability, the manufacturing plan, occupied time and Q. The compilation chain absorbs job-specific programming through these identified stages; it neither invents missing requirements nor creates another project geometry authority.
 
 Job requests have exactly `requestType`, `requestId`, `demand`, and `manifest`. Protocol is **STORE-ZERO-REQUEST-2**. Definition conversion identifiers remain USER_DEFINED_BOARD_V1, CUT_PACKAGE_V1 and SHEET_PACKAGE_V1. These identify input shapes; all three compile into STORE-MANUFACTURING-JOB-1 and call one engine. OFFERING_LOOKUP is discovery, has no manifest and issues no quotation receipt.
 
@@ -16,13 +16,13 @@ Angled packages must state parallel ends, long-long-outer-edge length datum and 
 
 `src/evaluation/catalog.mjs` reads and validates `data/store-zero-catalog.json` and `data/sources/store-zero-observations.json`. Catalog offered/onHand/allocated values, species/grade, actual dimensions, compatible cells/operations, current selling prices and hardware packaging are the Store's declared inputs. Contradictory catalog values stop evaluation.
 
-The core searches complete feasible parent-stock plans with cumulative shared inventory, mixed lengths and reused compatible setup state. It minimizes the complete unrounded material, hardware, hourly service and separately billed cut amount inside the declared plan space. The final Q is rounded to cents once. A bounded feasible search explicitly says it did not establish the optimum. No complete plan returns a named refusal or unresolved/unavailable result with Q and totals absent.
+The core searches complete feasible parent-stock plans with cumulative shared inventory, mixed lengths and reused compatible setup state. It minimizes unrounded material, hardware, hourly service and separately billed cut cost within the declared plan space. At final whole-job boundaries it rounds hourly service to cents, then rounds their combined Q; independently rounded parent contributions are not the total authority. A bounded feasible search explicitly reports that it did not establish the optimum. No complete plan means a named refusal/unresolved result with Q and totals absent.
 
 Returned parents/packages expose the selected stock and the same evaluated operation ledger, including per-parent contribution amounts. Individually rounded contributions can differ from the rounded whole by cents; only whole-job totals.Q is the complete Q. A selected parent is a modeled selection, not a reservation, allocation or physical readiness record.
 
 # 3. Manufacturing model
 
-`src/evaluation/engine/store-manufacturing-core.mjs` is the sole geometry, sequencing, occupancy and Q authority. `data/machine/manufacturing-core-0.1.json` registers the model parameters and `src/machine/configuration.mjs` validates their exact identity. Alternate caller-provided configurations are refused.
+`src/evaluation/engine/store-manufacturing-core.mjs` is the sole Store manufacturing-geometry conversion, stock planner, operation sequencer, occupied-time and Q authority. System's component geometry remains controlling. Store conversion produces the internal neutral job; its evaluated `operations` already contain nominal station-specific moves. `data/machine/manufacturing-core-0.1.json` and `src/machine/configuration.mjs` register and validate the model. Caller-supplied alternate configurations are refused.
 
 The D-001 longitudinal router diameter is **1 in**, axial pass depth **0.75 in**, and feed **48 in/min**. S-001 has its own **0.5 in** cutter and axial pass depth. These are declared model values, not commissioned measurements. The economics model declares $120,000 annual costs, 600 productive hours and 20% gross margin, giving $250/hour. Panel saw cuts occupy modeled time but use the explicitly separate $10/cut charge, without also adding those seconds to hourly service.
 
@@ -40,9 +40,9 @@ Accepted packet schema is **STB-ACCEPTED-JOB-PACKET-2**. It carries the exact ma
 
 Existing HTTP paths remain `/health`, `/v1/requests` and `/v1/machine-evidence`. `/v1/commercial-events` adds a bounded SIMULATED source-evidence gate that revalidates the submitted chain, applies one event and returns derived state; it invokes no external commercial action. The service reports its deployed git release and a digest over the exact package/src/data bytes. A STORE_ZERO_RELEASE label that contradicts RAILWAY_GIT_COMMIT_SHA stops startup. Railway service IDs, domains, project and environment remain the existing connections.
 
-Machine evidence protocol is **STORE-ZERO-MACHINE-EVIDENCE-2**. `src/machine/evidence.mjs` verifies the packet and expected registered configuration; `src/machine/lowering.mjs` consumes the exact accepted ledger, not a second timing planner. Local record schemas are STB-LOCAL-MANUFACTURING-JOB-1 and STB-MODELED-OPERATIONS-1. `src/contracts/machine-records.mjs` checks shape, known operation kinds, sequence and binding. `src/machine/virtual-run.mjs` independently replays occupancy, motion durations and tool engagement, stopping on invalid position, unretracted tooling, changed hash/binding or incomplete ledger.
+Machine evidence protocol is **STORE-ZERO-MACHINE-EVIDENCE-2**. The chain is **accepted job → verified Store plan → registered machine configuration → lowering → virtual instructions and replay**. `src/machine/evidence.mjs` checks the expected configuration and packet; `src/machine/lowering.mjs` binds its exact accepted parents, operations and time rather than replanning. Local schemas are `STB-LOCAL-MANUFACTURING-JOB-1` and `STB-MODELED-OPERATIONS-1`; `src/contracts/machine-records.mjs` validates their binding and ledger shape. `src/machine/virtual-run.mjs` replays nominal dimensional moves, durations and tool states, stopping for altered records, invalid position, tool-down indexing or inconsistent completion. Evidence class is `PREDICTED_OCCUPANCY_ONLY`.
 
-All three definition classes can request virtual evidence. Returned physical admission is always BLOCKED, physicalAuthority false and motionCommands 0. No payment provider, controller or real fulfillment system is invoked.
+All three manufacturing definition classes can request modeled evidence. Sheet records describe evaluated path/tab/handling occupancy; they do not supply a complete independently replayed XY controller trajectory. Both current Job 1 settings have 51 ledger records and 22 modeled move events; the original 45-command Project 1 controller-oriented reference remains a separate historical representation. Physical admission is always BLOCKED, physicalAuthority false and permitted physical motionCommands zero. The current service invokes no physical controller.
 
 # 6. Commercial and fulfillment sequence
 
@@ -56,7 +56,9 @@ System's existing terms view consumes this gate. Missing seller policy or offer 
 
 # 9. Safety setup validation and operating authority
 
-Physical authority remains blocked pending commissioning, local material/readiness admission and appropriate actor/source adapters. Virtual records do not become controller commands. Prototype commercial evidence does not authorize real payment or inventory commitment.
+A future machine-instruction export must extend the existing verified lowering layer: **accepted job → verified Store plan → registered configuration → lowering layer → controller instructions**. Preserve demand/manifest, receipt/calculation, parent/SKU, component/feature, configuration/mapping version and source-operation identity. Map only registered tooling, axes, units, datum transforms and controller parameters; refuse or report unresolved mappings rather than supplying defaults or dropping work. No exported operation may redesign the component, substitute stock, replace the plan, issue another Q or grant release. Current linear C is a workpiece-reference coordinate, not a conventional rotary G-code C axis.
+
+Physical authority remains blocked pending commissioning, local material/readiness admission and appropriate source adapters. Tool-clearance and clamp-time allowances do not establish sensed physical states. Generated reference data, compiled controller code and executed/inspected results retain distinct evidence status. **NO BLOOD ON WOOD.**
 
 # 15. Commissioning and evidence plan
 

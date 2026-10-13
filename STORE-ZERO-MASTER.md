@@ -4,7 +4,7 @@
 
 Store Zero connects a customer's defined woodwork to the material and processing a particular yard can supply. The customer changes dimensions, material and identified features in System. System preserves that definition, identifies every required component and feature, and sends one complete manufacturing inquiry. Store evaluates it afresh against its own catalog, available quantities, registered processing model and economics. Its answer supplies selected parents, required operations, modeled occupied time, budgetary total Q, or the reasons the whole job cannot be supported.
 
-The architecture joins **a bounded, pre-registered machine configuration to the customer's definition**. Project geometry is resolved in the definition; machine geometry, tools, permitted operations, feeds and constraints are registered separately. Software combines those identified facts. For supported work, a designer need not redraw the parts or prepare a separate CAD/CAM program for each order. The specialist work belongs in engineering, registering, validating and maintaining the reusable mappings. A new material, tool, geometry or operation must satisfy those mappings before it becomes an admitted capability.
+**Machine functions are registered before the customer arrives.** The customer defines required operations and values; System derives their meaning, geometry, features, manifest and revision. Store resolves stock, capability and the manufacturing plan, generates its nominal positioning/processing ledger, and calculates time and Q from that same work. The compilation chain absorbs the supported modeled job's programming burden: accepted-job lowering binds the verified plan to registered machine facts without another person redrawing parts or entering derived coordinates. Specialist work establishes and maintains the reusable mapping; controller-oriented export extends the existing lowerer, while physical commissioning remains local.
 
 The current working software makes that proposition inspectable. All three manufacturing definition classes reach one Store-owned engine. It searches complete feasible parent-stock plans, retains component and feature coverage, sequences declared work, accounts for handling and tool movement, and calculates Q from material, hardware, hourly service and separately charged panel cuts. A manifest independent of the translated demand prevents a dropped requirement from disappearing into a favorable answer. Receipts bind the answer to demand, manifest, Store release, catalog and model. Accepted packets preserve that same chain; verification reevaluates rather than trusting a saved amount.
 
@@ -160,7 +160,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
 
 ### 1.1 Frozen repository revisions
 
-This reference describes the following source record. All three remote `main` heads were read before authoring; none had moved from the audit's revisions. Subsequent commits in Store add this document only. They do not replace the executable baseline or System's operating pin.
+The original master was compiled against the frozen source record below. Current document integration uses Store `ca6d3c2768cc7741d34daa81ea45bf44acdf6a3f`, System `1939e809ba931ff6a848e4c747bd73e795820d32` and Program `ae1ea61ebc56f631b9a642e1b38f3d6ba0ebdc65`. System's runtime pin remains `f7123a73c1ca60aa7eb180a86a1c365eaffe95db`. Of the 20 Store src/data files, main differs from the pin only in the manufacturing core's bounded per-evaluation cycle reuse during search; it does not cache complete answers or receipts between requests. Main, pinned runtime and historical evidence identities remain distinct.
 
 | Owner | Repository | Frozen source revision | Movement since audit |
 | --- | --- | --- | --- |
@@ -170,7 +170,7 @@ This reference describes the following source record. All three remote `main` he
 
 The primary reconciliation input is *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md*, including its 34-document inventory, all-claim correspondence, source checks and ten ordered repair groups. Its findings were checked against the frozen code and original evidence. A historical statement in the audit is not made current merely by appearing here.
 
-This document is the consolidated explanation of the source record. Enforceable Store behavior remains in the [operative specification](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/STORE-ZERO-SPECIFICATION.md), exact contracts and executable source. System owns [shared definitions](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/DEFINITIONS.md). The [shared commercial contract](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) retains its original custody; this reference explains the installed gate and identifies drift in that contract's prose. An unresolved disagreement is recorded, not silently settled by editorial authority.
+This master is the consolidated explanation. Enforceable behavior remains in the [operative specification](docs/STORE-ZERO-SPECIFICATION.md), contracts and executable source; [System definitions](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) govern shared meaning. The commercial design map is owned by [System](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md), and its executable gate is shared byte-for-byte. Original immutable source links below preserve the prior baseline; they are not declarations that a retired file remains active.
 
 ### 1.2 Registered versions and identity rules
 
@@ -236,7 +236,7 @@ Only Store's request layer issues the receipt. Discovery has its own bounded ret
 
 [US 9,720,401 B2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US9720401B2.pdf), issued 1 August 2017, and [US 10,768,609 B2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US10768609B2.pdf), issued 8 September 2020, share the title *Method and System for Consumer Home Projects Ordering and Fabrication*. The latter identifies itself as a continuation of application 14/094,074 filed 2 December 2013, which became the first grant. Each issued claim set is read independently; a common disclosure does not make the claims identical.
 
-The disclosed integration begins with a customer's project inquiry. A customer selects or modifies a database project, or uses the design interface to develop requirements. Material, features, machining time and optional services inform an estimated price. The chosen project is converted into component requirements, material lists and instructions. Local stock is loaded into the appropriate dimensional or sheet machine. Additional components, secondary work, finishing, labels, assembly instructions, staging and pickup complete the described service.
+The disclosed integration begins with a customer's project inquiry, selection or changed requirements. System resolves those choices into component requirements, features, material demand and assembly meaning. Pre-established machine functions make the requirements actionable: Store resolves stock and admitted work; the accepted plan lowers through registered tooling and station references into job-specific instructions. Thus the programmer's routine per-order reconstruction moves into reusable engineering established in advance. The disclosed customer paths include selecting or modifying a database project and developing requirements in the design interface. Material, features, machining time and optional services inform the estimate. Local dimensional or sheet processing, additional components, secondary work, finishing, labels, assembly instructions, staging and pickup complete the described service. Material loading, local readiness, inspection and custody remain explicit activities rather than implied consequences of a generated instruction. The particular vendor components and software mappings are present engineering selections, not inventions attributed to the patents.
 
 Dimensional and sheet processing form two cooperating material streams. A particular order may need only one. Dimensional stock moves along a fence between known operations. The sheet architecture supports direct straight cuts, sheet movement under a fixed longitudinal tooling station, and a separate mode in which a fixed workpiece receives two-axis tool-platform movement. Material retrieval and loading can remain human tasks while positioning and processing follow generated instructions.
 
@@ -722,7 +722,7 @@ The sole adopted planner, occupancy calculator and Q engine is [store-manufactur
 
 ### 5.1 Compilation and validation
 
-The outer request boundary admits `{requestType, requestId, demand, manifest}`. The compiler receives the three request fields and the manifest as a separate argument. It converts the definition into `STORE-MANUFACTURING-JOB-1`: `jobId`, `revision`, the independent manifest, `boards`, `sheets`, `items` and an unchanged source copy. The neutral job is an internal calculation representation, not a second customer meaning authority.
+The outer boundary admits `{requestType, requestId, demand, manifest}`. `compileDefinition` receives the first three fields and the independent manifest separately, preserving an unchanged source copy in `STORE-MANUFACTURING-JOB-1` with jobId/revision, boards, sheets and items. It normalizes the customer's established manufacturing meaning; it does not derive a second project design. Stock search and board/sheet cycle generation then produce the one manufacturing plan and its occupancy ledger. Current planning already adds nominal station-specific coordinates, so the later lowerer binds that accepted ledger rather than repeating coordinate generation or inventing another route.
 
 For a user-defined board, the compiler requires parallel ends, long-long outer-edge length, miter-face cutting, reference-cut datum establishment, a positive defined workpiece length, a nonempty part list and an empty unresolved-condition list. Only declared spot features are accepted in that class. Declared saw count must be parts plus one reference cut; spot count must equal all named spot features. It makes one atomic board package with `singleParent: true`, `preserveOrder: true`, and the required minimum parent length. A cut-package definition becomes neutral board packages and item lines. A sheet definition becomes one identified sheet package with all its features and returned-piece requirement.
 
@@ -824,7 +824,7 @@ $$d_z=0.1875+h_p=0.243830683\ldots\ \text{in}.$$
 
 On 1.5-inch stock, Z reaches surface 1.5, then target 1.256169316966 inches above the support plane, then retracts to 1.75. Full-diameter depth is not total drill-tip travel. The operation is a spot, not a claimed through-hole or fastener pilot adequate for every use.
 
-The engine constructs global longitudinal spot positions before separating parts. A part starts after all earlier lengths and kerfs; global feature X equals that start plus local X. Spots are sorted by global X and feature ID. To place a feature under the fixed station at X=36, C=`36-globalX`. The first spot on a parent starts the spindle and waits 0.5 seconds; Y moves only as needed. Every feature indexes C, adds position verification, records contact, approaches stock at rapid, plunges at 0.4 in/s and retracts to clearance. All spots on that parent precede its part-separation cuts. This prevents a released part from being assumed controllable as uncut stock.
+The engine constructs global longitudinal spot positions before separating parts. Part start is the sum of earlier lengths and nominal kerfs; feature X is part start plus its local spot coordinate. Features are sorted by global X and ID, then aligned using `C = 36 − globalX`. The first feature starts the spindle and applies the 0.5-second ready allowance. Every feature emits a Y MOVE, including a zero-distance move when the center remains unchanged, and receives C indexing/verification, contact screen, approach, plunge, retract and coverage. All spots precede part-separation cuts; the model never treats a released part as still controlled parent stock.
 
 ### 5.10 Sheet geometry and compensation
 
@@ -922,7 +922,7 @@ Changing a sheet aperture changes circular geometry, compensated perimeter, tab 
 
 [configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/configuration.mjs) reads [manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/machine/manufacturing-core-0.1.json), admits only the declared configuration fields, and constructs the deeply frozen engine model. The configuration ID and model ID are both `STORE-MANUFACTURING-CORE-0.1`, but their hashes cover different objects. Configuration parameters override the permitted model inputs; the expanded model includes the remaining declared geometry, time, economics and assumptions. Its execution class is `DECLARED_OCCUPANCY_EVENT_MODEL`; measured and commissioned are false and physical authority is false.
 
-All lengths are inches, angles degrees, times seconds and money USD. Cell identifiers D-001 and S-001 classify modeled operations. They are not asset serial numbers of commissioned physical machines. The expanded model returned by `createModel()` is the exact parameter authority for the frozen engine; the JSON is its current registration input.
+Lengths are inches, angles degrees, time seconds and money USD. D-001/S-001 identify modeled cell families, not commissioned asset serial numbers. The expanded `createModel()` output supplies the exact declared operation facts registered before routine job evaluation; the JSON supplies its permitted parameters. Each function binds required operands, tool geometry, units/references, limits, modeled state prerequisites and outcomes. Registration and hash identity prove declared content, not calibration, traction or readiness.
 
 ### 6.2 Dimensional parameter register
 
@@ -999,11 +999,15 @@ A roller's coordinate being inside the stock interval proves only longitudinal o
 
 ### 6.7 Fixed tooling and local lowering
 
-Before supported orders can eliminate separate per-order CAD/CAM preparation, engineering must register: supported definition meanings and transformations; actual stock envelopes; fixture and datum establishment; tool identity/radius/length/kerf; station/axis transforms; end-face conventions; safe approach/retract; cutter engagement and pass rules; velocity/acceleration/feed; restraint/contact conditions; limits/interlocks; expected component identities; inspection tolerances; interruption/recovery; and evidence custody.
+Register machine functions before the customer arrives: supported operation meaning and operands; actual stock envelopes; tooling identity/radius/length/kerf; station coordinates and axis roles; units, signed transforms, retained-face conventions and travel limits; approach/retract and engaged cutting rules; feeds/acceleration; restraint/contact conditions, limits and interlocks; state prerequisites, permitted outcomes, invalidation and recovery; component/feature identity, inspection tolerances and evidence custody. The customer supplies the variable part requirement. Store selects stock and plans supported work using that registration.
 
-A supported customer's definition then supplies variable dimensions, feature locations and material requirements to those pre-engineered functions. Store selects a feasible stock/operation plan and predicts occupancy; a commissioned local lowering would translate admitted machine-neutral facts using that apparatus's registered coordinates and safety state. The customer does not design a new cutter path manually for every instance. The gain comes from **reusing verified engineering within a bounded envelope**, not from allowing an unbounded natural-language request to bypass manufacturing engineering.
+Current [lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) verifies packet2 and registered model identity, then copies the exact accepted parents, operation ledger and predicted time into bound local records. It does not replace the accepted route, select material or compute another Q. A future controller-specific export extends that layer with registered execution mappings and source-operation witnesses. Unknown station/tool/axis/datum/controller facts produce unresolved export or refusal. Clamp and position-verification allowances remain modeled delays, never sensed confirmations.
 
-Current [lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) binds the exact evaluated occupancy ledger to the registered configuration and packet. It has no commissioned motion authority. The historical controller reference demonstrates a more detailed candidate interpreter and is preserved separately. Neither a patent drawing nor a virtual replay substitutes for local registration and physical acceptance.
+The technical foundation is established. [IEC 61131-3](https://webstore.iec.ch/en/publication/68533) specifies Structured Text; [PLCopen Motion Control](https://www.plcopen.org/standards/motion-control/) defines reusable motion functions, axis state models and homing interfaces. [TwinCAT PLC/NC PTP](https://www.beckhoff.com/en-us/products/automation/twincat/tcxxxx-twincat-3-base/tc1250.html) offers cyclic axis interfaces, simulation axes and fieldbus integration including EtherCAT, consistent with the preserved Project 1 reference. [Tc2_MC2 rules](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70043531.html), [MC_MoveAbsolute](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70094731.html) and [MC_GearIn](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70123403.html) provide specific positioning/coupling semantics. Cyclic calls, Execute transitions and terminal outcomes must govern the selected interpreter; a prior Done bit cannot become a lasting tool permission.
+
+[FreeCAD CAM](https://github.com/FreeCAD/FreeCAD-documentation/blob/main/wiki/CAM_Workbench.md) demonstrates job/tool/operation representation followed by a controller-specific postprocessor. [LinuxCNC RS274/NGC](https://linuxcnc.org/docs/html/gcode/overview.html) and its [coordinate conventions](https://linuxcnc.org/docs/html/gcode/coordinates.html) demonstrate instruction and work-reference interpretation. [grblHAL](https://github.com/grblHAL/core) separates controller core from hardware-specific drivers. These are researched alternatives; none is an installed Scan-to-Build backend. [OPC UA machine-tool information](https://reference.opcfoundation.org/specs/OPC-40501-1/1.1) is a future job/tool/status interface, not geometry compilation or a servo loop.
+
+For this cell, generic G-code cannot stand in for a registered saw cycle, clamps, stock feed or reference invalidation. The model's linear C must map to the longitudinal master and workpiece offset; it cannot be copied to a conventional rotary C word. Inch/mm scaling, angle/time units and every required controller parameter must be explicit. Generated reference data, compiled target code and verified controller execution are separate outcomes. The historical controller source remains uncompiled, and current physical authority remains false.
 
 ### 6.8 Proposed physical apparatus and commissioning
 
@@ -1323,11 +1327,72 @@ The separate current Project 1 inquiry visits eight nodes and reports MINIMUM_WI
 
 ### 8.2 Start Your Own
 
-The current bounded User 1 brace path is composed through [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html), [three-frames.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/three-frames.html) and [stb-start-own-bench-leg-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-start-own-bench-leg-0.1.html), with the current rule/admission and published-wire translation. Its starting material is SPF, nominal 2×4, and starting length 16 inches. Angle is `asin(8/16)=30°`; spots are at eight inches. It asks for three saw cuts including reference and two identified center spots from one parent at least 60 inches long.
+The current Job 1 path uses [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/1939e809ba931ff6a848e4c747bd73e795820d32/public/live/system-build-current.html), its active `three-frames.html` child, the admitted board bridge and published-wire translator. The retired standalone bench page remains historical source only. Intent establishes two SPF nominal 2×4 brace parts, parallel face miters and one centered 3/16-inch spot per part. The Bench changes length within the published 16–18-inch range on its ⅛-inch grid while preserving the eight-inch horizontal span. The bounded System rule refuses out-of-range or off-grid values before Store. Additional tool requirements without a supported representation remain carried/unresolved. The more general Store board envelope does not widen this published project.
 
-The 60-inch SPF row costs $2.61. Remaining stock is `60 - .125 - 2*(16+.125)=27.625` inches, so it passes the retained-length screen. Predicted time is 86.51908661063948 seconds, service rounds to $6.01 and Q=$8.62. Increasing length to 18 creates new angle 26.387799961243°, centers nine inches and a stock-capacity boundary: 60 inches would leave 23.625, so Store advances to an eligible 72-inch SPF parent. System's integration check verifies the separate $9.13 result for that revision. This SPF inquiry is not historical Project 1's treated 18-inch specimen.
+**Customer definition → geometry → features → manifest → request.** The published rule derives `angleDeg = asin(8/L)×180/π`, rounded to 12 decimals, rise `sqrt(L²−8²)` and spot X `L/2`, rounded to six decimals. PART-1/PART-2 and SPOT-1/SPOT-2 retain identity. A changed control increments the owner revision; configuration versions at the endpoints are 0.1/0.2. The independent manifest contains both parts and both features, no sheet packages/items and no unresolved requirements. In the actual public adapter it is computed from the original definition after translation is selected, not from translated demand. The board translator records `both` as redundant with parallel/long-long, sends null endIdentity, and preserves cut plane and REFERENCE_CUT meaning. It sends a fresh protocol2 request; missing independent geometry is never silently removed.
 
-Intent owns material choices and any additional controls; Bench owns the bounded supported variation. A tool request with no supported definition representation remains carried/unresolved, not an implicit new machine instruction. Length outside 16..18 or off the 1/8-inch grid is refused by the bounded System rule before Store. More general Store board definitions have their own envelope and do not expand this customer's published bounded project.
+**Stock resolution → plan.** Store normalizes the inquiry into one single-parent board package, preserves its part order, checks material/capability and searches eligible parent stock. Default 16-inch parts fit a 60-inch parent. With two 18-inch parts, that parent would leave only 23.625 inches, so the supported current plan selects the 72-inch SPF parent. Three nominal 0.125-inch longitudinal consumption allowances cover reference plus two separation cuts. This is the adopted nominal convention; an installed retained-face/kerf transform remains unregistered. Selection is not a reservation or physical allocation.
+
+| Requirement/result | 16-inch default | 18-inch variation |
+|---|---:|---:|
+| Each part L / derived angle | 16 in / 30° | 18 in / 26.387799961243° |
+| Derived rise / local center spot | 13.856406 in / 8 in | 16.124515 in / 9 in |
+| Configuration version | 0.1 | 0.2 |
+| Selected SKU | STB-ZERO-SPF-2X4-60-001 | STB-ZERO-SPF-2X4-72-001 |
+| Actual section / parent | 1.5×3.5 in / 60 in | 1.5×3.5 in / 72 in |
+| Nominal consumption | 2×16 + 3×0.125 = 32.375 in | 2×18 + 3×0.125 = 36.375 in |
+| Remainder | 27.625 in | 35.625 in |
+| Material / hourly service | $2.61 / $6.01 | $3.13 / $6.00 |
+| Complete Q | **$8.62** | **$9.13** |
+| Predicted occupancy | 86.51908661063948 s | 86.46953628299116 s |
+
+**Registered operations and coordinates.** The declared tool station is at X=36, saw at X=0, rollers at 24/48, fence Y=0 and support Z=0. A feature's parent coordinate is its part start plus local X; nominal positioning is `C = station X − feature X`. Part 2 starts at `L+0.125`. C is a linear workpiece-reference coordinate; A here is the saw-angle axis, not fence Datum A.
+
+| Virtual operand | 16-inch default | 18-inch variation |
+|---|---:|---:|
+| Angle-axis target A | +30° | +26.387799961243° |
+| Spot-1 parent X → C | 8 → +28 in | 9 → +27 in |
+| Spot-2 parent X → C | 24.125 → +11.875 in | 27.125 → +8.875 in |
+| Both spot Y | +1.75 in | +1.75 in |
+| Surface / tip target / retract Z | 1.5 / 1.256169316966 / 1.75 in | Same |
+| Each cutoff C after nominal rebase | −16 in | −18 in |
+
+The 118° drill point adds approximately 0.056330683 inch to the 3/16-inch full-diameter depth, giving 0.243830683-inch tip penetration. No angle, spot placement or local cutoff target is manually re-entered between definition and generated ledger.
+
+The accepted ordering is load/seat; angle positioning and settle; clamp allowance; reference saw cycle and nominal C capture; Spot-1 then Spot-2 indexing/Y/approach/plunge/retract/coverage; Part-1 then Part-2 indexing/saw/nominal capture; spot spindle off; release/label allowance. Saw cycles include on, approach, width-over-cosine cutting benchmark, retract, off allowance and off. All spots are processed while the parent remains unseparated. Contact screens retain unresolved roller states; elapsed allowances do not establish actual clamp or position confirmation.
+
+**Time → Q.** Stop-to-stop moves use the declared velocity/acceleration formula in section 5.6, with zero duration for zero travel. Saw feed is 3.6 in/s; spotting feed 0.4 in/s. One load/seat contributes 36 seconds and release/label 24 seconds. The summed evaluated ledger supplies every other category and the price—there is no separately priced replay.
+
+| Ledger category | 16-inch seconds | 18-inch seconds |
+|---|---:|---:|
+| Load | 36 | 36 |
+| Index, angle and verification/clamp allowances | 13.8 | 13.929593332041435 |
+| Reference cut and nominal datum capture | 3.0262008374788345 | 2.9664862842489175 |
+| Spotting | 3.7004840982030034 | 3.7004840982030034 |
+| Separation saw work | 5.99240167495767 | 5.872972568497836 |
+| Release/label | 24 | 24 |
+
+At the declared $250/hour, `roundToCents((totalSeconds/3600)×250)` gives $6.01/$6.00 service; adding selected material gives $8.62/$9.13. The slightly shallower 18-inch angle reduces the saw benchmark and angle travel enough to offset the changed longitudinal travel. Therefore a marginally lower service charge at 18 inches is consistent with the ledger. Whole-job boundaries round service and then Q; rounded parent summaries do not replace them.
+
+**Customer decision → accepted packet → configuration → lowering.** Job 1's published Accept & Pay records simulated customer decision, seller acceptance, capture and queue as separate commercial events tied to the current revision/receipt. That commercial demonstration does not prove a published packet2 export. The retained typed acceptance path and Store's existing contract specimens construct `STB-ACCEPTED-JOB-PACKET-2`: identified demand/manifest, unchanged answer/receipt, carried end requirements, accepted simulated decision and false physical release. Verification checks receipt, demand/manifest, expected Store release and current reevaluation; altered records are refused and changed current facts require requotation. The generic System packet loader's schema1 mismatch remains an identified executable defect, not a wording repair.
+
+`lowerJobPacket` then checks the registered configuration and accepted model and copies the exact selected parents, operation ledger and predicted time into `STB-LOCAL-MANUFACTURING-JOB-1`. `motionRecords` emits that same sequence as `STB-MODELED-OPERATIONS-1`, binding packet, demand/manifest, calculation, local job and machine configuration through validated parent records. Configuration is `STORE-MANUFACTURING-CORE-0.1`, hash `87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884`; manufacturing-model hash is `f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18`. Neither stage redesigns parts, chooses stock or reprices.
+
+**Virtual instructions → replay → evidence.** Both settings generate 51 occupancy records and 22 modeled MOVE events, including a zero-distance second Y move. Replay validates identity, ordering, tool engagement, positions and durations against the accepted predicted total. Its evidence class is PREDICTED_OCCUPANCY_ONLY; physical admission stays BLOCKED with zero permitted physical commands. A reusable controller-oriented exporter must extend this verified lowering path with explicit axis/tool/datum/units and required controller-parameter mappings. Missing mapping facts cannot become vendor defaults or omitted operations.
+
+The current-value comparison was executed from the published source fragments at System `1939e809` and Store `ca6d3c27` using a simulated browser context, fixed reproduction clock and review-constructed simulated packet. It is a local source diagnostic, not a new deployed-browser or customer-acceptance observation. Separate checks against the exact pinned source confirm the mathematical and operation-ledger equivalence for these two definitions. The source-snapshot release label, request IDs, owner revisions and receipts remain diagnostic identities, not production labels.
+
+**Historical correspondence.** Chapter 7 preserves original Project 1: two 18-inch treated parts, a 72-inch treated parent, original $11.09 Store Q, 85.5001-second Store estimate, and 45-command/21-axis-move controller-oriented reference. That reference's virtual replay is 86.46953628299116 seconds. Current SPF 18-inch Q is $9.13; a separate adopted-core treated inquiry is $10.81 on its current selected 96-inch parent. Material, catalog, model, request and source identities explain those different totals. The current count reconciliation is `45+4 contact screens+2 coverage events+1 zero-distance Y−1 COMPLETE=51`. These represent different stages and revisions; none replaces a sealed receipt or proves compiled TwinCAT execution.
+
+The governing sources for this walkthrough are:
+
+| Relationship | Governing source | Evidence boundary |
+| --- | --- | --- |
+| Length, span, angle, rise, centered spot | System `public/live/system-build-current.html` and active `three-frames.html`, at 1939e809 | Published derivation; the local diagnostic executes its source fragments |
+| Definition admission, translation and independent manifest | System board bridge, `src/system/store/published-wire.ts` and `src/system/manifest.ts` | Original definition determines required coverage |
+| Stock, kerf convention, sequencing, time and Q | Store `src/evaluation/engine/store-manufacturing-core.mjs`, catalog and registered model | One evaluated ledger; pinned/main results agree for these two requests |
+| Accepted packet, local job and replay | Store `src/contracts/job-packet.mjs`, `src/machine/lowering.mjs`, `src/machine/virtual-run.mjs` | Modeled evidence; genuine published acceptance-to-packet handoff remains to be proved |
+| Original $11.09 and 45-command reference | Chapter 7 and preserved Project 1 publication/package | Historical identities and calculations remain unchanged |
 
 **Exact reconstructed protocol 2 inquiry**
 
@@ -1406,17 +1471,7 @@ Intent owns material choices and any additional controls; Bench owns the bounded
 }
 ```
 
-**Selected complete plan**
-
-| SKU | Quantity | Parent length | Unit USD | Extension USD |
-|---|---:|---:|---:|---:|
-| STB-ZERO-SPF-2X4-60-001 | 1 | 60 | 2.61 | 2.61 |
-
-| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
-|---|---|---:|---:|---:|
-| STB-ZERO-SPF-2X4-60-001 | PART-1, PART-2 | 3.5 | 27.625 | 86.519086611 |
-
-Calculation input hash: `a2bae8c2a18c7aac0280c12a86cc69bd67abb2e1af4a5c295ca4bd8230305c39`; result hash: `e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5`; fixed-clock receipt hash: `4012a25021be499cf9e44208347c6dafcbae84181675c5352e78a9ecf69aec31`.
+**Identity of the retained exact 16-inch reconstruction.** The JSON above uses MASTER-SYO and the frozen master clock/catalog/pin, rather than the diagnostic or live request ID. Calculation input hash is `a2bae8c2a18c7aac0280c12a86cc69bd67abb2e1af4a5c295ca4bd8230305c39`; result hash `e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5`; receipt hash `4012a25021be499cf9e44208347c6dafcbae84181675c5352e78a9ecf69aec31`. To reproduce the 18-inch variant, identify a new request and owner revision, set configurationVersion and manifest.revision to 0.2, both lengths to 18, both spot X to 9 and angle to 26.387799961243. Evaluate afresh; do not reuse the old answer or hashes. The completed chain's remaining digital tests belong in section 9.6.
 
 ### 8.3 Alcove
 
@@ -2398,7 +2453,7 @@ This lowerer does not change part dimensions, substitute a parent, choose anothe
 
 `motionRecords` verifies local-job shape/hash and registered configuration, then emits `STB-MODELED-OPERATIONS-1`. Binding includes packet ID, demand/manifest/packet hashes, configuration ID/hash, model hash and local-job hash. It records expected seconds, parent thickness/cell map, and the **same ledger sequence**. Evidence class is `PREDICTED_OCCUPANCY_ONLY`; physical authority is false. `binding.motionHash` hashes the records before its own insertion.
 
-The current function name `motionRecords` does not expand its evidence scope into commissioned controller instructions. Dimensional ledger records contain nominal axis facts and tool-state relationships; sheet records include evaluated path/allowance events, not a complete servo XY trajectory. The historical Project 1 IR/controller-oriented sequence belongs to a different preserved generator and evidence stage.
+These are virtual nominal instructions within a priced occupancy representation. Dimensional records contain generated axis targets, parameters and tool-state relationships; sheet records retain evaluated path/allowance events without a complete XY controller trajectory. A reusable controller export must extend the same lowerer, retain source-ledger correspondence, exact sequence, parent/part/feature identities and registered mapping version, and refuse missing operation mappings. It must not interpret the customer again, generate another plan, time the job for a second Q or claim commissioned motion. Historical Project 1's controller-oriented IR is preserved separately.
 
 ### 9.4 Independent virtual replay
 
@@ -2503,7 +2558,9 @@ console.log(JSON.stringify({request,storeAnswer,evidenceRequest,evidence},null,2
 JS
 ```
 
-For the five chapter-8 examples, copy their exact JSON inquiries and evaluate with the same release/clock. Their hashes identify those precise requests; replacing request IDs changes calculation input identity. A separately named evaluation is legitimate, but its hashes must be reported as its own.
+For the five chapter-8 examples, evaluate their exact JSON requests under their recorded release and clock; do not change IDs and expect old hashes. For current Job 1, section 8.2 supplies the complete default request and explicit 18-inch changes. A completion test must obtain two real System definition revisions, preserve the independent manifest, obtain fresh Store answers, bind each actual accepted record and generate different traceable instruction operands without re-entry. The local source diagnostic establishes the arithmetic and Store path; it does not substitute for proving the published accepted-packet handoff or target-controller execution.
+
+Remaining export work belongs at the existing configuration/record/lowering owners: declare controller axis/unit/datum and tool mappings, attach source-operation/requirement witnesses, validate deterministic ordered output, and generate reference ST data only for mapped operations. Test unsupported tooling, impossible/missing geometry, foreign Store/configuration, stale or altered packets, missing machine facts, dropped parts/features and invalidated tool/reference state. Same identified input/configuration/export version must produce the same instruction content; receipt clock evidence remains outside that deterministic instruction core. Physical admission remains blocked.
 
 The committed [contract examples](https://github.com/GeorgePlattDemo/store-zero/tree/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) are deterministic examples built with `recordedCatalog()`, acceptance release `store-zero-acceptance` and fixed 2026-10-08 clock. **Their catalog is the preserved old catalog adapted to the current catalog schema**, not the current disk catalog. They exercise today's code against an identified fixture. The acceptance Project 1 fixture also evaluates to $10.81, but its catalog/release/request/receipt identities differ from the current-disk-catalog inquiry. Neither current-core example is the sealed $11.09 legacy result. `buildExamples()` can be imported and compared in memory; `npm run build:examples` writes fixtures and is not required for this documentation assignment.
 
@@ -3331,7 +3388,7 @@ The acceptance catalog/current core also produces $10.81 for its Project 1 fixtu
 
 ### 14.5 Reproduction commands and verification results
 
-Run Store checks at the frozen source or at this documentation-only main; runtime bytes are unchanged:
+Run Store checks at the identified source revision. Integration changes documentation only, relative to Store ca6d3c27. Main contains a bounded cycle-reuse optimization absent from the unchanged System runtime pin f7123a73; checks at those sources retain their own identities:
 
 ```sh
 node --version
@@ -3362,7 +3419,7 @@ STORE_ZERO_ROOT=/absolute/path/to/f7123a73-store-checkout npm test
 
 For Program: `python tools/check_program.py` at its frozen source. Do not move any operating pin to make a documentation commit pass a joint test.
 
-| Actual check for this master | Result | Scope |
+| Original master verification at Store f7123a73 / System ab09777d | Recorded result | Scope at that source |
 |---|---|---|
 | Node 22 | v22.23.3 | Required Store runtime check environment |
 | Catalog | PASS, 183 valid SKUs | Current catalog data rules |
@@ -3385,7 +3442,7 @@ An initial System full-run attempt had one harness failure because the environme
 
 ### 15.1 Architectural migration
 
-The archived [previous specification](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) retains useful detailed reasoning, historical machine functions, geometric derivations, early economics, boundary examples and claim correspondence. Its 1839 lines/31,684 words describe an older adopted structure. The current 95-line operative specification and consolidated core supersede many runtime paths. They do not erase the archive's dated evidence or authorize treating its retired modules as live dependencies.
+The archived [previous specification](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) retains useful detailed reasoning, historical machine functions, geometric derivations, early economics, boundary examples and claim correspondence. Its 1839 lines/31,684 words describe an older adopted structure. The operative specification and consolidated core supersede many runtime paths. The specification was 95 lines at the original adoption baseline; its current explanations retain the same runtime authority. They do not erase the archive's dated evidence or authorize treating its retired modules as live dependencies.
 
 The migration `ADOPT-SHARED-MANUFACTURING-CORE-AND-MANIFEST-2` replaces separate evaluators, envelopes, travel/pricing/circular geometry and stencil-tab implementations with one manufacturing core and protocol-2 independent coverage. [retired-paths.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json) identifies removed paths and replacement coverage. Some old test filenames in that migration record now exist with newly rewritten coverage; filename survival does not mean their historical implementation survived.
 
@@ -3404,24 +3461,24 @@ The old answer corpus has 1786 immutable cases: 44 Alcove,114 cut-package,754 en
 
 ### 15.2 Audit issues and resolution status
 
-The attached *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md* examined the same three source revisions. It was read in full, including implementation findings, patent rows, document inventory and repair sequence. Its file content is identified by SHA-256 `cb59aaf1f8f3901bc616de7fc1cd812f133e9cb368c34a146855b4c80a5dfb43`. The master supplies the complete explanatory record; this assignment does **not** apply the audit's code or old-document repairs.
+The attached *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md* examined the same three source revisions. It was read in full, including implementation findings, patent rows, document inventory and repair sequence. Its file content is identified by SHA-256 `cb59aaf1f8f3901bc616de7fc1cd812f133e9cb368c34a146855b4c80a5dfb43`. The master preserves that explanatory record. Current documentary reconciliation is distinguished from unresolved executable repairs; the original audit is evidence of its recorded sources, not a selector for current runtime behavior.
 
 | Issue in audit | Present resolution in this master | Original-source status and appropriate next owner/target |
 |---|---|---|
 | Outdoor long-short vs long-long, plane/source correspondence | Exact encoded demand/Q shown; discrepancy expressly retained in 8.5 | Unresolved; System source/definition reconciliation required |
-| Shared definitions describe old request/manifest/lowering contracts | Actual protocol2, packet2 and all-class evidence explained in 3/9 | System definitions unchanged; reconcile under System meaning authority |
+| Shared definitions describe old request/manifest/lowering contracts | Protocol2, packet2 and modeled three-class evidence agree across 3/9, System master and dictionary | Documentary contradiction resolved; generic machine presentation and packet-loader defects remain executable work |
 | Current patent navigation points to removed active-spec matrix | All 33 current claim/function rows and evidence stage supplied in2 | Patent README's old navigation unchanged; later point to master claim chapters |
 | Store README says core active then not imported | Sole runtime core authority fully documented in1/5 | README unchanged; later concise owner/behavior entry correction |
 | Commercial template adoption wording drifts | Executable simulated gate vs intended source integration explained in10 | Template unchanged; shared owner reconciles prose/envelope deliberately |
 | Project 1 wrapper links old pin/removed sections | Sealed original and current inquiry/identities separated in7 | Wrapper unchanged; later current navigation without changing evidence |
 | Window Seat old exported command lacks manifest | Complete current48-run inquiry supplied in8.4 and protocol explained | Existing stale command unchanged; System must correct its example |
 | Live reviewer guides say formal manifest absent or miss discovery scope | Actual public admission/manifest/discovery described in3/8 | Guides unchanged; concise corrections under System |
-| Program opening describes current virtual commands too broadly | Current occupancy ledger vs historical controller sequence separated in6/7/9 | Program unchanged; its own evidence-stage correction remains |
+| Program opening describes current virtual commands too broadly | Implemented planning, modeled ledger/replay, historical ST and proposed export distinguished | Program evidence and trial explanations now use the same stages; no runtime change |
 | Broken moved paths/removed specification anchors | All master references use existing owner paths at exact revisions | Old document links remain unchanged; later repair specific current links |
 | README clutter and potentially unused candidate artifacts | Content consolidated here; dependency-sensitive retention recommended | No deletions; verify runtime/record/asset dependencies before later cleanup |
 | Historical statistics/price figures mixed with current context | Dated sources/evidence kept separate from current exact evaluations | Do not redate history or replace it with current prices silently |
 
-The audit's proposed ordering remains sensible: resolve meaning/authority first, repair current navigation/explanation next, make only demonstrated implementation repairs under their owners, then simplify entry pages and retire proven-unused narratives. The master is now the long explanatory reconciliation surface; it is not a silent amendment to those owners' enforceable contracts.
+The masters, operative specification and System dictionary now explain one compilation/authority relationship. Remaining executable meaning, packet and presentation defects require their owning implementation and tests; documentation integration does not erase them. Original patent and Project 1 source/record identities remain unchanged.
 
 ### 15.3 Additional source discrepancies
 
@@ -3438,42 +3495,32 @@ Further source inspection during reconstruction identified the following qualifi
 - **Replay independence:** state/order/hash replay is separate, but the motion formula is shared and sheet XY controller geometry is not independently executed.
 - **Window Seat default:** optional front boolean alone is not admission; Intent's starting added.front=false determines the current $1193.10 definition. Generic recipe and admitted optional-front variants have different results.
 
-These findings are bounded documentation/engineering facts. No source repair, changed catalog, pin movement or deployment is made by this assignment. The code and test passing evidence do not erase the identified source discrepancies.
+These findings are bounded documentation/engineering facts. Document integration changes no executable source, catalog, runtime pin or deployment configuration. The code and test passing evidence do not erase the identified source discrepancies.
 
 ### 15.4 Protected evidence and future consolidation
 
-Keep issued patent PDFs/checksums; original Project 1 Markdown/DOCX/ZIP/publication identities; retained original sources and generated acceptance evidence; current executable source/data/contracts/tests/workflows; and immutable migration recordings in their appropriate custody. They are primary evidence and implementation, not competing public narratives. The old specification remains a dated historical source; any later reduction or relocation must preserve its identity and historical interpretation.
+Issued patent PDFs/checksums; original Project 1 Markdown/DOCX/ZIP/publication identities; retained original sources and generated acceptance evidence; and immutable migration recordings remain in their established custody. They are primary evidence. The archived specification remains a dated source with its original identity and interpretation.
 
-After this master is verified, a simple Store entry structure can be considered:
+The original master proposed shorter entry/specification documents and a separate operating specification. Subsequent preservation instructions superseded that proposal. The current structure retains the complete master, complete operative specification, approved README and maintainer governance. The README is unchanged; no new operating specification or parallel authority is created. Technical explanations may be reconciled in their owning documents while sealed records and issued sources remain immutable.
 
-| Public document | Later role |
-|---|---|
-| README.md | Short engaging introduction, app path and master/specification entry links |
-| STORE-ZERO-MASTER.md | Complete technical/manufacturing/operational explanation and source register |
-| Short Store specification | Enforceable current contracts, behavior, identities and refusals |
-| Short Store operating specification | Roles, workflow, custody, inspection/release and recovery rules |
-| AGENTS.md | Maintainer governance and owner boundaries |
-
-The existing README can be shortened after its useful explanations are reconciled here. Patent navigation can directly enter the current matrices while retaining issued sources. Project 1's wrapper can explain original/current distinction and point to the complete walkthrough; its sealed manuscript/evidence remain unchanged. Repeated old machine/economics narratives may be redirected or retired only after primary evidence and working dependencies are accounted for. Shared commercial and System meaning contracts keep their present single owner; the master is explanatory, not another specification.
-
-No shortening, deletion, retirement, wrapper rewrite or new operating-specification file is performed in this first pass. No System or Program file is altered.
+Patent navigation and the Project 1 wrapper retain their original source context. Any future navigation repair must preserve issued sources, the historical/current distinction and sealed evidence. Runtime and record dependencies must be established before relocation or retirement. System owns shared meaning and the commercial design map; Store owns its operative manufacturing specification. Neither master is another executable contract.
 
 ### 15.5 Master completion and navigation checks
 
-The complete reference has **15 substantive chapters**, with **112 linked subsections and 127 contents entries**, in addition to its opening. The final navigation register checks 366 links and 120 distinct commit-specific primary paths. It covers every issued claim, all three current manufacturing classes, all five public project paths, the original 45-command Project 1 sequence and separate current evaluation, registered model/parameters, catalog of 183 rows, current evidence pipeline, twenty commercial event types, refusals/recovery, inspection/custody, economics, exact sources and historical reconciliation. The contents is generated from the actual completed headings; no placeholder chapter is retained.
+This reference contains 15 substantive chapters. Its contents follow the actual headings. It covers all 33 issued claim/function correspondences, three modeled manufacturing classes, five public project paths, original Project 1 and current Job 1, registered model/configuration, the 183-row catalog, evidence pipeline, twenty commercial event types, refusals, inspection/custody, economics and source identities.
 
-Final verification reopens the full GitHub file and compares every byte with the completed local master, reads the chapters, checks heading/contents correspondence, resolves internal anchors and all source paths against frozen Git trees, verifies the example calculations/identities, checks all 33 claim rows and original 45 commands, executes the representative current example and applicable suites, and inspects the full baseline-to-final GitHub diff. Only `STORE-ZERO-MASTER.md` is changed. Source pins, operating deployments, sealed evidence, application/data/tests and existing documentation remain unchanged. All publication commits are directly on main; this task creates no branch or pull request.
+The original master publication checked 366 links and 120 distinct commit-specific primary paths. Those counts describe that publication. Current verification checks the revised headings, internal anchors, referenced source paths, complete examples and governing calculations. It also compares publication bytes and the complete diff against the identified baseline. Compiler integration changes this master and `docs/STORE-ZERO-SPECIFICATION.md`; the approved README, executable source/data/tests, runtime pin, deployment configuration, patents and sealed Project 1 evidence remain unchanged.
 
-Remaining discrepancies are identified in 15.2–15.3 rather than left as missing chapters. Physical and actual commercial questions retain their responsible owner and evidence stage. A future source change requires a new identified reconciliation; this document's frozen source record remains independently reproducible.
+Remaining discrepancies are identified in 15.2–15.3. Program and System revisions are confined to their documentary responsibilities. Current publication checks run at their own commits; original results in 14.5 remain separately reproducible. Physical and commercial questions retain their responsible owner and evidence stage.
 
 ### 15.6 Subsequent permanent preservation and repository disposition
 
-The structural-cleanup baseline is Store **a88a2b52681f2f2926d841795c4e5a03a60e2c42**, System **20b01b55f6d1ccdf275285f075bfc2cfe1bdad31**, and read-only Program **04ec327df39a54e92aae65ef4b07d10f2c8a8985**. System's exact executable Store pin remains **f7123a73c1ca60aa7eb180a86a1c365eaffe95db**. Documentary `main` commits do not move that integration pin.
+The structural-cleanup baseline is Store **a88a2b52681f2f2926d841795c4e5a03a60e2c42**, System **20b01b55f6d1ccdf275285f075bfc2cfe1bdad31**, and Program **04ec327df39a54e92aae65ef4b07d10f2c8a8985** (read-only during that cleanup). System's exact executable Store pin remains **f7123a73c1ca60aa7eb180a86a1c365eaffe95db**. Documentary `main` commits do not move that integration pin.
 
-**The subsequent governing preservation instruction supersedes the prospective shortening described in section 15.4.** The complete `docs/STORE-ZERO-SPECIFICATION.md`, full `docs/project-1-digital-trail/`, complete issued files in `docs/patents/`, sealed `acceptance/project-1/` evidence, historical replay recordings and original source identities are permanent independent engineering assets. Their content and technical sequence are preserved byte for byte. Neither the specification nor either master is a condensation candidate. Both masters keep every pre-existing explanation and its established order. README wording is preserved; only verified stale link destinations may change in System and Store. Program remains read-only.
+**The permanent preservation instruction superseded the original shortening proposal.** The complete operative specification and both masters remain independent engineering documents. Their technical depth is retained while current explanations are reconciled in place. Original documentary revisions remain accessible in Git. The full `docs/project-1-digital-trail/`, issued files in `docs/patents/`, sealed `acceptance/project-1/` evidence, historical recordings and original publication identities remain byte-identical. Approved READMEs remain unchanged. Program now integrates the evidence and supervised-trial explanation within its own research responsibility.
 
 The surviving Store tree has one service/request boundary, one catalog, one manufacturing core, one packet/machine-evidence route and one commercial gate. Each supporting directory has a distinct purpose: `acceptance/` preserves boundaries, contract/capability checks and original/differential evidence; `contracts/examples/` preserves reproducible exchanges; `data/` holds stock, declared machine configuration and price/source attribution; `docs/` preserves the complete specification, patents and Project 1 trail; `tests/` checks current protocol, service, manufacturing, commercial and deployment behavior; `scripts/` supplies catalog/example/digest/deployment checks, historical migration replay and fresh benchmarking. In particular, `scripts/build-migration-audit.mjs` is imported by differential acceptance and reproduces the preserved NEW baseline; its name is not evidence that it is unused.
 
-The System commercial design map remains at its established path because this protected specification references it. Its full relevant explanation is now incorporated, in original sequence and with proposal/current distinctions, in chapter 10 of both masters. System's dated verification note remains independently linked from read-only Program. Current Outdoor source-comparison pages remain linked from its live Rule Book. None of those references is retired merely to reduce a file count. Store has no further executable or evidence file whose independent purpose is shown to have ended in this pass.
+The System commercial design map remains at its established path because this protected specification references it. Its full relevant explanation is now incorporated, in original sequence and with proposal/current distinctions, in chapter 10 of both masters. System's dated verification note remains independently linked from Program, with current source diagnostics clearly distinguished from earlier observations. Current Outdoor source-comparison pages remain linked from its live Rule Book. None of those references is retired merely to reduce a file count. Store has no further executable or evidence file whose independent purpose is shown to have ended in this pass.
 
-Before edits, an inventory records every tracked file's SHA-256, Git blob, byte count and repository head. Final technical preservation checks compare those identities, verify the original master body as an ordered subsequence with only contents-link maintenance excluded, and compare the README with only authorized link destinations excluded. CI and Chromium assess working behavior separately. Unrelated code discrepancies already recorded in this master retain their identified owner and are not silently repaired by structural cleanup. **NO BLOOD ON WOOD.**
+The structural cleanup recorded tracked-file hashes, Git blobs, byte counts and repository heads and checked preservation against that baseline. Current compiler integration verifies the exact seven-file documentary scope across the repositories, unchanged protected paths and the intact original Project 1 chapter. It checks reconciled calculations against the published System rules and both identified Store sources. CI and Chromium assess executable behavior separately. The executable discrepancies retain their named files, causes, proposed corrections and tests; document edits do not repair them. **NO BLOOD ON WOOD.**
