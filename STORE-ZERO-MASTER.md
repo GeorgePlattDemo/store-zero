@@ -493,6 +493,8 @@ Catalog `treatedLumberRated` and attribution fields provide compatibility eviden
 
 ### 4.4 Eligibility and supply decisions
 
+**Owner-directed correction, 2026-10-13.** `D001-STOCKED-WOOD-MILLING-2026-10-13` makes longitudinal milling available for every offered board species and grade inside the registered router section envelope. It adds the implemented operation to 65 offering declarations that omitted it; stock quantities, prices, dimensions and all other operations are unchanged. The frozen register in §4.6 remains the identified earlier catalog snapshot. Current inquiry receipts hash the revised runtime catalog. This declaration makes no claim of commissioned material-specific feeds or physical performance.
+
 Selection proceeds through distinct gates:
 
 1. Match the material or hardware selector.
@@ -740,7 +742,9 @@ Tasks run as sorted board groups, then sheet packages, then pooled hardware sele
 
 ### 5.3 Candidate eligibility
 
-`boardCandidates` matches material and grade, calls the catalog eligibility rules, filters dimensional envelope and minimum parent length, and evaluates each part's required geometry against a candidate's actual section. A material row must support all derived operations on D-001. Rows sort by selling price, parent length and SKU, but that is only search order: a cheapest individual row may require more parents or more preparation and lose at whole-job cost.
+`boardCandidates` matches material and grade, calls the catalog eligibility rules, filters dimensional envelope and minimum parent length, and evaluates the required geometry against a candidate's actual section. A material row must support all derived operations on D-001 and be able to produce at least one identified part; it need not produce every part in a mixed-length group. Every assigned parent pattern is then validated in full. Requiring every stock length to accommodate the longest part incorrectly discarded shorter stock needed for shelves. Rows sort by selling price, parent length and SKU, but that is only search order: a cheapest individual row may require more parents or more preparation and lose at whole-job cost.
+
+Before searching, Store may prove a shortage using the optimistic length capacity `sum(available parents × floor((parent length − reference kerf − minimum retained length)/(part length + kerf)))` for each required part length. If this upper bound is below the required count, the job returns `UNAVAILABLE / ON_HAND_SHORT`, with its required count and candidate stock capacity. Passing the bound does not establish a plan; tooling, features, competing parts and cumulative inventory still require complete evaluation.
 
 Angles must be numeric from 0 to 45 degrees. A nonzero angle requires parallel, long-long, miter-face end meaning. Missing nonzero end meaning is unresolved; an out-of-model angle is refused. Square packages can omit those redundant end facts, but supplied facts must agree. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
 
@@ -1712,6 +1716,8 @@ Enabling shelf-elevation spotting generates explicit component feature identitie
 Calculation input hash: `314b4711b4fe5c61693706e5d11071dc8009bc1522f054312d31a82409a831d2`; result hash: `e3ae7c1ff7975a17435ba38f0075d0e01ad2023a1015fe9baf78778e77900285`; fixed-clock receipt hash: `7bb0a0c4c3d0e8f3e5919cfb38916bcdcfade003227b48b66f4c6c91d34f2a7b`.
 
 ### 8.4 Window Seat
+
+**Repair note, 2026-10-13.** The published 14-inch default has 12 upright board runs of 94 inches and 36 shorter board runs. Keeping shorter eligible parent stock repairs the false poplar shortage without adding inventory or changing the definition. Oak longitudinal milling is now declared under the common stocked-wood policy. The same default still exceeds declared oak upright stock: with the 24-inch retained-control requirement, only the eight available 120-inch oak parents can produce those 12 upright runs. Store therefore returns `ON_HAND_SHORT` with Q absent. Milling a stocked species and supplying a complete assembly are separate questions. The original worked answer and request below retain their original source identity; they are not overwritten as current prices.
 
 [stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) derives the three-module assembly from the customer's sketch/facts. Starting height is 94 inches, module widths 24/55/24, depth 14, seat height 22, upper clear height 14, two upper bays, two lower cubbies and four shelves in each tower. Stock is select pine, .75-inch thickness. The fewest width runs covering 14 inches is two; each finished run is seven inches, prepared from nominal 1×8 actual 7.25-inch boards.
 

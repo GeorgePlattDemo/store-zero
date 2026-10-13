@@ -1,0 +1,95 @@
+{
+  "change": "RETAIN-SHORT-STOCK-IN-MIXED-LENGTH-GROUPS-2026-10-13",
+  "sourceBaseline": "core-replay-baseline.json",
+  "basis": "Owner-requested repair. Four preserved cases contain 94-inch and 22.5-inch parts of the same material. The repaired candidate filter retains a 72-inch parent for the shorter parts alongside the 120-inch parent for the 94-inch part. Stock, prices, geometry, retained-control rule and search limits are unchanged; milling time falls where the newly eligible parent is shorter. The historical baseline and recordings remain unchanged.",
+  "changes": [
+    {
+      "before": {
+        "key": "50c673eba39ba4a3b8b8b3c3e1edb932bf7983ccc12570f39c1f2f1cd288e35f",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 80.36,
+        "reasonCodes": [],
+        "totalSeconds": 160.93611111111113,
+        "resultHash": "8b383f96cab3d1e11c0fce0c09d2f6d09e10c2b4fc73920396603545c3ad13ce"
+      },
+      "after": {
+        "key": "50c673eba39ba4a3b8b8b3c3e1edb932bf7983ccc12570f39c1f2f1cd288e35f",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 66.52,
+        "reasonCodes": [],
+        "totalSeconds": 160.93611111111113,
+        "resultHash": "910a124f4425046c56bb6387772da67ca1cff359af29767a3992d0c024dd009a"
+      }
+    },
+    {
+      "before": {
+        "key": "2c3d6f6d99eab8fe771d57201c3fc0f86fc79979b52487faab1a489f3bf71262",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 103.9,
+        "reasonCodes": [],
+        "totalSeconds": 499.9840277777778,
+        "resultHash": "7d418a8d007c467551d52dfad54f4e806dac197a6cfafcbe7ef3d6d4644f1607"
+      },
+      "after": {
+        "key": "2c3d6f6d99eab8fe771d57201c3fc0f86fc79979b52487faab1a489f3bf71262",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 85.48,
+        "reasonCodes": [],
+        "totalSeconds": 433.9840277777778,
+        "resultHash": "d759e628de510e5a366d7f01ae73ad824492e8a15c714bb4a89b6fd1bca9733a"
+      }
+    },
+    {
+      "before": {
+        "key": "fd66f9946649e41b5e6ba3d24c6878f8ac84101df9a066e371e5b9d65f681f45",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 80.36,
+        "reasonCodes": [],
+        "totalSeconds": 160.93611111111113,
+        "resultHash": "7ec8fa2131916f9a87b3fe5e73682bb0a85e8846d610d98d815baf19f1bde092"
+      },
+      "after": {
+        "key": "fd66f9946649e41b5e6ba3d24c6878f8ac84101df9a066e371e5b9d65f681f45",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 66.52,
+        "reasonCodes": [],
+        "totalSeconds": 160.93611111111113,
+        "resultHash": "e6768ca5c12f4c4ca47b45b6e595d4878e08af38119b6ea4997a22ba8b1e3508"
+      }
+    },
+    {
+      "before": {
+        "key": "8e2234ae92b76954389c963535a920f088d3ac072f49418b7ed7310e301b1c04",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 103.79,
+        "reasonCodes": [],
+        "totalSeconds": 498.4006944444444,
+        "resultHash": "737dfbebef9e6aee7388f578ff17586fe92668d8f7f6a65113c3ed18075789b5"
+      },
+      "after": {
+        "key": "8e2234ae92b76954389c963535a920f088d3ac072f49418b7ed7310e301b1c04",
+        "evaluator": "evaluateCutPackageJob",
+        "disposition": "NEW_MODEL_REPLAY",
+        "status": "SUPPORTABLE",
+        "Q": 85.37,
+        "reasonCodes": [],
+        "totalSeconds": 432.4006944444444,
+        "resultHash": "11090f766473613a9fd8ee979f76b0b3930a7df828c39879634447573dd60e3f"
+      }
+    }
+  ]
+}

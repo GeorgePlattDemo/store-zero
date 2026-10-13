@@ -14,6 +14,10 @@ Angled packages must state parallel ends, long-long-outer-edge length datum and 
 
 # 2. Catalog and material selection
 
+The owner-directed `D001-STOCKED-WOOD-MILLING-2026-10-13` declaration offers longitudinal milling on every offered board species and grade whose actual section lies within the registered router stock envelope. This is a declared machine model, not commissioned cutting evidence. Species does not create a separate evaluator or a hidden exception. Finished geometry, operation representation, tooling, retained control and available inventory remain mandatory gates. This revision adds no stock, changes no price and offers no new unmodeled operation.
+
+A mixed-length group retains a parent SKU when it can produce at least one required part. Each selected parent pattern must still produce all assigned parts and features. A length-only optimistic capacity bound can prove `ON_HAND_SHORT`; its reported required parts and available capacity explain a shortage but cannot establish feasibility or a Q. The complete cumulative-inventory search governs every successful answer.
+
 `src/evaluation/catalog.mjs` reads and validates `data/store-zero-catalog.json` and `data/sources/store-zero-observations.json`. Catalog offered/onHand/allocated values, species/grade, actual dimensions, compatible cells/operations, current selling prices and hardware packaging are the Store's declared inputs. Contradictory catalog values stop evaluation.
 
 The core searches complete feasible parent-stock plans with cumulative shared inventory, mixed lengths and reused compatible setup state. It minimizes unrounded material, hardware, hourly service and separately billed cut cost within the declared plan space. At final whole-job boundaries it rounds hourly service to cents, then rounds their combined Q; independently rounded parent contributions are not the total authority. A bounded feasible search explicitly reports that it did not establish the optimum. No complete plan means a named refusal/unresolved result with Q and totals absent.

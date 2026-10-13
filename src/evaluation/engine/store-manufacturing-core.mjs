@@ -482,18 +482,29 @@ function boardCandidates(catalog, b, model) {
   const grades = unique(rows.filter(o => o.offered).map(o => o.grade));
   if(m.grade===undefined&&grades.length>1)throw new Problem('GRADE_CHOICE_REQUIRED',b.packageId,'UNRESOLVED',{offeredGrades:grades.sort()});
   if (m.grade !== undefined) rows = rows.filter(o => o.grade === m.grade);
-  const accepted = [], problems = [];
+  const accepted = [], problems = [], coveredParts = new Set(), partFailures = new Map();
   for (const row of rows) try {
     const ops = boardOps(b, row);
     usableRows(catalog, [row], ops, 'D-001', b.packageId);
     need(row.actualW >= st.minWidthIn && row.actualW <= st.maxWidthIn && row.actualT >= st.minThicknessIn
       && row.actualT <= (ops.includes('MILL_LONGITUDINAL_PROFILE') ? st.maxRouterThicknessIn : st.maxSawThicknessIn), 'STOCK_OUTSIDE_CONTROL_ENVELOPE', b.packageId);
     if (b.minimumParentLengthIn) need(row.stockL_in >= b.minimumParentLengthIn, 'PARENT_BELOW_DEFINED_WORKPIECE_LENGTH', b.packageId);
-    // Validate every part's feature/tool/prepared-width compatibility before search.
-    for (const part of b.parts) boardCycle(model, row, b, [part]);
+    // A parent is a candidate when it can produce at least one identified part.
+    // Requiring it to fit every part drops short stock from a mixed-length job.
+    // The search still validates each complete parent pattern, every operation
+    // and cumulative inventory before it can claim a complete plan.
+    let usable = false;
+    const partProblems = [];
+    for (const part of b.parts) try {
+      boardCycle(model, row, b, [part]);
+      coveredParts.add(part.partId);
+      usable = true;
+    } catch (p) { if (!(p instanceof Problem)) throw p; partProblems.push(p); if (!partFailures.has(part.partId)) partFailures.set(part.partId,p); }
+    if (!usable) throw partProblems[0];
     accepted.push(row);
   } catch (p) { if (!(p instanceof Problem)) throw p; problems.push(p); }
   if (!accepted.length) throw problems.find(p => p.code.startsWith('OPERATIONS_NOT')) ?? problems[0] ?? new Problem('NO_MATCHING_BOARD_OFFERING', b.packageId);
+  for (const part of b.parts) if (!coveredParts.has(part.partId)) throw partFailures.get(part.partId);
   return accepted.sort((a, b) => a.sellingPrice - b.sellingPrice || a.stockL_in - b.stockL_in || a.storeSku.localeCompare(b.storeSku));
 }
 
@@ -713,6 +724,20 @@ function groupsFor(job, catalog, model) {
   const boards = [...merged.entries()].sort(([a], [b]) => a.localeCompare(b)).map(([, group]) => {
     if (!group.preserveOrder) group.parts.sort((a, b) => b.lengthIn - a.lengthIn || a.partId.localeCompare(b.partId));
     const rows = boardCandidates(catalog, group, model);
+    // A length-only capacity bound can prove a shortage without searching.
+    // It is optimistic about features and competing parts, so passing it does
+    // not establish feasibility; the complete stock search still governs Q.
+    const lengths = new Map();
+    for (const part of group.parts) lengths.set(part.lengthIn, (lengths.get(part.lengthIn) ?? 0) + 1);
+    for (const [partLengthIn, requiredParts] of lengths) {
+      const eligibleStock = rows.map(row => ({storeSku:row.storeSku, stockLengthIn:row.stockL_in,
+        availableParents:row.onHand-row.allocated,
+        maxPartsPerParent:Math.max(0,Math.floor((row.stockL_in-model.dimensional.saw.kerfIn
+          -model.dimensional.stock.minRetainedLengthIn+EPS)/(partLengthIn+model.dimensional.saw.kerfIn)))}));
+      const availablePartCapacity = eligibleStock.reduce((n,row)=>n+row.availableParents*row.maxPartsPerParent,0);
+      if (availablePartCapacity < requiredParts) throw new Problem('ON_HAND_SHORT', group.packageId, 'UNAVAILABLE',
+        {stockShortage:{partLengthIn,requiredParts,availablePartCapacity,eligibleStock,basis:'OPTIMISTIC_LENGTH_CAPACITY_BOUND'}});
+    }
     return { kind: 'board', group, rows, remaining: group.parts.map((_, i) => i) };
   });
   const sheets = job.sheets.map(pkg => {

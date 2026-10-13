@@ -73,6 +73,30 @@ export async function runSelfChecks(catalog) {
     const j = fixture([pkg('A', Array.from({ length: 4 }, (_, i) => part('A-' + i, 70))), pkg('B', Array.from({ length: 4 }, (_, i) => part('B-' + i, 70)))]);
     const r = evaluate(j, c); assert.equal(r.status, 'UNAVAILABLE'); assert.equal(r.Q, null);
   });
+  await check('mixed lengths keep shorter parents that fit only the shorter parts', () => {
+    const rows = [72, 120].map(length => {
+      const row = clone(catalog.offerings.find(o => o.form === 'board' && o.species === 'poplar'
+        && o.nominalT === 1 && o.nominalW === 8 && o.stockL_in === length));
+      row.onHand = 1; row.allocated = 0; return row;
+    });
+    const c = { ...clone(catalog), offerings: rows };
+    const b = pkg('MIXED-LENGTHS', [part('TALL', 94), part('SHORT', 20)]);
+    b.material.species = 'poplar';
+    const r = evaluate(fixture([b]), c); complete(r);
+    assert.equal(r.optimization.searchComplete, true);
+    assert.deepEqual(r.selectedStock.map(s => [s.stockL_in, s.qty]).sort((a,b)=>a[0]-b[0]), [[72,1],[120,1]]);
+    assert.deepEqual(r.manifestCoverage.boardPartIds, ['SHORT','TALL']);
+    const shortParent = r.parents.find(p => p.stockL_in === 72);
+    assert.deepEqual(shortParent.partIds, ['SHORT']);
+    const split = [pkg('TALL-PACKAGE', [b.parts[0]]), pkg('SHORT-PACKAGE', [b.parts[1]])];
+    split.forEach(p => { p.material.species = 'poplar'; });
+    const partitioned = evaluate(fixture(split), c); complete(partitioned);
+    assert.equal(partitioned.Q, r.Q);
+    assert.deepEqual(partitioned.selectedStock, r.selectedStock);
+    rows[0].onHand = 0;
+    const unavailable = evaluate(fixture([b]), c);
+    assert.equal(unavailable.complete, false); assert.equal(unavailable.Q, null);
+  });
   await check('manifest rejects missing wood, missing hardware, duplicate components, and missing manifest', () => {
     for (const change of [j => { j.boards[0].parts.pop(); }, j => { j.boards = []; }, j => { j.manifest = null; }, j => { j.boards[0].parts[1].partId = j.boards[0].parts[0].partId; }]) {
       const j = clone(five); change(j); assert.equal(evaluate(j).complete, false);

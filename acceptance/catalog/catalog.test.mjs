@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { catalogProblems, loadCatalog, sellingPriceFor, validateCatalog } from "../../src/evaluation/catalog.mjs";
 import { evaluateStoreRequest } from "../../src/requests/store-request.mjs";
 import {identifiedRequest} from "../../tests/fixtures/manifest.mjs";
+import {createModel} from "../../src/evaluation/engine/store-manufacturing-core.mjs";
 const evaluateDimensionalTravelJob=(catalog,demand)=>evaluateStoreRequest(identifiedRequest("USER_DEFINED_BOARD_V1",demand),{catalog,release:"catalog-test"});
 
 const live = loadCatalog();
@@ -31,6 +32,30 @@ function newBoard() {
 
 test("the live catalog is valid", () => {
   assert.deepEqual(catalogProblems(live), []);
+});
+
+test("longitudinal milling is offered and evaluated for stocked wood within the router envelope", () => {
+  const limits = createModel().dimensional.stock;
+  const eligible = live.offerings.filter(o => o.form === "board" && o.offered
+    && o.actualT >= limits.minThicknessIn && o.actualT <= limits.maxRouterThicknessIn
+    && o.actualW >= limits.minWidthIn && o.actualW <= limits.maxWidthIn);
+  const evaluatedSpecies = new Set();
+  for (const o of eligible) {
+    assert.ok(o.supportedOps.includes("MILL_LONGITUDINAL_PROFILE"), o.storeSku);
+    if (o.actualW - 0.25 < limits.minWidthIn) continue;
+    const demand = { configurationId: "MATERIAL-MILL-CHECK", configurationVersion: o.storeSku,
+      cutPackages: [{ packageId: "BOARD", material: {species:o.species,form:"board",nominalT:o.nominalT,nominalW:o.nominalW,grade:o.grade},
+        endCut: {angleDeg:0}, finishedWidthIn:o.actualW-0.25, parts:[{partId:"PART",lengthIn:24}] }] };
+    const answer = evaluateStoreRequest(identifiedRequest("CUT_PACKAGE_V1", demand),
+      {release:"catalog-test",catalog:{...structuredClone(live),offerings:[structuredClone(o)]}});
+    assert.equal(answer.status, "SUPPORTABLE", o.storeSku+":"+answer.reasonCodes);
+    assert.deepEqual(answer.manifestCoverage.boardPartIds, ["PART"], o.storeSku);
+    assert.deepEqual(answer.manifestCoverage.featureIds, [], o.storeSku);
+    assert.ok(answer.operations.some(e => e.category === "MILL" && e.seconds > 0), o.storeSku);
+    assert.ok(answer.totals.machine_service > 0, o.storeSku);
+    evaluatedSpecies.add(o.species);
+  }
+  assert.deepEqual([...evaluatedSpecies].sort(), [...new Set(eligible.map(o=>o.species))].sort());
 });
 
 test("a correct new offering is accepted and answered with no code change", () => {
