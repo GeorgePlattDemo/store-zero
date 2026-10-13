@@ -27,13 +27,13 @@ Store Zero is the modeled reference yard used to develop and test this service. 
 | **Dimensional — D-001** | Cut to length, bounded miters, declared milling profiles, and a defined 3/16-in spot/pilot operation. |
 | **Sheet — S-001** | A single ½-inch cutter for bounded routed patterns, customer-positioned 1-inch retention tabs, center splits, and yard panel-saw crosscuts **and full-length rips** at $10 per manual full cut with declared ±¼-inch location tolerance. |
 
-The [D-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) and [S-001 envelope](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
+The [D-001 envelope](STORE-ZERO-MASTER.md#62-dimensional-parameter-register) and [S-001 envelope](STORE-ZERO-MASTER.md#63-sheet-parameter-register) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
 
 **Cut, mill, and drill are operations with material, geometry, tooling, and time behind them. The sheet router keeps the center 48 × 36 inches of a full 96 × 48 sheet as its declared working field, and the separate yard panel saw handles whole-sheet straight cuts.** The Store answer connects those facts to the requested result.
 
 ## One request, a yard’s answer
 
-The evaluator follows the identified job through material selection, capability, modeled work, and economics. For dimensional work, the [travel standard](docs/STORE-ZERO-SPECIFICATION.md#3-manufacturing-model) provides the governing completion rule. Board, batch and sheet requests compile into the same manufacturing core.
+The evaluator follows the identified job through material selection, capability, modeled work, and economics. For dimensional work, the [travel standard](STORE-ZERO-MASTER.md#5-manufacturing-engine-from-request-to-q) provides the governing completion rule. Board, batch and sheet requests compile into the same manufacturing core.
 
 Every request receives a bounded outcome with its reasons:
 
@@ -42,7 +42,7 @@ Every request receives a bounded outcome with its reasons:
 - **`REFUSED`** — the request falls outside the declared capability.
 - **`UNAVAILABLE`** — the required supply is unavailable under the declared facts.
 
-The yard keeps control of its own service. Another Store can use different suppliers, stock, equipment, pricing, and operating systems through the same bounded request-and-answer interface. The [Store membrane](docs/STORE-ZERO-SPECIFICATION.md#23-the-store-membrane-and-commercial-sovereignty) explains how outside demand calls selected services while the dealer retains its internal systems.
+The yard keeps control of its own service. Another Store can use different suppliers, stock, equipment, pricing, and operating systems through the same bounded request-and-answer interface. The [Store membrane](STORE-ZERO-MASTER.md#3-the-complete-system-to-store-boundary) explains how outside demand calls selected services while the dealer retains its internal systems.
 
 ## The instructions are digital
 
@@ -91,11 +91,11 @@ npm test
 
 ## Reference status and further reading
 
-Store Zero uses declared reference stock, budgetary prices, and modeled machine time. Physical D-001/S-001 production is not commissioned; the demonstration does not transact real payment or issue a production release. The [commissioning and evidence plan](docs/STORE-ZERO-SPECIFICATION.md#15-commissioning-and-evidence-plan) separates the software/reference work from physical commissioning.
+Store Zero uses declared reference stock, budgetary prices, and modeled machine time. Physical D-001/S-001 production is not commissioned; the demonstration does not transact real payment or issue a production release. The [commissioning and evidence plan](STORE-ZERO-MASTER.md#68-proposed-physical-apparatus-and-commissioning) separates the software/reference work from physical commissioning.
 
-- [**Store Zero**](docs/STORE-ZERO-SPECIFICATION.md) — the reference dealer and its service interface.
-- [**Store Job 001**](docs/STORE-ZERO-SPECIFICATION.md#9-safety-setup-validation-and-operating-authority) — a modeled Store-side production narrative.
-- [**Store 1**](docs/STORE-ZERO-SPECIFICATION.md#2-catalog-and-material-selection) — the surface for a later real Store implementation.
+- [**Store Zero**](STORE-ZERO-MASTER.md) — the reference dealer and its service interface.
+- [**Store Job 001**](STORE-ZERO-MASTER.md#7-complete-historical-project-1-walkthrough) — a modeled Store-side production narrative.
+- [**Store 1**](STORE-ZERO-MASTER.md#4-store-owned-catalog-and-inventory) — the surface for a later real Store implementation.
 - [**System definitions**](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) — shared job meaning and local yard vocabulary, owned by the System the working application runs.
 - [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md#build-and-verify-the-dimensional-machine) — the broader development work in Program.
 

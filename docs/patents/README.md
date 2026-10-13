@@ -7,4 +7,4 @@ The full issued grants, kept so that patent questions are answered from the sour
 
 [`SHA256SUMS.txt`](SHA256SUMS.txt) gives their identities (`sha256sum -c SHA256SUMS.txt`).
 
-For a patent question, read the issued claims first, then the specification, then the figures; a project mapping is only a navigation aid. The [Store Zero specification](../STORE-ZERO-SPECIFICATION.md) §13 traces each claim to the Store function that corresponds to it. That trace is engineering correspondence, not a legal opinion on claim construction, validity, infringement or scope. Publication grants no patent license.
+For a patent question, read the issued claims first, then the specification, then the figures; a project mapping is only a navigation aid. The [Store technical reference](../../STORE-ZERO-MASTER.md#2-invention-and-issued-patents) §§2.5–2.6 traces each claim to the Store function that corresponds to it. That trace is engineering correspondence, not a legal opinion on claim construction, validity, infringement or scope. Publication grants no patent license.
