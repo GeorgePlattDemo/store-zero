@@ -1490,7 +1490,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
     "requestId": "MASTER-SYO-16",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1508,7 +1508,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
       "inputHash": "96f25000cc909c77ca8b09a40555d80820b2ccf72e9c247e64606af5eec3fe31",
       "resultHash": "e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5"
     },
-    "receiptHash": "4a46a626859e1f46b0fccb35411dd4725504d7d120d9cb24b3746d8b2c36ce69"
+    "receiptHash": "4b1cd6ce5cf7565af7105ad57c35351740feb91ec5fd1be4ae9b758611e88c25"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -1671,7 +1671,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
     "requestId": "MASTER-SYO-18",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1689,7 +1689,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
       "inputHash": "f3050cbcfff47cde7613c7ee1c5332b323a10156fc94d0da27c411064013d3e5",
       "resultHash": "771161aabc33029cf5c87241fc8e68b0fbbcf2a3e71220e89ec5033dffd8efea"
     },
-    "receiptHash": "21e4bca707ca6578f9e8afc07be80b0970c22a25a47bc1ef18298b1072338f1c"
+    "receiptHash": "cfaf38d9e7b0383ff7e1aeecf24287c57f01de8d9c6c960287c18bc63c143eb9"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -2042,7 +2042,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
     "requestId": "MASTER-ALCOVE-ECONOMY",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2060,7 +2060,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
       "inputHash": "c15ab44e7bc9332e50e35e8ac22420d84667a1dade8509890c8af9adbf971117",
       "resultHash": "37a5388e7905ca0791a12b26ac7da95f01228255c41d92db47418a94140a728d"
     },
-    "receiptHash": "a1984714a0c51e30362968499c2ba9b8c2ca1fa10c89bc0bb15f8dbf0d8e7234"
+    "receiptHash": "402695ee68c1e3046475995d8254fd63a6b6fcf42204d7d2f0f6d585fd028154"
   },
   "ledgerRecords": 269,
   "physicalAuthority": false
@@ -2513,7 +2513,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
     "requestId": "MASTER-WINDOW-SEAT",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2531,7 +2531,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
       "inputHash": "0872cb819d46f0f196357b8f0d66941c7b3119a49bcc0cb565b4c481bfcee35d",
       "resultHash": "d099aa232d1196f10641455021fa52849328b1844daa22de589d333ad5367a2d"
     },
-    "receiptHash": "fabace06cd05ee376e82f4d85b2298df5203c81d39ee9f26c8f1c33f60c3fe80"
+    "receiptHash": "b38921de38009891c48b87f4a01406d4d6ab33f14e82fbabf113a4b9a48795b9"
   },
   "ledgerRecords": 1072,
   "physicalAuthority": false
@@ -2811,7 +2811,7 @@ The separately selectable table-and-benches plan uses square cuts. Its supported
     "requestId": "MASTER-OUTDOOR",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2826,7 +2826,7 @@ The separately selectable table-and-benches plan uses square cuts. Its supported
     "manifestHash": "f7aeb5d59caba7a50954d3d824851268c0d66106013bbd4125196b20d0eddc21",
     "status": "UNRESOLVED",
     "calculationIdentity": null,
-    "receiptHash": "dbad1155c9104b4b5e689412dc3294e74e56ef2861a4befaf291c07932f78623"
+    "receiptHash": "3ab4685556a6c1f885a57a0d7164d6bd77c5d281188d6c5c3ad3cae36c08013a"
   },
   "ledgerRecords": 0,
   "physicalAuthority": false
@@ -2977,7 +2977,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
     "requestId": "MASTER-PLAYHOUSE",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:126dfc667623f03771d281a8386d65daad0314ed4f4a4e2559a0015698963537",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2995,7 +2995,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
       "inputHash": "7e1ae0a82881e12e1afa44e64ec4dedece52191518890fa3f8283c4d343618bf",
       "resultHash": "f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31"
     },
-    "receiptHash": "9bb32a973aa7ca3bda55446d5fae194c74f923412a35545e8f8018be75b85be7"
+    "receiptHash": "a991c38cb5a3c386b06fa87edfc6bec89b5fa41db6c0003ca9d21560b42180d3"
   },
   "ledgerRecords": 15,
   "physicalAuthority": false
@@ -3066,12 +3066,12 @@ For the current 18-inch SPF Project 1 reference packet, the regenerated binding 
     "packetId": "PACKET-CURRENT-PROJECT-1-18",
     "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
     "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-    "packetHash": "378d1f29ae3100f048b6108df4800bb8db43110de7eba60e3279d22a76a1aad6",
+    "packetHash": "888f78f97481f2efb80ef9b046d823b57ee3d67e58c55e9468c988ff83f9f069",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
     "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
     "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-    "localJobHash": "b456e4e0bab0dbf0e4ad120cb19d26251e7883227f8d94295e2508605e2b3cee",
-    "motionHash": "4b693ae67a03f6236475d2322ae6436b7de83abaa22a11e9895fb1ddf82b756c"
+    "localJobHash": "363f5e52796b8d42619fd74da1d306ef6a10cbf64fe240213a703c4e3696f3ee",
+    "motionHash": "63d0ca791622257039725c9a0f00269ae8a257c3314c34023ebebf68036e5d0b"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "expectedSeconds": 86.46953628299116,
