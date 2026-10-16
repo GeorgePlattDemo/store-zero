@@ -15,7 +15,7 @@ const SPEC = "docs/STORE-ZERO-SPECIFICATION.md";
 const anchorsOf = (markdown) =>
   new Set(markdown.split("\n").filter((l) => /^#{1,6} /.test(l)).map((l) => l.replace(/^#+ /, "").trim().toLowerCase().replace(/[^\p{L}\p{N}\- _]/gu, "").replace(/ /g, "-")));
 
-const OUR_DOCUMENTS = ["README.md", "AGENTS.md", SPEC, "docs/patents/README.md", "docs/project-1-digital-trail/README.md"];
+const OUR_DOCUMENTS = ["README.md", "AGENTS.md", "STORE-ZERO-MASTER.md", "docs/project-1-digital-trail/current-proof.md", SPEC, "docs/patents/README.md", "docs/project-1-digital-trail/README.md"];
 
 test("every relative link in our documents reaches a file, and every anchor a heading", () => {
   for (const doc of OUR_DOCUMENTS) {
@@ -61,4 +61,10 @@ test("the issued patents are the issued patents", () => {
     assert.equal(sha256(`docs/patents/${name}`), expected, name);
   }
   assert.ok(existsSync(join(ROOT, "docs/patents/US9720401B2.pdf")) && existsSync(join(ROOT, "docs/patents/US10768609B2.pdf")));
+});
+
+// This task's owner-approved freeze is separate from historical publication custody.
+test('the repository root README retains its approved frozen bytes',()=>{
+ const bytes=readFileSync(join(ROOT,'README.md'));
+ assert.equal(createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'),'a035956dd9487c936e3d1c7787e7b684ec68ed1e');
 });

@@ -4,12 +4,12 @@
     "packetId": "PACKET-BRACKET-SET-0001",
     "demandHash": "8b67baf7e25ac342ec77a3c23abf21731d8549357f0352d90cfff43deef7033f",
     "manifestHash": "4fa11ec139c0e4d7a87a76b3e78c17bea71b09a4900582d78b62b50a187140b7",
-    "packetHash": "f044c2940f8bf0d3cf629c282e8718154b17577e613f8cdffabf13a31a6f5d7b",
+    "packetHash": "8f7f3e445d6d32be68f5cdba679bf844e4693d44923536aca84d19e155bd132e",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
-    "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
-    "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-    "localJobHash": "e1e8d249c3a03ba8e4fbbff0168fbfed1fd506486bd91835c7ec4501d50082bf",
-    "motionHash": "2667741fdacdde9ffe2bb03da2c165f5c7fa4bf655454cd0dd7ec89918640fb6"
+    "machineConfigHash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df",
+    "modelHash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
+    "localJobHash": "ee52908094c0e0d881de2b8b0ee5306bceb2f530079a01e4691096598ccd1439",
+    "motionHash": "80322ec0db9bf4624ee097ef9ed607e3e031e12d5998ba70c8c4052efcd09176"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "physicalAuthority": false,

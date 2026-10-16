@@ -1640,7 +1640,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -2501,8 +2501,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -2515,21 +2515,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+          "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
         }
       },
       "decision": {
@@ -4186,7 +4186,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -5047,8 +5047,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -5061,21 +5061,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+          "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
         }
       },
       "decision": {
@@ -6732,7 +6732,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -7593,8 +7593,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -7607,21 +7607,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+          "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
         }
       },
       "decision": {
@@ -9278,7 +9278,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -10139,8 +10139,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -10153,21 +10153,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+          "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
         }
       },
       "decision": {
@@ -11824,7 +11824,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -12685,8 +12685,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -12699,21 +12699,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+          "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
         }
       },
       "decision": {
@@ -14370,7 +14370,7 @@
         },
         "model": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
           "basis": "DECLARED_REFERENCE_MODEL",
           "measured": false
         },
@@ -15231,8 +15231,8 @@
           }
         ],
         "calculationIdentity": {
-          "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-          "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+          "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+          "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
         },
         "freshEvaluation": true,
         "evaluationReceipt": {
@@ -15245,21 +15245,21 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "SUPPORTABLE",
           "calculationIdentity": {
-            "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-            "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+            "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+            "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
           },
-          "receiptHash": "3edb702ceb521359d3412f95361fa115ab6e26ac15d88bc1ca74f05fbb65fe08"
+          "receiptHash": "e14264da94051bb7b8691e1d8719afea36a4eb49c4f6468986d0a83d624ddb82"
         }
       },
       "decision": {
@@ -15394,18 +15394,18 @@
             "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
             "manufacturingModel": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+              "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
             },
             "machineConfiguration": {
               "id": "STORE-MANUFACTURING-CORE-0.1",
-              "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+              "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
             }
           },
           "demandHash": "069218c8024bd6ace06f5e645081c63fa7ae325c7bb2a5a3821c9dd84cadaa6e",
           "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
           "status": "REFUSED",
           "calculationIdentity": null,
-          "receiptHash": "8d99897884d79f903cfaf94453c6a8f9d475b9fbfa6da78f478a03a38fc999ae"
+          "receiptHash": "22a1aeaa92e6027c682c7e8cac815fbe5a8ae19593f893c8f1bb2bac38cb30a7"
         }
       },
       "decision": {
