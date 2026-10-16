@@ -99,7 +99,11 @@ test('D-001 registered 3/16-in pointed-drill spot is never modeled deeper than i
  const spotDrillZ=shortened.operations.filter(e=>e.kind==='MOVE'&&e.axis==='Z'&&e.category==='SPOT'&&e.subject==='SPOT-1'&&e.target<parent.actualT);
  assert.equal(spotDrillZ.length,1);
  assert.ok(Math.abs(spotDrillZ[0].target-(parent.actualT-pointHeight-0.125))<1e-9);
- assert.ok(shortened.time.totalSeconds < answer.time.totalSeconds,'per-feature depth must alter actual modeled cycle time');
+ const defaultDepthMove=answer.operations.find(e=>e.kind==='MOVE'&&e.axis==='Z'&&e.category==='SPOT'&&e.subject==='SPOT-1'&&e.target<parent.actualT);
+ assert.ok(defaultDepthMove,'the default depth must produce a modeled plunge');
+ assert.ok(spotDrillZ[0].seconds < defaultDepthMove.seconds,
+   'the shallower plunge must be shorter even when the selected X changes indexed travel time');
+ assert.notEqual(shortened.time.totalSeconds,answer.time.totalSeconds,'changing the job must recalculate whole-job timing');
  assert.notEqual(shortened.calculationIdentity.resultHash,answer.calculationIdentity.resultHash);
  const invalidLocation=structuredClone(shallower);
  invalidLocation.parts[0].features[0].xIn=0;
