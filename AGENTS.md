@@ -4,12 +4,16 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 
 ## Objective and method
 
+*Authority category: Current System Behavior*
+
 1. **Repair the underlying implementation, preserving the intended objective.** Reproduce the actual defect, locate the one responsible evaluator/request/contract, correct its cause and prove that the complete job and unfavorable cases still work. Never introduce a hidden fallback, test-only price, partial work claim or special project-shaped path for a green result.
 2. **Leave no unnecessary replacement code behind.** Before introducing an implementation or test, find the existing owner. Retire its genuinely superseded path and duplicate assertions in the same verified change. Keep distinct invariants and original evidence. No parallel evaluator or second price/receipt authority.
 3. Work on **`main` only**, with fast-forward, truthful incremental commits. No task branches, force pushes, new repositories, silent pin changes or changes in other repos without explicit authorization.
 4. Record the objective, changed executable behavior, deleted artifacts, before/after measurement and test evidence. An unexplained change to selected stock, machine events, inventory or Q is a defect, not an optimization.
 
 ## Source-of-truth map
+
+*Authority category: Current System Behavior*
 
 | Function | Authoritative executable source |
 | --- | --- |
@@ -31,9 +35,13 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 
 ## Current integrated proof
 
-Project 1 is a living end-to-end acceptance proof. Every consequential implementation change reconciles the operative specification, both technical masters, shared definitions, affected Program documents and current proof. Run `npm run build:examples`; current JSON/Markdown evidence must exactly match current executable source and catalog. System must repin the inspected Store and pass actual published-browser acceptance, packet export, lowering and virtual replay. Original sealed source evidence remains immutable provenance and cannot substitute for current proof. Operative prose describes current behavior in present tense; repair chronology belongs in Git and verification logs.
+*Authority category: Current System Behavior*
+
+Current executable contracts and verified outputs govern descriptions of installed behavior. The original Project 1 publication is historical evidence, not architectural authority. Regenerated reference evidence and revision-bound browser runs demonstrate current behavior for their identified inputs; they do not define that behavior. Consequential changes require affected specifications, masters, shared definitions, Program descriptions and current acceptance evidence to agree. Preserve sealed source bytes and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
 
 ## Unbreakable boundaries
+
+*Authority category: Current System Behavior*
 
 - One Store request layer, one catalog, one manufacturing planner, one Q and occupied-time ledger, one receipt authority and one machine-evidence route. The service is a transport; evaluators do not issue receipts, contact the network, read a clock or inspect the environment. `acceptance/boundaries/boundaries.test.mjs` enforces these boundaries.
 - System defines the customer job. Store evaluates neutral parts, stock and tools; **never import System, a project name, a tile-specific surrogate or legacy Store code** into runtime evaluation. Missing material/grade/geometry/operation facts remain missing; no selected requirement can disappear.
@@ -44,6 +52,8 @@ Project 1 is a living end-to-end acceptance proof. Every consequential implement
 - Do not modify issued patents, sealed Project 1 files, their identity manifests, recorded historical answers or replay fixtures to satisfy a current test. Preserve original claims, original revision identities and Git history. **NO BLOOD ON WOOD.**
 
 ## Verification and publishing
+
+*Authority category: Current System Behavior*
 
 Run `npm run check:catalog`, `npm test` and `node scripts/benchmark-evaluation.mjs` on Node 22; the existing `.github/workflows/acceptance.yml` runs all three. For a source cleanup, demonstrate consumers are absent and surviving boundaries/tests remain representative; deleting an old test is warranted only when its implementation is also retired or the invariant is independently covered. A performance improvement needs measured before/after data and identical manufacturing facts.
 

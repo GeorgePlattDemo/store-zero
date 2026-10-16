@@ -8,9 +8,9 @@ Store Zero connects a customer's defined woodwork to the material and processing
 
 The current working software makes that proposition inspectable. All three manufacturing definition classes reach one Store-owned engine. It searches complete feasible parent-stock plans, retains component and feature coverage, sequences declared work, accounts for handling and tool movement, and calculates Q from material, hardware, hourly service and separately charged panel cuts. A manifest independent of the translated demand prevents a dropped requirement from disappearing into a favorable answer. Receipts bind the answer to demand, manifest, Store release, catalog and model. Accepted packets preserve that same chain; verification reevaluates rather than trusting a saved amount.
 
-Current machine evidence is a **modeled operation ledger**, schema `STB-MODELED-OPERATIONS-1`, with evidence class `PREDICTED_OCCUPANCY_ONLY`. Its replay checks identity, sequencing, dimensional moves, tool engagement and the time already priced by Store. It does not constitute a commissioned controller program. The preserved Project 1 package contains a separate, more detailed **45-command controller-oriented virtual sequence**, generated Structured Text and a locally executed reference model. Its original $11.09 answer and 85.5001-second Store time remain historical evidence. The adopted-core equivalent is a separate $10.81 evaluation with 86.46953628299116 seconds of modeled occupancy.
+Current machine evidence is a **modeled operation ledger**, schema `STB-MODELED-OPERATIONS-1`, with evidence class `PREDICTED_OCCUPANCY_ONLY`. Its replay checks identity, sequencing, dimensional moves, tool engagement and the time already priced by Store. It does not constitute a commissioned controller program. The original Project 1 controller-oriented package is historical evidence. Current integration acceptance and generated reference files are separate from that publication; neither specimen defines the runtime architecture.
 
-The commercial chain preserves the same identities through answer, seller offer, customer decision, order, financial state, material allocation, release, execution, inspection, staging and custody. These are separate source-owned decisions. The shared executable gate records and verifies simulated evidence; Job 1 explicitly enables a demo seller policy. A click or calculation does not establish physical inventory commitment, payment or inspected components.
+The commercial chain preserves the same identities through answer, seller offer, customer decision, order, financial state, material allocation, release, execution, inspection, staging and custody. These are separate source-owned decisions. The shared executable gate records and verifies simulated evidence; All five projects explicitly enable a demo seller policy. A click or calculation does not establish physical inventory commitment, payment or inspected components.
 
 The proposed supervised laboratory will establish the physical link: measured fence and support references, retained-face and kerf transforms, stock contact and restraint, actual movement, qualified tools, controller behavior, protective functions and independently inspected output. It will compare the complete service burden and operating cost with existing alternatives. The present software supplies defined inquiries, plans, numbers, identities and refusals against which that work can be tested. **Define it once; nobody downstream should have to redraw it.**
 
@@ -18,7 +18,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
 
 <!-- TOC START -->
 - [1. Source record and authority](#1-source-record-and-authority)
-  - [1.1 Frozen repository revisions](#11-frozen-repository-revisions)
+  - [1.1 Current executable authority](#11-current-executable-authority)
   - [1.2 Registered versions and identity rules](#12-registered-versions-and-identity-rules)
   - [1.3 Reading and verification basis](#13-reading-and-verification-basis)
   - [1.4 Owners and the single answer path](#14-owners-and-the-single-answer-path)
@@ -85,7 +85,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [7.8 Historical virtual timing reconciliation](#78-historical-virtual-timing-reconciliation)
   - [7.9 Contact face and stroke findings](#79-contact-face-and-stroke-findings)
   - [7.10 Reproduction and fourteen checks](#710-reproduction-and-fourteen-checks)
-  - [7.11 Separate current adopted-core evaluation](#711-separate-current-adopted-core-evaluation)
+  - [7.11 Separate current adopted-core comparison](#711-separate-current-adopted-core-comparison)
   - [7.12 Transaction handoffs and resulting record](#712-transaction-handoffs-and-resulting-record)
 - [8. Five current public project paths](#8-five-current-public-project-paths)
   - [8.1 Exact inquiry and evaluation basis](#81-exact-inquiry-and-evaluation-basis)
@@ -111,17 +111,9 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [10.5 Allocation issue release and local admission](#105-allocation-issue-release-and-local-admission)
   - [10.6 Execution inspection staging and handoff](#106-execution-inspection-staging-and-handoff)
   - [10.7 Idempotency hash chains and concurrency](#107-idempotency-hash-chains-and-concurrency)
-  - [10.8 Job 1 demo and other pending flows](#108-job-1-demo-and-other-pending-flows)
+  - [10.8 Shared five-project simulation policy](#108-shared-five-project-simulation-policy)
   - [10.9 Intended workflow and executable limits](#109-intended-workflow-and-executable-limits)
   - [10.10 Complete commercial design map and source context](#1010-complete-commercial-design-map-and-source-context)
-    - [Original design section 1. Ownership and the point of connection](#original-design-section-1-ownership-and-the-point-of-connection)
-    - [Original design section 2. Adopted implementation](#original-design-section-2-adopted-implementation)
-    - [Original design section 3. Reusable commercial sequence](#original-design-section-3-reusable-commercial-sequence)
-    - [Original design section 4. Linked material, execution, and custody sequence](#original-design-section-4-linked-material-execution-and-custody-sequence)
-    - [Original design section 5. Common record envelope](#original-design-section-5-common-record-envelope)
-    - [Original design section 6. Price, time, and exceptions](#original-design-section-6-price-time-and-exceptions)
-    - [Original design section 7. Specific integration surfaces and remaining decisions](#original-design-section-7-specific-integration-surfaces-and-remaining-decisions)
-    - [Original design section 8. Sources and verification of this delivery](#original-design-section-8-sources-and-verification-of-this-delivery)
 - [11. Refusal interruption and recovery](#11-refusal-interruption-and-recovery)
   - [11.1 Current result states](#111-current-result-states)
   - [11.2 Admission and manufacturing reason register](#112-admission-and-manufacturing-reason-register)
@@ -144,35 +136,35 @@ The proposed supervised laboratory will establish the physical link: measured fe
 - [14. Exact source and verification register](#14-exact-source-and-verification-register)
   - [14.1 Store runtime source register](#141-store-runtime-source-register)
   - [14.2 System handoff source register](#142-system-handoff-source-register)
-  - [14.3 Program and historical source register](#143-program-and-historical-source-register)
+  - [14.3 Historical Evidence — original source inventory](#143-historical-evidence--original-source-inventory)
   - [14.4 Content identities](#144-content-identities)
   - [14.5 Reproduction commands and verification results](#145-reproduction-commands-and-verification-results)
-- [15. Historical reconciliation and consolidation appendix](#15-historical-reconciliation-and-consolidation-appendix)
+- [15. Evidence custody and development limits](#15-evidence-custody-and-development-limits)
   - [15.1 Architectural migration](#151-architectural-migration)
   - [15.2 Audit issues and resolution status](#152-audit-issues-and-resolution-status)
   - [15.3 Additional source discrepancies](#153-additional-source-discrepancies)
   - [15.4 Protected evidence and future consolidation](#154-protected-evidence-and-future-consolidation)
   - [15.5 Master completion and navigation checks](#155-master-completion-and-navigation-checks)
   - [15.6 Subsequent permanent preservation and repository disposition](#156-subsequent-permanent-preservation-and-repository-disposition)
+  - [15.7 Future Work — capability-impact engine](#157-future-work--capability-impact-engine)
+- [16. Historical Evidence — superseded Outdoor specimen](#16-historical-evidence--superseded-outdoor-specimen)
 <!-- TOC END -->
 
 ## 1. Source record and authority
 
-### 1.1 Frozen repository revisions
+*Authority category: Current System Behavior*
 
-The source register below preserves the original audit baseline. Current executable owners are the files in this repository and System; System's `STORE_CANDIDATE`, browser configuration, CI checkout and startup declaration jointly identify the exact inspected Store commit. Current Project 1 evidence binds the current executable source digest. A frozen source link establishes provenance, not an active runtime selection.
+### 1.1 Current executable authority
 
-| Owner | Repository | Frozen source revision | Movement since audit |
-| --- | --- | --- | --- |
-| Store | [GeorgePlattDemo/store-zero](https://github.com/GeorgePlattDemo/store-zero/tree/f7123a73c1ca60aa7eb180a86a1c365eaffe95db) | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | None before writing |
-| System | [GeorgePlattDemo/new-system](https://github.com/GeorgePlattDemo/new-system/tree/ab09777d6f27d4b70a2193abc8564ebce611746f) | `ab09777d6f27d4b70a2193abc8564ebce611746f` | None |
-| Program | [GeorgePlattDemo/3d-solutions-program](https://github.com/GeorgePlattDemo/3d-solutions-program/tree/04ec327df39a54e92aae65ef4b07d10f2c8a8985) | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | None |
+*Authority category: Current System Behavior*
 
-The primary reconciliation input is *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md*, including its 34-document inventory, all-claim correspondence, source checks and ten ordered repair groups. Its findings were checked against the frozen code and original evidence. A historical statement in the audit is not made current merely by appearing here.
+Store's executable source and contracts govern current manufacturing behavior. System records the inspected Store commit in its candidate, browser runtime, CI checkout and local startup declarations. The deployed Store is `3f813fe060f1eff46a1b3cfdad1ad41465d230e0` at [store-zero-candidate](https://store-zero-candidate-production.up.railway.app/health); its `/health` response supplies the release and shipped-source digest.
 
-This master is the consolidated explanation. Enforceable behavior remains in the [operative specification](docs/STORE-ZERO-SPECIFICATION.md), contracts and executable source; [System definitions](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) govern shared meaning. The commercial design map is owned by [System](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md), and its executable gate is shared byte-for-byte. Original immutable source links below preserve the prior baseline; they are not declarations that a retired file remains active.
+Current executable contracts and verified outputs govern descriptions of installed behavior. The original Project 1 publication is historical evidence, not architectural authority. Regenerated reference evidence and revision-bound browser runs demonstrate current behavior for their identified inputs; they do not define that behavior. Consequential changes require affected specifications, masters, shared definitions, Program descriptions and current acceptance evidence to agree. Preserve sealed source bytes and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
 
 ### 1.2 Registered versions and identity rules
+
+*Authority category: Current System Behavior*
 
 | Surface | Exact installed identifier | Source |
 | --- | --- | --- |
@@ -198,11 +190,15 @@ Version labels identify a declared surface; content hashes establish which bytes
 
 ### 1.3 Reading and verification basis
 
-The source base includes the current operative specification; the complete 31,684-word archived specification; issued grants, claim sets and all nine drawing sheets; the Project 1 manuscript and Word presentation; the ZIP source identities, generator, controller reference and generated records; current engine and independent checks; catalog and source sheets; request, packet, machine and commercial contracts; service transport; fixtures and acceptance records. Corresponding System translation, manifest, interpretation, acceptance and public definition generators supply the cross-repository explanation. Program's current evidence and laboratory trial supply the research and physical-validation context.
+*Authority category: Current System Behavior*
 
-The preserved Word review has 158 paragraphs and 20 tables. Its manuscript, publication identities and rendered 22-page presentation were available for comparison. The original evidence is preserved; running reproduction occurs only in an extracted working copy. Both issued patent checksums pass. Baseline catalog validation and all 87 Store tests pass on **Node 22.23.3**. Detailed final verification and numerical rechecks are recorded in Chapter 14.
+Current verification reads executable source, catalog and registered model, request/packet/machine/commercial contracts, independent checks, generated examples and current integration proofs. System's public definition generators, translator and manifest supply the actual requests; Program owns research and proposed physical validation.
+
+Historical patents, original Project 1 manuscript/Word/ZIP and migration recordings retain their exact hashes. Tests check those immutable records separately from current results. A historical reproduction proves its recorded revision; current acceptance proves only its identified implementation and inputs.
 
 ### 1.4 Owners and the single answer path
+
+*Authority category: Current System Behavior*
 
 | Owner | Adds authoritative facts | Does not acquire authority by receiving a record |
 | --- | --- | --- |
@@ -232,7 +228,11 @@ Only Store's request layer issues the receipt. Discovery has its own bounded ret
 
 ## 2. Invention and issued patents
 
+*Authority category: Current System Behavior*
+
 ### 2.1 The manufacturing architecture
+
+*Authority category: Current System Behavior*
 
 [US 9,720,401 B2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US9720401B2.pdf), issued 1 August 2017, and [US 10,768,609 B2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/patents/US10768609B2.pdf), issued 8 September 2020, share the title *Method and System for Consumer Home Projects Ordering and Fabrication*. The latter identifies itself as a continuation of application 14/094,074 filed 2 December 2013, which became the first grant. Each issued claim set is read independently; a common disclosure does not make the claims identical.
 
@@ -243,6 +243,8 @@ Dimensional and sheet processing form two cooperating material streams. A partic
 The patent disclosure also discusses custom tools, supplier or special-order merchants, optional delivery and assembly, contractor use and local service economics. Those are disclosed possibilities. Store's current fixed tool, declared inventory and bounded operation vocabulary determine what this implementation actually answers. A patent's examples of savings or commercial benefit are propositions; current Q is a declared calculation and the laboratory trial will measure the complete service.
 
 ### 2.2 Figures and disclosed machine modes
+
+*Authority category: Historical Evidence*
 
 The drawings in both grants are schematic and explicitly not a dimensioned fabrication drawing. The figure numbers are the drawing-sheet labels, not PDF page indices.
 
@@ -262,6 +264,8 @@ In disclosed sheet **mode 1**, operator panel settings control straight cuts. In
 
 ### 2.3 Evidence configurations compared
 
+*Authority category: Historical Evidence*
+
 | Configuration | Dimensional arrangement | Sheet arrangement | Evidence stage |
 | --- | --- | --- | --- |
 | Issued disclosure and claims | Support/fence, manipulating and clamping rollers, saw(s), rigid ways and tool heads; illustrated preferred arrangement has three manipulating rollers | Backing/support, rollers, yokes, rails and moveable tooling platform with disclosed modes | Issued text and schematic disclosure |
@@ -272,6 +276,8 @@ In disclosed sheet **mode 1**, operator panel settings control straight cuts. In
 These arrangements cannot be exchanged merely because they use similar tooling words. The adopted core does not have the archived separate right-saw batch path. The laboratory's future station locations and signed-angle transforms must come from its released engineering record. The patents do not supply the core's hourly rate, feed constants, 24-inch screen or tab policy.
 
 ### 2.4 Current correspondence evidence keys
+
+*Authority category: Historical Evidence*
 
 The matrices below describe engineering correspondence to issued functions. Each dependent claim includes its inherited limitations. A successful price or hardware test demonstrates that function under its proof scope; it does not establish the full inherited apparatus or method. The issued PDF controls the claim wording.
 
@@ -285,6 +291,8 @@ The matrices below describe engineering correspondence to issued functions. Each
 | H | [Original Project 1 manuscript](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), DOCX, ZIP, seven pinned sources and fourteen reference checks; [historical acceptance](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/project-1.test.mjs) |
 
 ### 2.5 US 9720401 B2 claims 1 through 18
+
+*Authority category: Historical Evidence*
 
 Claim text appears on PDF pages 30–33, printed columns 40–46. Parent is the **immediate** dependency.
 
@@ -311,6 +319,8 @@ Claim text appears on PDF pages 30–33, printed columns 40–46. Parent is the 
 
 ### 2.6 US 10768609 B2 claims 1 through 15
 
+*Authority category: Historical Evidence*
+
 Claim text appears on PDF pages 31–33, printed columns 40–44. Claim 1 includes both manufacturing families, fore/aft dimensional end work, sheet curvilinear work and the detailed sheet apparatus.
 
 | Claim | Parent | Issued function or combination in plain language | Current correspondence | Physical requirement and evidence stage |
@@ -333,13 +343,19 @@ Claim text appears on PDF pages 31–33, printed columns 40–44. Claim 1 includ
 
 ### 2.7 Registered engineering and per-order preparation
 
+*Authority category: Current System Behavior*
+
 The disclosed dimensional embodiment places drilling and routing heads on known ways so moving stock can bring features to those tools without installing different heads for routine work. This supports the engineering rationale for reusable station registration. Some issued combinations separately include tool-head changes. Current fixed-tool capability is a chosen narrower operating model, not a reinterpretation of those limitations.
 
 A supported definition provides part geometry, operation and feature identities. Store supplies stock and the evaluated processing plan. Local registration supplies actual machine references, tools, signs, offsets, travel limits, controller mapping and readiness. When those mappings are qualified, software can generate per-job instructions from the definition. Eliminating a professional's ordinary per-order preparation does not eliminate the professional work of building and qualifying the mapping. Unknown capture geometry, unsupported features and invalid physical references must still be resolved or refused.
 
 ## 3. The complete System-to-Store boundary
 
+*Authority category: Current System Behavior*
+
 ### 3.1 Idea Intent and Bench
+
+*Authority category: Current System Behavior*
 
 Idea carries source material, observations and the customer's intended result. Intent establishes which facts control the job and which wood/tools or requirements are selected. The Bench changes identified values under a project rule and exposes their resulting components and features. The six customer steps begin at Intent; Idea is intake. Those UI steps are System-owned, not Store request types.
 
@@ -348,6 +364,8 @@ A project may use a named derivation such as the X-brace rule, the Window Seat e
 System's public pages use an outer `stb-store-zero-http/1` page wire carrying attempt, project, revision, scope and payload identities. The server [published-wire translator](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts) maps that wire to Store's protocol 2 request. These are distinct protocol layers. The server's [inspected Store pin](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store-candidate.ts) governs; a caller-supplied different pin is rejected with `CALLER_PIN_DOES_NOT_GOVERN`.
 
 ### 3.2 Three definition classes and discovery
+
+*Authority category: Current System Behavior*
 
 | Store request type | Meaning and conversion | Important constraints |
 | --- | --- | --- |
@@ -360,6 +378,8 @@ System's public pages use an outer `stb-store-zero-http/1` page wire carrying at
 
 ### 3.3 Protocol 2 admission
 
+*Authority category: Current System Behavior*
+
 The formal job request has exactly four top-level fields: `requestType`, `requestId`, `demand`, `manifest`. Request type and inquiry identity must be valid. Machine-local `spline`, `toolpath`, `gcode`, `controller` or `servoSteps` in the demand are refused. Unknown fields are not ignored. A prior answer, receipt, release or evaluation timestamp cannot be submitted as authority.
 
 The [shape checker](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/shape.mjs) checks declared JSON types and unknown nested fields. It treats null or absent values as unsupplied; completeness is checked in the core. A numeric-looking string from a UI may be explicitly converted by System before Store submission; Store's contract does not accept that string as a finite number. The same distinction applies to whole quantities.
@@ -367,6 +387,8 @@ The [shape checker](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/
 A missing independent manifest fails before engine execution: `UNRESOLVED`, `INDEPENDENT_SYSTEM_MANIFEST_REQUIRED`, `freshEvaluation:false`, null calculation identity and null receipt. A clean request that reaches the engine can still receive a refusal, unresolved result or unavailable result with a **fresh evaluation receipt**. The receipt identifies that evaluation; it does not guarantee supportability.
 
 ### 3.4 Independent complete manifest
+
+*Authority category: Current System Behavior*
 
 System constructs the manifest from the controlling definition before published-wire translation. Store does not create it from whatever happens to arrive after translation. The core checks coverage again after planning. These two comparisons connect original requirements to consumed demand and fulfilled work.
 
@@ -384,6 +406,8 @@ Set equality ignores list order but rejects duplicated identities; meaningful pa
 A manifest proves coverage of what System listed. It cannot prove that System identified every physical installation requirement correctly. For Alcove, a spot summary contradictory to component spots is retained as an unresolved requirement. For Outdoor, the datum correspondence remains a source-meaning issue even when the transmitted manifest is complete.
 
 ### 3.5 Complete board request example
+
+*Authority category: Current System Behavior*
 
 The following runnable protocol 2 example states the Start Your Own 16-inch SPF demand. Its inquiry identity `MASTER-SYO-16` is an example identity; dimensions and required operations reproduce the current declared calculation. System remains the runtime issuer of the manifest. This example uses the public-page geometry and omits the redundant end-identity string.
 
@@ -424,6 +448,8 @@ This inquiry calls the registered core through the sole request layer and return
 
 ### 3.6 Cut and sheet contracts
 
+*Authority category: Current System Behavior*
+
 A cut package contains `packageId`, `material`, `endCut`, and nonempty `parts`. Material names species, form `board`, positive nominal thickness and width, and grade when required by offered choices. Square work states `angleDeg:0`; omission is not square. Angled work states angle 0–45, `endRelation:parallel`, `lengthDatum:long-long-outer-edge`, `plane:miter-face`. Finished width must be positive and compatible with actual stock. Two-edge preparation states both positive removals and finished width; Store validates their sum against actual width.
 
 Each part names `partId`, positive `lengthIn`, and optional `spots` and `edgeProfiles`. Spots carry identity, longitudinal coordinate and centered/inset placement, with optional exact diameter/depth constraints. Profiles carry identity, `MILL_LONGITUDINAL_PROFILE`, path length, Y and total depth. A source-specific profile is fulfilled by whole-parent edge preparation only when its path, prepared width and through depth agree exactly under the code's tolerance.
@@ -436,6 +462,8 @@ Complete committed input examples are [cut package](https://github.com/GeorgePla
 
 ### 3.7 Answer receipt and transport
 
+*Authority category: Current System Behavior*
+
 A supportable current answer includes `status`, `complete`, `configurationId/version`, `jobId/revision`, `Q`, `totals`, `time`, `selectedStock`, `parents`, `operations`, `optimization`, `model`, physical release/admission fields, physical gaps, coverage, packages/items/pieces/components/labels, calculation identity, `freshEvaluation` and receipt. Aliases are presentation projections of the same evaluated plans, not competing calculations.
 
 `totals` separates material, hardware, hourly `machine_service`, `manual_cut_service`, total Q, manual cut count and hourly rate. `time` carries total seconds/minutes/hours, hourly-billed seconds, fixed-price occupied seconds, category sums and `SERIAL_OCCUPANCY`. Selected stock carries requested quantities, declared available and remaining quantities, dimensions, unit price and offering capability labels. A selection is not an inventory mutation.
@@ -446,16 +474,21 @@ HTTP `POST /v1/requests` wraps the answer in `protocol`, `storeRelease`, raw-byt
 
 ### 3.8 Revision custody and accepted packets
 
+*Authority category: Current System Behavior*
+
 System retains supplied facts, derivation trace, revision, sent bytes, attempts, received response, decision and packet separately. Editing the definition invalidates current-answer use; the earlier answer remains history. Delayed replies must match their original attempt and revision. Reopening an owner record restores its definition and history, not a current price by assertion.
 
 An accepted packet carries schema 2, packet/project identity, definition ID/revision/type/demand/**manifest**/requirements, unchanged Store answer, accepted simulated decision with offer/time identity, and false physical release. Packet definition revision is the owner-record revision; demand `configurationVersion` is the manufacturing configuration revision. They can differ and are carried as separate identities. Store checks demand-manifest configuration identity and receipt binding; System binds its saved decision to the owner revision.
 
 Packet verification rejects malformed, altered, foreign or temporally inconsistent content, and freshly evaluates the same demand and manifest. An edited answer under an unchanged calculation identity is refused. An intact answer whose current calculation/authority changed is stale and must be requoted. Verification establishes consistency, not actor authentication. Detailed packet checks and replay are in Chapter 9; commercial offer/order authority is in Chapter 10.
 
-
 ## 4. Store-owned catalog and inventory
 
+*Authority category: Current System Behavior*
+
 ### 4.1 Catalog identity and provenance
+
+*Authority category: Current System Behavior*
 
 The runtime reads [data/store-zero-catalog.json](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/store-zero-catalog.json), validates it, and hashes its entire canonical JSON value for every inquiry. This is the callable supply record, not a live warehouse integration. Its `documentKind` is `StoreZeroCallableCatalog`, stage is 2, declared clock is `2026-09-10`, and price rule is `SZ-MARK-ON-5`. The frozen record contains **183 offerings: 137 boards, 9 sheets and 37 hardware lines**. The clock is metadata carried by this record, not the date on which every source price was observed. Later source CSV filenames carry 2026-09-26; their dates must not be used to relabel the runtime catalog.
 
@@ -473,6 +506,8 @@ The stock language is explicitly **fixture-declared on-hand stock — not a phys
 
 ### 4.2 Board material categories
 
+*Authority category: Current System Behavior*
+
 The board register represents SPF construction stock, treated southern yellow pine, pine/select boards, and the additional species/grades explicitly listed below. The engine matches **species, board form, nominal thickness and nominal width exactly**; grade is exact when specified. It processes the actual width/thickness on the selected row. Nominal 2×4 therefore means the row's actual 1.5×3.5 inches, not a 2×4-inch solid. Nominal 1×8 pine uses 0.75×7.25 inches. Changing nominal width changes material candidates, actual cutting width, potential preparation and price.
 
 Board parents may have different offered lengths and costs. A definition can require a minimum parent length; it does not thereby force Store to buy that exact length. `USER_DEFINED_BOARD_V1` requires all its parts from one parent in the stated order. Cut packages normally allow several parents and deterministic longest-first part ordering. Store pays the **whole selected parent price**, including the retained end and unused material. There is no automatic remnant credit or reuse in this model.
@@ -483,6 +518,8 @@ A blank grade is not permission for Store to choose among materially different o
 
 ### 4.3 Sheet and hardware categories
 
+*Authority category: Current System Behavior*
+
 Sheet rows cover the declared thickness/species/grade combinations in the register. The adopted S-001 model accepts 96×48-inch parents and thickness from 0.25 to 0.75 inches. The parent size is distinct from the smaller 48×36-inch registered router field. A sheet definition can name species and grade; absent those, multiple offered species/grade combinations yield `SHEET_MATERIAL_CHOICE_REQUIRED`. The default Playhouse inquiry matches the frozen 0.5-inch pine sheet, priced at $26.55. An exterior-rating request additionally requires an eligible catalog grade containing the exterior designation; missing evidence yields `EXTERIOR_RATING_NOT_ESTABLISHED`, rather than a fabricated exterior approval.
 
 Hardware supports three selector forms: an exact Store SKU, a functional `requirementId` such as `ALCOVE-PINS-AND-SCREWS`, or a structured fastener requirement. Structured selection distinguishes wood screw #8, wood screw #10, and 3/8-inch carriage bolt/nut/washer assemblies; it matches length and finish exactly. Finish tiers map to coated, hot-dip-galvanized, stainless, silicon-bronze or zinc-interior. An unstructured historical hardware row can be purchased by exact SKU or its registered functional requirement but cannot acquire missing semantic fastener facts by inference.
@@ -492,6 +529,8 @@ A structured requirement's quantity is a number of pieces. Store pools identical
 Catalog `treatedLumberRated` and attribution fields provide compatibility evidence. The engine does not independently prove an exposure-specific corrosion rule merely because a row has such a flag. The customer's required finish, the seller's compatibility admission and physical material acceptance must state the appropriate rule. The Outdoor default explicitly requests coated screws. This is its encoded selection, not a general recommendation for every treated-lumber environment.
 
 ### 4.4 Eligibility and supply decisions
+
+*Authority category: Current System Behavior*
 
 **Owner-directed correction, 2026-10-13.** `D001-STOCKED-WOOD-MILLING-2026-10-13` makes longitudinal milling available for every offered board species and grade inside the registered router section envelope. It adds the implemented operation to 65 offering declarations that omitted it; stock quantities, prices, dimensions and all other operations are unchanged. The frozen register in §4.6 remains the identified earlier catalog snapshot. Current inquiry receipts hash the revised runtime catalog. This declaration makes no claim of commissioned material-specific feeds or physical performance.
 
@@ -511,14 +550,17 @@ An offering's `supportedOps` is necessary supply metadata, not proof that the en
 
 ### 4.5 Discovery and attribution
 
+*Authority category: Current System Behavior*
+
 `OFFERING_LOOKUP` is discovery, not a manufacturing job, and accepts no manifest. An exact SKU query asks for a row; a search query asks for potential offerings. Search text is limited to 80 characters and results to 20. Text normalization handles case and dimension separators such as `×` and `x`; punctuation/space tokenization and hyphen-derived tokens are applied by [offering-lookup.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/offering-lookup.mjs). Rank is exact SKU, SKU prefix, then all-token text match. Ties retain catalog order. Only offered rows appear.
 
 A search finding several candidates does not mean one material has been chosen. The answer identifies the catalog hash, release and evaluation time and includes mapped/observed/calculated assertion provenance. It carries no evaluated-job receipt. System owns turning a customer's selection into an exact manufacturing requirement, and a subsequent Store inquiry evaluates that full definition afresh.
 
 ### 4.6 Complete SKU register
 
-This is the frozen runtime register, generated directly from the 183 catalog rows. Dimensions are inches. Board dimensions show **actual thickness × actual width × parent length**; sheet dimensions show **thickness × sheet width × sheet length**. Price is USD per catalog unit, usually one parent or one hardware package. `H/A` means declared on-hand/allocated, not inspected yard count. All details and assertions remain independently inspectable in the commit-specific catalog linked above. The operation/cell columns preserve catalog declarations, including broader declarations that are not implemented by the current core.
+*Authority category: Current System Behavior*
 
+This is the frozen runtime register, generated directly from the 183 catalog rows. Dimensions are inches. Board dimensions show **actual thickness × actual width × parent length**; sheet dimensions show **thickness × sheet width × sheet length**. Price is USD per catalog unit, usually one parent or one hardware package. `H/A` means declared on-hand/allocated, not inspected yard count. All details and assertions remain independently inspectable in the commit-specific catalog linked above. The operation/cell columns preserve catalog declarations, including broader declarations that are not implemented by the current core.
 
 **Board offerings**
 
@@ -720,19 +762,25 @@ This is the frozen runtime register, generated directly from the 183 catalog row
 
 ## 5. Manufacturing engine from request to Q
 
+*Authority category: Current System Behavior*
+
 The sole adopted planner, occupancy calculator and Q engine is [store-manufacturing-core.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/evaluation/engine/store-manufacturing-core.mjs). The public definition validators, catalog reader and request layer guard its inputs; they are not competing estimators. The machine layer consumes its selected ledger. It does not independently invent a route or recalculate a different quote.
 
 ### 5.1 Compilation and validation
 
+*Authority category: Current System Behavior*
+
 The outer boundary admits `{requestType, requestId, demand, manifest}`. `compileDefinition` receives the first three fields and the independent manifest separately, preserving an unchanged source copy in `STORE-MANUFACTURING-JOB-1` with jobId/revision, boards, sheets and items. It normalizes the customer's established manufacturing meaning; it does not derive a second project design. Stock search and board/sheet cycle generation then produce the one manufacturing plan and its occupancy ledger. Current planning already adds nominal station-specific coordinates, so the later lowerer binds that accepted ledger rather than repeating coordinate generation or inventing another route.
 
-For a user-defined board, the compiler requires parallel ends, long-long outer-edge length, miter-face cutting, reference-cut datum establishment, a positive defined workpiece length, a nonempty part list and an empty unresolved-condition list. Only declared spot features are accepted in that class. Declared saw count must be parts plus one reference cut; spot count must equal all named spot features. It makes one atomic board package with `singleParent: true`, `preserveOrder: true`, and the required minimum parent length. A cut-package definition becomes neutral board packages and item lines. A sheet definition becomes one identified sheet package with all its features and returned-piece requirement.
+For a user-defined board, the compiler requires the registered parallel ends, long-long outer-edge length, miter-face cutting, reference-cut datum establishment, a positive defined workpiece length, a nonempty part list and an empty unresolved-condition list. Only declared spot features are accepted in that class. Declared saw count must be parts plus one reference cut; spot count must equal all named spot features. It makes one atomic board package with `singleParent: true`, `preserveOrder: true`, and the required minimum parent length. A cut-package definition becomes neutral board packages and item lines. A sheet definition becomes one identified sheet package with all its features and returned-piece requirement.
 
 Validation establishes unique, nonblank component, feature, package and item identities; positive lengths; valid integer quantities; allowed fields; complete independent manifest coverage; and absence of unhandled requirements. Equality of coverage is a set comparison, not merely equal counts. Each manifest component must be represented with its own identity/quantity. A feature cannot disappear because the planner can price the remaining lines. The engine either produces a complete whole-job result or returns a disposition without Q.
 
 Numbers must be finite JSON numbers, not text that happens to parse as a number. Undeclared data are refused rather than discarded. Consequently an extra finish, arbitrary controller instruction or unsupported geometry cannot be silently excluded from the quote. The internal canonical serializer rejects undefined/nonfinite calculation values, sorts object keys recursively and preserves array order.
 
 ### 5.2 Task grouping and operation requirements
+
+*Authority category: Current System Behavior*
 
 Board requirements are derived from geometry: square ends require `CROSSCUT`, nonzero declared face miters require `MITER_LIMITED`, named spots add `SPOT_ON_LOCATION`, and narrowing/profile requirements add `MILL_LONGITUDINAL_PROFILE`. An explicitly supplied required-operation list must be representable by those actual requirements. An additional operation with no implemented representation yields `REQUIRED_OPERATION_NOT_REPRESENTED:<operation>`.
 
@@ -742,15 +790,19 @@ Tasks run as sorted board groups, then sheet packages, then pooled hardware sele
 
 ### 5.3 Candidate eligibility
 
+*Authority category: Current System Behavior*
+
 `boardCandidates` matches material and grade, calls the catalog eligibility rules, filters dimensional envelope and minimum parent length, and evaluates the required geometry against a candidate's actual section. A material row must support all derived operations on D-001 and be able to produce at least one identified part; it need not produce every part in a mixed-length group. Every assigned parent pattern is then validated in full. Requiring every stock length to accommodate the longest part incorrectly discarded shorter stock needed for shelves. Rows sort by selling price, parent length and SKU, but that is only search order: a cheapest individual row may require more parents or more preparation and lose at whole-job cost.
 
-Before searching, Store may prove a shortage using the optimistic length capacity `sum(available parents × floor((parent length − reference kerf − minimum retained length)/(part length + kerf)))` for each required part length. If this upper bound is below the required count, the job returns `UNAVAILABLE / ON_HAND_SHORT`, with its required count and candidate stock capacity. Passing the bound does not establish a plan; tooling, features, competing parts and cumulative inventory still require complete evaluation.
+Before searching, Store may prove a shortage using the optimistic length capacity `sum(available parents × floor((parent length − reference kerf − minimum retained length)/(geometry-derived stock envelope + kerf)))` for each required part geometry. If this upper bound is below the required count, the job returns `UNAVAILABLE / ON_HAND_SHORT`, with its required count and candidate stock capacity. Passing the bound does not establish a plan; tooling, features, competing parts and cumulative inventory still require complete evaluation.
 
 Angles must be numeric and within the registered saw limit (45° in the adopted model). End relation and cut plane are independently checked against registered parallel face-miter operations. The length datum is a System-owned part fact, not an invented closed list: long-long outer-edge needs no added end offset; explicit long-point-to-short-point with its matching endpoint orientation is converted using actual stock width × tan(angle). Any unknown datum remains UNRESOLVED rather than silently treated as long-long. Every refusal contains its code and human-readable message. Square packages may omit redundant end facts. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
 
 Hardware and sheet eligibility use their own selector and model rules. The engine does not substitute a different wood grade, change a customer's fastener finish, or shrink an aperture to rescue feasibility.
 
 ### 5.4 Parent patterns and whole-job search
+
+*Authority category: Current System Behavior*
 
 Search keeps each immutable part-geometry signature once per task. Evaluation-local memo and cycle keys include C, Y, A, S, Z and RZ in fixed order, plus task, remaining parts and the applicable stock/inventory identities. Canonical hashing of definitions, results and receipts is unchanged. Neither an answer nor its receipt is cached across evaluations. Malformed nested rows return `OBJECT_REQUIRED` through both exported core entry points.
 
@@ -772,6 +824,8 @@ The default node limit is 200,000. Exhaustive completion returns the best comple
 
 ### 5.5 Ledger state and occupancy
 
+*Authority category: Current System Behavior*
+
 A dimensional state contains nominal longitudinal coordinate `C`, transverse `Y`, angle `A`, saw stroke `S`, spot `Z` and router `RZ`. Initial C/Y/A/S are zero; vertical tool clearances are established for the parent thickness. Parent transitions raise tools if necessary, then record a 36-second load/seat allowance and nominal C=0. The reference operation does not claim an encoder reset or inspected datum.
 
 Each event records `kind`, seconds, subject, parent, cell, category, billing class and relevant coordinates/tool/feature facts. Events become a single global sequence with cumulative `startSec` and `endSec`. Their summed duration is the reported occupancy. Processing allowances, loading, reference, motion, cuts, spotting, milling, release and labeling all contribute; zero-duration identity/coverage/tool-state events remain visible.
@@ -779,6 +833,8 @@ Each event records `kind`, seconds, subject, parent, cell, category, billing cla
 The complete ledger is **serial occupancy**. Even though D-001 and S-001 are separate cell families, the quote does not subtract overlap for simultaneous use. Fixed-price panel work has occupancy but belongs to a separate billing class. The engine cannot charge those same seconds again at the hourly rate.
 
 ### 5.6 Motion timing
+
+*Authority category: Current System Behavior*
 
 For a distance $d=|x_1-x_0|$, speed limit $v$ and acceleration $a$, symmetric accelerate/decelerate motion is:
 
@@ -796,6 +852,8 @@ Spot feed is $3000\times0.008=24$ in/min = 0.4 in/s. Dimensional router feed is 
 
 ### 5.7 Reference and saw operations
 
+*Authority category: Current System Behavior*
+
 The engine positions A when its target differs from current A, waits 0.1 seconds to settle, and adds a 0.25-second clamp allowance. A saw cycle records spindle on, approach S=1.5 inches at rapid 6 in/s and 24 in/s², processing through a virtual distance $W/\cos\theta$ at 3.6 in/s and the same acceleration, retract S to zero at rapid, 0.05-second off allowance and spindle off. Reference cuts use the actual parent width; part separations use the prepared width after any edge preparation.
 
 The saw-stroke coordinate is the declared **virtual width-over-cosine benchmark**. It does not establish the travel of an actual downward-moving circular blade or clearance for an apparatus. Blade center, sweep, tooth entry/exit, support and measured machine stroke require separate registration.
@@ -805,6 +863,8 @@ After each cut, the engine subtracts the nominal longitudinal kerf and records `
 For each finished part, stock indexes to C=`-lengthIn`, receives a 0.05-second position-verification allowance, records the contact screen, runs the saw cycle, subtracts length plus kerf from remaining stock, and rebases nominal C. Remaining stock must be at least 24 inches. The part geometry records modeled dimensions and named features, with result class `MODELED_COMPONENT_NOT_INSPECTED`.
 
 ### 5.8 Width preparation and profiles
+
+*Authority category: Current System Behavior*
 
 A cut package may leave actual width unchanged, specify a narrower finished width, or declare a two-edge preparation. Finished width and removals must reconcile within $10^{-6}$ inch. An explicitly declared two-edge removal is limited per side to the lesser of cutter diameter and the one-inch registered radial-removal maximum. Y travel must remain within ±14 inches. The router thickness envelope is 1.5 inches.
 
@@ -817,6 +877,8 @@ For thickness/depth $D$ and registered axial pass depth $p=0.75$, passes are `ce
 Named standalone longitudinal profiles are limited to 60 inches and the containing part length. A feature already covered by complete parent preparation must match the implemented meaning: path equals part length, Y equals finished width and depth equals stock thickness. It then receives a zero-time coverage event instead of a second milling charge. A profile that does not match that representation is refused; arbitrary profile geometry is not generalized by the feature name.
 
 ### 5.9 Spot geometry and timing
+
+*Authority category: Current System Behavior*
 
 Spots are customer-named features, not a generic hole count. Across-width rule is either centered on the prepared wide face or an allowed 1.5/2-inch inset from its edge. Centered spots cannot also carry a contradictory inset. Tool diameter and full-diameter depth, when supplied, must match the registered operation. A spot must fit within the part length by at least cutter radius at each end; an explicit longitudinal center rule also requires X=`length/2`.
 
@@ -833,6 +895,8 @@ On 1.5-inch stock, Z reaches surface 1.5, then target 1.256169316966 inches abov
 The engine constructs global longitudinal spot positions before separating parts. Part start is the sum of earlier lengths and nominal kerfs; feature X is part start plus its local spot coordinate. Features are sorted by global X and ID, then aligned using `C = 36 − globalX`. The first feature starts the spindle and applies the 0.5-second ready allowance. Every feature emits a Y MOVE, including a zero-distance move when the center remains unchanged, and receives C indexing/verification, contact screen, approach, plunge, retract and coverage. All spots precede part-separation cuts; the model never treats a released part as still controlled parent stock.
 
 ### 5.10 Sheet geometry and compensation
+
+*Authority category: Current System Behavior*
 
 An arched aperture has width $w$, straight-side height $h$ and rise $r$, with positive dimensions and $r\le w/2$. Its circular-arc radius and sweep are
 
@@ -853,6 +917,8 @@ Placement is centered on the 96×48 parent unless an admitted pattern offset sup
 
 ### 5.11 Retention tabs and split rules
 
+*Authority category: Current System Behavior*
+
 The arched center is retained by tabs. Tab locations and retention fractions use the **nominal contour perimeter** `Ptab = w + 2h + R*theta`; routing time uses the distinct compensated cutter-center perimeter in 5.10. For the default these are 129.86420307671028 and 128.0761745483586 inches respectively. One-inch bridges, at least four tabs, at least five-percent retained perimeter and no more than 24 inches of free span are declared constraints. Perimeter locations are developed distances starting at the bottom-left, then bottom, right side, arc and left side. AUTO mode begins with `max(requestedTabCount, 4, ceil(Ptab*.05/1), ceil(Ptab/(24+1)))`, then increases the count if transition or split-half retention checks fail; phase is chosen from transition residues to avoid locating bridges across geometric transitions. It can increase count through at most 64 additional attempts. The resulting tab count can exceed the customer's requested minimum.
 
 CUSTOM positions are literal developed arclengths. Count must match; positions must be finite in `[0,Ptab)`; bridges must not overlap; free spans and retained fraction must pass; and bridges must clear transitions by at least half bridge length. A center split additionally requires at least two perimeter tabs on each half with sufficient distance from the split corridor. Calling four evenly spaced points “tabs” is insufficient if one falls at a contour transition or leaves a split half uncontrolled.
@@ -863,6 +929,8 @@ Tabs are modeled retention bridges. Their strength, workholding, cutter loads, r
 
 ### 5.12 Panel cuts and returned pieces
 
+*Authority category: Current System Behavior*
+
 Panel crosscuts use distances from LEFT/RIGHT ends; rips use BOTTOM/TOP edges. Coordinates are resolved against the original parent, not a repeatedly relabeled intermediate sheet. Crosscut travel is 48 inches; rip travel is 96. A panel-saw path must clear the routed aperture by `1 + 0.25 + 0.125/2 = 1.3125` inches: declared clearance, positioning tolerance and half kerf. Cut results must remain at least six inches even under worst-case tolerance/kerf at each affected edge.
 
 Current staging does not mix crosscut and rip sequences in one job: that is `ORTHOGONAL_PANEL_STAGING_NOT_DEFINED`. The engine cannot silently choose a transfer/reorientation process it has not registered.
@@ -870,6 +938,8 @@ Current staging does not mix crosscut and rip sequences in one job: that is `ORT
 Returned piece bounds use half-kerf actual nominal cut coordinates; eligibility uses the more conservative tolerance bounds. Return-all means all panel pieces and the retained arched center, or retained split halves, are represented. The aperture center's nominal bounding width is `w - 0.5`, height `h+r-0.5`; split half width is `(w - 0.5)/2`. These are cutter-corridor-adjusted modeled bounds. Tab bridges remain in those components. There is no claim that they have been manually separated, trimmed or inspected.
 
 ### 5.13 Sheet operation time
+
+*Authority category: Current System Behavior*
 
 A routed sheet receives 120 seconds load/reference and 60 seconds release. Each contour/split pass has 10 seconds plunge/retract, centerline path divided by 60 in/min, and two seconds per tab transition. Number of passes is `ceil(thickness/0.5 - EPS)`. The timing retains the full centerline distance even through tab bridges and then adds the transition allowances; it is conservative on travel and does not subtract bridges as absent path.
 
@@ -882,11 +952,15 @@ Each costs a separately declared $10. Those occupied seconds are classified `PER
 
 ### 5.14 Hardware package selection
 
+*Authority category: Current System Behavior*
+
 For a structured selector the engine matches kind, gauge **or** diameter, positive length, finish and optional unit `piece`. It requires exactly one dimensional selector, not simultaneous gauge and diameter. Matching rows must be offered and priced. An exact SKU query is restricted to a hardware row; a functional ID must be listed in `satisfiesRequirementIds`.
 
 Identical selector lines pool their quantities. Package cost is `ceil(pieces / piecesPerPackage) * sellingPrice`; choices sort by this extended amount, then SKU. The global search enforces inventory together with board/sheet usage. An exact-SKU or functional-kit request uses its quantity directly as package count. The engine does not charge machine occupancy for merely buying hardware. Delivery, assembly and site installation are separate commercial scope.
 
 ### 5.15 Whole-job economics and rounding
+
+*Authority category: Current System Behavior*
 
 The declared annual machine/service pool is $120,000 over 600 productive hours. Break-even occupied-hour cost is $200. Target gross margin is 20%, giving
 
@@ -903,6 +977,8 @@ Parent-support summaries may round local service/Q individually. Their cents nee
 
 ### 5.16 Completion and calculation identity
 
+*Authority category: Current System Behavior*
+
 A successful result is `SUPPORTABLE`, `complete: true`, with verified manifest coverage, selected stock, parent plans, modeled operations, components, labels/returned pieces, time, cost totals and Q. All requested components/features/items must be answered. Selected stock is a proposed plan; components are modeled and not inspected. Unsupported/unresolved/unavailable jobs have no whole-job Q or totals authorizing an order.
 
 Calculation identity binds model and inputs using canonical SHA-256. `inputHash` covers `{job, model, catalog}`. `resultHash` covers the complete engine result **before** its `calculationIdentity` is added. That avoids hashing a value containing its own hash. The Store request layer then adds a receipt binding request/demand/manifest, catalog, registered model/configuration, Store release, timestamp, disposition and calculation identity. Repeated identical calculation inputs yield identical calculation identities; a new inquiry's receipt can differ by request identity or timestamp.
@@ -910,6 +986,8 @@ Calculation identity binds model and inputs using canonical SHA-256. `inputHash`
 A hash is content identity. It cannot establish that an actor is authenticated, material is physically available, motion occurred, a component passed inspection or payment settled. Those facts require the separately owned commercial and local evidence explained later.
 
 ### 5.17 Worked calculations and sensitivities
+
+*Authority category: Current System Behavior*
 
 Current Project 1 uses SPF. The 16-inch default selects a $2.61 60-inch parent and 86.51908661063948 modeled seconds: $6.01 service and **$8.62 Q**. The 18-inch variation selects a $3.13 72-inch parent and 86.46953628299116 seconds: $6.00 service and **$9.13 Q**. Both complete 51 ledger records with 22 modeled move events. The [regenerated current proof](docs/project-1-digital-trail/current-proof.md) supplies the full requests, packets, calculations, ledger and replay.
 
@@ -926,13 +1004,19 @@ Changing a sheet aperture changes circular geometry, compensated perimeter, tab 
 
 ## 6. Registered machine functions
 
+*Authority category: Current System Behavior*
+
 ### 6.1 Registered model and units
+
+*Authority category: Current System Behavior*
 
 [configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/configuration.mjs) reads [manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/machine/manufacturing-core-0.1.json), admits only the declared configuration fields, and constructs the deeply frozen engine model. The configuration ID and model ID are both `STORE-MANUFACTURING-CORE-0.1`, but their hashes cover different objects. Configuration parameters override the permitted model inputs; the expanded model includes the remaining declared geometry, time, economics and assumptions. Its execution class is `DECLARED_OCCUPANCY_EVENT_MODEL`; measured and commissioned are false and physical authority is false.
 
 Lengths are inches, angles degrees, time seconds and money USD. D-001/S-001 identify modeled cell families, not commissioned asset serial numbers. The expanded `createModel()` output supplies the exact declared operation facts registered before routine job evaluation; the JSON supplies its permitted parameters. Each function binds required operands, tool geometry, units/references, limits, modeled state prerequisites and outcomes. Registration and hash identity prove declared content, not calibration, traction or readiness.
 
 ### 6.2 Dimensional parameter register
+
+*Authority category: Current System Behavior*
 
 | Function | Current registered values | Meaning and owner |
 |---|---|---|
@@ -959,6 +1043,8 @@ D-001 sawing, spots and profiles share the same parent movement and reference ch
 
 ### 6.3 Sheet parameter register
 
+*Authority category: Current System Behavior*
+
 | Function | Current registered values | Meaning |
 |---|---|---|
 | Parent | 96×48 in; thickness .25..75 in | Declared sheet envelope |
@@ -977,6 +1063,8 @@ The model describes contour lengths, tabs, panel-cut coordinates, returned bound
 
 ### 6.4 Datums and controlled stock movement
 
+*Authority category: Current System Behavior*
+
 The proposed dimensional apparatus has three references:
 
 - **Datum A, fence:** locates the longitudinal side of the stock and establishes across-width coordinates. Fence straightness, parallelism, tool clearances and stock contact must be inspected.
@@ -991,6 +1079,8 @@ The historical Project 1 controller uses a continuous X master and a local C off
 
 ### 6.5 Kerf faces and reference retention
 
+*Authority category: Current System Behavior*
+
 A saw has two cut faces separated by kerf. “Saw at zero” is incomplete unless the registered reference names blade center/face, retained face, discarded face, approach direction, angle and material side. Long-long, long-short and short-short dimensions differ for angled faces. A model must preserve the customer's stated datum; it cannot switch length conventions because one expression is easier to price.
 
 Project 1 revealed the exact issue: after a reference cut represented at nominal zero, the retained physical face may lie at the kerf offset. Relabeling travel C=0 does not physically move that face. Depending on the registered face convention, a target nominally described as -18 might require an additional .125-inch transformation. The record gives this as an unresolved engineering correspondence, not a correction to be inserted into the sealed sequence or the adopted engine without authority.
@@ -999,6 +1089,8 @@ Reliable dynamic retention needs the reference face's relationship to X/roller t
 
 ### 6.6 Contact screens and physical restraint
 
+*Authority category: Current System Behavior*
+
 For remaining length $L$ at nominal C, the model screens occupied stock interval `[C, C+L]` against rollers at 24/48 and tool station at 36 inches. It records whether each station lies within that interval. At Project 1's first spot C=27, the 24-inch roller lies outside; at its second separation, the 48-inch roller can lie beyond the remaining stock. Thus retaining 24 inches is not equivalent to continuous two-roller contact.
 
 The adopted model carries `TWO_ROLLER_CONTACT_NOT_ESTABLISHED` as a physical gap when that arrangement lacks demonstrated contact. The original review calls its related blocker `ONE_ROLLER_CONTROL_UNRESOLVED`. These are stage-specific records, not interchangeable proof that the proposed apparatus must fail. Suitable supplemental restraint or a differently verified feeding arrangement may be engineered; it has not been commissioned by this software calculation.
@@ -1006,6 +1098,8 @@ The adopted model carries `TWO_ROLLER_CONTACT_NOT_ESTABLISHED` as a physical gap
 A roller's coordinate being inside the stock interval proves only longitudinal overlap in the declared geometry. It does not prove normal force, friction, torsional restraint, traction under cutter loads, resistance to stock bow, synchronization of two feeds, safe separation or retention of an offcut. Physical admission must verify these conditions with appropriate instrumentation and repeatable disturbance tests.
 
 ### 6.7 Fixed tooling and local lowering
+
+*Authority category: Current System Behavior*
 
 Register machine functions before the customer arrives: supported operation meaning and operands; actual stock envelopes; tooling identity/radius/length/kerf; station coordinates and axis roles; units, signed transforms, retained-face conventions and travel limits; approach/retract and engaged cutting rules; feeds/acceleration; restraint/contact conditions, limits and interlocks; state prerequisites, permitted outcomes, invalidation and recovery; component/feature identity, inspection tolerances and evidence custody. The customer supplies the variable part requirement. Store selects stock and plans supported work using that registration.
 
@@ -1019,13 +1113,17 @@ For this cell, generic G-code cannot stand in for a registered saw cycle, clamps
 
 ### 6.8 Proposed physical apparatus and commissioning
 
-Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) proposes supervised dimensional verification and whole-service measurement. Its research authority defines questions, experiment scope and adoption rationale. Store owns the declared manufacturing answer, System the customer's meaning/decision record, and the local apparatus owner commissioned configuration, material admission, motion and inspection.
+*Authority category: Future Work*
+
+Program's [bounded-cell trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) proposes supervised dimensional verification and whole-service measurement. Its research authority defines questions, experiment scope and adoption rationale. Store owns the declared manufacturing answer, System the customer's meaning/decision record, and the local apparatus owner commissioned configuration, material admission, motion and inspection.
 
 The first useful trial must establish the reference cut and face transformation, repeatable A/B/C references, stock seating and controlled movement, contact/roller restraint under representative loads, tool calibration and real saw stroke, actual spot depth, profile/offcut control, guarded release/labeling and interruption behavior. Measurements compare predicted occupancy with observed operation/handling time and compare modeled geometry with inspected components. Failed attempts and rework remain in the record rather than disappearing from the economic comparison.
 
 Physical authority remains blocked in the adopted code. This is an actual evidence-stage result: the model is declared, not measured or commissioned. Program's proposed cell is a route to resolve these named questions; the master does not appoint it as an already operational Store machine.
 
 ### 6.9 Historical apparatus and component engineering
+
+*Authority category: Historical Evidence*
 
 The original Project 1 review supplies an engineering component register, not merely software constants. Its full D-001 reference allocates two manipulating rollers, two downstroke miter stations and positioned spotting/tool functions. The first specimen uses one saw and one spot station. The current adopted core instead evaluates its registered nominal saw/tool/roller geometry; the proposed Program trial must release its own actual layout. This distinction explains why the historical right-saw actuator list is not a missing current engine module.
 
@@ -1067,13 +1165,13 @@ Unselected mechanical/electrical elements remain consequential: rails/racks/pini
 
 ## 7. Complete Project 1 walkthrough
 
-Project 1 is the living proof of the complete current digital manufacturing chain. Read the [current engineering review](docs/project-1-digital-trail/current-proof.md) and [full serialized evidence](docs/project-1-digital-trail/current-proof.json). `npm run build:examples` regenerates both from current Store source and catalog; acceptance rejects stale bytes. Its fixed reference times are example inputs, and its release label is the actual executable source digest. No future or guessed git identity is embedded.
+*Authority category: Historical Evidence*
 
-System's required five-project Chromium gate derives the 16-inch SPF default and 18-inch variation in the actual published nested application. Each receives a real pinned-Store HTTP answer, records its own accepted customer decision and exports the exact manifest, demand, unmodified Store answer and decision into packet2. The gate submits that packet to Store's machine-evidence endpoint and checks unchanged selected stock/ledger, complete replay, matching priced time, and zero physical authority. The per-run proof artifact includes current System/Store revisions, Store health/source identity, application responses, commercial source events, packets and virtual evidence.
-
-A change to either system's code, contracts, model or catalog requires the current proof and operative specifications/masters/Program descriptions to agree. A documentation-only edit does not invent a new manufacturing result. The original records below retain engineering provenance and their original calculations; they are not current acceptance evidence.
+The original Project 1 publication is historical evidence, not architectural authority. Sections 7.1–7.10 and 7.12 explain that specimen at its recorded revisions, including its engineering findings and uncommissioned controller reference. Section 7.11 identifies the separate comparison evaluation. Current public SPF acceptance is described in sections 8.2 and 9 and in the [current integration evidence index](docs/project-1-digital-trail/README.md).
 
 ### 7.1 Specimen sources and identities
+
+*Authority category: Historical Evidence*
 
 The original source specimen is **D001 PROJECT1 DIGITAL TRAIL REVIEW 0.2**, published 2026-10-04, in Store documentary custody. Read the original [Markdown review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), [Word review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx), [evidence ZIP](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Evidence.zip) and [publication identities](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/publication-identities.json). The Markdown and DOCX are publication formats of the engineering review; the ZIP contains the executable reproduction, retained source modules, source identities, controller reference and generated results. Their byte identities are in 14.4. The source package, not a later paraphrase, is the historical calculation authority.
 
@@ -1082,6 +1180,8 @@ Its System source is predecessor repository `scan-to-build-system` at `1cbee7dd9
 The specimen definition is `SYO-USER1-XBRACE-0.1`, revision `SYO-USER1-XBRACE-0.1-v5`; configuration `SYO-USER1-XBRACE`, version `0.2`; rule `user1.xbrace/0.1`. Its demand hash is `b3e55a4e7ef3afad407f96aa00ae59da904eaa9580b433daa1b6238b0cf5cc86`. The fixed historical inquiry is `D001-REVIEW-0.2`, evaluated at `2026-10-04T03:00:00Z`. These are specimen/reproduction identities, not a claimed live customer order.
 
 ### 7.2 Customer geometry and System derivation
+
+*Authority category: Historical Evidence*
 
 The customer-defined object has two identical diagonal brace parts. The bounded control varies length from 16 through 18 inches in 1/8-inch increments; the horizontal span remains eight inches. For the selected 18-inch setting:
 
@@ -1095,11 +1195,15 @@ System's rule admits only the bounded range/grid and derives angle and features 
 
 ### 7.3 Historical material and parent decision
 
+*Authority category: Historical Evidence*
+
 The old evaluator selects `STB-ZERO-PTAG-2X4-72-001`, described as 2×4×72-inch SYP AC2 #2 Prime AG. Its declared on-hand count is 30, allocated zero. Reference price $4.90 marked on five percent rounds to $5.15. That reference price is marked plausible, not observed retail evidence. The historical selection policy is `SHORTEST_COMPLETE_STORE_OFFERING`; it is different from today's whole-job mixed-parent cost search.
 
 Reference cut consumes .125 inch; each 18-inch part consumes 18.125. The 72-inch parent therefore leaves $72-.125-2(18.125)=35.625$ inches. After the first part, 53.75 inches remain. A **counterfactual** 60-inch parent would leave 23.625 inches, below the 24-inch declared control rule, and returns historical reason `LAST_REMAIN_BELOW_TWO_ROLLER_CONTROL`. There was no offered 60-inch treated row in this original selection. The counterfactual proves the length rule; it must not be presented as a rejected actual catalog purchase.
 
 ### 7.4 Historical Store route and Q
+
+*Authority category: Historical Evidence*
 
 The historical travel standard is `STB-D001-DIMENSIONAL-TRAVEL-0.1`, version `0.2.0`; envelope `D001-STAGE2-ENVELOPE-0.3`; price engine `STB-STORE-ZERO-PRICE-1`, version `0.3.0`; economics `STB-D001-STORE-ECONOMICS-S2-0.1`, version `0.1.0`. All are declared models, not measured/commissioned machine performance.
 
@@ -1130,6 +1234,8 @@ This is a budgetary declared-model answer, not a seller's binding offer. Origina
 
 ### 7.5 Neutral requirements and local coordinates
 
+*Authority category: Historical Evidence*
+
 The preserved neutral requirements name two 18-inch parts and their center spots. Local lowering adds fixed machine station identities, actual section, tool facts, signed coordinates and the local reference convention. `D001-REFERENCE-REVIEW-0.2` is the candidate local configuration; `D001_REVIEW_LOCAL_JOB / 0.2` is the local-job record. Both remain nonphysical reference evidence.
 
 Before cuts, the first part starts at global X=0 and the second starts at X=18.125, including the first separation kerf. Their global centers are 9 and 27.125 inches. Fixed spot station is X=36, so targets are C=27 and C=8.875. Checking forward placement gives `27+9=36` and `8.875+27.125=36`. Both spots occur while parts remain in the parent.
@@ -1139,6 +1245,8 @@ Y=3.5/2=1.75 locates the wide-face center. The 118-degree, .1875-inch drill's po
 Continuous X master is not reset. Capturing C sets offset to the current master position. A subsequent local C target is transformed to master=`offset+target`. After the first -18 cut, offset is -18; the second local -18 cut reaches master -36. This reproduces the nominal model while leaving the retained-face kerf problem visible.
 
 ### 7.6 Every historical virtual command
+
+*Authority category: Historical Evidence*
 
 The table transcribes **all 45 records**, in order, from `generated/motion-ir.json`, joined with executed `virtual-trace.json`. Times are seconds; linear targets inches; A degrees. `C/X` target means a local C target executed through X-master plus current offset. DELAY targets are durations, not positions. For MOVE rows the speed/acceleration are the actual IR limits; other rows have no axis move. The purpose column explains what each command contributes.
 
@@ -1194,6 +1302,8 @@ Tool ON/OFF and COMPLETE records consume no modeled time. CAPTURE_C costs .01 se
 
 ### 7.7 Controller interpreter and state lifecycle
 
+*Authority category: Historical Evidence*
+
 `Controller_Reference.st` in the ZIP supplies a candidate TwinCAT-style Structured Text interpreter. `Job1_Data.st` serializes this particular command array and expected identities. The reproduction executes a JavaScript virtual kinematic interpreter, **not** the Structured Text in a TwinCAT runtime. The controller reference was not compiled, commissioned or connected to physical outputs.
 
 The reference has X master, R1/R2 roller slaves, Y, Z, A and S axes, power/gearing/stop function blocks and a virtual-mode boundary. Roller feeds are geared to the continuous X master; local C offsets change only interpretation of longitudinal targets. Spindle commands are reference state variables without commissioned physical I/O mapping. Virtual mode must be explicitly selected; no generated job creates physical authority.
@@ -1204,6 +1314,8 @@ The sequencer checks expected job/controller identities before motion, transform
 
 ### 7.8 Historical virtual timing reconciliation
 
+*Authority category: Historical Evidence*
+
 The separately executed stop-to-stop virtual benchmark totals **86.46953628299116 seconds**, with its own detailed angle, motion, ready, capture and verification allowances. Its difference from the historical Store figure is **0.969436282991154 seconds**. The two use related geometry but different granularity/timing treatment: the Store's travel-standard operation allowance and per-spot placement are not identical to the virtual interpreter's state-dependent moves and explicit controller-oriented delays.
 
 A prior draft reported 86.419536 seconds. The executed result corrects that draft by approximately .05 seconds: the two short process plunges each require .025 seconds acceleration/deceleration allowance beyond simple distance/feed. The executed trace is the benchmark authority. None of these comparisons retroactively changes the old Store Q.
@@ -1211,6 +1323,8 @@ A prior draft reported 86.419536 seconds. The executed result corrects that draf
 At the old material price, charging the virtual benchmark at $250/hour would round service to $6.00 and produce a **hypothetical $11.15**, not the preserved $11.09 Store answer. At the adopted current $4.81 material price, the adopted ledger's same numerical benchmark rounds to $10.81. Keeping the three figures distinct prevents timing reconciliation from rewriting a historical receipt.
 
 ### 7.9 Contact face and stroke findings
+
+*Authority category: Historical Evidence*
 
 | Nominal state | C | Remaining length | R1 at 24 | Tool at 36 | R2 at 48 | Consequence |
 |---|---:|---:|---|---|---|---|
@@ -1224,6 +1338,8 @@ At the old material price, charging the virtual benchmark at $250/hour would rou
 The review's blockers are `ONE_ROLLER_CONTROL_UNRESOLVED`, `KERF_FACE_AND_REBASE_UNRESOLVED`, `SAW_STROKE_GEOMETRY_UNRESOLVED` and `COMMISSIONING_ABSENT`. Two-roller control, retained-face placement and actual blade stroke are separate questions. Successful virtual placement and timing resolve none of them physically. The current adopted core preserves related named physical gaps rather than granting production permission.
 
 ### 7.10 Reproduction and fourteen checks
+
+*Authority category: Historical Evidence*
 
 Unpack the original ZIP into a temporary directory, enter that package and run `node reproduce.mjs` under Node 22. The script verifies seven source blobs using Git blob identities and SHA-256, invokes the retained System rule and old Store evaluator, emits neutral requirements/local job/IR/ST command data, executes the virtual interpreter, and regenerates results under `generated/`. Running it in scratch avoids changing sealed Store publications or acceptance copies.
 
@@ -1248,60 +1364,17 @@ The seven retained modules are `store-source/d001-travel-standard.mjs`, `store-z
 
 Fresh reproduction for this master passes **14/14**, with no failed checks. Scope remains local reference software and virtual kinematics; no TwinCAT runtime, actual cut or inspected component is added by rerunning it.
 
-### 7.11 Separate current adopted-core evaluation
+### 7.11 Separate current adopted-core comparison
 
-The treated-lumber comparison fixture reads the sealed source demand and explicitly supplies grade/end meaning. It produces its own current calculation and $10.81 Q, distinct from the original $11.09 calculation. The current SPF Project 1 proof is generated separately for both public settings.
+*Authority category: Current System Behavior*
 
-| Fact | Sealed historical Store | Adopted-core treated comparison |
-|---|---|---|
-| Parent | PTAG 2×4×72 | PT 2×4×96 |
-| Material | $5.15 | $4.81 |
-| Remaining stock | 35.625 in | 59.625 in |
-| Store occupancy | 85.5001 s | 86.46953628299116 s |
-| Hourly service | $5.94 | $6.00 |
-| Q | **$11.09** | **$10.81** |
-| Calculation source | Preserved stage-2 evaluator | Adopted whole-job core |
-| Machine evidence | Controller-oriented virtual reference, physical blocked | Occupancy ledger, `PREDICTED_OCCUPANCY_ONLY`, physical blocked |
+The current treated-lumber comparison is a new evaluation of explicitly declared grade and end geometry, not the historical $11.09 result. It returns Q $10.81 and 86.46953628299116 modeled seconds under the adopted core. Its purpose is a comparison with the sealed specimen. The current public SPF acceptance cases and complete regenerated results are in sections 8.2 and 9 and the [current evidence index](docs/project-1-digital-trail/README.md).
 
-Current selection considers the present catalog and complete modeled cost. The longer parent is cheaper in that catalog; identical part/spot geometry gives the same current index/cut benchmark despite the different retained length. Larger stock length changes contact-screen coverage and material consumption but does not add this job's nonexistent milling route. In jobs with parent-length edge preparation, a longer parent can also change work/time.
-
-The current example is regenerated under an explicit master request identity and fixed clock below. Its hashes differ from a separately identified published example even when geometry/Q match, because the calculation input includes source request identity. Use the exact example request when comparing hashes.
-
-```json
-{
-  "requestId": "MASTER-PROJECT1",
-  "evaluationReceipt": {
-    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
-    "requestType": "USER_DEFINED_BOARD_V1",
-    "requestId": "MASTER-PROJECT1",
-    "evaluatedAt": "2026-10-12T16:00:00.000Z",
-    "authority": {
-      "storeRevision": "f7123a73c1ca60aa7eb180a86a1c365eaffe95db",
-      "catalogHash": "4183b76beb3b1009544612e4e19662804df40530d6cf94c858b0e525b4885caa",
-      "manufacturingModel": {
-        "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
-      },
-      "machineConfiguration": {
-        "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
-      }
-    },
-    "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
-    "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
-    "status": "SUPPORTABLE",
-    "calculationIdentity": {
-      "inputHash": "41da9c6b36db407efc8ede967f6fb4f5fc7805ec66da1bd97a73779313ed6a55",
-      "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
-    },
-    "receiptHash": "e81602968711b5d0a125a1521be161ecde6f7eb03825a815e60585cd4b662e55"
-  },
-  "Q": 10.81,
-  "timeSeconds": 86.46953628299116
-}
-```
+Do not reuse the historical receipt or manufacture an unchanged hash for a new evaluation. New inputs, request identity, executable model and evaluation time retain their own identities.
 
 ### 7.12 Transaction handoffs and resulting record
+
+*Authority category: Historical Evidence*
 
 The original review identifies H01–H12 as explanatory handoffs, not installed commercial event types: source→definition; definition→derivation; derivation→inquiry; inquiry→evaluation; answer→System custody; answer→customer decision; decision→order; order→local planning; planning→admission; admission→execution; execution→inspection; inspection→handoff. The reproduced package executes derivation, old evaluation, local reference generation and virtual checks. It does not contain a real customer acceptance, seller order, payment, stock reservation, allocation, commissioned release, physical inspection or custody transfer.
 
@@ -1311,7 +1384,11 @@ The current commercial chain in chapter 10 consumes the appropriate current rece
 
 ## 8. Five current public project paths
 
+*Authority category: Current System Behavior*
+
 ### 8.1 Exact inquiry and evaluation basis
+
+*Authority category: Current System Behavior*
 
 System owns the five project definitions. Store accepts three neutral manufacturing classes and evaluates them with one planner/time/Q engine. The six complete reference requests below cover both Project 1 settings and the other four projects. Their explicit reference IDs distinguish reproducible inputs from captured live transactions. `npm run build:examples` regenerates every returned summary and this table against the current source and catalog; acceptance rejects stale worked results. The content-addressed reference release and fixed example clock are reproduction inputs, not deployed-process identities or transaction dates.
 
@@ -1324,7 +1401,7 @@ Required System Chromium checks exercise the actual nested pages, changed defini
 | MASTER-SYO-18 | SUPPORTABLE | 9.13 | 86.46953628299116 | true |
 | MASTER-ALCOVE-ECONOMY | SUPPORTABLE | 372.19 | 1115.5446527777765 | true |
 | MASTER-WINDOW-SEAT | SUPPORTABLE | 1313.61 | 6463.942708333378 | false |
-| MASTER-OUTDOOR | UNRESOLVED | absent | absent | not evaluated |
+| MASTER-OUTDOOR | SUPPORTABLE | 293.28 | 1070.593525669955 | false |
 | MASTER-PLAYHOUSE | SUPPORTABLE | 76.56 | 560.4761745483586 | true |
 <!-- end-current-examples-table -->
 
@@ -1332,11 +1409,13 @@ Search completion is explicit. A bounded feasible result is a complete supported
 
 ### 8.2 Start Your Own
 
+*Authority category: Current System Behavior*
+
 The active `three-frames.html` child derives two SPF nominal 2×4 braces from a finished length L on the 16–18-inch control grid. The horizontal span remains eight inches. Miter magnitude is `asin(8/L) × 180/π`, rounded to 12 decimals; rise is `sqrt(L² − 8²)`; each centered SPOT is at L/2. PART-1/PART-2 and SPOT-1/SPOT-2 remain independent identities in the manifest. The translator records the page's redundant `both` end identity and preserves the registered parallel-end, long-long outer-edge face-miter definition.
 
 The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two parts and three nominal .125-inch consumption allowances. The 18-inch variation selects 72 inches and leaves 35.625 inches. Store independently chooses these parents through whole-job Q. The current full proof includes both requests, accepted packets, ledgers, virtual replay and zero permitted physical commands. Nominal kerf accounting does not establish the physical retained-face transform.
 
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-SYO-16 -->
 ```json
@@ -1517,7 +1596,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
 
 The second current Project 1 setting is a separate definition, inquiry, receipt and accepted packet. Neither its price nor downstream authority is inherited from the default.
 
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-SYO-18 -->
 ```json
@@ -1698,11 +1777,13 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
 
 ### 8.3 Alcove
 
+*Authority category: Current System Behavior*
+
 The public definition uses pine/select, 72-inch height, 45.5-inch overall width, 14-inch depth and five shelves. The clear shelf span is 44 inches. Four upright board runs and ten shelf strips produce 14 components. ECONOMY uses 7.25-inch and 6.75-inch shelf strips; five explicit through-profile features identify narrowing. Shelf-elevation spots start off. The manifest identifies all components/features and the pins-and-screws kit before translation.
 
 Parent planning considers mixed lengths cumulatively. Full-width uprights and shelves can share compatible parent patterns; narrowed strips require their stated preparation. BALANCED and ALL_EDGES are distinct geometry definitions and require fresh evaluation, with no inherited price or local surcharge. Added shelf spots carry their own feature IDs, positions and insets. A missing coordinate or incompatible tool remains a refusal or unresolved result.
 
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-ALCOVE-ECONOMY -->
 ```json
@@ -2069,11 +2150,13 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
 
 ### 8.4 Window Seat
 
+*Authority category: Current System Behavior*
+
 The default assembly is 94 inches high, with module widths 24/55/24, 14-inch depth, 22-inch seat height, 14-inch upper clear height, two upper bays, two lower cubbies and four shelves in each tower. Pine/select boards are .75 inch thick. Two seven-inch finished width runs cover the depth. The 24 assembly parts become 48 independent board runs, including twelve 94-inch upright runs. Each requires .25-inch far-edge preparation from nominal 1×8 stock. Spots, screws and the optional front board are absent until requested.
 
 Eligible shorter parents remain available for shorter runs while each assigned pattern must fit completely. A default oak assembly is short of suitable upright inventory and returns ON_HAND_SHORT; a smaller stocked oak assembly can use the same declared milling model. Offered milling does not establish sufficient material for every assembly. The published audit exports request type, original request ID, demand and independent manifest together, and distinguishes repeatable calculation identity from a fresh receipt timestamp/hash.
 
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-WINDOW-SEAT -->
 ```json
@@ -2540,17 +2623,17 @@ Eligible shorter parents remain available for shorter runs while each assigned p
 
 ### 8.5 Outdoor
 
+*Authority category: Current System Behavior*
+
 The [Ana White source](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) calls the cross-support cut a “bevel.” That source wording is retained only as attributed evidence. The operative System definition is 25° parallel face-miter ends with a long-point-to-short-point length and a separately declared long-to-short endpoint orientation. The Store derives the stock envelope from the selected board's actual width: 32.875 + 3.5 × tan(25°) ≈ 34.507 in for each cross support. The finished length remains 32.875 in; parent feasibility, packing, inventory capacity, modeled motion and Q consume the longer stock envelope. A separately preserved description in the older source PDF contradicts the drawing's parallelism; it belongs to that PDF revision, not to the operative end-plane definition. These are model calculations, not physical admission or a recorded sale.
 
 The selected wood is an application/customer variant applied across its groups. The source recommends untreated tabletop/seat boards and permits treated legs/supports; an all-treated variant is not labeled the source's wood recommendation. Screw gauge and inferred hardware counts remain attributed application choices.
 
 The separately selectable table-and-benches plan uses square cuts. Its supported definitions still receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
 
-The immutable historical differential corpus and the sealed refused-packet example predate the addition of human-readable refusal descriptions. Their original hashes are compared through an expressly identified pre-message calculation view; new live refusals retain the reason code, reason record and human message together. The migration audit requires descriptions to exist before projecting to the legacy hash, and new geometry acceptance tests check the full live refusal. Nothing in the sealed corpus or original packet JSON is rewritten.
+Current live refusals retain their reason codes, reason records and human-readable messages. Geometry acceptance checks verify the complete live refusal. Historical differential and sealed-packet comparisons use explicitly identified historical projections; their hashes never replace validation of a current response.
 
-**Superseded sealed source request and response (unaltered):** The following JSON was published with the former `bevel-edge` classification and `MITER_END_GEOMETRY_NOT_EVALUATED` refusal. Its original request, receipt, and result hashes remain preserved as evidence of that former revision. They must not be used as a current Store quote or rewritten to portray a new test result.
-
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-OUTDOOR -->
 ```json
@@ -2559,7 +2642,7 @@ The immutable historical differential corpus and the sealed refused-packet examp
   "requestId": "MASTER-OUTDOOR",
   "demand": {
     "configurationId": "OUTDOOR-PICNIC-A-FRAME",
-    "configurationVersion": "MASTER-PUBLIC-DEFAULT-1",
+    "configurationVersion": "MASTER-PUBLIC-GEOMETRY-2",
     "cutPackages": [
       {
         "packageId": "treated|SLATS",
@@ -2640,6 +2723,7 @@ The immutable historical differential corpus and the sealed refused-packet examp
           "angleDeg": 25,
           "endRelation": "parallel",
           "lengthDatum": "long-point-to-short-point",
+          "endPointOrientation": "long-to-short",
           "plane": "miter-face"
         },
         "parts": [
@@ -2674,7 +2758,8 @@ The immutable historical differential corpus and the sealed refused-packet examp
           "angleDeg": 25,
           "endRelation": "parallel",
           "lengthDatum": "long-point-to-short-point",
-          "plane": "bevel-edge"
+          "endPointOrientation": "long-to-short",
+          "plane": "miter-face"
         },
         "parts": [
           {
@@ -2760,7 +2845,7 @@ The immutable historical differential corpus and the sealed refused-packet examp
   },
   "manifest": {
     "jobId": "OUTDOOR-PICNIC-A-FRAME",
-    "revision": "MASTER-PUBLIC-DEFAULT-1",
+    "revision": "MASTER-PUBLIC-GEOMETRY-2",
     "boardPartIds": [
       "TOP-01",
       "TOP-02",
@@ -2802,20 +2887,170 @@ The immutable historical differential corpus and the sealed refused-packet examp
 <!-- current-result MASTER-OUTDOOR -->
 ```json
 {
-  "status": "UNRESOLVED",
-  "complete": false,
-  "Q": null,
-  "reasonCodes": [
-    "MITER_END_GEOMETRY_NOT_EVALUATED"
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 293.28,
+  "reasonCodes": [],
+  "totals": {
+    "material": 200.05,
+    "hardware": 18.88,
+    "machine_service": 74.35,
+    "manual_cut_service": 0,
+    "Q": 293.28,
+    "sumOfSupportableLines": 293.28,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 1070.593525669955,
+    "T_MACHINE_min": 17.843225427832582,
+    "T_MACHINE_hr": 0.29738709046387635,
+    "totalSeconds": 1070.593525669955,
+    "totalMinutes": 17.843225427832582,
+    "hourlyBilledSeconds": 1070.593525669955,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 468,
+      "INDEX": 172.39869859414526,
+      "REFERENCE": 41.929067231405526,
+      "SAW": 76.26575984440541,
+      "RELEASE": 312
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-HW-COATED-SCR10-2P5-90-001",
+      "qty": 2,
+      "available": 40,
+      "remainingAvailable": 38,
+      "unitPrice": 9.44,
+      "stockL_in": null,
+      "actualW": null,
+      "actualT": null,
+      "description": "Coated Wood screw #10 2.5\" - 1 lb box (90)",
+      "cellFamily": [],
+      "supportedOps": []
+    },
+    {
+      "storeSku": "STB-ZERO-PT-2X4-96-001",
+      "qty": 3,
+      "available": 30,
+      "remainingAvailable": 27,
+      "unitPrice": 4.81,
+      "stockL_in": 96,
+      "actualW": 3.5,
+      "actualT": 1.5,
+      "description": "2x4 x 96 in treated SYP above-ground",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X2-96-001",
+      "qty": 2,
+      "available": 40,
+      "remainingAvailable": 38,
+      "unitPrice": 5.54,
+      "stockL_in": 96,
+      "actualW": 1.5,
+      "actualT": 1.5,
+      "description": "2x2 x 96 in treated above-ground",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-120-001",
+      "qty": 2,
+      "available": 30,
+      "remainingAvailable": 28,
+      "unitPrice": 13.23,
+      "stockL_in": 120,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 120 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-168-001",
+      "qty": 1,
+      "available": 30,
+      "remainingAvailable": 29,
+      "unitPrice": 19.43,
+      "stockL_in": 168,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 168 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-192-001",
+      "qty": 5,
+      "available": 30,
+      "remainingAvailable": 25,
+      "unitPrice": 25.73,
+      "stockL_in": 192,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 192 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    }
   ],
-  "totals": null,
+  "optimization": {
+    "status": "BOUNDED_FEASIBLE_PLAN",
+    "searchComplete": false,
+    "nodes": 200001,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "8ceaef075329e80b0bc25f4a50d45b607a718ff9cea3dc39736603cb75ba6c46",
+    "resultHash": "fb83a43946882023f02621be9f2c873fc58d5a2ab696da5a1f7aef10b11d1293"
+  },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
     "requestType": "CUT_PACKAGE_V1",
     "requestId": "MASTER-OUTDOOR",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2826,24 +3061,29 @@ The immutable historical differential corpus and the sealed refused-packet examp
         "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
       }
     },
-    "demandHash": "95fc02195ee3aa1db96bf150ded24e0ffb3f30f1d75d3fe20be71a61ebcc24e7",
-    "manifestHash": "f7aeb5d59caba7a50954d3d824851268c0d66106013bbd4125196b20d0eddc21",
-    "status": "UNRESOLVED",
-    "calculationIdentity": null,
-    "receiptHash": "dbad1155c9104b4b5e689412dc3294e74e56ef2861a4befaf291c07932f78623"
+    "demandHash": "8b75dc6285c3d4b977b2e02f01b6798757a6aa4605037c3f3b6096a5b47ca39a",
+    "manifestHash": "42a14bb4e3d62893c1f2440b49e82f347dd36569a30887313d619873ee8d5a9e",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "8ceaef075329e80b0bc25f4a50d45b607a718ff9cea3dc39736603cb75ba6c46",
+      "resultHash": "fb83a43946882023f02621be9f2c873fc58d5a2ab696da5a1f7aef10b11d1293"
+    },
+    "receiptHash": "37ec7a5efa92f7ed16fa75c563a1b962a2571e0307a15434a39570df7aff20dd"
   },
-  "ledgerRecords": 0,
+  "ledgerRecords": 392,
   "physicalAuthority": false
 }
 ```
 
 ### 8.6 Playhouse
 
+*Authority category: Current System Behavior*
+
 A 48×96×.5-inch sheet carries a centered 36-inch-wide opening with 24-inch straight height and 12-inch rise, a vertical center split and two 18-inch outside crosscuts. Radius is `width²/(8×rise) + rise/2 = 19.5 inches`. The registered .5-inch cutter, compensated path, tab geometry and panel clearances determine the same operation ledger that supplies time and Q.
 
 Hourly work and separately billed panel cuts remain distinct. The current reference returns two outside panels, the center frame and two retained routed halves with identified nominal bounds. Retention is modeled geometry, not inspected tab strength. Missing custom split-tab positions, an unsupported exterior requirement or a panel cut through the opening prevents complete support. Sheet evidence reports occupancy; it is not a full independently replayed XY controller trajectory.
 
-**Complete reference request and current returned summary**
+**Complete current reference request and regenerated returned summary**
 
 <!-- current-request MASTER-PLAYHOUSE -->
 ```json
@@ -3008,13 +3248,19 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
 
 ### 8.7 Variations refusals and commercial scope
 
+*Authority category: Current System Behavior*
+
 Every consequential change creates a fresh identified definition and independent manifest before Store evaluation. A refusal remains a valid manufacturing answer with Q absent. Customer acceptance, seller order, financial events, stock allocation and readiness are separate evidence records. No manufacturing result authorizes physical motion.
 
 To reproduce any reference request, save its complete JSON and run the current Store request layer with the receipt's content-addressed release label and fixed evaluatedAt time. Compare calculation and receipt identities only under those same inputs. The result summary omits the full operation arrays for readability; the request layer returns them. Current Project 1's complete serialized evidence retains every record.
 
 ## 9. Lowering packets and virtual evidence
 
+*Authority category: Current System Behavior*
+
 ### 9.1 Accepted packet verification
+
+*Authority category: Current System Behavior*
 
 [STB-ACCEPTED-JOB-PACKET-2](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/job-packet.mjs) is the current machine-side input. System supplies packet identity, project identity/class/title, identified definition/revision/request type, exact demand, independent manifest, carried requirements, the exact Store answer, accepted simulated decision and authority with `physicalRelease: false`. User-board carried end relation/datum/identity must agree with the priced demand. An unpriced independent geometry fact cannot override the geometry Store actually evaluated.
 
@@ -3024,17 +3270,23 @@ Verification establishes content consistency and currentness. System still owns 
 
 ### 9.2 Current local job
 
+*Authority category: Current System Behavior*
+
 [lowerJobPacket](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/lowering.mjs) first verifies the packet, then verifies the registered configuration and accepted model identity. It requires the accepted operations, parents and time. It copies them into `STB-LOCAL-MANUFACTURING-JOB-1`, binding packet/project/definition/revision, demand and manifest hashes, Store release/calculation, packet hash, configuration ID/hash, model hash, execution class, exact operations/parents and predicted time. `localJobHash` is the canonical hash of that complete object before adding the hash itself.
 
 This lowerer does not change part dimensions, substitute a parent, choose another route or recalculate Q. It adds machine-binding/evidence facts to the accepted ledger. Release blockers combine `CONFIGURATION_NOT_COMMISSIONED`, `LOCAL_MATERIAL_AND_READINESS_NOT_ADMITTED` and all evaluated physical gaps. Local job creation is a modeled transformation, not a production-release event.
 
 ### 9.3 Modeled operation records
 
+*Authority category: Current System Behavior*
+
 `motionRecords` verifies local-job shape/hash and registered configuration, then emits `STB-MODELED-OPERATIONS-1`. Binding includes packet ID, demand/manifest/packet hashes, configuration ID/hash, model hash and local-job hash. It records expected seconds, parent thickness/cell map, and the **same ledger sequence**. Evidence class is `PREDICTED_OCCUPANCY_ONLY`; physical authority is false. `binding.motionHash` hashes the records before its own insertion.
 
 These are virtual nominal instructions within a priced occupancy representation. Dimensional records contain generated axis targets, parameters and tool-state relationships; sheet records retain evaluated path/allowance events without a complete XY controller trajectory. A reusable controller export must extend the same lowerer, retain source-ledger correspondence, exact sequence, parent/part/feature identities and registered mapping version, and refuse missing operation mappings. It must not interpret the customer again, generate another plan, time the job for a second Q or claim commissioned motion. Historical Project 1's controller-oriented IR is preserved separately.
 
 ### 9.4 Independent virtual replay
+
+*Authority category: Current System Behavior*
 
 [runVirtual](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/virtual-run.mjs) validates record shape/hash, caller-expected binding and current registered model/configuration. It checks sequence numbers, nonnegative finite durations, cumulative start/end consistency, starting pose and every modeled MOVE duration. It independently tracks C/Y/A/S/Z/RZ, saw and spot state and elapsed time while replaying the accepted ledger. It shares `moveSeconds` with the engine: this is an independent state/sequence replay, not an independently implemented kinematic formula.
 
@@ -3049,13 +3301,15 @@ Sheet occupancy events are replayed for duration/order/binding but no physical c
 | MASTER-SYO-18 | 51 | 22 | 86.46953628299116 | false |
 | MASTER-ALCOVE-ECONOMY | 269 | 112 | 1115.5446527777765 | false |
 | MASTER-WINDOW-SEAT | 1072 | 487 | 6463.942708333378 | false |
-| MASTER-OUTDOOR | absent | absent | absent | false |
+| MASTER-OUTDOOR | 392 | 156 | 1070.593525669955 | false |
 | MASTER-PLAYHOUSE | 15 | 0 | 560.4761745483586 | false |
 <!-- end-current-ledger-table -->
 
 The current Project 1 case has 51 ledger records and 22 replayed move events; historical IR has 45 records and 21 axis commands. The counts are not interchangeable. The count reconciliation is explicit: the current ledger adds four CONTROL_SCREEN records, two FEATURE_ANSWERED records and a zero-distance Y MOVE for the second spot, and does not retain the historical COMPLETE record: `45 + 4 + 2 + 1 - 1 = 51`. Its move method emits that second Y placement even though Y is already at the center; the original generator places Y only for the first spot. The extra move has zero duration. The diagnostic/coverage records also have zero duration, so these count changes do not add processing time or commissioned physical commands. Playhouse's zero replay move count does not mean no manufacturing work: its 15 records describe sheet path/handling/panel occupancy rather than serialized servo MOVE records.
 
 ### 9.5 Evidence request and response
+
+*Authority category: Current System Behavior*
 
 `POST /v1/machine-evidence` uses `STORE-ZERO-MACHINE-EVIDENCE-2`. Its complete input is `{packet, expectedMachineConfigId, expectedMachineConfigHash}`. It rejects missing/extra/mistyped fields and configuration mismatch before lowering. A successful answer is `{status: 'VIRTUAL_EVIDENCE_READY', physicalAuthority: false, localJob, records, run, admission}`; all six fields are serialized under the transport envelope with protocol, Store release, byte payload digest and respondedAt.
 
@@ -4380,6 +4634,8 @@ The displayed projection shows the binding and disposition values. The full resp
 
 ### 9.6 Complete reproducible examples
 
+*Authority category: Current System Behavior*
+
 From a current Store checkout, use Node 22 or later:
 
 ```sh
@@ -4400,6 +4656,8 @@ A complete refusal example is the evidence request `{"packet":{},"expectedMachin
 
 ### 9.7 Source digest and deployment verification
 
+*Authority category: Current System Behavior*
+
 The HTTP process uses protocol `STORE-ZERO-REQUEST-2`, with health, inquiry, machine-evidence and commercial endpoints. Maximum body is 256 KiB, request timeout 15 seconds and headers timeout 10 seconds. CORS defaults to `https://georgeplattdemo.github.io` or configured allowed origins; a no-Origin server request is accepted. CORS is a browser-origin restriction, not authentication of a seller/operator. Cache-Control is no-store.
 
 Release is the host commit (`RENDER_GIT_COMMIT` or `RAILWAY_GIT_COMMIT_SHA`), or required `STORE_ZERO_RELEASE` where the host supplies none. A contradictory host/label refuses startup. Health reports a digest of **actual runtime bytes**, computed as SHA-256 over sorted lines `<path> NUL <sha256(file bytes)> LF` for package.json and every file under src/ and data/. At the frozen source this is 21 files, digest `b295f674af8213165de3dea2183b60461612f9d86fd6e523d7c1e4bb08d58a92`. Documentation is excluded. The service recalculates this digest before answering; changed runtime bytes produce a service error instead of continuing under the old startup identity.
@@ -4408,13 +4666,19 @@ Release is the host commit (`RENDER_GIT_COMMIT` or `RAILWAY_GIT_COMMIT_SHA`), or
 
 ## 10. Commercial sequence and full transaction
 
+*Authority category: Current System Behavior*
+
 ### 10.1 Contract ownership and installed scope
+
+*Authority category: Current System Behavior*
 
 The shared executable authority is [commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/commercial-sequence.js), served as the byte-identical [System public commercial contract](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js). The [commercial template](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) supplies the intended source-owned transaction design. This chapter explains those primary sources; it does not introduce a competing normative contract. [commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/commercial-request.mjs) exposes the simulated gate at `/v1/commercial-events`, protocol `STORE-ZERO-COMMERCIAL-EVIDENCE-1`.
 
 Manufacturing Q, seller offer, customer decision, seller order, finance, reservation, allocation, queue, release, operation and custody are distinct facts. A supportable calculation does not cause the rest to occur. The installed gate accepts **SIMULATED** source records, rejects ACTUAL records with `ACTUAL_SOURCE_ADAPTER_NOT_INSTALLED`, and performs no payment, stock mutation, persistent order write, notification or machine act. It validates an attributable event sequence and returns the resulting simulated record.
 
 ### 10.2 Event envelope and identity binding
+
+*Authority category: Current System Behavior*
 
 Every source event has exactly the declared root fields: schema `STB-COMMERCIAL-EVENT-1`, eventId, eventType, streamId, sequence, expectedPreviousSequence, causedByEventIds, idempotencyKey, occurredAt, recordedAt, actor, evidenceClass, authority, links and payload. Stored events add `previousHash` and `hash`. Actor carries nonblank partyId and the appropriate lower-case role. Authority carries nonblank sourceSystem, sourceRecordId, verificationRecordId, policyId and policyVersion. These are attribution fields, not an installed source authenticator.
 
@@ -4447,6 +4711,8 @@ The wrapper verifies supplied prior events, reconstructs the stream and records 
 
 ### 10.3 Answer offer decision and order
 
+*Authority category: Current System Behavior*
+
 | Event | Role | Required prior event | Required payload and principal gate |
 |---|---|---|---|
 | StoreAnswerAttached | system | none | status SUPPORTABLE, complete true, manifestCoverageComplete true |
@@ -4461,6 +4727,8 @@ The gate requires an explicit policy ID/version, required financial kind NONE/AU
 Acceptance records the customer's decision on that offer/version. Seller order acceptance separately confirms availability and capability. The executable gate checks expiry at customer decision, but does not recheck it at seller OrderAccepted or obtain a fresh stock count. An operational seller must define those timing/availability checks in its source integration; they cannot be claimed merely because a simulated boolean passed.
 
 ### 10.4 Finance reservation capacity and queue
+
+*Authority category: Current System Behavior*
 
 | Event | Role | Required prior event | Payload and behavior |
 |---|---|---|---|
@@ -4477,6 +4745,8 @@ Reservation is a commitment, allocation an identified stock assignment, capacity
 
 ### 10.5 Allocation issue release and local admission
 
+*Authority category: Current System Behavior*
+
 | Event | Role | Prerequisites | Required payload and gate |
 |---|---|---|---|
 | MaterialAllocated | inventory | OrderAccepted | allocationId, nonempty assignments, atomic=true; each assignment parentId/materialId/lotId/location/condition/compatibleDefinitionId and positive integer qty |
@@ -4490,6 +4760,8 @@ Assignments must name the stream's definition; a different compatibleDefinitionI
 Production release is separate from customer acceptance and from the physical machine layer's blocked admission. LocalPlanBound's hashes are required fields, but the commercial gate does not invoke the packet/lowering verifier to establish that they are authentic outputs. The current evidence pipeline does that separately. A simulated LocalAdmissionRecorded event with `admitted:true` is a demonstration event; it does not override `physicalAdmission()` returning BLOCKED for the adopted declared configuration.
 
 ### 10.6 Execution inspection staging and handoff
+
+*Authority category: Current System Behavior*
 
 | Event | Role | Prerequisite | Payload and binding |
 |---|---|---|---|
@@ -4507,6 +4779,8 @@ Staging cannot pass a REWORK/SCRAP/HOLD disposition. Ready notice identifies wha
 
 ### 10.7 Idempotency hash chains and concurrency
 
+*Authority category: Current System Behavior*
+
 Every stored event hashes its source envelope plus previousHash. Verify reconstructs the stream, reapplies validation and checks every hash/previousHash. Editing an earlier amount, identity or disposition invalidates the chain. Hashes are not signatures and cannot authenticate the asserted parties/source records.
 
 A retry with the same idempotencyKey and exactly identical source event returns the existing event, even though its old expected sequence has already been consumed. Reusing that key with changed data returns `COMMERCIAL_IDEMPOTENCY_CONFLICT`. A new event with a stale expected sequence is refused. An asynchronous `held` flag prevents overlapping appends in one in-memory stream while its hash is being computed; it is not a durable multi-process transaction or global stock reservation mechanism.
@@ -4515,15 +4789,19 @@ Most stages may occur once in the stream. Finance, execution and exceptions may 
 
 Derived state reports sequence/latest stage, complete event list, SIMULATED class and false physical/payment authority. Its `pending` progresses from seller acceptance, to policy queue gate, to production release, then null. Null after release is not proof of execution/inspection/handoff/closeout completion; use the actual latest stage and event evidence.
 
-### 10.8 Job 1 demo and other pending flows
+### 10.8 Shared five-project simulation policy
+
+*Authority category: Current System Behavior*
 
 System's [stb-demo-commerce.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-demo-commerce.js) declares `STB-DEMO-PICKUP / 1` and `STB-DEMO-TERMS / 1`, seller `store-zero-demo`, Demo yard, USD, 24-hour offer and pickup fulfillment. It consumes the current Store Q and selected stock; it does not calculate a replacement price. Tax, delivery and additional services are OUTSIDE_SCOPE. Policy requires CAPTURED, no reservation/capacity, and stage order order→finance→queue→allocation→release.
 
-In Start Your Own, the explicit demo flow prepares the offer, records customer acceptance separately, appends seller order acceptance, simulated capture for the exact amount and queue position one. Yard simulation assigns generated parent/material/lot IDs, records issue/release/local plan and simulated admission, directly records execution COMPLETED, inspection ACCEPTED, staging and ready notice. Pickup records custody and closeout, with assembly status OWNER_BUILDS. Generated hashes/IDs carry explicit demo basis; they are not commissioned configuration evidence or inspected actual lots.
+Each of the five published projects explicitly enables the shared demo flow. It prepares the offer, records customer acceptance separately, appends seller order acceptance, simulated capture for the exact amount and queue position one. Yard simulation assigns generated parent/material/lot IDs, records issue/release/local plan and simulated admission, directly records execution COMPLETED, inspection ACCEPTED, staging and ready notice. Pickup records custody and closeout, with assembly status OWNER_BUILDS. Generated hashes/IDs carry explicit demo basis; they are not commissioned configuration evidence or inspected actual lots.
 
-The helper checks current revision and stream identity before and after appending. A revised job cannot continue an earlier checkout under changed geometry. Other tiles may preserve extra-service requests and offers but do not inherit this Job 1 seller policy merely because they share the terms UI. Missing source-owned policy/offer/order/finance records remain pending. The executable sequence is the actual evidence of progression, not the button label alone.
+The helper checks current revision and stream identity before and after appending. A revised job cannot continue an earlier checkout under changed geometry. The public project initializers each explicitly enable this policy; merely importing the shared terms UI would not enable it. Missing source-owned policy/offer/order/finance records remain pending. The executable sequence is the actual evidence of progression, not the button label alone.
 
 ### 10.9 Intended workflow and executable limits
+
+*Authority category: Future Work*
 
 The intended full transaction is: customer definition → fresh inquiry → manufacturing Q → seller offer → customer decision → seller order → policy-bound finance/reservation/capacity/queue → actual allocation/issue → production release → bound local plan → commissioned readiness/admission → operation → inspection → labels/staging → notice → pickup/custody → closeout in the owner's record. A revision returns to definition/evaluation and the appropriate offer/change process while retaining preceding evidence.
 
@@ -4531,182 +4809,19 @@ The current software implements the simulated envelope, bindings, prerequisites,
 
 ### 10.10 Complete commercial design map and source context
 
-The complete relevant design map below is incorporated from System `docs/commercial-sequence-template.md` at the structural-cleanup baseline **20b01b55f6d1ccdf275285f075bfc2cfe1bdad31**, SHA-256 `046d884fafc922efb2317c9a2315709a07fbf2c1a7dc4735469a861703826f28`. Its original revision is **11 October 2026, Revision 0.1**. The source remains independently accessible because the protected Store specification and both READMEs reference it. Incorporation preserves all of its explanation, event order, tables, illustrative schema, exceptions, policy questions and original inspected revisions; it does not replace the installed gate. The candidate-file link below is fixed to its original publication commit `0d26702cd6559802861a4f320858c72bac907d82` rather than the removed path on `main`.
+*Authority category: Current System Behavior*
 
-**Historical design and current implementation must be read separately.** The original opening's “not adopted” language belongs to the proposal stage; the manufacturing core and simulated event gate are now installed. Store's later duplicate documentary copy was retired at `fe60c77c7aca0649520e30e7c5b4b893aa17ab94`; the current documentary owner is System. The installed gate accepts only the ten fixed links described above, lower-case actor roles and stored `previousHash`/`hash`; the broader placeholder envelope below remains an illustrative design example and must not be serialized unchanged. The original Program paths in section 7 identify the proposal's historical source organization; current candidate engineering and full-service trial requirements are in Program's `SUPERVISED-LABORATORY-CELL-TRIAL.md`, particularly “Build and verify the dimensional machine” and “Evidence and evaluation.” Current source integration does not implement durable financial/inventory transactions, commissioned source authentication or physical release. The installed gate's exact checks and known recovery limits remain as described in this chapter.
+The [System commercial explanation](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md) owns shared workflow meaning. The executable System/Store gate controls current serialization and prerequisites. Sections 10.1–10.8 explain installed simulated behavior; actual financial, inventory, scheduling, durable custody and physical adapters are future integrations.
 
-11 October 2026 · Proposed shared contract for all jobs · Revision 0.1
-
-The shared manufacturing candidate has now been reviewed against Program's current authority and trial requirements. It belongs at the Store evaluation boundary: one neutral job, one selected-stock plan, one modeled operation ledger, and one manufacturing Q. A separate System transaction module should carry the subsequent offer, decision, order, financial, fulfillment, and custody records. Each downstream act consumes the identified output of the preceding act and adds its own evidence.
-
-This is a concrete implementation template, published identically in System and Store for review. System retains authority over shared workflow meanings; Store retains authority over its commercial acts, material, modeled time and Q. The [manufacturing candidate](https://github.com/GeorgePlattDemo/store-zero/blob/0d26702cd6559802861a4f320858c72bac907d82/docs/store-manufacturing-core.mjs) is published only in Store. These candidates have not been adopted into the runtime. The proposed event names require adoption in System's shared definitions and contracts; the shared map creates no second definitions authority. The existing six customer steps can remain: Intent, The bench, The Store answers, Your call, We cut it, Pick up & build.
-
-#### Original design section 1. Ownership and the point of connection
-
-| Owner | Responsibility in this design | Output carried forward |
-| --- | --- | --- |
-| Program | Research, candidate engineering, full-service economic comparison, experiments, adoption rationale | Identified assumptions, findings, proposed tests, and development decisions |
-| System | Job meaning, revision, complete manifest, contracts, customer decision, transaction and owner-record custody | Exact definition, attributable Store answer and commercial records, linked without reinterpretation |
-| Store / responsible seller | Catalog, represented stock, admitted capability, modeled time, Q, commercial terms, reservations, allocations, scheduling, fulfillment | Identified answer or refusal; seller-issued offer and seller-confirmed downstream acts |
-| Financial source | Evidence of the actual financial act under the seller's terms | Attributable authorization, capture, settlement, failure, void, refund, or other agreed tender record |
-| Local implementation and operator | Registered configuration, lowering, material admission, readiness, local operating permission and execution | Identified plan, admission result, execution evidence, faults and consumed material |
-| Inspection and fulfillment roles | Conformance disposition, staging, notification, actual transfer | Inspection, package inventory, notice, and custody records |
-
-One manufacturing engine serves every neutral job; one transaction module serves every supported job. Project-specific code supplies job requirements. Seller policy supplies commercial requirements. The transaction module does not select replacement SKUs, reproduce Q, or generate controller instructions.
-
-The join is the frozen definition revision plus the exact Store request, answer, receipt, calculation identities, and authority. Add an offer/version, customer decision, seller order, and packet identity as those acts occur. Material, capacity, release, execution, inspection, and custody receive their own identities. A single order ID is insufficient to identify all these acts.
-
-The candidate's `selectedStock` is a proposed SKU/quantity plan. Its `operations` ledger predicts occupied time. Its `Q` covers material, hardware, and its declared machine/cut service. Reservation, actual work, financial activity, and inspected results come from their respective sources.
-
-#### Original design section 2. Adopted implementation
-
-System and Store use the same executable event gate: System's `public/live/stb-commercial-sequence.js` and Store's `src/contracts/commercial-sequence.js` are byte-identical. System attaches the verified answer and manifest as C01. Later progression requires explicit, identified source records and seller policy. Acceptance no longer manufactures payment, queue, cutting, inspection, or custody evidence. The UI retains its shared six-step navigation and leaves each unavailable stage pending.
-
-Only simulated evidence sources are installed. Actual source records are refused. Each event validates prerequisites, identities, actor/source, expected sequence and idempotency; verification replays the gate and recomputes the content hashes. The `/v1/commercial-events` Store endpoint validates the submitted stream and proposed event without making external commercial or machine changes.
-
-#### Original design section 3. Reusable commercial sequence
-
-Each row specifies an event to record after its stated act has occurred. Missing evidence leaves the next applicable act pending or blocked. Sending a command records a request, not its successful result. Simulated runs use the same requirements and retain `evidenceClass: "SIMULATED"` throughout.
-
-| Event | Responsible source | Prerequisites and required output | Permitted next progression |
-| --- | --- | --- | --- |
-| C01 `StoreAnswerAttached` | Store answer; System verifies and retains it | Confirmed revision and independent complete manifest; exact request/answer correlation, current expected Store release, intact receipt and calculation identities; all unevaluated requirements named | Present the answer. Only a complete supportable scope can proceed to an offer for that scope |
-| C02 `OfferIssued` | Responsible seller | C01, identified scope, offer ID/version, seller/location, currency, itemized total, terms version, validity, fulfillment method, payment and reservation policy, timing basis | Present these exact terms for a customer decision |
-| C03 `CustomerDecisionRecorded` | Identified customer decision retained by System | Exact offer/version and revision shown; decision ID, accepted/declined/deferred/revision requested, time and attributable evidence | Accepted decision may proceed to seller acceptance. Other decisions preserve the result without progressing the order |
-| C04 `OrderAccepted` | Responsible seller | Accepted C03; valid offer; seller-confirmed availability/capability and agreed terms; order ID, accepted scope and offer snapshot | Initiate the agreed payment, reservation, and scheduling requirements |
-| C05 `FinancialEventRecorded` | Agreed financial source, confirmed by seller adapter | Order/offer identity, source record ID, currency and amount in minor units, actual event kind and time; duplicate delivery is idempotent | Advance only the financial condition explicitly required by the terms; an authorization, capture and settlement remain distinct facts |
-| C06 `ReservationConfirmed` / `CapacityCommitmentRecorded` | Store and scheduler | Required stock/capacity commitments under seller policy; quantities, location, expiry/release rules, capacity window and commitment IDs | Permit the corresponding queue or allocation progression; absent commitments remain explicitly absent |
-| C07 `QueueEntryConfirmed` | Yard scheduler | Accepted order and the seller's explicit entry conditions; queue ID, order/scope, dependencies and schedule basis | Pending work becomes visible to the yard; queue position does not permit machine motion |
-| C08 `ProductionReleaseRecorded` | Responsible local production authority | Accepted frozen scope; terms' financial condition; valid required commitments and actual material allocation; identified job packet, responsible authority and restrictions | Permit preparation of the bound local plan and request local admission |
-
-Rows C05–C07 can progress in a different order only when the identified seller policy states the dependencies. Full prepayment, deposit, approved credit, and payment at pickup are different policies; this template selects none of them. A missing policy blocks the affected progression. Reservation before seller acceptance, if supported, is a separate provisional commitment with its own expiry and disposition.
-
-A fresh seller validation at C04 is retained as a new record. It does not overwrite C01 or the offered answer. If the offered price, required result, supported scope, or terms change, issue a new offer and obtain the required customer decision. A seller's commercial commitment is preserved according to its terms; later Store re-evaluation cannot silently change an accepted amount or release unresolved physical work.
-
-#### Original design section 4. Linked material, execution, and custody sequence
-
-These are separate records attached to the commercial order. They make the commercial outcome auditable without turning the transaction module into a machine controller.
-
-| Event | Required prior facts | Evidence and next act |
-| --- | --- | --- |
-| F01 `MaterialAllocated` | Accepted scope, selected-stock plan, applicable reservation and allocation policy | Store identifies actual parents/lots/quantity/location and condition; confirms compatibility and atomically commits quantities. SKU selection alone supplies none of this evidence |
-| F02 `MaterialIssued` | Valid F01 and work-preparation authority | Record physical movement to the local cell and the responsible custody; preserve unused stock, returned remnants, loss and consumption as subsequent acts |
-| F03 `LocalPlanBound` | C08, exact accepted packet and requirements, actual allocated material, registered local configuration | Retain command artifact identity, configuration/tool/transform identities, lowering version, required inspections and unresolved prerequisites. Reject unsupported or inconsistent work |
-| F04 `LocalAdmissionRecorded` | Bound plan and verified local prerequisites | Local authority records admission or refusal for the actual machine/material/configuration. Physical admission stays BLOCKED while commissioning requirements remain unmet |
-| F05 `ExecutionEventRecorded` | Valid local admission, current readiness, and locally authorized start | Record start, progress, interruption, completion or failure, execution ID, consumed material and actual operation evidence. Faults invalidate dependent permissions according to local rules |
-| F06 `InspectionDispositionRecorded` | Identified outputs and same required revision; applicable inspection criteria | Record uninspected/conforming/nonconforming/dispositioned components and measured evidence. Any accepted secondary-work responsibility must be explicit and within the offered scope |
-| F07 `StagingRecorded` | Required inspection/completion dispositions settled for the handed-over scope | Identify package IDs, physical component IDs, labels, quantities, returned remnants and location; preserve rejected or missing parts separately |
-| F08 `ReadyNoticeRecorded` | F07 and terms' ready-notice conditions | Record the notice actually issued, its referenced scope and fulfillment instructions. Delivery of a notice can be recorded separately when evidence exists |
-| F09 `CustodyTransferred` | Identified recipient or authorized carrier, packages and actual transfer; terms' handoff conditions | Record transfer ID, parties, location/time, package/part quantities, condition and attributable acknowledgment |
-| F10 `ProjectCloseoutRecorded` | Custody/completion disposition and financial/reconciliation conditions specified by the terms | Append an owner-record closeout with known results, unresolved claims or further work. Delivery of components does not establish that the customer's assembly is complete |
-
-F01 must precede C08; F02's position relative to C08 is governed by the local material-issue policy. F03–F05 preserve the machine-specific progression separately. Inspection and secondary-work disposition gate staging/readiness for the agreed handed-over scope. The documented System completion statuses and roles should govern these completion decisions when adopted.
-
-#### Original design section 5. Common record envelope
-
-The following is a fill-in schema example, not an executed event. The event module assigns IDs and sequence under concurrency control. The responsible adapter supplies source evidence; UI text cannot supply it.
-
-```json
-{
-  "schema": "STB-COMMERCIAL-EVENT-1",
-  "eventId": "<unique-event-id>",
-  "eventType": "OrderAccepted",
-  "streamId": "<transaction-stream-id>",
-  "sequence": 4,
-  "expectedPreviousSequence": 3,
-  "causedByEventIds": ["<accepted-customer-decision-event-id>"],
-  "idempotencyKey": "<source-system-and-source-record-id>",
-  "occurredAt": "<source-UTC-instant>",
-  "recordedAt": "<System-UTC-instant>",
-  "actor": { "partyId": "<seller-id>", "role": "SELLER" },
-  "evidenceClass": "SIMULATED",
-  "authority": {
-    "sourceSystem": "<responsible-source>",
-    "sourceRecordId": "<source-record-id>",
-    "verificationRecordId": "<adapter-verification-id>",
-    "policyId": "<seller-policy-id>",
-    "policyVersion": "<policy-version>"
-  },
-  "links": {
-    "projectId": "<project-id>",
-    "definitionId": "<definition-id>",
-    "revisionId": "<revision-id>",
-    "manifestHash": "<complete-manifest-hash>",
-    "requestId": "<Store-request-id>",
-    "receiptHash": "<unchanged-Store-receipt-hash>",
-    "storeRevision": "<adopted-Store-release>",
-    "modelId": "<adopted-model-id>",
-    "modelHash": "<adopted-model-hash>",
-    "inputHash": "<Store-calculation-input-hash>",
-    "resultHash": "<Store-calculation-result-hash>",
-    "offerId": "<seller-offer-id>",
-    "offerVersion": "<seller-offer-version>",
-    "decisionId": "<customer-decision-id>",
-    "orderId": "<seller-order-id>",
-    "packetId": "<accepted-packet-id>"
-  },
-  "payload": {
-    "acceptedScopeId": "<scope-id>",
-    "termsVersion": "<agreed-terms-version>",
-    "currency": "USD",
-    "agreedTotalMinor": null,
-    "sellerAcceptanceReference": "<seller-acceptance-record>"
-  },
-  "previousEventHash": "<previous-event-hash>",
-  "eventHash": "<hash-of-canonical-record-excluding-eventHash>"
-}
-```
-
-`null` amount and placeholder identities make this example incomplete; it must fail an actual `OrderAccepted` gate. Before an order or packet exists, omit those links and require them only in events that depend on them. Domain-specific events additionally link financial, reservation, capacity, material, release, execution, inspection, package and transfer IDs as applicable.
-
-System's event module validates these records, appends them durably, and derives separate commercial, financial, material, production, quality and custody states. Reopening the owner file preserves the original snapshots, events and schema versions. Corrections and changes append identified records; history is retained.
-
-The module exposes a bounded interface such as `recordEvent(validatedSourceRecord, expectedSequence)` and `deriveTransactionState(events, identifiedPolicy)`. Source adapters perform the actual authorized business or machine acts. The event module has no automatic financial, inventory or physical side effects. Retries return the existing event when the same idempotency key and payload recur; a changed payload under that key is refused. Cross-order stock commitment belongs in the Store's inventory authority with atomic concurrency control.
-
-#### Original design section 6. Price, time, and exceptions
-
-**Customer amount.** Retain the unchanged manufacturing answer and Q. The seller's offer itemizes any additional services, freight, taxes, fees, discounts or allowances and supplies the agreed amount and currency. Every extra is either explicitly included in Q, separately priced, expressly waived, or unresolved. An unresolved amount cannot be converted to zero. System neither recomputes Store economics nor treats Q as the final transaction amount by assumption. Financial balances derive from confirmed records; capture and settlement are not both counted as separate customer payments.
-
-**Complete service economics.** Program's trial requires preparation, machine occupancy, operator time, inspection, staging, handoff, recovery, rework, support, downtime and realistic utilization. The candidate already counts its declared loading/seat and release/label time. Record the remaining service activities and their costs separately, with inclusion/allocation basis so handling, operator cost and annual overhead are not counted twice. Keep modeled time, observed time, customer charges and internal costs distinct. Queue wait and payment delay do not become billable spindle time.
-
-**Revision or substitution.** Create a new definition revision for a changed required result or material requirement, obtain a fresh Store answer, and issue the applicable new offer/change record. Seller substitution of an interchangeable parent within a declared allowed plan still needs a recorded compatibility/capability check and attributable commercial treatment. Never change the frozen sold scope or its price invisibly. A physically interrupted or altered job cannot resume merely because a new financial event arrived.
-
-**Shortage, expiry or capacity loss.** Record the failed or expired commitment, its source and affected dependencies. Hold the applicable progression. Re-evaluate/re-offer where required by the change and terms; do not silently choose another species or replace an expired commitment with a displayed availability count.
-
-**Cancellation and refund.** Record a request, the responsible seller's disposition, affected remaining scope, consumed material and any stop instruction separately. Refund requested, authorized and confirmed are different financial events. Apply the agreed seller terms and record the basis; this template specifies no cancellation fee, refund entitlement or schedule.
-
-**Fault or nonconformance.** Preserve execution, loss and inspection evidence. Quarantine affected output and record the responsible disposition, rework/replacement scope and applicable commercial adjustment. Outstanding nonconformance blocks ordinary ready/handoff progression for that scope; any partial or qualified handoff needs explicit agreed disposition.
-
-#### Original design section 7. Specific integration surfaces and remaining decisions
-
-| Surface | Proposed change |
-| --- | --- |
-| Program `governance/authority.md`, `research/bounded-cell-trial.md` | Existing ownership and full-service research requirements guide this design; reference adopted owner contracts and retain candidate/adoption findings without duplicating the engine |
-| System `docs/DEFINITIONS.md` and affected contracts | Adopt the missing event meanings, source roles, financial distinctions, domains, policy references and revision behavior once; reuse existing completion meanings |
-| System `public/live/stb-terms-flow.js` | Retain the shared all-job flow; delegate to one transaction module and render verified pending/completed/blocked events without automatic success propagation |
-| System `src/system/acceptance.ts`, `src/system/session.ts` | Freeze exact offer/decision/answer content, persist event identities and history, and explicitly evolve the accepted-packet/owner-record schema |
-| Store `src/requests/store-request.mjs` and contracts | Adopt the manufacturing candidate through the one request/receipt boundary; bind answer authority to model/configuration; expose seller commercial and stock actions separately through attributable interfaces |
-| Local registered implementation | Consume the accepted requirements, actual material and explicit release; retain configuration, admission, execution and result identities; reject incompatible plans |
-
-The implementation must resolve the seller/location and permitted actors; offer validity and acceptance policy; fulfillment scope and timing; price inclusions and tax source; payment/credit schedule; reservation and capacity policy; cancellation/refund handling; inspection criteria and secondary-work responsibility; partial fulfillment and actual custody evidence. These are required policy fields, not invented defaults. The present demonstration keeps commerce simulated and physical admission blocked.
-
-Adoption can proceed in bounded stages: first the canonical event/policy and manifest contracts; then Store's single manufacturing authority and System's lossless answer/offer/event integration; then exact packet/lowering verification and joint tests before a deliberate pin change. A simulation of the event chain can be exercised before any actual commercial or machine interfaces are available. Historical Project 1 evidence remains unchanged.
-
-Required future checks include: refusal/unresolved scope cannot open an offer; edited or stale offer cannot be accepted as current; acceptance alone cannot satisfy financial/allocation gates; duplicates/concurrent submissions cannot duplicate orders, charges or stock commitments; revised jobs retain old history; shortage/nonconformance blocks dependent work; an actual financial event cannot promote simulated physical evidence; pickup requires the applicable quality, financial and transfer evidence; and owner-record export/import preserves identities and schema versions. These are proposed adoption tests, not tests claimed to have run for this template.
-
-#### Original design section 8. Sources and verification of this delivery
-
-Inspected current repository heads:
-
-- [Program · 5093b08](https://github.com/GeorgePlattDemo/3d-solutions-program/tree/5093b08dfafddfd38b345b816727739dc3bf5285): README, AGENTS, authority, Demand as Architecture, Bounded Cell Trial, Machine Development, and Evidence.
-- [System · 0cb4bea](https://github.com/GeorgePlattDemo/new-system/tree/0cb4bea743b16a026f57e46d873d433761835069): shared definitions, terms flow, acceptance/session surfaces, and Store boundary references.
-- [Store · 3afe00a](https://github.com/GeorgePlattDemo/store-zero/tree/3afe00ac8672da0791ee8a7af05422d24f6785ab): operational specification and accepted-packet contract; Project 1 review Appendix C H01–H12 supplies the preserved handoff rationale.
-
-The manufacturing core is active in Store's `src/evaluation/engine/store-manufacturing-core.mjs`. System submits its complete definition manifest and consumes the Store's quote and operation ledger. The shared commercial module implements the sequence gates above for explicit simulated evidence. Physical production, financial activity, stock reservation and custody require commissioned source adapters and remain blocked in this migration.
+The original proposal and illustrative envelope are preserved in System Git at `20b01b55f6d1ccdf275285f075bfc2cfe1bdad31`. They are design provenance, not an additional live contract.
 
 ## 11. Refusal interruption and recovery
 
+*Authority category: Current System Behavior*
+
 ### 11.1 Current result states
+
+*Authority category: Current System Behavior*
 
 A clean, fully covered, feasible evaluated job is `SUPPORTABLE`, complete and fresh, with Q. `REFUSED` identifies an invalid/unsupported declaration or represented boundary violation. `UNRESOLVED` identifies missing meaning/evidence or a bounded calculation not established. `UNAVAILABLE` identifies failure to obtain a complete plan from eligible available inventory. Admission refusals that never reach calculation are `complete:false`, `freshEvaluation:false`, with null calculation identity and receipt. A clean job that reaches evaluation receives the Store's evaluated disposition and receipt even if not supportable.
 
@@ -4715,6 +4830,8 @@ Machine packet verification additionally uses VERIFIED, REFUSED and STALE; lower
 The retired partial aggregate `NOT_ALL_LINES_SUPPORTABLE` survives in some System compatibility display-state vocabulary and old evidence. The adopted whole-job core does not return a purchasable partial Q. An unresolved component cannot be dropped to call the remainder a completed job.
 
 ### 11.2 Admission and manufacturing reason register
+
+*Authority category: Current System Behavior*
 
 The public request boundary's principal reasons are REQUEST_MUST_BE_AN_OBJECT, `REQUEST_FIELD_NOT_DECLARED:<field>`, REQUEST_TYPE_NOT_ACCEPTED, STORE_EVALUATION_REQUEST_ID_REQUIRED, DEFINITION_REQUIRED, MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED, INDEPENDENT_SYSTEM_MANIFEST_REQUIRED and DISCOVERY_MANIFEST_NOT_ACCEPTED. Typed definition validation adds `DEFINITION_FIELD_NOT_DECLARED:<path>`, `DEFINITION_FIELD_TYPE:<path>` and the declared enum/type reason variants produced by [shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/shape.mjs). Missing identity/manifest is unresolved; undeclared/mistyped or machine-local language is refused. These checks precede manufacturing.
 
@@ -4867,6 +4984,8 @@ The full result also carries subject identities and, for grade ambiguity, offere
 
 ### 11.3 Packet evidence and transport failures
 
+*Authority category: Current System Behavior*
+
 Packet refusals include PACKET_MUST_BE_AN_OBJECT, PACKET_FIELD_REQUIRED:<path>, PACKET_FIELD_NONBLANK:<path>, PACKET_DECISION_TIME_INVALID, PACKET_SCHEMA_NOT_ACCEPTED, PACKET_REQUIRES_ACCEPTED_DECISION, PACKET_DECISION_MUST_BE_SIMULATED, PHYSICAL_RELEASE_NOT_AVAILABLE, PACKET_AUTHORITY_MUST_BE_SIMULATED, PACKET_STORE_ANSWER_REQUIRED, PACKET_ANSWER_REQUEST_TYPE_MISMATCH, PACKET_REQUIREMENTS_DIFFER_FROM_DEFINITION, PACKET_ANSWER_NOT_SUPPORTABLE, PACKET_ANSWER_HAS_NO_RECEIPT, PACKET_RECEIPT_ALTERED, PACKET_DECISION_PRECEDES_ANSWER, PACKET_ANSWER_ALTERED, PACKET_DEMAND_CHANGED, PACKET_MANIFEST_CHANGED and PACKET_STORE_RELEASE_MISMATCH. Intact but outdated evaluation/authority yields STALE with PACKET_STORE_ANSWER_NOT_CURRENT or PACKET_STORE_AUTHORITY_NOT_CURRENT.
 
 Machine configuration/evidence failures include MACHINE_EVIDENCE_REQUEST_REQUIRED, MACHINE_EVIDENCE_FIELD_REQUIRED:<field>, MACHINE_CONFIGURATION_IDENTITY_MISMATCH, ACCEPTED_MODEL_CONFIGURATION_MISMATCH, ACCEPTED_LEDGER_REQUIRED, LOCAL_JOB_ALTERED and LOCAL_MODEL_CONFIGURATION_MISMATCH, plus schema/type reasons from the machine-record/configuration contracts. Replay STOPPED reasons are MODELED_RECORDS_REQUIRED, MOTION_RECORDS_ALTERED, MOTION_BINDING_MISMATCH, MOTION_CONFIGURATION_MISMATCH, OCCUPANCY_SEQUENCE_INVALID, POSITION_INVALID, TOOL_RETRACT_UNCONFIRMED, MOVE_MODEL_INVALID, INDEX_WITH_TOOL_DOWN, SAW_STROKE_WITH_TOOL_OFF, SPOT_PLUNGE_WITH_TOOL_OFF, ANGLE_CHANGE_WITH_SAW_DOWN, ROUTER_MODEL_INVALID, DATUM_CAPTURE_WITH_TOOL_DOWN, COMPLETE_WITH_TOOL_ACTIVE and OCCUPANCY_TOTAL_MISMATCH. The evidence endpoint wraps a failed replay as VIRTUAL_EVIDENCE_NOT_COMPLETE:<reason>.
@@ -4874,6 +4993,8 @@ Machine configuration/evidence failures include MACHINE_EVIDENCE_REQUEST_REQUIRE
 Transport failures are separate from Store manufacturing refusal. Wrong method/path, malformed JSON, content type/origin, body limit, timeout and runtime-source change produce HTTP/protocol errors, not a supportable quote. System interpretation rejects wrong release, wrong request/demand identity, changed byte digest, absent/altered receipt, non-JSON response and late answers. Its attempt states distinguish pending, answered, transport, protocol and rejected-late. After edit, project switch or reopen, old attempts/answers remain history and pricesCurrent becomes false.
 
 ### 11.4 Commercial holds and exceptions
+
+*Authority category: Current System Behavior*
 
 The commercial reason families are strict shape/identity/time/source/actor/sequence/cause/prerequisite errors; COMPLETE_STORE_ANSWER_REQUIRED; OFFER_AMOUNT_OR_EXPIRY_INVALID; COMMERCIAL_POLICY_UNRESOLVED; COMMERCIAL_EXTRAS_UNRESOLVED; CUSTOMER_DECISION_MISMATCH; SELLER_ORDER_ACCEPTANCE_REQUIRED; FINANCIAL_EVENT_MISMATCH, FINANCIAL_CAPTURE_REQUIRED, FINANCIAL_PRIOR_EVENT_REQUIRED and FINANCIAL_DISPOSITION_BLOCKED; COMMERCIAL_POLICY_ORDER_BLOCKED, COMMERCIAL_POLICY_GATE_BLOCKED, COMMERCIAL_COMMITMENT_EXPIRED and COMMERCIAL_COMMITMENT_EXPIRY_REQUIRED; ACTUAL_ALLOCATION_RECORD_REQUIRED; MATERIAL_ISSUE_MISMATCH; RELEASE_ALLOCATION_MISMATCH; LOCAL_PLAN_BINDING_MISMATCH; LOCAL_ADMISSION_REQUIRED; EXECUTION_ADMISSION_MISMATCH; INSPECTION_COMPLETION_REQUIRED; QUALITY_DISPOSITION_BLOCKED; READY_STAGING_MISMATCH; CUSTODY_HANDOFF_MISMATCH; CLOSEOUT_HANDOFF_MISMATCH; COMMERCIAL_EXCEPTION_HOLD; and idempotency/chain failures described in chapter 10.
 
@@ -4883,6 +5004,8 @@ A pending state requires the appropriate owner's next attributable act. It is no
 
 ### 11.5 Physical interruption datum invalidation and recovery
 
+*Authority category: Future Work*
+
 For a commissioned apparatus, stock slip, lift, contact loss, restraint disturbance, tool/retract uncertainty, unexpected tool load, fence movement, removed/reseated stock, power interruption or a changed tool/configuration can invalidate assumptions of the current local plan. The local authority must stop according to its validated protective/operating process, record the fault and affected operation/components, and prevent a following tool action from relying on invalid position.
 
 Recovery starts with what remains physically true: actual stock/part identity and condition, tools clear or otherwise safely controlled, valid machine references, measured remaining material, preserved completed features and the extent of nonconformance. Reestablish A/B/C and material readiness as required; inspect potentially affected output; obtain an appropriate new local plan and release bound to the same or explicitly revised requirements. Resume is not just incrementing a sequence number. If the customer geometry/material changes, System issues a new definition and Store evaluates it afresh.
@@ -4891,7 +5014,11 @@ Rejected components receive an attributable REWORK/SCRAP/HOLD disposition. Repla
 
 ## 12. Acceptance inspection and evidence custody
 
+*Authority category: Current System Behavior*
+
 ### 12.1 Test evidence and proof scope
+
+*Authority category: Current System Behavior*
 
 Store's 87-test suite combines manufacturing/core independent checks, protocol 2, catalog, packet/contract examples, historical evidence custody, differential migration, owner boundaries, service transport, deployment-verifier behavior and commercial gate checks. These establish the tested source behaviors and identity preservation. A passing suite does not turn declared feed, clamp allowance, stock condition or geometric tabs into measured facts.
 
@@ -4901,6 +5028,8 @@ Current System tests exercise admission, public translation, current pin/receipt
 
 ### 12.2 Physical component acceptance
 
+*Authority category: Future Work*
+
 Before a physical trial, responsible design/inspection owners must set measurable acceptance criteria for each requested component and feature: length datum and tolerance, end angle/relation/plane, finished width/thickness, spot X/Y/depth/diameter, profile geometry, sheet aperture/piece bounds, surface/edge condition and assembly-critical requirements. The current requests/model dimensions do not define a universal finished-part tolerance. The panel model's ±.25-inch position allowance is a particular declared process value, not a guarantee for all component dimensions.
 
 Inspect independent of commanded coordinates and drive encoder counts, using suitable instruments/calibrated references and a predetermined sampling/repetition method. Record instruments, procedure, operator, source material/lot/condition, configuration/tool registration, measured values, deviations and ACCEPTED/REWORK/SCRAP/HOLD disposition. A motor reaching target cannot prove the board did not slip, a drill reached full-diameter depth or a separated part has the desired length.
@@ -4908,6 +5037,8 @@ Inspect independent of commanded coordinates and drive encoder counts, using sui
 For Project 1, measure each long-long 18-inch requirement under the adopted face convention, both end angles and parallel relation, center location on the actual prepared face and full-diameter spot depth. For width preparation, inspect actual width and fence relationship after material removal. For Playhouse, inspect contour compensation, tabs/retained halves and panel dimensions/clearance. Do not treat a modeled retained bridge as already manually released and finished.
 
 ### 12.3 Identity labels and remnants
+
+*Authority category: Future Work*
 
 The engine returns components named by the customer's part IDs and features, or sheet piece IDs tied to the package/aperture/cut history. Labels are modeled identity/occupancy output: dimensional release/label allowance is per parent; sheets add ten seconds per returned piece. Actual label printing, attachment, readability, durability and assembly grouping require the fulfillment/local implementation.
 
@@ -4917,6 +5048,8 @@ Remnants have their own identity, condition and keep/return/scrap decision. Stor
 
 ### 12.4 Custody and historical reproduction
 
+*Authority category: Current System Behavior*
+
 The consequential record connects original customer evidence, controlling definition revision, independent manifest, serialized inquiry/digest, exact Store answer/receipt, seller offer/version, decision, order/finance/allocation, packet, local configuration/plan, operation/faults, inspection, labels, staging, custody and closeout. Later stages add their owned evidence; they do not re-enter or silently reconstruct the earlier definition. Corrections append identified records rather than changing sealed earlier outcomes.
 
 System's [session.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/session.ts) preserves revisions, attempts, decisions, packets and evidence attempts. Edits, reopening and project switches retire active answer/evidence eligibility. Saved JSON is owner custody, not a new live Store evaluation. Current loading contains a discrepancy: `packetOk` still checks packet schema 1 while current acceptance emits packet schema 2. An accepted current packet can therefore fail that saved-record structural path; this is identified, not claimed fixed. Public tile/demo record paths and the generic session path must be distinguished when asserting persistence.
@@ -4925,13 +5058,19 @@ Historical custody preserves issued PDFs, publication Markdown/DOCX/ZIP, origina
 
 ### 12.5 Release responsibility
 
+*Authority category: Future Work*
+
 System admits meaning and maintains customer revision/decision custody. Store admits a clean manufacturing inquiry and declares its modeled feasibility/Q. The seller accepts commercial responsibility and terms; finance/inventory/scheduler supply their records. The local apparatus owner establishes commissioned configuration/readiness, material condition and applicable release; the authorized operator performs the local start under the operating procedure. Quality determines component conformance; fulfillment records staging/transfer; the owner retains the resulting project record.
 
 The current shared software never transfers physical authority to a browser or Store price. Program supplies the test plan to obtain the missing measurements and operating evidence. Each authority must be demonstrably present at the stage where its fact is used.
 
 ## 13. Economics and operating implications
 
+*Authority category: Current System Behavior*
+
 ### 13.1 Current declared cost pool
+
+*Authority category: Current System Behavior*
 
 | Annual component | USD | Declared purpose |
 |---|---:|---|
@@ -4945,6 +5084,8 @@ The current shared software never transfers physical authority to a browser or S
 At 600 productive hours, pool cost is $200/hour and selling rate at .20 gross margin is $250/hour. Productive hours are modeled billable occupancy, not calendar hours, total staffed time or a proven utilization forecast. The declared component sum is checked; actual costs require measurements/accounts. The model applies one hourly rate to its hourly ledger and fixed prices to panel cuts. It does not provide a measured asset-by-asset cost allocation between D-001 and S-001.
 
 ### 13.2 Productive utilization and service burden
+
+*Authority category: Future Work*
 
 Holding the pool/margin and treated-lumber comparison's 86.46953628299116 seconds constant illustrates utilization sensitivity:
 
@@ -4961,6 +5102,8 @@ The full service includes clarification, site measurement, customer assistance, 
 
 ### 13.3 Complete customer amount and internal cost
 
+*Authority category: Current System Behavior*
+
 Manufacturing Q consists of parent stock, purchased hardware, hourly modeled work and fixed panel-cut service. A seller's complete offered amount may additionally include tax, delivery, installation, protection, special preparation, inspection beyond included scope, handoff services or explicit allowances/subsidies. The offer must attribute scope and each extra. The installed commercial gate preserves amountMinor/terms/policy but is not a tax calculator or accounting ledger.
 
 Internal cost is different from customer selling price. Material reference cost, mark-on, gross margin, operator/capital allocations and fixed-cut economics must be reconciled without charging the same burden twice. A fixed $10 panel cut is a declared service price; its 64.2/83.4 seconds remain in occupancy but are not additionally hourly billed. Actual profitability depends on complete costs and receipts, not the name of a quote field.
@@ -4968,6 +5111,8 @@ Internal cost is different from customer selling price. Material reference cost,
 A free supervised lab service measures uptake/usefulness while subsidized. It cannot prove willingness to pay at an eventual complete amount. Donated equipment reduces immediate cash procurement but not replacement cost, maintenance or the expertise needed to install/support it. Bring-your-own wood requires actual supplied-material admission and cost treatment; it must not be represented as a fictional purchase from declared Store inventory.
 
 ### 13.4 Waste maintenance and alternatives
+
+*Authority category: Future Work*
 
 Whole-parent charging is explicit. Finished lengths, kerf, profile removal, retained control stock and unused stock all affect material utilization. The current search can improve parent combinations but cannot rotate cross-sections, reuse remnants or assume concurrent cells. A geometrically feasible shortest parent can be worse economically than a longer cheaper parent or a mixed combination. A retained end may be useful later, but current Q gives no recovery credit.
 
@@ -4977,13 +5122,17 @@ Compare the same accepted result to manual preparation, existing yard saw servic
 
 ### 13.5 Laboratory and yard validation
 
-Program's [supervised laboratory trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) separates demand/baseline observation, engineering validation and bounded service testing. It starts with a dimensional cell; sheet machinery is added when demand warrants it. Current proposed layout is two manipulating rollers with restraint, two downstroke miter stations, up to three qualified router stations, **one minimum spot station** with a second only if measured need justifies it, rigid base/supports and local controls/sensing/guarding/extraction. The core target is about five feet wide by three deep, but the complete operating footprint must include stock travel/supports/access/protection. It is not today's single benchmark station set instantiated as a physical bill of materials.
+*Authority category: Future Work*
+
+Program's [supervised laboratory trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) separates demand/baseline observation, engineering validation and bounded service testing. It starts with a dimensional cell; sheet machinery is added when demand warrants it. Current proposed layout is two manipulating rollers with restraint, two downstroke miter stations, up to three qualified router stations, **one minimum spot station** with a second only if measured need justifies it, rigid base/supports and local controls/sensing/guarding/extraction. The core target is about five feet wide by three deep, but the complete operating footprint must include stock travel/supports/access/protection. It is not today's single benchmark station set instantiated as a physical bill of materials.
 
 The trial first proves references/stock control, saw face/kerf/stroke, spot location/full-diameter penetration, controller integration/fault recovery and independently inspected components. Later it measures free supervised supplied-material service and, separately, willingness to pay. Record supported/refused/redirected/deferred/abandoned requests, preparation time, material/waste, occupancy, reliability, support, actual receipts/costs and customer results.
 
 A yard pilot must retain the same identified definition through actual equipment and return observed results to its originating owner record. Capability/footprint tradeoffs should follow observed demand and complete service costs. Go/no-go criteria are set before interpretation; negative findings may justify narrowing, changing or stopping. Program owns that research proposal and adoption rationale; this master links it rather than making a duplicate institutional research plan.
 
 ### 13.6 Research argument and what Store tests
+
+*Authority category: Future Work*
 
 Helu, Sobel, Nelaturi, Waddell and Hibbard's 2020 *Industry Review of Distributed Production in Discrete Manufacturing*, Journal of Manufacturing Science and Engineering 142(11), 110802, describes matching part requirements to assets under technical, business and logistical constraints. Its manufacturing-as-a-service discussion identifies human planning in quoting; its interoperability discussion identifies repeated reengineering/process-development burden and small-batch scrap risk. A common format is insufficient when systems lack the context needed to interpret requirements and results. The authors distinguish product/process information, asset capability and coordination across lifecycle stages. [Primary NIST manuscript](https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=929339), especially sections 3.2, 4.2, 5.1–5.4, supplies the source argument.
 
@@ -5004,108 +5153,55 @@ The core supplies a concrete test surface for these questions: it prices and tra
 
 ## 14. Exact source and verification register
 
+*Authority category: Current System Behavior*
+
 ### 14.1 Store runtime source register
 
-Every link in the following tables uses the frozen **source** commit, not the subsequent documentation commits. A current artifact may contain historical/proposed data; the status column describes its purpose rather than pretending all its contents are live physical evidence. Runtime tests refer to the identified 87-test Node 22 suite.
+*Authority category: Current System Behavior*
 
-| Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
-|---|---|---|---|---|---|---|
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/evaluation/engine/store-manufacturing-core.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/engine/store-manufacturing-core.mjs) | Sole neutral compiler, whole-job planner, ledger and Q | Store | 21 core checks; manufacturing-core/protocol2 tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/evaluation/catalog.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/catalog.mjs) | Single catalog reader and validation | Store | Catalog acceptance; check:catalog | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/store-zero-catalog.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/store-zero-catalog.json) | 183 catalog supply records and declared inventory/prices | Store | Catalog validation; frozen numerical rechecks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-observations.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-observations.json) | 20 attribution records | Store | Discovery and catalog tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-price-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-price-sheet-2026-09-26.csv) | Reference material-price source | Store | Catalog provenance | Historical/source data |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/sources/store-zero-hardware-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-hardware-sheet-2026-09-26.csv) | Reference hardware-price source | Store | Catalog provenance | Historical/source data |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [data/machine/manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/machine/manufacturing-core-0.1.json) | Registered parameter input | Store declared model; local commissioning future | Configuration/hash and protocol2 checks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/configuration.mjs) | Register/expand/hash exact declared configuration | Store modeled evidence boundary | Protocol2/configuration checks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/shape.mjs) | Exact typed field/enum checking | Store contract | Protocol2; packet/service refusals | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/definitions.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/definitions.mjs) | Three public manufacturing shapes | Store contract | Protocol2; contract examples | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/store-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/store-request.mjs) | Single request admission/evaluation/receipt issuer | Store | Protocol2; receipt and service checks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/offering-lookup.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/offering-lookup.mjs) | Bounded SKU/text discovery and provenance | Store | Lookup/service checks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/job-packet.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs) | Accepted packet 2, alteration/currentness verifier | System produces; Store validates | Protocol2; packet/contract acceptance | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/machine-records.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/machine-records.mjs) | Local job and occupancy record shapes | Store current evidence; local physical implementation future | Protocol2; machine examples | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) | Bind accepted ledger without replanning | Store current evidence boundary | Protocol2; all five fresh master cases | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/virtual-run.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs) | State/hash/order/time replay and blocked physical admission | Store model verification | Protocol2; fault cases; all five master cases | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/machine/evidence.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/evidence.mjs) | One evidence endpoint evaluator | Store | Protocol2; HTTP evidence checks | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/contracts/commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js) | Shared simulated source-event contract | Shared contract under named source roles | Commercial tests; byte equality with System | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/requests/commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/commercial-request.mjs) | Simulated chain verification/append wrapper | Store transport/gate | Service/commercial tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [src/service/server.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/service/server.mjs) | HTTP protocols, health, digest, bounds, release | Store | Service and deployment-verifier tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/source-digest.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/source-digest.mjs) | Recompute shipped source identity | Store | Digest recheck | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/verify-deployment.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/verify-deployment.mjs) | Checkout-to-service behavior verifier | Store | verify-deployment.test.mjs | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/check-catalog.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/check-catalog.mjs) | Catalog validation command | Store | 183 SKUs valid | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/build-contract-examples.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/build-contract-examples.mjs) | Deterministic current-code examples against recorded catalog | Store contract evidence | Contract acceptance; no fixture regeneration | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/core-self-checks.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/core-self-checks.mjs) | 21 independent declared-core assertions | Store | manufacturing-core.test.mjs | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/manufacturing-core.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/manufacturing-core.test.mjs) | Engine geometry, inventory, timing/economics | Store | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/protocol2.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/protocol2.test.mjs) | Manifest, packet, current evidence boundary | Store | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/service.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/service.test.mjs) | Transport/release/source-change bounds | Store | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/verify-deployment.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/verify-deployment.test.mjs) | Verifier behavior against controlled services | Store | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/commercial-sequence.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/commercial-sequence.test.mjs) | Simulated prerequisites, policy, retry, alterations | Shared contract | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/project-1.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/project-1.mjs) | Explicit present-grade/end meaning on sealed demand | Store test input | Current $10.81 test; historical bytes unchanged | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/user1-dimensional-travel-fixture.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/user1-dimensional-travel-fixture.mjs) | 16-inch SPF bounded specimen | Store test input | Current $8.62 inquiry | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/alcove-cut-packages.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/alcove-cut-packages.mjs) | Generic Alcove neutral test fixture, distinct defaults | Store test input | Core/protocol tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [tests/fixtures/manifest.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/manifest.mjs) | Independently listed test expectation helper | Store tests only | Protocol/contract coverage | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/catalog/catalog.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/catalog/catalog.test.mjs) | Catalog data rules and attribution checks | Store | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/contracts/contracts.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/contracts/contracts.test.mjs) | Serialized fixture equality | Store contract | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/boundaries/boundaries.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/boundaries/boundaries.test.mjs) | Owner/import/runtime boundaries | Store governance | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/boundaries/documents.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/boundaries/documents.test.mjs) | Document/evidence custody boundaries | Store governance | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/project-1/project-1.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/project-1.test.mjs) | Preserved $11.09 plus distinct current $10.81 benchmark | Store acceptance | Node 22 suite | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [acceptance/differential/differential.test.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/differential.test.mjs) | 1786-case classification/new baseline equality | Store migration | 844 current replays; 942 retired internal exports | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [scripts/build-migration-audit.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/scripts/build-migration-audit.mjs) | Reconstruct new-model migration classification | Store migration | Differential acceptance | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/migration/core-replay-baseline.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/core-replay-baseline.json) | Explicit current-model migration baseline | Store migration | Differential acceptance | Historical migration/current baseline |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/migration/retired-paths.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json) | Removed implementation and replacement coverage register | Store migration | Boundary checks | Historical migration |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [contracts/examples](https://github.com/GeorgePlattDemo/store-zero/tree/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples) | Requests, packets and machine outputs | Store contract examples | buildExamples comparison; acceptance fixture catalog | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/STORE-ZERO-SPECIFICATION.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/STORE-ZERO-SPECIFICATION.md) | Enforceable current behavior | Store specification | Boundary/specification tests | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) | Intended attributable operational contract | Shared source roles | Executable gate comparison | Current design; actual integration proposed |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [AGENTS.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/AGENTS.md) | Maintainer governance/owner boundaries | Store governance | Read before edits | Current |
-| store-zero | `f7123a73c1ca60aa7eb180a86a1c365eaffe95db` | [README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/README.md) | Existing entry point with identified explanatory drift | Store explanation | Audit reconciliation | Current narrative; corrections deferred |
+Current executable owners are listed below. Links track `main` for reading; an acceptance run must additionally record its exact commit and shipped-source digest.
+
+| Responsibility | Current source | Verification |
+| --- | --- | --- |
+| Service and identity | [server.mjs](src/service/server.mjs) | HTTP/service and deployment checks |
+| Request/receipt | [store-request.mjs](src/requests/store-request.mjs) | Protocol, manifest and receipt tests |
+| Manufacturing, stock, time and Q | [store-manufacturing-core.mjs](src/evaluation/engine/store-manufacturing-core.mjs) | Manufacturing regressions, independent Q and benchmark |
+| Catalog and model | [catalog.mjs](src/evaluation/catalog.mjs), [data](data/) | Catalog and registered-configuration checks |
+| Request, packet, machine and commercial shapes | [contracts](src/contracts/) | Contract and forged/stale input tests |
+| Verified plan binding and replay | [machine](src/machine/) | Packet/evidence and virtual-fault tests |
+| Current examples and proof | [build-contract-examples.mjs](scripts/build-contract-examples.mjs) | Exact regenerated-byte comparison |
+| Deployment | [Dockerfile](Dockerfile), [railway.json](railway.json), [verify-deployment.mjs](scripts/verify-deployment.mjs) | External release/source/receipt checks |
+
+Historical recordings and original publication identities are separate evidence. They supply no alternate runtime or answer.
 
 ### 14.2 System handoff source register
 
-System's shared definitions remain the one terminology/meaning owner even where its current explanatory contracts lag the implementation. The master identifies that disagreement; it does not redefine terms under Store authority.
+*Authority category: Current System Behavior*
+
+[System](https://github.com/GeorgePlattDemo/new-system) owns the published application and shared meaning. Its current source paths are:
+
+| Responsibility | Current System path | Verification |
+| --- | --- | --- |
+| Shared meaning | `docs/DEFINITIONS.md` | Contract/document reconciliation |
+| Store pin | `src/system/store-candidate.ts`, `public/live/stb-store-runtime.json`, `.github/workflows/verify.yml`, `startup.sh` | Exact coordinated pin |
+| Published definitions | `public/live/system-build-current.html`, project child pages | Five-project Chromium and public-wire checks |
+| Translation and transport | `src/system/store/published-wire.ts`, `src/routes/api/store-zero/` | Actual HTTP integration, pin and payload correlation |
+| Independent coverage | `src/system/manifest.ts` | Part, feature, sheet and item identity equality |
+| Response custody | `src/system/store/interpret.ts` | Receipt, request and revision checks |
+| Typed records/packets | `src/system/session.ts`, `acceptance.ts` | Packet2 round trip and invalid-schema rejection |
+| Modeled evidence presentation | `src/system/machine.ts` | All three registered classes and blocked physical authority |
+| Published accepted packet | `public/live/stb-terms-flow.js` | Existing decision and exact answer exported, then HTTP lowering |
+| Simulated commerce | `public/live/stb-demo-commerce.js`, `stb-commercial-sequence.js` | Separate source events, gate parity, refusal and pickup checks |
+
+The original Project 1 fixtures retain their historical identities. Runtime behavior is governed by the current executable paths and pinned Store, not by a prior snapshot of these files.
+
+### 14.3 Historical Evidence — original source inventory
+
+*Authority category: Historical Evidence*
 
 | Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
 |---|---|---|---|---|---|---|
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/DEFINITIONS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/DEFINITIONS.md) | Shared meaning and authority boundaries | System | Compared with operative wire/source | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store-candidate.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store-candidate.ts) | Exact inspected Store commit/protocol/model/packet identities | System pin authority | Joint HTTP tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-store-runtime.json](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-store-runtime.json) | Public transport runtime identity | System deployment | Published-wire tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/manifest.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/manifest.ts) | Independent source component/feature/item expectation | System definition | Published-wire; coverage tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/published-wire.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts) | Public-page translation and attributable inquiry | System boundary | Published-wire tests; exact master demands | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/forward.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/forward.ts) | Server-side Store transport/pin boundary | System transport | HTTP integration tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/interpret.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/interpret.ts) | Byte/receipt/revision/authority response interpretation | System custody | System/HTTP tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/acceptance.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/acceptance.ts) | Current simulated decision and packet 2 production | System decision custody | System/HTTP tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/session.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/session.ts) | Revision/attempt/packet/evidence custody and reopening | System record | System tests; packet-loader discrepancy identified | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/compile.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/compile.ts) | Bounded recipe-to-demand compile/trace | System definition | System tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/recipes/library.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/recipes/library.ts) | Generic recipe definitions/defaults | System definition | System tests; distinct from public defaults | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/window-seat.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/window-seat.ts) | Window Seat bounded derivation | System definition | System tests/layout rule | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/shared/definition-contract.mjs](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/shared/definition-contract.mjs) | Public definition identity/admission contract | System public boundary | Admission/public tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/shared/tile-host-admission-contract.mjs](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/shared/tile-host-admission-contract.mjs) | Per-tile admitted inquiry boundary | System public boundary | Published-wire/admission tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html) | Current composed public shell and overrides | System public app | Published-wire tests; source tracing | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-front-door-0.5.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-front-door-0.5.html) | Front door/nested project composition | System public app | Source tracing; dependency retained | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/system-build-base-8d8a9dd.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-base-8d8a9dd.html) | Alcove/Playhouse original public generators inside current shell | System public definitions | Alcove exact generator and Playhouse checks | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/three-frames.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/three-frames.html) | Start Your Own host/frames | System public app | Start-own and public tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-start-own-bench-leg-0.1.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-start-own-bench-leg-0.1.html) | Current bounded brace presentation/control | System public app | Start-own tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-alcove-store-bridge.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-alcove-store-bridge.js) | Alcove admitted transport vocabulary | System boundary | Published-wire tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) | Public Window Seat geometry/manifest/defaults | System definition | Fresh $1193.10 reproduction | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-outdoor-picnic-0.4.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-picnic-0.4.html) | Current published plan parts/hardware/angle meaning | System definition | Fresh $293.16 encoded-demand result; datum gap | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-outdoor-option-requests.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-option-requests.js) | Independent Outdoor alternative inquiries | System boundary | Published-wire option tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-commercial-sequence.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js) | Byte-identical served shared event gate | Shared contract | Byte compare; public commercial tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-demo-commerce.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-demo-commerce.js) | Explicit Job 1 simulated seller source/policy | System demo source | Published-wire demo tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [public/live/stb-terms-flow.js](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-terms-flow.js) | Customer terms/decision and simulated stage presentation | System UI/custody | Published-wire terms tests | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/published-wire.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.test.ts) | Public five-path and commercial translation tests | System verification | Node 22 joint suite | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/store/http.integration.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/http.integration.test.ts) | Exact pinned Store and evidence integration | System verification | Node 22 joint suite | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/playhouse-admission.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.test.ts) | Sheet/Playhouse admission tests | System verification | Node 22 suite | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [src/system/start-own-bench.test.ts](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/start-own-bench.test.ts) | Current brace answers/revisions/refusals | System verification | Node 22 suite | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/rules/window-seat-layout.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/rules/window-seat-layout.md) | Named tower-layout rule | System meaning | Window Seat derivation | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/verification/start-your-own.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/verification/start-your-own.md) | Current proof note for five paths | System verification | Compared to fresh results | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [docs/commercial-sequence-template.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/docs/commercial-sequence-template.md) | Shared transaction design copy | Shared contract | Compare Store copy | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [startup.sh](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/startup.sh) | Runtime pin/startup contract | System deployment | Inspected source; unchanged | Current |
-| new-system | `ab09777d6f27d4b70a2193abc8564ebce611746f` | [AGENTS.md](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/AGENTS.md) | System maintainer boundaries | System governance | Read-only consultation | Current |
-
-### 14.3 Program and historical source register
-
-| Repository | Commit SHA | Exact path | Purpose | Owner | Supporting check or evidence | Status |
-|---|---|---|---|---|---|---|
-| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) | Proposed apparatus, engineering/service measurements | Program | Source compared to current evidence stage | Proposed |
+| 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) | Proposed apparatus, engineering/service measurements | Program | Source compared to current evidence stage | Proposed |
 | 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [EVIDENCE.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/EVIDENCE.md) | Research/statistical/patent/historical provenance | Program | Source reading; documentary check | Current research narrative with historical evidence |
 | 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [README.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/README.md) | Research purpose and public entry | Program | Documentary check | Current |
 | 3d-solutions-program | `04ec327df39a54e92aae65ef4b07d10f2c8a8985` | [AGENTS.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/AGENTS.md) | Research/runtime owner boundaries | Program governance | Read-only consultation | Current |
@@ -5156,7 +5252,7 @@ The primary audit supplied 34 document records, including static/generated HTML 
 | 3d-solutions-program | [AGENTS.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/AGENTS.md) | 718 | Full documentary source |
 | 3d-solutions-program | [EVIDENCE.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/EVIDENCE.md) | 1540 | Full documentary source |
 | 3d-solutions-program | [README.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/README.md) | 991 | Full documentary source |
-| 3d-solutions-program | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/04ec327df39a54e92aae65ef4b07d10f2c8a8985/SUPERVISED-LABORATORY-CELL-TRIAL.md) | 3193 | Full documentary source |
+| 3d-solutions-program | [SUPERVISED-LABORATORY-CELL-TRIAL.md](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) | 3193 | Full documentary source |
 | store-zero | [AGENTS.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/AGENTS.md) | 866 | Full documentary source |
 | store-zero | [README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/README.md) | 1136 | Full documentary source |
 | store-zero | [acceptance/differential/recording/README.md](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/differential/recording/README.md) | 174 | Full documentary source |
@@ -5190,127 +5286,70 @@ The primary audit supplied 34 document records, including static/generated HTML 
 
 ### 14.4 Content identities
 
-File SHA-256 hashes bytes. Git blob identity additionally hashes the Git object header and bytes. Canonical object hashes identify parsed calculation/contract values. They answer different identity questions and must not be compared as if interchangeable.
+*Authority category: Current System Behavior*
 
-| Store path at f7123a73 | Bytes | File SHA-256 | Git blob |
-|---|---:|---|---|
-| `src/evaluation/engine/store-manufacturing-core.mjs` | 69695 | `865baea1673623c5be6994503e2575b32d56182c76df573298dba316cde500b6` | `5a4938cb432c41d8cdf319da1d96a11158e1ad77` |
-| `data/machine/manufacturing-core-0.1.json` | 315 | `69640aec1f12afceccf49eed6d662312b31572306ee5e1fe22e6a004b58e769c` | `5293c61535efed5a43bcd4431304b4d5d9b9b12b` |
-| `data/store-zero-catalog.json` | 328692 | `d8c6fc3539e903270c4dea2ecccb5ccec023d6b4301714965a33bfa39316da39` | `5e899b218fe7b45fb1cb35ae0b8535bdad9bcb35` |
-| `src/contracts/definitions.mjs` | 4377 | `7816b1300e38a93de4d0e7a98242b6481dc82b5e99ee016318bbb90acfe872d5` | `370c9858a16e3cefdd0f78aabe3a9d2b5342de1a` |
+The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97` over 21 files. Store `/health` must report the same digest for the pinned runtime.
+
+| Path | Bytes | SHA-256 | Git blob |
+| --- | ---: | --- | --- |
+| `package.json` | 605 | `342366bab3cbcddbb2e2967ce096b55acdeba62d798874c5ebfdb778ffd85ff6` | `cd55940923dc45bad1126e0b08bc9939584cd901` |
+| `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
+| `src/contracts/definitions.mjs` | 4407 | `2488f230590767e2e26600d16734cad81052f6e5ee437f675b347582b65e1da5` | `33e14e80beccbd5fb8f0df2abef92990bccf681f` |
 | `src/contracts/job-packet.mjs` | 9585 | `4b1e52abac19ed3a3569b5028a2c63672ac33200ed2398f97ae315913041cf0b` | `c06deea4706a86e0bc695821e746ca41a4aebd4d` |
 | `src/contracts/machine-records.mjs` | 5106 | `bb0152f382e1d7ebe0622110024932ee187a7bf2ab2083e19c2535d7f24097f6` | `641080a0ad0a9a6938f625d346b11cf378497fac` |
-| `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
-| `src/requests/store-request.mjs` | 6760 | `3c5c81a9c622f5b6ce0942de026f1f78e21d402053d27cf5856a7e3373415b46` | `201a032b4e6a193b8e388a51e39de59b82dbc9ea` |
+| `src/contracts/shape.mjs` | 2666 | `648773e99701b3ed7ff314786b7222c7e0f3bc15945a737cf55a1d13dd1c4cf2` | `4ecd8cf326f177fd8c70927b6f8b85251672fec3` |
+| `src/evaluation/catalog.mjs` | 12765 | `45d82d55906885a3b1c9f3dfbf4cb876a4b28dc04d145cf76a37a0970721f0a2` | `293bd99d1036b2e9a66728d3bd06286e164a4b40` |
+| `src/evaluation/engine/store-manufacturing-core.mjs` | 77059 | `b3b283d0ccee8df92ec7e8b538f169e43cf89e3f5c603d848fda4e76fccbf363` | `af74ad501cd9d2bb76886ae36f85edd19feeff1c` |
+| `src/machine/configuration.mjs` | 1940 | `571f669b74da0801ae90c249b3e44412ae439bb32810df1cafc73812a9f7cdbc` | `d69bd8f46eb8429d90a78f3efe26c120981999c1` |
+| `src/machine/evidence.mjs` | 2672 | `4951328cad062407a3bdf927f78ff4b1638ba16fa941e6c100113e6357955fc3` | `aa95453cbf634fb79dbaefdc76d1bf6a3765c31b` |
 | `src/machine/lowering.mjs` | 3245 | `180aebb943edc78c6a842bbb672ef27384b18f741c4c628caf05507672781555` | `4b93497bf9926423b029b25e053091f3451c9785` |
 | `src/machine/virtual-run.mjs` | 4280 | `abea9ba3b04bad62dfc993a22e5d338a14aaff4aafc8e0b9069ddc6bd10af620` | `2660358c2d1ed13577d200ece025499a30223729` |
-| `docs/project-1-digital-trail/D001_Project1_Review.md` | 61789 | `30d6cf8d27894dd0342a368c4f674c415198349838a0cf1fcc746b1403301136` | `db75609c5ad6bcae26d551cdaed89a86382295b1` |
-| `docs/project-1-digital-trail/D001_Project1_Review.docx` | 70136 | `5439bd25e7870b6155468dc0da7e3dd0c574f98aaf456c7ff0f1d5c6f7c10eba` | `ecaa3d3c72ae627497fd125345f225c05aa34f6b` |
-| `docs/project-1-digital-trail/D001_Project1_Evidence.zip` | 79479 | `c65b62bfa9a389f01f5c387ce03726d94e2858fd0bf9e8236201a4d96f624366` | `7eb203d0bef9ee8b1b0496a75e7cfd9da272f726` |
-| `docs/patents/US9720401B2.pdf` | 4214186 | `d6ff401ee0a60720c0d8b9819a0f828e15036deee1882da06dab7282da0311a4` | `3424036062890657d90ef08396742ef983f0003c` |
-| `docs/patents/US10768609B2.pdf` | 4361544 | `3fd23f9dab7419098162836af25257d2736771bf27196824ad972b479a02b092` | `8df92c5e5b0b3e005c948a09c12406b9bbb41aac` |
+| `src/requests/commercial-request.mjs` | 1334 | `ec977bcea0a803315492286ca90fbdcb0b846750bb9b53daa78fde51045155a9` | `025c9d55a7f9d139a7b24f82a3ae9c3fdedfc896` |
+| `src/requests/offering-lookup.mjs` | 7310 | `5a7528691235228a1ae465eef3f8643a658a5b0a1582ca90daf0f06e9df85aa3` | `11d08ac1e7455f4a44e5aa0941cfb133ed959355` |
+| `src/requests/store-request.mjs` | 7010 | `a10ea147e2e0fc9acd5df3b8df9670db08443c1d04df6c7018ed2a106e82a068` | `ea700ba9c5710990752adb5c33ee5cf8439eca65` |
+| `src/service/server.mjs` | 11188 | `63f65e69128e2f201e8b6b9fd103db30786776b585a304292372083157956472` | `f9fab6ee7123a1b9f4e7ac9168a2c47ed7ba0779` |
+| `data/machine/manufacturing-core-0.1.json` | 315 | `69640aec1f12afceccf49eed6d662312b31572306ee5e1fe22e6a004b58e769c` | `5293c61535efed5a43bcd4431304b4d5d9b9b12b` |
+| `data/sources/store-zero-hardware-sheet-2026-09-26.csv` | 2820 | `cfd81206161350d0ff0f06473bc1c43de3c5df31425b7ec4c9261d38d26f3c96` | `dbce9dd01d8a649d9be50e5ddbfe72c2343b370a` |
+| `data/sources/store-zero-observations.json` | 4614 | `16af3ad22d851af476cfba2691343a91906aa46054e5c6644677cfe392b30eaa` | `c6262d503a78fc6843d1697a52f6f6357a4e8c18` |
+| `data/sources/store-zero-price-sheet-2026-09-26.csv` | 8991 | `896d97b76e989c350ffe1da000311680072cfe4fa8dffafb42cb92536493e80b` | `82bdcca31347c93ae46db0fa1fd0a1c11f58f156` |
+| `data/store-zero-catalog.json` | 335127 | `32f4c8bd2db59c1d1ec34ed846d732ccc2fee8ce3339a45f72f0d8bef36cc979` | `d0789826eaa7829cd4ff6bc1c84e2e4da94630a0` |
 
-| Canonical identity | SHA-256 |
-|---|---|
-| Current runtime catalog | `4183b76beb3b1009544612e4e19662804df40530d6cf94c858b0e525b4885caa` |
-| Expanded registered manufacturing model | `f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18` |
-| Loaded configuration including model | `87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884` |
-| Current-schema recorded acceptance catalog | `392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a` |
-| Historical original receipt catalog | `814ec96d86047819bd1126899864f2c36b0c86c76520bdaa2e977f1f804fdb74` |
-| Shipped 21-file source digest | `b295f674af8213165de3dea2183b60461612f9d86fd6e523d7c1e4bb08d58a92` |
-
-The acceptance catalog/current core also produces $10.81 for its Project 1 fixture. That numerical agreement does not make its acceptance release, catalog hash, request identity or receipt identical to the current-disk-catalog master inquiry. Historical $11.09 belongs to the original evaluator's shortest-complete-parent selection, not a required invariant of the adopted search.
+Patents and original Project 1 publication hashes are governed by their preserved checksum/publication manifests and immutable-evidence acceptance tests. A content hash establishes bytes, not physical qualification or actor authentication.
 
 ### 14.5 Reproduction commands and verification results
 
-Run Store checks at the identified source revision. Integration changes documentation only, relative to Store ca6d3c27. Main contains a bounded cycle-reuse optimization absent from the unchanged System runtime pin f7123a73; checks at those sources retain their own identities:
+*Authority category: Current System Behavior*
+
+Use Node 22 or later. Catalog/test/benchmark checks cover the current repository. For deployed identity, run the external verifier from a clean checkout of the deployed Store commit:
 
 ```sh
-node --version
 npm run check:catalog
 npm test
-npm run source-digest
-(cd docs/patents && sha256sum -c SHA256SUMS.txt)
+node scripts/benchmark-evaluation.mjs
+node scripts/verify-deployment.mjs https://store-zero-candidate-production.up.railway.app --commit 3f813fe060f1eff46a1b3cfdad1ad41465d230e0
 ```
 
-Historical reproduction, keeping the repository evidence immutable:
+The deployed-pair record in System's verification note identifies production checks. Run System's five-project browser procedure with its exact pinned Store checkout and actual hosted URL. A green historical run cannot certify later code. Historical Project 1 reproduction uses its original evidence ZIP in an extracted working copy and is not a current manufacturing acceptance run.
 
-```sh
-STORE_SOURCE=/absolute/path/to/store-zero
-PROJECT1_WORK=$(mktemp -d)
-unzip -q "$STORE_SOURCE/docs/project-1-digital-trail/D001_Project1_Evidence.zip" -d "$PROJECT1_WORK"
-find "$PROJECT1_WORK" -name reproduce.mjs -print
-# Enter the extracted directory containing reproduce.mjs, then:
-node reproduce.mjs
-```
+## 15. Evidence custody and development limits
 
-The displayed `find` is a portable locator for the archive's root, not a new repository dependency. All artifacts emitted by the reproduction belong in that scratch extraction. For current full input/output use the executable 9.6 example and the five exact 8.x JSON inquiries.
-
-System joint checks use an independent read-only checkout whose HEAD is **exactly f7123a73**, since System correctly refuses a test Store at another commit even when only documentation differs:
-
-```sh
-STORE_ZERO_ROOT=/absolute/path/to/f7123a73-store-checkout npm test
-```
-
-For Program: `python tools/check_program.py` at its frozen source. Do not move any operating pin to make a documentation commit pass a joint test.
-
-| Original master verification at Store f7123a73 / System ab09777d | Recorded result | Scope at that source |
-|---|---|---|
-| Node 22 | v22.23.3 | Required Store runtime check environment |
-| Catalog | PASS, 183 valid SKUs | Current catalog data rules |
-| Store suite before/after coherent chapter groups | **87 passed, 0 failed** | Runtime/acceptance checks; no test changes |
-| System full suite, exact pinned Store | **334 passed, 0 failed** (197+55+36+46) | Frozen System and Store; all public/integration groups |
-| Program documentary check | PASS, 4 local Markdown links | Current Program local navigation |
-| Original Project 1 reproduction | **14 passed, 0 failed** | Original seven sources; Q $11.09, Store 85.5001 s, virtual 86.46953628299116 s |
-| Five starting Q reevaluations | $8.62 / $379.11 / $1193.10 / $293.16 / $76.56 | Exact chapter-8 requests/current catalog/model |
-| Treated-lumber comparison inquiry | $10.81, 86.46953628299116 s | Explicit grade/end meaning, current whole-job core |
-| Five current accepted packet/lowering/replays | VIRTUAL_EVIDENCE_READY; replay seconds equal quoted seconds | All three classes; physical BLOCKED |
-| Full executable 9.6 example | PASS; complete evidence equals independent probe serialization | Actual document code exercised |
-| Shared commercial gate | Byte-identical Store/System served copy | One shared executable contract |
-| Issued PDFs | Both SHA256SUMS checks pass | Original bytes preserved |
-| Protected publication artifacts | Hash/byte identities unchanged | Markdown/DOCX/ZIP and patents |
-| Shipped source digest | Unchanged, 21 files | No runtime/data/pin mutation |
-
-An initial System full-run attempt had one harness failure because the environment injected a Node warning before a CLI's expected JSON stderr. Repeating with the environment's Node preload removed and warnings suppressed produced the complete 334-pass run above; no source or test was changed. The numerical/evidence probes were rerun on Node 22. The GitHub acceptance workflow also runs Node 22 on each main documentation save; exact run/commit evidence is visible in [Store Actions](https://github.com/GeorgePlattDemo/store-zero/actions).
-
-## 15. Historical reconciliation and consolidation appendix
+*Authority category: Current System Behavior*
 
 ### 15.1 Architectural migration
 
-The archived [previous specification](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md) retains useful detailed reasoning, historical machine functions, geometric derivations, early economics, boundary examples and claim correspondence. Its 1839 lines/31,684 words describe an older adopted structure. The operative specification and consolidated core supersede many runtime paths. The specification was 95 lines at the original adoption baseline; its current explanations retain the same runtime authority. They do not erase the archive's dated evidence or authorize treating its retired modules as live dependencies.
+*Authority category: Historical Evidence*
 
-The migration `ADOPT-SHARED-MANUFACTURING-CORE-AND-MANIFEST-2` replaces separate evaluators, envelopes, travel/pricing/circular geometry and stencil-tab implementations with one manufacturing core and protocol-2 independent coverage. [retired-paths.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/retired-paths.json) identifies removed paths and replacement coverage. Some old test filenames in that migration record now exist with newly rewritten coverage; filename survival does not mean their historical implementation survived.
-
-| Historical function/path family | Current governing target | Significant difference |
-|---|---|---|
-| Separate user-board/cut/sheet evaluators | `store-manufacturing-core.mjs` compiler/evaluator | One neutral whole-job planner, ledger and Q |
-| Separate D-001/S-001 envelopes | Expanded registered core model/configuration | Current geometry/timing registered together |
-| `d001-travel-standard.mjs` and old pricing engine | Core motion, boardCycle, search and economics | State-dependent detailed timing and complete-cost parent search |
-| Circular-segment and stencil-tab modules | Core sheetGeometry/arch/tab planning | Current exact compensated perimeter/retention rules |
-| Historical local reference configuration/IR | Current packet2/local-job/occupancy schemas | Ledger evidence, not restoration of controller-oriented IR |
-| Three-field request narrative | Protocol2 request plus independent manifest | Complete expected component/feature/item coverage |
-| Historical shortest-complete parent policy | Current complete-job cost search | Different parent can reduce material cost even if longer |
-| Partial support narrative | Complete whole-job disposition | No favorable partial Q hiding an unevaluated requirement |
-
-The old answer corpus has 1786 immutable cases: 44 Alcove,114 cut-package,754 envelope,653 dimensional travel,77 sheet,137 D001 user-board and7 circular-segment internal cases. Current migration classification has **844 NEW_MODEL_REPLAY** and **942 RETIRED_INTERNAL_EXPORT**. Replay adds explicitly identified current grade/end facts and a test manifest where necessary; it is an explicit new baseline, not a claim that old hashes/Q remain equal. Historical corpus SHA-256 is `61696ab3f777b86a38adb7289afe65f8dae48db7defc659b08d16a16b7b5cbe0`.
+Historical migration recordings retain the original input/output hashes and adopted-model replay classification. See `acceptance/differential/` for the immutable corpus and its explicit classification. Those recordings document provenance; the current core and contracts in sections 3–6 govern installed behavior. Previous module layouts and diagnostic repair narratives remain in Git.
 
 ### 15.2 Audit issues and resolution status
 
-Current owner behavior is explicit:
+*Authority category: Current System Behavior*
 
-| Concern | Current governing behavior |
-| --- | --- |
-| Source end meaning | System declares the drawn 25° parallel face-miter end planes and long-to-short dimensions; Store derives material envelopes at actual width, admitting only registered machine capability. The older bevel-labeled request remains sealed evidence, not a live refusal |
-| Material attribution | A chosen all-treated definition is an application/customer variant; it is not attributed as the source recommendation |
-| Manifest and optional fields | The independent System manifest covers all required work; System definition shapes match the inspected Store contract, including optional tooling/profile/tab/offset fields |
-| Accepted packet | Public terms export the existing accepted decision with exact manifest, demand and Store answer; Store independently verifies and requotes before lowering |
-| Saved records | Current packet2 round-trips; malformed and unknown versions are rejected; reopened records retain history without current price authority |
-| Machine presentation | All three registered manufacturing definition classes may request modeled evidence; support and physical release remain separate |
-| Window Seat audit | The full original request and independent manifest are exported; repeated calculation identity and fresh receipt identity are distinguished |
-| Project 1 | Current reference proof and actual browser/HTTP acceptance-to-lowering proof are required; original sealed evidence is provenance |
-| Worked master results | Six exact requests, returned summaries, ledger counts and the current Project 1 machine binding regenerate from executable source |
+Current documentation must agree with the executable request, independent manifest, stock geometry, complete plan, receipt, accepted packet and registered evidence. The current Outdoor example regenerates from its declared measured end geometry; the former refused request is isolated in Historical Evidence. Saved packets use schema 2, all three manufacturing classes can request modeled evidence, and all five published projects explicitly enable simulated commerce. No historical fixture, prior price or diagnostic statement overrides those contracts.
 
 ### 15.3 Additional source discrepancies
+
+*Authority category: Future Work*
 
 Commercial exception recovery still has a conservative hold: an earlier unresolved exception is not generally cleared by a later resolved record. A complete correction/recovery policy, actual source authentication, durable cross-order concurrency and full seller-specific commercial reconciliation require their own adopted contracts and source integrations. The current repair grants none of those authorities.
 
@@ -5318,18 +5357,319 @@ Catalog operation declarations do not create callable toolpaths outside the repr
 
 ### 15.4 Protected evidence and future consolidation
 
+*Authority category: Current System Behavior*
+
 Issued patents/checksums, original D001 manuscript/Word/ZIP/publication identities and original acceptance/migration recordings retain their exact source identities. They establish their recorded claims and provenance. Project 1's operative current review and full evidence are separate regenerating outputs and must describe the current integrated behavior. An older artifact cannot substitute for that proof.
 
 The README is the public entrance; this complete master and the operative specification retain their distinct responsibilities. System owns shared definitions and application custody; Program owns research and adoption decisions. Code changes reconcile all affected operative documents in present tense. Git history records the change chronology.
 
 ### 15.5 Master completion and navigation checks
 
+*Authority category: Current System Behavior*
+
 Required Store checks validate the catalog, manufacturing/contract/service boundaries, exact regenerated examples and current Project 1 proof, immutable source evidence, links, source digest, independent Q reconciliation and benchmark behavior. System must pass tests, production build, type checking and the actual five-project Chromium proof against the exact clean pinned Store checkout. Program checks its supporting navigation. Per-run CI identities and artifacts establish which revisions were exercised; an earlier green run does not verify later code.
 
 ### 15.6 Subsequent permanent preservation and repository disposition
 
-Supporting directories have distinct owners: `src/` supplies one service/request boundary, catalog interpretation, manufacturing core, packet verification, lowering and commercial gate; `data/` supplies registered stock/model/economics inputs; `contracts/examples/` supplies reproducible exchanges; `acceptance/` supplies boundaries, current proof checks and immutable source recordings; `tests/` supplies current behavior checks; `docs/` supplies the specification, issued sources and living Project 1 trail; `scripts/` supplies regeneration and verification. Removing evidence or weakening a check is not an alignment strategy.
+*Authority category: Current System Behavior*
+
+Supporting directories have distinct owners: `src/` supplies one service/request boundary, catalog interpretation, manufacturing core, packet verification, lowering and commercial gate; `data/` supplies registered stock/model/economics inputs; `contracts/examples/` supplies reproducible exchanges; `acceptance/` supplies boundaries, current proof checks and immutable source recordings; `tests/` supplies current behavior checks; `docs/` supplies the specification, issued sources and separate historical publication and current integration proof; `scripts/` supplies regeneration and verification. Removing evidence or weakening a check is not an alignment strategy.
+
+### 15.7 Future Work — capability-impact engine
+
+*Authority category: Future Work*
 
 A successor capability-impact engine is a core development requirement. It preserves the complete refused/unresolved demand and identified capability gap, evaluates a separately registered proposed configuration through the deterministic compiler/Store, and compares newly feasible work, time, Q, investment, utilization and complete service cost. Proposed results remain hypothetical and cannot alter today's capability or grant release. Learning may identify patterns; it cannot replace deterministic requirement satisfaction.
 
 Adding a third or fourth machine must extend registered capability and execution mappings without rebuilding System's customer-definition compiler. The successor must prove this with unchanged definitions, complete requirement coverage and separately identified current/proposed results. This is an architectural acceptance requirement, not installed current behavior. **NO BLOOD ON WOOD.**
+
+## 16. Historical Evidence — superseded Outdoor specimen
+
+*Authority category: Historical Evidence*
+
+The following request and response preserve the former end classification and its original refused result. They document that revision only. Current Outdoor behavior and regenerated results are in section 8.5.
+
+<!-- historical-request MASTER-OUTDOOR -->
+```json
+{
+  "requestType": "CUT_PACKAGE_V1",
+  "requestId": "MASTER-OUTDOOR",
+  "demand": {
+    "configurationId": "OUTDOOR-PICNIC-A-FRAME",
+    "configurationVersion": "MASTER-PUBLIC-DEFAULT-1",
+    "cutPackages": [
+      {
+        "packageId": "treated|SLATS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "TOP-01",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-02",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-03",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-04",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-05",
+            "lengthIn": 72
+          },
+          {
+            "partId": "TOP-06",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-01",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-02",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-03",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-04",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-05",
+            "lengthIn": 72
+          },
+          {
+            "partId": "SEAT-06",
+            "lengthIn": 72
+          }
+        ]
+      },
+      {
+        "packageId": "treated|LEGS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 6,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 25,
+          "endRelation": "parallel",
+          "lengthDatum": "long-point-to-short-point",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "LEG-01",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-02",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-03",
+            "lengthIn": 31.375
+          },
+          {
+            "partId": "LEG-04",
+            "lengthIn": 31.375
+          }
+        ]
+      },
+      {
+        "packageId": "treated|BRACES",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 25,
+          "endRelation": "parallel",
+          "lengthDatum": "long-point-to-short-point",
+          "plane": "bevel-edge"
+        },
+        "parts": [
+          {
+            "partId": "BRACE-01",
+            "lengthIn": 32.875
+          },
+          {
+            "partId": "BRACE-02",
+            "lengthIn": 32.875
+          }
+        ]
+      },
+      {
+        "packageId": "treated|SUPPORTS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 4,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "SUPPORT-01",
+            "lengthIn": 61
+          },
+          {
+            "partId": "SUPPORT-02",
+            "lengthIn": 61
+          }
+        ]
+      },
+      {
+        "packageId": "treated|CLEATS",
+        "material": {
+          "species": "syp-treated",
+          "form": "board",
+          "nominalT": 2,
+          "nominalW": 2,
+          "grade": "above-ground"
+        },
+        "endCut": {
+          "angleDeg": 0,
+          "endRelation": "parallel",
+          "lengthDatum": "long-long-outer-edge",
+          "plane": "miter-face"
+        },
+        "parts": [
+          {
+            "partId": "CLEAT-END-01",
+            "lengthIn": 34.25
+          },
+          {
+            "partId": "CLEAT-END-02",
+            "lengthIn": 34.25
+          },
+          {
+            "partId": "CLEAT-MID-01",
+            "lengthIn": 29.25
+          }
+        ]
+      }
+    ],
+    "itemLines": [
+      {
+        "lineId": "COATED|S25",
+        "qty": 100,
+        "requirement": {
+          "kind": "wood-screw",
+          "gauge": "#10",
+          "lengthIn": 2.5,
+          "finish": "coated",
+          "unit": "piece"
+        }
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "OUTDOOR-PICNIC-A-FRAME",
+    "revision": "MASTER-PUBLIC-DEFAULT-1",
+    "boardPartIds": [
+      "TOP-01",
+      "TOP-02",
+      "TOP-03",
+      "TOP-04",
+      "TOP-05",
+      "TOP-06",
+      "SEAT-01",
+      "SEAT-02",
+      "SEAT-03",
+      "SEAT-04",
+      "SEAT-05",
+      "SEAT-06",
+      "LEG-01",
+      "LEG-02",
+      "LEG-03",
+      "LEG-04",
+      "BRACE-01",
+      "BRACE-02",
+      "SUPPORT-01",
+      "SUPPORT-02",
+      "CLEAT-END-01",
+      "CLEAT-END-02",
+      "CLEAT-MID-01"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [],
+    "items": [
+      {
+        "lineId": "COATED|S25",
+        "qty": 100
+      }
+    ],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+<!-- historical-result MASTER-OUTDOOR -->
+```json
+{
+  "status": "UNRESOLVED",
+  "complete": false,
+  "Q": null,
+  "reasonCodes": [
+    "MITER_END_GEOMETRY_NOT_EVALUATED"
+  ],
+  "totals": null,
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "CUT_PACKAGE_V1",
+    "requestId": "MASTER-OUTDOOR",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "95fc02195ee3aa1db96bf150ded24e0ffb3f30f1d75d3fe20be71a61ebcc24e7",
+    "manifestHash": "f7aeb5d59caba7a50954d3d824851268c0d66106013bbd4125196b20d0eddc21",
+    "status": "UNRESOLVED",
+    "calculationIdentity": null,
+    "receiptHash": "dbad1155c9104b4b5e689412dc3294e74e56ef2861a4befaf291c07932f78623"
+  },
+  "ledgerRecords": 0,
+  "physicalAuthority": false
+}
+```
