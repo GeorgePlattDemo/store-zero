@@ -194,9 +194,9 @@ export function compileDefinition(request, manifest) {
       need(positive(d.definedWorkpieceLengthIn), 'DEFINED_WORKPIECE_LENGTH_REQUIRED', 'demand', 'UNRESOLVED');
       need(Array.isArray(d.parts) && d.parts.length, 'PARTS_REQUIRED', 'demand', 'UNRESOLVED');
       const parts = d.parts.map(p => {
-        keys(p, ['partId', 'lengthIn', 'features'], p.partId || 'part');
+        keys(p, ['partId', 'lengthIn', 'features'], p?.partId || 'part');
         need(Array.isArray(p.features), 'FEATURE_LIST_REQUIRED', p.partId, 'UNRESOLVED');
-        p.features.forEach(f => keys(f, SPOT_KEYS, f.featureId || 'feature'));
+        p.features.forEach(f => keys(f, SPOT_KEYS, f?.featureId || 'feature'));
         need(p.features.every(f => f.kind === 'SPOT_ON_LOCATION'), 'FEATURE_KIND_NOT_HANDLED', p.partId);
         return { partId: p.partId, lengthIn: p.lengthIn, spots: clone(p.features), edgeProfiles: [] };
       });
@@ -234,7 +234,7 @@ function validateJob(job) {
     && m.unresolvedRequirements.length === 0, 'JOB_REQUIREMENTS_REMAIN_UNEVALUATED', 'manifest', 'UNRESOLVED');
   const partIds = [], featureIds = [], packageIds = [];
   for (const b of job.boards) {
-    keys(b, ['packageId', 'material', 'endCut', 'finishedWidthIn', 'edgePreparation', 'parts', 'minimumParentLengthIn', 'singleParent', 'preserveOrder', 'requiredOps'], b.packageId || 'board');
+    keys(b, ['packageId', 'material', 'endCut', 'finishedWidthIn', 'edgePreparation', 'parts', 'minimumParentLengthIn', 'singleParent', 'preserveOrder', 'requiredOps'], b?.packageId || 'board');
     identity(b.packageId, 'packageId'); packageIds.push(b.packageId);
     keys(b.material, MATERIAL_KEYS, b.packageId + '.material');
     need(text(b.material.species) && b.material.form === 'board' && positive(b.material.nominalT) && positive(b.material.nominalW), 'BOARD_MATERIAL_REQUIRED', b.packageId, 'UNRESOLVED');
@@ -258,27 +258,27 @@ function validateJob(job) {
     if (b.requiredOps !== undefined) need(Array.isArray(b.requiredOps) && b.requiredOps.every(text), 'REQUIRED_OPERATIONS_INVALID', b.packageId);
     need(Array.isArray(b.parts) && b.parts.length, 'PARTS_REQUIRED', b.packageId, 'UNRESOLVED');
     for (const p of b.parts) {
-      keys(p, ['partId', 'lengthIn', 'spots', 'edgeProfiles'], p.partId || 'part'); identity(p.partId, 'partId'); partIds.push(p.partId);
+      keys(p, ['partId', 'lengthIn', 'spots', 'edgeProfiles'], p?.partId || 'part'); identity(p.partId, 'partId'); partIds.push(p.partId);
       need(positive(p.lengthIn), 'PART_LENGTH_REQUIRED', p.partId, 'UNRESOLVED');
       for (const [name, allowed] of [['spots', SPOT_KEYS], ['edgeProfiles', PROFILE_KEYS]]) {
         if (p[name] === undefined) continue;
         need(Array.isArray(p[name]), 'FEATURE_LIST_REQUIRED', p.partId);
-        for (const f of p[name]) { keys(f, allowed, f.featureId || 'feature'); identity(f.featureId, 'featureId'); featureIds.push(f.featureId); }
+        for (const f of p[name]) { keys(f, allowed, f?.featureId || 'feature'); identity(f.featureId, 'featureId'); featureIds.push(f.featureId); }
       }
     }
   }
   for (const s of job.sheets) {
-    keys(s, ['packageId', 'sheet', 'features', 'returnAllPieces', 'exteriorRatingRequested'], s.packageId || 'sheet');
+    keys(s, ['packageId', 'sheet', 'features', 'returnAllPieces', 'exteriorRatingRequested'], s?.packageId || 'sheet');
     identity(s.packageId, 'sheet.packageId'); packageIds.push(s.packageId);
     keys(s.sheet, ['thicknessIn', 'lengthIn', 'widthIn', 'species', 'grade'], s.packageId + '.sheet');
     need([s.sheet.thicknessIn, s.sheet.lengthIn, s.sheet.widthIn].every(positive), 'SHEET_SIZE_REQUIRED', s.packageId, 'UNRESOLVED');
     need(Array.isArray(s.features), 'SHEET_FEATURES_REQUIRED', s.packageId, 'UNRESOLVED');
     need(s.returnAllPieces === true, 'ALL_PIECES_MUST_BE_RETURNED', s.packageId);
     if (s.exteriorRatingRequested !== undefined) need(typeof s.exteriorRatingRequested === 'boolean', 'EXTERIOR_REQUEST_INVALID', s.packageId);
-    for (const f of s.features) { keys(f, SHEET_FEATURE_KEYS, f.featureId || 'feature'); identity(f.featureId, 'featureId'); featureIds.push(f.featureId); }
+    for (const f of s.features) { keys(f, SHEET_FEATURE_KEYS, f?.featureId || 'feature'); identity(f.featureId, 'featureId'); featureIds.push(f.featureId); }
   }
   for (const i of job.items) {
-    keys(i, ITEM_KEYS, i.lineId || 'item'); identity(i.lineId, 'lineId');
+    keys(i, ITEM_KEYS, i?.lineId || 'item'); identity(i.lineId, 'lineId');
     need(Number.isInteger(i.qty) && i.qty > 0, 'ITEM_QUANTITY_INVALID', i.lineId);
     need(['storeSku', 'requirementId', 'requirement'].filter(k => i[k] !== undefined).length === 1, 'ITEM_IDENTITY_AMBIGUOUS', i.lineId);
     if (i.requirement) keys(i.requirement, ['kind', 'gauge', 'diameterIn', 'lengthIn', 'finish', 'unit'], i.lineId + '.requirement');
@@ -738,7 +738,7 @@ function groupsFor(job, catalog, model) {
       if (availablePartCapacity < requiredParts) throw new Problem('ON_HAND_SHORT', group.packageId, 'UNAVAILABLE',
         {stockShortage:{partLengthIn,requiredParts,availablePartCapacity,eligibleStock,basis:'OPTIMISTIC_LENGTH_CAPACITY_BOUND'}});
     }
-    return { kind: 'board', group, rows, remaining: group.parts.map((_, i) => i) };
+    return { kind: 'board', group, rows, partSignatures: group.parts.map(partSignature), remaining: group.parts.map((_, i) => i) };
   });
   const sheets = job.sheets.map(pkg => {
     const geometry = sheetGeometry(pkg, model), sh = pkg.sheet;
@@ -769,7 +769,7 @@ function* parentPatterns(task, remaining, row, model) {
   const parts = task.group.parts, weight = i => parts[i].lengthIn + d.saw.kerfIn;
   if (task.group.singleParent) { if (remaining.reduce((s, i) => s + weight(i), 0) <= capacity + EPS) yield remaining; return; }
   const kinds = new Map();
-  for (const i of remaining) { const key = partSignature(parts[i]); if (!kinds.has(key)) kinds.set(key, []); kinds.get(key).push(i); }
+  for (const i of remaining) { const key = task.partSignatures[i]; if (!kinds.has(key)) kinds.set(key, []); kinds.get(key).push(i); }
   need(kinds.size <= model.search.maxPartTypesPerGroup, 'SEARCH_PART_TYPE_LIMIT_EXCEEDED', task.group.packageId, 'UNRESOLVED');
   const types = [...kinds.values()];
   // First remaining part must be covered. Equal geometry/feature patterns have
@@ -814,7 +814,8 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
       const t = tasks[at];
       if (t.kind === 'board' && remaining === null) remaining = t.remaining;
       if (t.kind === 'board' && !remaining.length) { search(at + 1, null, used, plans, state, rawCost); return; }
-      const memoKey = canonical([at, remaining, [...used.entries()].sort(), state]);
+      const poseKey = state && [state.C, state.Y, state.A, state.S, state.Z, state.RZ];
+      const memoKey = JSON.stringify([at, remaining, [...used.entries()].sort(), poseKey]);
       if ((memo.get(memoKey) ?? Infinity) <= rawCost + EPS) return; memo.set(memoKey, rawCost);
       const tryChoice = (row, qty, cycle, nextRemaining, item) => {
         if ((used.get(row.storeSku) ?? 0) + qty > inventory.get(row.storeSku)) return;
@@ -835,7 +836,7 @@ export function evaluateManufacturingJob(catalog, job, model = createModel()) {
           for (const subset of parentPatterns(t, remaining, row, model)) {
           if (nodes.limited) return;
           try {
-            const cycleKey = canonical([at, row.storeSku, subset, state]);
+            const cycleKey = JSON.stringify([at, row.storeSku, subset, poseKey]);
             let cycle = cycleCache.get(cycleKey);
             if (!cycle) {
               cycle = boardCycle(model, row, t.group, subset.map(i => t.group.parts[i]), state);

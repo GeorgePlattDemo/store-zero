@@ -23,11 +23,15 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 | Structural and document authority checks | `acceptance/boundaries/`, `acceptance/contracts/` |
 | Catalog and manufacturing invariants | `acceptance/catalog/`, `tests/manufacturing-core.test.mjs`, `tests/core-self-checks.mjs` |
 | Protocol, service, commercial and runtime verification | `tests/protocol2.test.mjs`, `tests/service.test.mjs`, `tests/commercial-sequence.test.mjs` |
-| Historical replay and independently preserved evidence | `acceptance/differential/`, `acceptance/project-1/`, `docs/project-1-digital-trail/`, `docs/patents/` |
+| Historical replay and independently preserved source evidence | `acceptance/differential/`, `acceptance/project-1/`, `docs/project-1-digital-trail/`, `docs/patents/` |
 | Fresh performance measurement | `scripts/benchmark-evaluation.mjs` |
 | Deployment verification | `scripts/verify-deployment.mjs`, `Dockerfile`, `railway.json`, `.github/workflows/acceptance.yml` |
 
 `README.md` is the public entrance; `STORE-ZERO-MASTER.md` contains the complete explanation; `docs/STORE-ZERO-SPECIFICATION.md` states adopted technical contracts. Shared job vocabulary is governed by System's `docs/DEFINITIONS.md`. When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient.
+
+## Current integrated proof
+
+Project 1 is a living end-to-end acceptance proof. Every consequential implementation change reconciles the operative specification, both technical masters, shared definitions, affected Program documents and current proof. Run `npm run build:examples`; current JSON/Markdown evidence must exactly match current executable source and catalog. System must repin the inspected Store and pass actual published-browser acceptance, packet export, lowering and virtual replay. Original sealed source evidence remains immutable provenance and cannot substitute for current proof. Operative prose describes current behavior in present tense; repair chronology belongs in Git and verification logs.
 
 ## Unbreakable boundaries
 

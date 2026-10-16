@@ -74,7 +74,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [6.7 Fixed tooling and local lowering](#67-fixed-tooling-and-local-lowering)
   - [6.8 Proposed physical apparatus and commissioning](#68-proposed-physical-apparatus-and-commissioning)
   - [6.9 Historical apparatus and component engineering](#69-historical-apparatus-and-component-engineering)
-- [7. Complete historical Project 1 walkthrough](#7-complete-historical-project-1-walkthrough)
+- [7. Complete Project 1 walkthrough](#7-complete-project-1-walkthrough)
   - [7.1 Specimen sources and identities](#71-specimen-sources-and-identities)
   - [7.2 Customer geometry and System derivation](#72-customer-geometry-and-system-derivation)
   - [7.3 Historical material and parent decision](#73-historical-material-and-parent-decision)
@@ -477,7 +477,7 @@ The board register represents SPF construction stock, treated southern yellow pi
 
 Board parents may have different offered lengths and costs. A definition can require a minimum parent length; it does not thereby force Store to buy that exact length. `USER_DEFINED_BOARD_V1` requires all its parts from one parent in the stated order. Cut packages normally allow several parents and deterministic longest-first part ordering. Store pays the **whole selected parent price**, including the retained end and unused material. There is no automatic remnant credit or reuse in this model.
 
-For example, current Project 1's treated 2×4 above-ground definition selects `STB-ZERO-PT-2X4-96-001` at $4.81. The historical specimen selected the preserved older 72-inch parent at $5.15. That specific change is a catalog/evaluation fact, not a universal rule that treated jobs always buy 96 inches. Similarly, a 96-inch pine 1×8 row is $27.67, a 120-inch row is $34.59, and the search must account for usable length and cumulative quantity before deciding which combination to use.
+For example, the treated-lumber comparison's 2×4 above-ground definition selects `STB-ZERO-PT-2X4-96-001` at $4.81. The historical specimen selected the preserved older 72-inch parent at $5.15. That specific change is a catalog/evaluation fact, not a universal rule that treated jobs always buy 96 inches. Similarly, a 96-inch pine 1×8 row is $27.67, a 120-inch row is $34.59, and the search must account for usable length and cumulative quantity before deciding which combination to use.
 
 A blank grade is not permission for Store to choose among materially different offered grades. When more than one offered grade matches the other board criteria, the answer is `UNRESOLVED / GRADE_CHOICE_REQUIRED`, with the offered alternatives. System must return a definite material requirement after the customer's choice. Treatment category, strength, exposure and intended structural use remain meaningful customer/design requirements; Store's dimensional costing does not establish their suitability for a building application.
 
@@ -752,6 +752,8 @@ Hardware and sheet eligibility use their own selector and model rules. The engin
 
 ### 5.4 Parent patterns and whole-job search
 
+Search keeps each immutable part-geometry signature once per task. Evaluation-local memo and cycle keys include C, Y, A, S, Z and RZ in fixed order, plus task, remaining parts and the applicable stock/inventory identities. Canonical hashing of definitions, results and receipts is unchanged. Neither an answer nor its receipt is cached across evaluations. Malformed nested rows return `OBJECT_REQUIRED` through both exported core entry points.
+
 For a board parent of length $L_s$, kerf $k=0.125$ inches and required controlled retained end $L_r=24$ inches, the assignable capacity is
 
 $$C=L_s-k-L_r,$$
@@ -909,7 +911,9 @@ A hash is content identity. It cannot establish that an actor is authenticated, 
 
 ### 5.17 Worked calculations and sensitivities
 
-Current Project 1 selects one $4.81 parent, no hardware, 86.46953628299116 hourly-billed seconds and no fixed cuts:
+Current Project 1 uses SPF. The 16-inch default selects a $2.61 60-inch parent and 86.51908661063948 modeled seconds: $6.01 service and **$8.62 Q**. The 18-inch variation selects a $3.13 72-inch parent and 86.46953628299116 seconds: $6.00 service and **$9.13 Q**. Both complete 51 ledger records with 22 modeled move events. The [regenerated current proof](docs/project-1-digital-trail/current-proof.md) supplies the full requests, packets, calculations, ledger and replay.
+
+The treated-lumber comparison selects one $4.81 parent, no hardware, 86.46953628299116 hourly-billed seconds and no fixed cuts:
 
 $$S_h=\operatorname{round}_{0.01}(86.46953628299116\times250/3600)=6.00,$$
 $$Q=4.81+6.00=10.81.$$
@@ -1061,11 +1065,17 @@ The historical rack example uses module 1.5 and 20 teeth, giving linear pitch tr
 
 Unselected mechanical/electrical elements remain consequential: rails/racks/pinions, frame/mounting, supports, saw arbor and spindle bearings, couplings, restraint, guards, extraction, compatible blade, circuits/disconnects/protection, saw drives/contactors, 24-V budget, terminals/cables, cooling, filters, motor cords and regulated air. The review specifically leaves a compliant blade ordering code unresolved because a preceding blade reference had wider kerf than the model. An attractive component list cannot fill these gaps by omission. The laboratory must establish a dimensioned arrangement and inspected configuration before this topology can support physical output.
 
-## 7. Complete historical Project 1 walkthrough
+## 7. Complete Project 1 walkthrough
+
+Project 1 is the living proof of the complete current digital manufacturing chain. Read the [current engineering review](docs/project-1-digital-trail/current-proof.md) and [full serialized evidence](docs/project-1-digital-trail/current-proof.json). `npm run build:examples` regenerates both from current Store source and catalog; acceptance rejects stale bytes. Its fixed reference times are example inputs, and its release label is the actual executable source digest. No future or guessed git identity is embedded.
+
+System's required five-project Chromium gate derives the 16-inch SPF default and 18-inch variation in the actual published nested application. Each receives a real pinned-Store HTTP answer, records its own accepted customer decision and exports the exact manifest, demand, unmodified Store answer and decision into packet2. The gate submits that packet to Store's machine-evidence endpoint and checks unchanged selected stock/ledger, complete replay, matching priced time, and zero physical authority. The per-run proof artifact includes current System/Store revisions, Store health/source identity, application responses, commercial source events, packets and virtual evidence.
+
+A change to either system's code, contracts, model or catalog requires the current proof and operative specifications/masters/Program descriptions to agree. A documentation-only edit does not invent a new manufacturing result. The original records below retain engineering provenance and their original calculations; they are not current acceptance evidence.
 
 ### 7.1 Specimen sources and identities
 
-Project 1 is the preserved **D001 PROJECT1 DIGITAL TRAIL REVIEW 0.2**, published 2026-10-04, in Store documentary custody. Read the original [Markdown review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), [Word review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx), [evidence ZIP](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Evidence.zip) and [publication identities](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/publication-identities.json). The Markdown and DOCX are publication formats of the engineering review; the ZIP contains the executable reproduction, retained source modules, source identities, controller reference and generated results. Their byte identities are in 14.4. The source package, not a later paraphrase, is the historical calculation authority.
+The original source specimen is **D001 PROJECT1 DIGITAL TRAIL REVIEW 0.2**, published 2026-10-04, in Store documentary custody. Read the original [Markdown review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), [Word review](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.docx), [evidence ZIP](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Evidence.zip) and [publication identities](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/publication-identities.json). The Markdown and DOCX are publication formats of the engineering review; the ZIP contains the executable reproduction, retained source modules, source identities, controller reference and generated results. Their byte identities are in 14.4. The source package, not a later paraphrase, is the historical calculation authority.
 
 Its System source is predecessor repository `scan-to-build-system` at `1cbee7dd91fa718ae077d0eafe58070d4853d141`; its consumed Store is predecessor `scan-to-build-store` at `9c62d9d6f7775deef83d47196d32c9b5174a352c`. Those identities remain in the package even though successor repositories now own current functions. An old source filename inside the ZIP is a preserved artifact, not a link to a missing current runtime module. Reproduction requires no substitution from current Store.
 

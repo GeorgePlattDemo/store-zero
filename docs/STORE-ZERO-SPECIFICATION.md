@@ -1,6 +1,6 @@
 # Store Zero specification — adopted manufacturing core
 
-This is the operative protocol 2 specification. The preceding specification remains available at the [immutable source revision](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md). Historical Project 1 artifacts and differential recordings remain evidence of their original calculations; they are not runtime authorities for this release.
+This is the operative protocol 2 specification. The preceding specification remains available at the [immutable source revision](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/migration/previous-specification.md). Project 1 is the current end-to-end integration proof. Original sealed artifacts and differential recordings retain their identified provenance.
 
 # 1. Authority and input
 
@@ -10,7 +10,7 @@ Job requests have exactly `requestType`, `requestId`, `demand`, and `manifest`. 
 
 Manifest fields are jobId, revision, boardPartIds, sheetPackageIds, featureIds, items (lineId and integer qty), and optional unresolvedRequirements. Manifest identity and exact component/feature/item coverage must match the complete job. Unresolved requirements block a complete Q. The request boundary checks exact types and rejects unknown fields, machine-local language, old answers and receipts.
 
-Angled packages must state parallel ends, long-long-outer-edge length datum and miter-face plane. A centered spot cannot also declare an edge inset or a noncentered coordinate. Unknown or unmodeled requirements are named refusals. No missing angle becomes square; no missing amount becomes zero.
+Angled packages must state parallel ends, long-long-outer-edge length datum and miter-face plane. A centered spot cannot also declare an edge inset or a noncentered coordinate. Unregistered source datums and bevel planes remain explicit and return `MITER_END_GEOMETRY_NOT_EVALUATED` with no complete Q; a published plan is not converted into a different cut merely to fit this model. Unknown or unmodeled requirements are named refusals. No missing angle becomes square; no missing amount becomes zero.
 
 # 2. Catalog and material selection
 
@@ -30,7 +30,7 @@ Returned parents/packages expose the selected stock and the same evaluated opera
 
 The D-001 longitudinal router diameter is **1 in**, axial pass depth **0.75 in**, and feed **48 in/min**. S-001 has its own **0.5 in** cutter and axial pass depth. These are declared model values, not commissioned measurements. The economics model declares $120,000 annual costs, 600 productive hours and 20% gross margin, giving $250/hour. Panel saw cuts occupy modeled time but use the explicitly separate $10/cut charge, without also adding those seconds to hourly service.
 
-Each operation states kind, subject, parent, cell, category, billing basis, seconds, sequence, start and end. Occupancy is serial and returned whole-job time is the sum of this same ledger. MOVE durations use declared acceleration and velocity; cutting feed is explicit. Geometry checks cover kerf, face datums, retained control, tool engagement, milling passes, inset/centered spots, sheet apertures/splits/tabs and returned pieces.
+Each operation states kind, subject, parent, cell, category, billing basis, seconds, sequence, start and end. Occupancy is serial and returned whole-job time is the sum of this same ledger. Search memoization preserves all six declared pose coordinates (C, Y, A, S, Z, RZ); per-part geometry signatures and bounded cycle caches are evaluation-local. Malformed nested rows at either exported core entry point return named `OBJECT_REQUIRED` refusals instead of throwing. MOVE durations use declared acceleration and velocity; cutting feed is explicit. Geometry checks cover kerf, face datums, retained control, tool engagement, milling passes, inset/centered spots, sheet apertures/splits/tabs and returned pieces.
 
 All timing is modeled. Full width saw stroke, rim-cut allowance, nominal datum capture, stock-control evidence and sheet tab strength retain explicit physical gaps. A mathematical quote never establishes machine commissioning or physical production authority.
 
@@ -66,7 +66,9 @@ Physical authority remains blocked pending commissioning, local material/readine
 
 # 15. Commissioning and evidence plan
 
-Preserved records include `acceptance/project-1/from-evidence/`, `acceptance/fixtures/`, `acceptance/differential/pin-9c62d9d-answers.jsonl.gz`, `docs/project-1-digital-trail/` and `docs/patents/`. Historical patent and publication byte identities are checked unchanged. The supplied 22 independent self-checks are in `tests/core-self-checks.mjs`, executed by `tests/manufacturing-core.test.mjs`.
+Preserved records include `acceptance/project-1/from-evidence/`, `acceptance/fixtures/`, `acceptance/differential/pin-9c62d9d-answers.jsonl.gz`, `docs/project-1-digital-trail/` and `docs/patents/`. Historical patent and publication byte identities are checked unchanged. The current [Project 1 proof](project-1-digital-trail/README.md) is regenerated by `scripts/build-contract-examples.mjs` from current source and catalog. Its source digest covers the shipped package/source/data bytes; acceptance checks exact JSON and review-text agreement. Both current SPF settings verify and lower the exact accepted ledger, complete virtual replay and preserve BLOCKED physical admission. System's required Chromium proof supplies the published-application acceptance-to-packet/HTTP counterpart and per-run revision-bound evidence. A consequential implementation or documentation change must reconcile this proof, both masters, shared definitions and affected Program documents. Sealed original source evidence is preserved separately.
+
+The supplied 22 independent self-checks are in `tests/core-self-checks.mjs`, executed by `tests/manufacturing-core.test.mjs`.
 
 `acceptance/differential/core-replay-baseline.json` explicitly classifies every 1,786 historical recording: 844 public job inputs replay against the new declared model, with no guessed missing facts, and 942 retired internal-export cases are classified as retired. `scripts/build-migration-audit.mjs` reproduces this NEW baseline; it does not claim equality with the old engine. Protocol, forged/stale packets, occupancy faults, catalog rules, independent Q reconciliation, current HTTP transport, exact examples, source digest and commercial prerequisites have current tests.
 

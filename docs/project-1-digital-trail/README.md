@@ -1,34 +1,17 @@
-# Project 1 digital manufacturing trail
+# Project 1 current digital manufacturing proof
 
-**Store publication record · 4 October 2026 · D001 reference review 0.2**
+Project 1 is the end-to-end proof of the current integrated System and Store. A code, contract, catalog or specification change is complete only when this proof and the operative documentation agree with it.
 
-## Read the record
+- [Current engineering review](current-proof.md) describes both the 16-inch SPF default and 18-inch variation, their complete evaluated ledgers and evidence limits.
+- [Complete current reference evidence](current-proof.json) contains each request, independent manifest, fresh answer, simulated accepted packet, verification, local job, virtual records, replay and physical admission.
+- System's required [five-project Chromium workflow](https://github.com/GeorgePlattDemo/new-system/actions/workflows/verify.yml) exercises the actual published application, accepts both Project 1 revisions and submits their exported packets to the pinned Store. Each successful run publishes its complete `project-1-current-proof` artifact with the actual source revisions and Store health identity.
 
-- [Engineering review document](D001_Project1_Review.docx) — the accepted 22-page review presentation.
-- [Full text](D001_Project1_Review.md) — the same manuscript for browser reading and machine analysis.
-- [Reproducible evidence package](D001_Project1_Evidence.zip) — pinned source bodies, generator, modeled trace, all 45 commands, controller-oriented source, and fourteen local checks.
-- [Publication identities](publication-identities.json) — SHA-256 identities and sizes of the three preserved artifacts.
+Run `npm run build:examples` to regenerate the current reference proof and `npm test` to check exact agreement with current executable output. Reference evidence uses fixed example times and a content-addressed release label. Browser evidence uses actual process release identities and fresh receipts. Neither representation is a physical production record.
 
-## Custody and authority
+System owns customer definition, derivation, independent manifest, revision and acceptance custody. Store owns stock selection, capability, planning, modeled time, Q, receipt, packet verification and lowering. The current proof follows those existing owners without a second evaluator or price calculation.
 
-At the owner's direction, Store holds this exact specimen as the written digital trail of its Project 1 answer and the associated reference derivation. Program retains broader machine-development research, controller/postprocessor development, experiments, and adoption decisions. System retains the job's operational meaning, definitions, application, and request/answer custody. This is a bounded documentary publication; it adopts no new Store capability, controller, economics, or physical-release permission.
+Physical admission is BLOCKED with zero permitted physical motion. Stock control, retained-face/kerf registration, saw geometry, controller qualification and component inspection require their own evidence. **NO BLOOD ON WOOD.**
 
-The accepted review artifacts are preserved byte for byte. Section 3 describes Store custody as a proposal because that was the status when the review was prepared. This publication record records the subsequent custody decision. The review's exact repository identities, historical calculations, and evidence limits remain unchanged. Later technical work must have a new identified revision; it must not silently replace this record.
+## Preserved source evidence
 
-## What the specimen establishes
-
-The local reproduction regenerates the identified requirements and pinned Store answer, including the $11.09 budgetary total and exact calculation hashes. It generates and executes a nominal 45-record virtual sequence. The review makes 12 information handoffs explicit and separates executed evidence from required future records. A specified handoff is not evidence that a live customer transaction occurred.
-
-The Structured Text source is uncompiled. One-roller stock control, retained-face/kerf registration, and saw-stroke geometry remain unresolved. Physical admission is BLOCKED with zero physical motion. The package does not establish a commissioned machine, inspected parts, live inventory, binding quotation, payment, or commercial benefit. Its fourteen checks are local reference checks, not a new System verification-register PASS or controller-runtime proof.
-
-## Reproduce and review
-
-Extract the evidence ZIP and read its README before running `node reproduce.mjs` with Node 22 or later. The delivered run used Node 24.19.0. Regeneration writes files inside the extracted copy. Preserve the delivered manifest and files first if comparing before and after. This path connects to neither a machine nor the hosted Store.
-
-The ZIP's source copies are frozen evidence inputs with recorded provenance. They are not a second runtime evaluator or independently maintained Store source. The operational application continues to consume the Store version owned by System's [`STORE_CANDIDATE`](https://github.com/GeorgePlattDemo/new-system/blob/main/src/system/store-candidate.ts).
-
-The governing capability declarations remain D-001 and S-001, stated in the [Store technical reference](../../STORE-ZERO-MASTER.md#6-registered-machine-functions) §§6.2–6.3, which also states their evidence boundary. This Store reproduces the review's Store answer from the review's own inquiry: [`acceptance/project-1`](../../acceptance/project-1/project-1.test.mjs). Broader research and adoption remain in [Program](https://github.com/GeorgePlattDemo/3d-solutions-program). Shared job meaning remains in [System](https://github.com/GeorgePlattDemo/new-system).
-
-Publication does not grant a software or patent license or alter source attribution or rights.
-
-**NO BLOOD ON WOOD.**
+The [original engineering manuscript](D001_Project1_Review.md), [Word presentation](D001_Project1_Review.docx), [original evidence ZIP](D001_Project1_Evidence.zip) and [publication identities](publication-identities.json) retain their original bytes as identified source evidence. Their $11.09 treated-lumber answer and 45-command controller-oriented sequence do not describe the current SPF proof. They supply engineering provenance; current acceptance is governed by the regenerated proof above. Issued patents, attribution and original evidence identities remain intact.

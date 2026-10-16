@@ -14,6 +14,9 @@ import { physicalAdmission, runVirtual } from "../src/machine/virtual-run.mjs";
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../tests/fixtures/user1-dimensional-travel-fixture.mjs";
 import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
+import { sourceDigest } from "../src/service/server.mjs";
+import { loadCatalog } from "../src/evaluation/catalog.mjs";
+import { verifyJobPacket } from "../src/contracts/job-packet.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
 export const EXAMPLE_RELEASE = "store-zero-acceptance";
@@ -168,6 +171,57 @@ export function refusedPackets() {
   ].map(([name, packet]) => ({ name, packet }));
 }
 
+// The current reference proof follows current executable bytes and current catalog. Its release label is
+// explicitly content-addressed, not an assertion that a hosted process runs a particular git commit.
+// System's Chromium gate supplies the complementary actual published-application/HTTP evidence.
+export function currentProject1Proof() {
+  const source=sourceDigest(),release='source-sha256:'+source.digest;
+  const context={release,catalog:loadCatalog(),now:()=>EXAMPLE_CLOCK};
+  const specimens=[16,18].map(lengthIn=>{
+    const demand=structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND);
+    demand.configurationVersion='current-'+lengthIn;
+    demand.sawAngleDeg=Number((Math.asin(8/lengthIn)*180/Math.PI).toFixed(12));
+    for(const part of demand.parts){part.lengthIn=lengthIn;part.features[0].xIn=lengthIn/2;}
+    const request={requestType:'USER_DEFINED_BOARD_V1',requestId:'CURRENT-PROJECT-1-'+lengthIn,demand,manifest:testManifest('USER_DEFINED_BOARD_V1',demand)};
+    const answer=evaluateStoreRequest(request,context);
+    const packet={schema:JOB_PACKET_SCHEMA,packetId:'PACKET-'+request.requestId,
+      project:{projectId:'PROJECT-1-CURRENT-'+lengthIn,classId:demand.classId,title:demand.title},
+      definition:{definitionId:demand.configurationId,revisionId:demand.configurationVersion,requestType:request.requestType,demand,manifest:request.manifest,requirements:{endRelation:demand.endRelation,lengthDatum:demand.lengthDatum}},
+      storeAnswer:answer,decision:{decisionId:'DECISION-'+request.requestId,kind:'ACCEPTED',offerId:'OFFER-'+request.requestId,decidedAt:'2026-10-08T12:05:00.000Z',evidenceClass:'SIMULATED'},authority:{physicalRelease:false,evidenceClass:'SIMULATED'}};
+    const verification=verifyJobPacket(packet,context),lowered=lowerJobPacket(packet,context);
+    if(verification.status!=='VERIFIED'||lowered.status!=='LOWERED')throw Error('Current Project 1 cannot verify/lower: '+lengthIn);
+    const records=motionRecords(lowered.localJob),run=runVirtual(records,{expected:records.binding}),admission=physicalAdmission(lowered.localJob);
+    if(run.status!=='VIRTUAL_MODEL_COMPLETE'||admission.status!=='BLOCKED'||admission.motionCommands!==0)throw Error('Current Project 1 evidence boundary failed');
+    return {lengthIn,request,packet,verification,localJob:lowered.localJob,records,run,admission};
+  });
+  return {schema:'PROJECT-1-CURRENT-PROOF-1',source,release,scope:'Current Store reference replay; simulated acceptance; predicted occupancy only',specimens};
+}
+
+export function currentProject1Review(proof=currentProject1Proof()) {
+  const lines=['# Project 1 current digital proof','',
+    'Project 1 proves the current manufacturing chain for the two-brace SPF job: identified definition and independent manifest → fresh Store answer → simulated accepted packet → independent verification → registered lowering → complete virtual replay. The 16-inch default and 18-inch variation share an eight-inch horizontal span. No angle, coordinate, stock choice or Q is re-entered after acceptance.','',
+    'The complete serialized requests, answers, packets, local plans, records, replay and admission results are in [current-proof.json](current-proof.json). `npm run build:examples` regenerates this proof from current code and catalog; `npm test` rejects any byte disagreement. Changing executable inputs requires regeneration and review of the resulting evidence.','',
+    '**Source identity:** `'+proof.source.digest+'` ('+proof.source.files+' package, source and data files). The reference release label is this source digest, not a deployed git identity. Fixed example times make reproduction deterministic; they are not transaction dates.','',
+    'System supplies the live integration counterpart in its required Chromium job: the published nested application derives both revisions, receives real HTTP Store answers, records customer acceptance, exports each exact packet and submits it to the pinned Store machine-evidence endpoint. The workflow publishes the full requests, commercial source events, accepted packets and virtual evidence under its actual System and Store revisions. A reference replay alone does not establish that browser handoff.','',
+    '| Requirement or result | 16-inch default | 18-inch variation |','| --- | ---: | ---: |'];
+  const values=proof.specimens.map(s=>({length:s.lengthIn,angle:s.request.demand.sawAngleDeg,spot:s.lengthIn/2,answer:s.packet.storeAnswer}));
+  const row=(label,fn)=>lines.push('| '+label+' | '+values.map(fn).join(' | ')+' |');
+  row('Face miter magnitude',s=>s.angle+'°');row('Centered spot X',s=>s.spot+' in');
+  row('Selected parent',s=>s.answer.selectedStock[0].storeSku);row('Material',s=>'$'+s.answer.totals.material.toFixed(2));
+  row('Modeled machine service',s=>'$'+s.answer.totals.machine_service.toFixed(2));row('Manufacturing Q',s=>'$'+s.answer.Q.toFixed(2));
+  row('Occupied seconds',s=>s.answer.time.totalSeconds);row('Ledger records',s=>s.answer.operations.length);row('Modeled move events',s=>s.answer.operations.filter(o=>o.kind==='MOVE').length);
+  lines.push('', '## Evidence and authority','',
+    'The receipt binds demand, manifest, catalog, machine configuration, model and calculation. Packet verification checks that binding and independently evaluates the current definition. Lowering carries the exact selected parents and operation ledger; virtual replay consumes those records without another stock search or pricing engine. Tests reject changed definitions, altered receipts and motion records, foreign release identities and physical-release claims.','',
+    'All operation times and resulting component dimensions are modeled. Datum capture is nominal; retained-face/kerf registration, saw stroke and stock-control qualification remain physical gaps. Physical admission is BLOCKED and permits zero physical motion commands. No compiled controller runtime, inspected parts, live stock reservation, actual payment or commercial return is established. The current machine functions and operating envelope are governed by Store master chapters 5, 6 and 9.','',
+    '## Complete evaluated ledgers','');
+  for(const s of proof.specimens){lines.push('### '+s.lengthIn+' inch specimen','',
+    'Calculation input `'+s.packet.storeAnswer.calculationIdentity.inputHash+'`; result `'+s.packet.storeAnswer.calculationIdentity.resultHash+'`.','',
+    '| Sequence | Operation | Subject | Seconds |','| ---: | --- | --- | ---: |');
+    for(const [i,op] of s.packet.storeAnswer.operations.entries())lines.push('| '+(i+1)+' | '+op.kind+(op.axis?' '+op.axis+' '+op.from+' → '+op.target:'')+' | '+op.subject+' | '+op.seconds+' |');
+    lines.push('');}
+  return lines.join('\n')+'\n';
+}
+
 export function buildExamples() {
   const files = {};
   const put = (path, value) => { files[path] = JSON.stringify(value, null, 2) + "\n"; };
@@ -186,6 +240,9 @@ export function buildExamples() {
     put(`contracts/examples/machine/${name}.virtual-run.json`, out.run);
     put(`contracts/examples/machine/${name}.physical-admission.json`, out.admission);
   }
+  const proof=currentProject1Proof();
+  put('docs/project-1-digital-trail/current-proof.json',proof);
+  files['docs/project-1-digital-trail/current-proof.md']=currentProject1Review(proof);
   return files;
 }
 

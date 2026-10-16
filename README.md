@@ -52,9 +52,9 @@ The engineering happens once, when the machine is registered. Each supported job
 
 The operator’s role is concrete: verify the correct board or sheet, load and register it to the machine’s established references, check tooling and readiness, and follow the local operating procedure. The digital chain supplies the job instructions; local engineering establishes the machine and its dependable operating conditions.
 
-The [**Project 1 digital manufacturing trail**](docs/project-1-digital-trail/D001_Project1_Review.md) lets you inspect that proposition for one specimen. One identified definition leads to a reproduced Store answer of **$11.09** (under the earlier pin), modeled work and time, local coordinates, and **45 generated virtual commands**, without a second design entry. Its evidence package includes a reproducible run, controller-oriented Structured Text, and fourteen local reference checks.
+The [**Project 1 current digital manufacturing proof**](docs/project-1-digital-trail/README.md) follows the current application and Store from definition and independent manifest through fresh evaluation, customer acceptance, exact packet export, registered lowering and virtual replay. Its 16-inch SPF default has modeled Q **$8.62**; its 18-inch variation has modeled Q **$9.13**. Both have 51 evaluated ledger records and 22 modeled moves. The full reference evidence is regenerated from current executable inputs, and required System Chromium checks publish the actual browser-to-Store handoff.
 
-The record is a reference derivation: the controller source is uncompiled and physical admission remains blocked. Its [publication record](docs/project-1-digital-trail/README.md) preserves the exact artifacts, handoffs, and open engineering questions. Program owns broader controller and machine-development work; Store holds this specimen’s documentary record.
+Physical admission remains blocked. The proof establishes a digital manufacturing path with predicted occupancy; commissioned controller execution and inspected components require separate evidence. Original source records retain their identified provenance.
 
 ## Three connected homes
 
@@ -94,7 +94,7 @@ npm test
 Store Zero uses declared reference stock, budgetary prices, and modeled machine time. Physical D-001/S-001 production is not commissioned; the demonstration does not transact real payment or issue a production release. The [commissioning and evidence plan](STORE-ZERO-MASTER.md#68-proposed-physical-apparatus-and-commissioning) separates the software/reference work from physical commissioning.
 
 - [**Store Zero**](STORE-ZERO-MASTER.md) — the reference dealer and its service interface.
-- [**Store Job 001**](STORE-ZERO-MASTER.md#7-complete-historical-project-1-walkthrough) — a modeled Store-side production narrative.
+- [**Store Job 001**](STORE-ZERO-MASTER.md#7-complete-project-1-walkthrough) — a modeled Store-side production narrative.
 - [**Store 1**](STORE-ZERO-MASTER.md#4-store-owned-catalog-and-inventory) — the surface for a later real Store implementation.
 - [**System definitions**](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) — shared job meaning and local yard vocabulary, owned by the System the working application runs.
 - [**Candidate machine engineering**](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md#build-and-verify-the-dimensional-machine) — the broader development work in Program.
