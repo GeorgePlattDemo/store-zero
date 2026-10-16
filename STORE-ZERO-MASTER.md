@@ -1324,7 +1324,7 @@ Required System Chromium checks exercise the actual nested pages, changed defini
 | MASTER-SYO-18 | SUPPORTABLE | 9.13 | 86.46953628299116 | true |
 | MASTER-ALCOVE-ECONOMY | SUPPORTABLE | 372.19 | 1115.5446527777765 | true |
 | MASTER-WINDOW-SEAT | SUPPORTABLE | 1313.61 | 6463.942708333378 | false |
-| MASTER-OUTDOOR | UNRESOLVED | absent | absent | not evaluated |
+| MASTER-OUTDOOR | SUPPORTABLE | 293.16 | 1068.903160409143 | false |
 | MASTER-PLAYHOUSE | SUPPORTABLE | 76.56 | 560.4761745483586 | true |
 <!-- end-current-examples-table -->
 
@@ -2798,13 +2798,163 @@ The separately selectable table-and-benches plan uses square cuts. Both plans re
 <!-- current-result MASTER-OUTDOOR -->
 ```json
 {
-  "status": "UNRESOLVED",
-  "complete": false,
-  "Q": null,
-  "reasonCodes": [
-    "MITER_END_GEOMETRY_NOT_EVALUATED"
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 293.16,
+  "reasonCodes": [],
+  "totals": {
+    "material": 200.05,
+    "hardware": 18.88,
+    "machine_service": 74.23,
+    "manual_cut_service": 0,
+    "Q": 293.16,
+    "sumOfSupportableLines": 293.16,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 1068.903160409143,
+    "T_MACHINE_min": 17.815052673485717,
+    "T_MACHINE_hr": 0.2969175445580953,
+    "totalSeconds": 1068.903160409143,
+    "totalMinutes": 17.815052673485717,
+    "hourlyBilledSeconds": 1068.903160409143,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 468,
+      "INDEX": 170.7083333333334,
+      "REFERENCE": 41.929067231405526,
+      "SAW": 76.26575984440541,
+      "RELEASE": 312
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-HW-COATED-SCR10-2P5-90-001",
+      "qty": 2,
+      "available": 40,
+      "remainingAvailable": 38,
+      "unitPrice": 9.44,
+      "stockL_in": null,
+      "actualW": null,
+      "actualT": null,
+      "description": "Coated Wood screw #10 2.5\" - 1 lb box (90)",
+      "cellFamily": [],
+      "supportedOps": []
+    },
+    {
+      "storeSku": "STB-ZERO-PT-2X4-96-001",
+      "qty": 3,
+      "available": 30,
+      "remainingAvailable": 27,
+      "unitPrice": 4.81,
+      "stockL_in": 96,
+      "actualW": 3.5,
+      "actualT": 1.5,
+      "description": "2x4 x 96 in treated SYP above-ground",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X2-96-001",
+      "qty": 2,
+      "available": 40,
+      "remainingAvailable": 38,
+      "unitPrice": 5.54,
+      "stockL_in": 96,
+      "actualW": 1.5,
+      "actualT": 1.5,
+      "description": "2x2 x 96 in treated above-ground",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-120-001",
+      "qty": 2,
+      "available": 30,
+      "remainingAvailable": 28,
+      "unitPrice": 13.23,
+      "stockL_in": 120,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 120 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-168-001",
+      "qty": 1,
+      "available": 30,
+      "remainingAvailable": 29,
+      "unitPrice": 19.43,
+      "stockL_in": 168,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 168 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PTAG-2X6-192-001",
+      "qty": 5,
+      "available": 30,
+      "remainingAvailable": 25,
+      "unitPrice": 25.73,
+      "stockL_in": 192,
+      "actualW": 5.5,
+      "actualT": 1.5,
+      "description": "2x6 x 192 in SYP AC2 #2 Prime AG",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "MILL_LONGITUDINAL_PROFILE"
+      ]
+    }
   ],
-  "totals": null,
+  "optimization": {
+    "status": "BOUNDED_FEASIBLE_PLAN",
+    "searchComplete": false,
+    "nodes": 200001,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "02a2bd34d7d8c71ed7fe35a2f72004fc99c7b3dab48b040d060a26ff8368105d",
+    "resultHash": "abfab60538139cfeb4157081b1ea219eeabc51a7da2e976b93bc3d3494ec251a"
+  },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
     "requestType": "CUT_PACKAGE_V1",
@@ -2822,13 +2972,16 @@ The separately selectable table-and-benches plan uses square cuts. Both plans re
         "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
       }
     },
-    "demandHash": "95fc02195ee3aa1db96bf150ded24e0ffb3f30f1d75d3fe20be71a61ebcc24e7",
+    "demandHash": "e2b382302eb724abc41744c39abb231f0449f273bad270a3c5eab1194500e78a",
     "manifestHash": "f7aeb5d59caba7a50954d3d824851268c0d66106013bbd4125196b20d0eddc21",
-    "status": "UNRESOLVED",
-    "calculationIdentity": null,
-    "receiptHash": "3ab4685556a6c1f885a57a0d7164d6bd77c5d281188d6c5c3ad3cae36c08013a"
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "02a2bd34d7d8c71ed7fe35a2f72004fc99c7b3dab48b040d060a26ff8368105d",
+      "resultHash": "abfab60538139cfeb4157081b1ea219eeabc51a7da2e976b93bc3d3494ec251a"
+    },
+    "receiptHash": "99577cab3050860cd62e9d48ec2121913961a8cce8aa6fb0d78c5bcd74e2414e"
   },
-  "ledgerRecords": 0,
+  "ledgerRecords": 394,
   "physicalAuthority": false
 }
 ```
@@ -3045,7 +3198,7 @@ Sheet occupancy events are replayed for duration/order/binding but no physical c
 | MASTER-SYO-18 | 51 | 22 | 86.46953628299116 | false |
 | MASTER-ALCOVE-ECONOMY | 269 | 112 | 1115.5446527777765 | false |
 | MASTER-WINDOW-SEAT | 1072 | 487 | 6463.942708333378 | false |
-| MASTER-OUTDOOR | absent | absent | absent | false |
+| MASTER-OUTDOOR | 394 | 156 | 1068.903160409143 | false |
 | MASTER-PLAYHOUSE | 15 | 0 | 560.4761745483586 | false |
 <!-- end-current-ledger-table -->
 
