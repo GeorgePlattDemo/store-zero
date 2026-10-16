@@ -239,15 +239,29 @@ function validateJob(job) {
     keys(b.material, MATERIAL_KEYS, b.packageId + '.material');
     need(text(b.material.species) && b.material.form === 'board' && positive(b.material.nominalT) && positive(b.material.nominalW), 'BOARD_MATERIAL_REQUIRED', b.packageId, 'UNRESOLVED');
     if (b.material.grade !== undefined) identity(b.material.grade, b.packageId + '.grade');
-    keys(b.endCut, ['angleDeg', 'endRelation', 'lengthDatum', 'plane'], b.packageId + '.endCut');
-    need(number(b.endCut.angleDeg) && b.endCut.angleDeg >= 0 && b.endCut.angleDeg <= 45, 'END_ANGLE_OUTSIDE_MODEL', b.packageId);
-    if (b.endCut.angleDeg > 0) need(b.endCut.endRelation === 'parallel' && b.endCut.lengthDatum === 'long-long-outer-edge'
-      && b.endCut.plane === 'miter-face', 'MITER_END_GEOMETRY_NOT_EVALUATED', b.packageId, 'UNRESOLVED');
-    else {
-      if (b.endCut.endRelation !== undefined) need(b.endCut.endRelation === 'parallel', 'END_RELATION_NOT_DECLARED', b.packageId);
-      if (b.endCut.lengthDatum !== undefined) need(b.endCut.lengthDatum === 'long-long-outer-edge', 'LENGTH_DATUM_NOT_DECLARED', b.packageId);
-      if (b.endCut.plane !== undefined) need(b.endCut.plane === 'miter-face', 'CUT_PLANE_NOT_DECLARED', b.packageId);
+    keys(b.endCut, ['angleDeg', 'endRelation', 'lengthDatum', 'plane', 'endPointOrientation'], b.packageId + '.endCut');
+    const end = b.endCut, maximumAngle = createModel().dimensional.saw.maxAngleDeg;
+    if (!number(end.angleDeg) || end.angleDeg < 0 || end.angleDeg > maximumAngle)
+      throw new Problem('END_ANGLE_OUTSIDE_MODEL', b.packageId, 'REFUSED',
+        { requestedAngleDeg: end.angleDeg, registeredMaximumAngleDeg: maximumAngle });
+    // The angle, plane and relation must be machine-admissible. The customer's
+    // dimensional datum is independent and must be converted, not renamed.
+    for (const [value, code] of [[end.endRelation, 'END_RELATION_REQUIRED'], [end.lengthDatum, 'LENGTH_DATUM_REQUIRED'],
+      [end.plane, 'CUT_PLANE_REQUIRED'], [end.endPointOrientation, 'END_POINT_ORIENTATION_REQUIRED']])
+      if (value !== undefined) need(text(value), code, b.packageId, 'UNRESOLVED');
+    if (end.angleDeg > 0) {
+      need(end.endRelation === 'parallel', 'END_RELATION_NOT_REGISTERED', b.packageId, 'UNRESOLVED');
+      need(end.plane === 'miter-face', 'CUT_PLANE_NOT_REGISTERED', b.packageId, 'UNRESOLVED');
+      need(end.lengthDatum !== undefined, 'LENGTH_DATUM_REQUIRED', b.packageId, 'UNRESOLVED');
+    } else {
+      if (end.endRelation !== undefined) need(end.endRelation === 'parallel', 'END_RELATION_NOT_REGISTERED', b.packageId, 'UNRESOLVED');
+      if (end.plane !== undefined) need(end.plane === 'miter-face', 'CUT_PLANE_NOT_REGISTERED', b.packageId, 'UNRESOLVED');
     }
+    if (end.lengthDatum === 'long-point-to-short-point')
+      need(end.endPointOrientation === 'long-to-short', 'END_POINT_ORIENTATION_CONTRADICTS_DATUM', b.packageId, 'UNRESOLVED');
+    if (end.endPointOrientation !== undefined && end.lengthDatum !== 'long-point-to-short-point')
+      need(end.endPointOrientation === 'long-to-long' && end.lengthDatum === 'long-long-outer-edge',
+        'END_POINT_ORIENTATION_CONTRADICTS_DATUM', b.packageId, 'UNRESOLVED');
     if (b.finishedWidthIn !== undefined) need(positive(b.finishedWidthIn), 'FINISHED_WIDTH_INVALID', b.packageId);
     if (b.edgePreparation !== undefined) {
       keys(b.edgePreparation, ['farEdgeRemovalIn', 'fenceEdgeRemovalIn'], b.packageId + '.edgePreparation');
