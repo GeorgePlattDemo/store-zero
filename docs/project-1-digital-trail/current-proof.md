@@ -4,7 +4,7 @@ Project 1 proves the current manufacturing chain for the two-brace SPF job: iden
 
 The complete serialized requests, answers, packets, local plans, records, replay and admission results are in [current-proof.json](current-proof.json). `npm run build:examples` regenerates this proof from current code and catalog; `npm test` rejects any byte disagreement. Changing executable inputs requires regeneration and review of the resulting evidence.
 
-**Source identity:** `286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97` (21 package, source and data files). The reference release label is this source digest, not a deployed git identity. Fixed example times make reproduction deterministic; they are not transaction dates.
+**Source identity:** `f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5` (21 package, source and data files). The reference release label is this source digest, not a deployed git identity. Fixed example times make reproduction deterministic; they are not transaction dates.
 
 System supplies the live integration counterpart in its required Chromium job: the published nested application derives both revisions, receives real HTTP Store answers, records customer acceptance, exports each exact packet and submits it to the pinned Store machine-evidence endpoint. The workflow publishes the full requests, commercial source events, accepted packets and virtual evidence under its actual System and Store revisions. A reference replay alone does not establish that browser handoff.
 

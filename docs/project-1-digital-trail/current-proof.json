@@ -2,10 +2,10 @@
   "schema": "PROJECT-1-CURRENT-PROOF-1",
   "source": {
     "rule": "STORE-ZERO-SOURCE-DIGEST-1: SHA-256 over sorted lines <path> NUL <sha256 of file> LF, for package.json and every file under src/ and data/",
-    "digest": "286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+    "digest": "f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
     "files": 21
   },
-  "release": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+  "release": "source-sha256:f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
   "scope": "Current Store reference replay; simulated acceptance; predicted occupancy only",
   "specimens": [
     {
@@ -2648,7 +2648,7 @@
             "requestId": "CURRENT-PROJECT-1-16",
             "evaluatedAt": "2026-10-08T12:00:00.000Z",
             "authority": {
-              "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+              "storeRevision": "source-sha256:f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
               "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
               "manufacturingModel": {
                 "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2666,7 +2666,7 @@
               "inputHash": "86a848bdad1e15f930bd05d270144f74eb558f84e809812081883d4c6ce9c4dc",
               "resultHash": "fff5108198f6a8f9ba47dd298a7451d34a56c34301cc338946c461bd5bb7fbf5"
             },
-            "receiptHash": "784f79e979dcc0fbd393d49ca5172263ff7e3d3a32c66e59b5e3cfcc19e934db"
+            "receiptHash": "97fdce5673c3a56a6cadd6c92308fc10c12195e5ccf2d22b964eb7e8f11e90b3"
           }
         },
         "decision": {
@@ -2693,12 +2693,12 @@
         "definitionRevision": "current-16",
         "demandHash": "5bc6db19baa820219e8a64e4ed4b740ed153c7c7204ee45084d6079b8cf543c8",
         "manifestHash": "6e2110e7d1db52f0e3162e9d0ba31c4f73c4d32ca369a1dbebb53e00d3fd7608",
-        "storeRelease": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+        "storeRelease": "source-sha256:f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
         "storeCalculationIdentity": {
           "inputHash": "86a848bdad1e15f930bd05d270144f74eb558f84e809812081883d4c6ce9c4dc",
           "resultHash": "fff5108198f6a8f9ba47dd298a7451d34a56c34301cc338946c461bd5bb7fbf5"
         },
-        "packetHash": "d0c10b09fb05a39e634ee33566521ee82a9f417f5cd5639fc44c95213996b606",
+        "packetHash": "5a6787a8d587837d2d4b46b9be8762248b5255509db5530e4e3b61c09ec8b528",
         "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
         "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
         "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
@@ -4227,7 +4227,7 @@
           "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
           "SAW_STROKE_IS_VIRTUAL_BENCHMARK"
         ],
-        "localJobHash": "56b99c935570d16c2089e52d0b5642c44128d6575b6197674820749396ee5d0b"
+        "localJobHash": "cce27cf8cd0ad2878e86c66fa7082d53a1257a2a9854d2054381ec4f213e25cb"
       },
       "records": {
         "schema": "STB-MODELED-OPERATIONS-1",
@@ -4235,12 +4235,12 @@
           "packetId": "PACKET-CURRENT-PROJECT-1-16",
           "demandHash": "5bc6db19baa820219e8a64e4ed4b740ed153c7c7204ee45084d6079b8cf543c8",
           "manifestHash": "6e2110e7d1db52f0e3162e9d0ba31c4f73c4d32ca369a1dbebb53e00d3fd7608",
-          "packetHash": "d0c10b09fb05a39e634ee33566521ee82a9f417f5cd5639fc44c95213996b606",
+          "packetHash": "5a6787a8d587837d2d4b46b9be8762248b5255509db5530e4e3b61c09ec8b528",
           "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
           "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
           "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-          "localJobHash": "56b99c935570d16c2089e52d0b5642c44128d6575b6197674820749396ee5d0b",
-          "motionHash": "b56846871c0b88f644a33de890e374655afc8546393107d1b57bd31d5f20f0d9"
+          "localJobHash": "cce27cf8cd0ad2878e86c66fa7082d53a1257a2a9854d2054381ec4f213e25cb",
+          "motionHash": "18fff48f74fc32d9b9a07e90c60d0200b0efaa47832ce96abdad1206e2758a1f"
         },
         "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
         "physicalAuthority": false,
@@ -8925,7 +8925,7 @@
             "requestId": "CURRENT-PROJECT-1-18",
             "evaluatedAt": "2026-10-08T12:00:00.000Z",
             "authority": {
-              "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+              "storeRevision": "source-sha256:f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
               "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
               "manufacturingModel": {
                 "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -8943,7 +8943,7 @@
               "inputHash": "c2606f713636d0c7ba32bc02a00d5cf45e440e30baec08e98c9106e2f7e42be5",
               "resultHash": "548425c330ae639af09dc7b72555b66b58df8a61873b665e19bc8a0cad4e09ff"
             },
-            "receiptHash": "91fcf49c322ad4cc921aee71f98daca612087d5ed70bc03412e7c44f09bda018"
+            "receiptHash": "967193e92ded6636835f1d3561e00565f3c41ed0281e2c7b8200c6f63013c292"
           }
         },
         "decision": {
@@ -8970,12 +8970,12 @@
         "definitionRevision": "current-18",
         "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
         "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-        "storeRelease": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+        "storeRelease": "source-sha256:f22b2e2affac7e0658ca5f36ab094632688bc2823f8ee11657d1131fd1a7dbe5",
         "storeCalculationIdentity": {
           "inputHash": "c2606f713636d0c7ba32bc02a00d5cf45e440e30baec08e98c9106e2f7e42be5",
           "resultHash": "548425c330ae639af09dc7b72555b66b58df8a61873b665e19bc8a0cad4e09ff"
         },
-        "packetHash": "f614d09fef3516b38cfe4848add8dbf42e07b8f02dcd235c19158df6c9adbe13",
+        "packetHash": "d04ea7c8e10f44b0749f614717a3b829b43d66fdfeebdc242cdb73e3dd08ffc7",
         "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
         "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
         "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
@@ -10498,7 +10498,7 @@
           "RETAINED_FACE_AND_KERF_TRANSFORM_NOT_REGISTERED",
           "SAW_STROKE_IS_VIRTUAL_BENCHMARK"
         ],
-        "localJobHash": "ecf8ee790cd50940e00649059a99ba1e9a6e781387a8564515d29acaa564e5f7"
+        "localJobHash": "54cedb0340129b83cfcd67d1483e7331a9d676047fa8863e77766e8568885550"
       },
       "records": {
         "schema": "STB-MODELED-OPERATIONS-1",
@@ -10506,12 +10506,12 @@
           "packetId": "PACKET-CURRENT-PROJECT-1-18",
           "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
           "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-          "packetHash": "f614d09fef3516b38cfe4848add8dbf42e07b8f02dcd235c19158df6c9adbe13",
+          "packetHash": "d04ea7c8e10f44b0749f614717a3b829b43d66fdfeebdc242cdb73e3dd08ffc7",
           "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
           "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
           "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-          "localJobHash": "ecf8ee790cd50940e00649059a99ba1e9a6e781387a8564515d29acaa564e5f7",
-          "motionHash": "f81da39404346583cdbb4e60a41abe8405977fd69cb9071f2d09702065c3b0e6"
+          "localJobHash": "54cedb0340129b83cfcd67d1483e7331a9d676047fa8863e77766e8568885550",
+          "motionHash": "b1d9e21f34f3fddf36633d2f733cc854973aeef22307b206113c1bb74f24556b"
         },
         "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
         "physicalAuthority": false,
