@@ -32,7 +32,7 @@ test('the 25-degree parallel cross support derives stock envelope from the actua
  for(const p of parents)assert.ok(p.remainingLengthIn<=p.stockL_in-p.components.length*envelope-0.125*(p.components.length+1)+1e-9);
 });
 test('inventory capacity rejects two angled parts that fit only when their offsets are ignored',()=>{
- const request=angledBraces(),compiled=compileDefinition(request,request.manifest);
+ const request=angledBraces(),compiled=compileDefinition({requestType:request.requestType,requestId:request.requestId,demand:request.demand},request.manifest);
  assert.equal(compiled.status,'COMPILED');
  const row=loadCatalog().offerings.find(o=>o.storeSku==='STB-ZERO-PT-2X4-96-001');
  assert.ok(row);
