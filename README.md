@@ -28,7 +28,7 @@ Store Zero is the modeled reference yard used to develop and test this service. 
 
 | Class | Work represented here |
 | --- | --- |
-| **Dimensional — D-001** | Cut to length, bounded miters, declared milling profiles, and a defined 3/16-in spot/pilot operation. |
+| **Dimensional — D-001** | Cut to length, bounded miters, declared milling profiles, and identified-location shallow spotting with a 3/16-in pointed drill. Current nominal full-diameter penetration is 3/16 in beyond the tip, also its maximum; no general pilot/through-hole or flat-bottom spotface is claimed. |
 | **Sheet — S-001** | A single ½-inch cutter for bounded routed patterns, customer-positioned 1-inch retention tabs, center splits, and yard panel-saw crosscuts **and full-length rips** at $10 per manual full cut with declared ±¼-inch location tolerance. |
 
 The [D-001 envelope](STORE-ZERO-MASTER.md#62-dimensional-parameter-register) and [S-001 envelope](STORE-ZERO-MASTER.md#63-sheet-parameter-register) give the exact accepted operations and geometry. The sheet plan keeps the routed center pieces attached by planned tabs for later separation.
