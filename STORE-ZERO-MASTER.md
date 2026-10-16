@@ -39,6 +39,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [3.6 Cut and sheet contracts](#36-cut-and-sheet-contracts)
   - [3.7 Answer receipt and transport](#37-answer-receipt-and-transport)
   - [3.8 Revision custody and accepted packets](#38-revision-custody-and-accepted-packets)
+  - [3.9 Governing physical requirements and future projects](#39-governing-physical-requirements-and-future-projects)
 - [4. Store-owned catalog and inventory](#4-store-owned-catalog-and-inventory)
   - [4.1 Catalog identity and provenance](#41-catalog-identity-and-provenance)
   - [4.2 Board material categories](#42-board-material-categories)
@@ -64,6 +65,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [5.15 Whole-job economics and rounding](#515-whole-job-economics-and-rounding)
   - [5.16 Completion and calculation identity](#516-completion-and-calculation-identity)
   - [5.17 Worked calculations and sensitivities](#517-worked-calculations-and-sensitivities)
+  - [5.18 Adopted variable-depth and location obligations](#518-adopted-variable-depth-and-location-obligations)
 - [6. Registered machine functions](#6-registered-machine-functions)
   - [6.1 Registered model and units](#61-registered-model-and-units)
   - [6.2 Dimensional parameter register](#62-dimensional-parameter-register)
@@ -126,6 +128,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [12.3 Identity labels and remnants](#123-identity-labels-and-remnants)
   - [12.4 Custody and historical reproduction](#124-custody-and-historical-reproduction)
   - [12.5 Release responsibility](#125-release-responsibility)
+  - [12.6 Current proof and documentation maintenance](#126-current-proof-and-documentation-maintenance)
 - [13. Economics and operating implications](#13-economics-and-operating-implications)
   - [13.1 Current declared cost pool](#131-current-declared-cost-pool)
   - [13.2 Productive utilization and service burden](#132-productive-utilization-and-service-burden)
@@ -160,7 +163,9 @@ The proposed supervised laboratory will establish the physical link: measured fe
 
 Store's executable source and contracts govern current manufacturing behavior. System records the inspected Store commit in its candidate, browser runtime, CI checkout and local startup declarations. The deployed Store is `3f813fe060f1eff46a1b3cfdad1ad41465d230e0` at [store-zero-candidate](https://store-zero-candidate-production.up.railway.app/health); its `/health` response supplies the release and shipped-source digest.
 
-Current executable contracts and verified outputs govern descriptions of installed behavior. The original Project 1 publication is historical evidence, not architectural authority. Regenerated reference evidence and revision-bound browser runs demonstrate current behavior for their identified inputs; they do not define that behavior. Consequential changes require affected specifications, masters, shared definitions, Program descriptions and current acceptance evidence to agree. Preserve sealed source bytes and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
+The adopted definitions and specifications govern required behavior. Executable source, identified configuration and verified outputs establish what a particular revision actually implements. A disagreement is a conformance defect: preserve the requirement, identify the affected owner and evidence, and repair the implementation or obtain an explicit requirement decision. Neither a passing test nor existing code silently overrides the adopted contract. Documentation must distinguish adopted requirements, verified implementation, proposed capability and physical qualification.
+
+The current Project 1 proof is maintained acceptance evidence, regenerated from the operative source and configuration when consequential behavior changes. Original sealed publications retain their source identities and historical results. Consequential changes must reconcile the affected definitions, specifications, masters, Program descriptions, current proof, tests, links and operational identities before completion. Preserve full technical content and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
 
 ### 1.2 Registered versions and identity rules
 
@@ -481,6 +486,16 @@ System retains supplied facts, derivation trace, revision, sent bytes, attempts,
 An accepted packet carries schema 2, packet/project identity, definition ID/revision/type/demand/**manifest**/requirements, unchanged Store answer, accepted simulated decision with offer/time identity, and false physical release. Packet definition revision is the owner-record revision; demand `configurationVersion` is the manufacturing configuration revision. They can differ and are carried as separate identities. Store checks demand-manifest configuration identity and receipt binding; System binds its saved decision to the owner revision.
 
 Packet verification rejects malformed, altered, foreign or temporally inconsistent content, and freshly evaluates the same demand and manifest. An edited answer under an unchanged calculation identity is refused. An intact answer whose current calculation/authority changed is stale and must be requoted. Verification establishes consistency, not actor authentication. Detailed packet checks and replay are in Chapter 9; commercial offer/order authority is in Chapter 10.
+
+### 3.9 Governing physical requirements and future projects
+
+*Authority category: Adopted engineering requirements*
+
+The [manufacturing meaning contract](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md#manufacturing-terminology-source-words-versus-physical-requirements) defines source expressions, substantiated geometry, normalized features, standard-operation defaults, cut planes, holes, routing geometry, references and evidence states. The [Store specification](docs/STORE-ZERO-SPECIFICATION.md#11-required-manufacturing-meaning-and-extension-contract) governs Store acceptance. System master [chapter 8](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#86-required-manufacturing-chain-for-every-project) governs the complete transition chain and its [conformance register](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#155-manufacturing-contract-conformance-register) records open implementation obligations.
+
+An imported term is not a capability declaration. Store receives established component requirements and independently identified coverage; it cannot decide that a plan must have meant the operation it happens to support. Preserve positive dimensions, explicit coordinate/depth/bottom conditions, material constraints, unsupported kinds and unresolved facts. A complete answer requires evaluation of every required feature parameter as well as its identity. Unknown or malformed requirements cannot disappear at translation or admission.
+
+A new project may compose existing request representations and registered operations. Its name supplies no Store exception and requires no new price engine. A new physical function requires an explicit feature/operand contract, registration, planning/time/economic treatment, accepted-plan lowering and evidence. Missing representation or capability has an attributable unresolved/refused result until the responsible extension is verified.
 
 ## 4. Store-owned catalog and inventory
 
@@ -1005,6 +1020,14 @@ Its occupancy categories are load 36, index 13.929593332041435, reference 2.9664
 Changing part length changes index distance, feature coordinates when System derives them from length, available parent patterns, retained stock and possibly parent SKU/count. Crossing a capacity boundary can add an entire parent, another reference cycle and another 60 seconds load/release. Changing angle changes A motion and the virtual saw span `width/cos(angle)`; changing nominal width can change both material price and saw time. Narrowing changes routing geometry/pass count and can add physical datum/offcut gaps. Changing stock thickness changes vertical motion and axial pass count. Adding a spot adds approach/plunge/retract and indexing but may reuse a started spindle and unchanged Y.
 
 Changing a sheet aperture changes circular geometry, compensated perimeter, tab count and field/clearance eligibility. Changing hardware quantity within a package boundary may leave Q unchanged; crossing that boundary adds a package. Changing a seller charge or tax is not a manufacturing-engine sensitivity: it changes the seller's offer under commercial authority. A customer's revised supported value always requires a fresh definition, independent manifest, Store inquiry and appropriately bound answer; an old price label is not revalidation.
+
+### 5.18 Adopted variable-depth and location obligations
+
+*Authority category: Adopted engineering requirements*
+
+Section 5.9 describes the operative evaluator. The [selected-depth/location contract](docs/STORE-ZERO-SPECIFICATION.md#required-d-001-selected-depth-and-location-contract) requires each identified spot's positive full-diameter depth to govern that feature's actual Z plunge and motion time within the registered 0.1875-inch maximum. An omitted value may select the nominal only under an explicit standard-operation rule; an imported unspecified hole remains unresolved. Wrong diameter, excessive/invalid depth and flat-bottom requirements cannot be fulfilled by substituting the nominal pointed-drill operation.
+
+Customer coordinates remain part-relative requirements. Store converts them through registered datums and selected stock without shifting their requested locations. Centered and declared inset rules are bounded representations; neither implies arbitrary Y control. The exact plan, calculated identity, receipt, packet and lowering must preserve independently varied feature operands. Verify this with two separately identified depths/locations and actual returned plunge records, including unfavorable cases. This section specifies required conformance; it does not promote an unmerged review implementation into current operation.
 
 ## 6. Registered machine functions
 
@@ -5067,6 +5090,14 @@ Historical custody preserves issued PDFs, publication Markdown/DOCX/ZIP, origina
 System admits meaning and maintains customer revision/decision custody. Store admits a clean manufacturing inquiry and declares its modeled feasibility/Q. The seller accepts commercial responsibility and terms; finance/inventory/scheduler supply their records. The local apparatus owner establishes commissioned configuration/readiness, material condition and applicable release; the authorized operator performs the local start under the operating procedure. Quality determines component conformance; fulfillment records staging/transfer; the owner retains the resulting project record.
 
 The current shared software never transfers physical authority to a browser or Store price. Program supplies the test plan to obtain the missing measurements and operating evidence. Each authority must be demonstrably present at the stage where its fact is used.
+
+### 12.6 Current proof and documentation maintenance
+
+*Authority category: Adopted engineering requirements*
+
+The [maintained-proof contract](docs/STORE-ZERO-SPECIFICATION.md#maintained-proof-and-release-obligations) governs this master's generated examples and the complete current Project 1 reference. Preserve the original sealed review and the current default specimens as distinct evidence, and regenerate current results from operative source whenever they change. Add the selected-depth/location specimen through request, independent manifest, receipt, acceptance, verification, lowering and replay. System's complementary published-browser proof must carry the actual selected revision through the same stages.
+
+Current descriptions are amended in place, preserving complete engineering explanations and source context. Live owner links and headings are maintained; immutable links identify historical evidence. All three root READMEs remain unchanged for this authorized work. The System conformance register owns cross-repository closure, while each specification/master owns its substantive obligations. Local navigation checks, exact-output tests and runtime tests establish different claims; report their scope separately.
 
 ## 13. Economics and operating implications
 

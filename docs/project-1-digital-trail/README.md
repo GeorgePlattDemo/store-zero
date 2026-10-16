@@ -12,6 +12,14 @@ System owns customer definition, derivation, independent manifest, revision and 
 
 Physical admission is BLOCKED with zero permitted physical motion. Stock control, retained-face/kerf registration, saw geometry, controller qualification and component inspection require their own evidence. **NO BLOOD ON WOOD.**
 
+## Current proof maintenance requirements
+
+*Authority category: Adopted engineering requirements*
+
+The [Store maintained-proof contract](../STORE-ZERO-SPECIFICATION.md#maintained-proof-and-release-obligations) requires current specimens to follow operative code, catalog and configuration. Preserve the complete 16-inch and 18-inch nominal SPF specimens and add a separately identified selected-location/shallower-depth specimen with its own request, independent manifest, answer, receipt, accepted decision, packet, verification, lowering, modeled records and replay. Derive each reported depth and plunge from the actual specimen rather than repeating the maximum as if it were every request.
+
+System's real published-browser proof must accept that selected revision and submit its exact packet to Store evidence. Direct evaluator checks are complementary and do not establish the browser acceptance/export path. Keep modeled occupancy, simulated commerce and blocked physical authority explicit. The [System conformance register](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#155-manufacturing-contract-conformance-register) identifies remaining closure evidence. Regenerate current proof through its existing generator; preserve the sealed historical publication below byte-for-byte.
+
 ## Historical Evidence — preserved source publication
 
 *Authority category: Historical Evidence*
