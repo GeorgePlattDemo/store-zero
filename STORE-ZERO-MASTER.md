@@ -5300,7 +5300,7 @@ Current owner behavior is explicit:
 
 | Concern | Current governing behavior |
 | --- | --- |
-| Source end meaning | System preserves A-frame source lengths/datum and support bevel; Store returns UNRESOLVED without Q for unregistered end geometry |
+| Source end meaning | System declares the drawn 25° parallel face-miter end planes and long-to-short dimensions; Store derives material envelopes at actual width, admitting only registered machine capability. The older bevel-labeled request remains sealed evidence, not a live refusal |
 | Material attribution | A chosen all-treated definition is an application/customer variant; it is not attributed as the source recommendation |
 | Manifest and optional fields | The independent System manifest covers all required work; System definition shapes match the inspected Store contract, including optional tooling/profile/tab/offset fields |
 | Accepted packet | Public terms export the existing accepted decision with exact manifest, demand and Store answer; Store independently verifies and requotes before lowering |
