@@ -10,7 +10,7 @@
  *
  * Store identity is the Store's own release, supplied by whoever runs this Store; a request cannot set it.
  */
-import { calculationHash, evaluateDefinition } from "../evaluation/engine/store-manufacturing-core.mjs";
+import { calculationHash, evaluateDefinition, reasonMessageForCode } from "../evaluation/engine/store-manufacturing-core.mjs";
 import {loadMachineConfig,machineConfigHash} from "../machine/configuration.mjs";
 import { loadCatalog, loadObservations, validateCatalog } from "../evaluation/catalog.mjs";
 import { lookupOfferings, lookupProblems } from "./offering-lookup.mjs";
@@ -47,6 +47,8 @@ function notEvaluated(request, status, reasonCodes) {
     complete: false,
     freshEvaluation: false,
     reasonCodes,
+    reasonRecords:reasonCodes.map(code=>({code,subject:'request',authority:'STORE',status,message:reasonMessageForCode(code,'request')})),
+    reasonMessage:reasonCodes.map(code=>reasonMessageForCode(code,'request')).join(' '),
     calculationIdentity: null,
     evaluationReceipt: null
   };
