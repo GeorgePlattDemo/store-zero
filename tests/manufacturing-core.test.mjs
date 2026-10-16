@@ -6,7 +6,6 @@ test('declared manufacturing core: 22 independent guide, inventory, geometry and
 
 import {evaluateStoreRequest} from '../src/requests/store-request.mjs';
 import {identifiedRequest} from './fixtures/manifest.mjs';
-import {loadCatalog} from '../src/evaluation/catalog.mjs';
 import {compileDefinition,evaluateManufacturingJob} from '../src/evaluation/engine/store-manufacturing-core.mjs';
 
 function angledBraces(angleDeg=25) {
