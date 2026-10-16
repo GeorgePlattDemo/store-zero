@@ -2546,6 +2546,8 @@ The selected wood is an application/customer variant applied across its groups. 
 
 The separately selectable table-and-benches plan uses square cuts. Its supported definitions still receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
 
+The immutable historical differential corpus and the sealed refused-packet example predate the addition of human-readable refusal descriptions. Their original hashes are compared through an expressly identified pre-message calculation view; new live refusals retain the reason code, reason record and human message together. The migration audit requires descriptions to exist before projecting to the legacy hash, and new geometry acceptance tests check the full live refusal. Nothing in the sealed corpus or original packet JSON is rewritten.
+
 **Superseded sealed source request and response (unaltered):** The following JSON was published with the former `bevel-edge` classification and `MITER_END_GEOMETRY_NOT_EVALUATED` refusal. Its original request, receipt, and result hashes remain preserved as evidence of that former revision. They must not be used as a current Store quote or rewritten to portray a new test result.
 
 **Complete reference request and current returned summary**
