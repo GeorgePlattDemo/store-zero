@@ -766,10 +766,15 @@ function groupsFor(job, catalog, model) {
     const lengths = new Map();
     for (const part of group.parts) lengths.set(part.lengthIn, (lengths.get(part.lengthIn) ?? 0) + 1);
     for (const [partLengthIn, requiredParts] of lengths) {
-      const eligibleStock = rows.map(row => ({storeSku:row.storeSku, stockLengthIn:row.stockL_in,
-        availableParents:row.onHand-row.allocated,
-        maxPartsPerParent:Math.max(0,Math.floor((row.stockL_in-model.dimensional.saw.kerfIn
-          -model.dimensional.stock.minRetainedLengthIn+EPS)/(partLengthIn+model.dimensional.saw.kerfIn)))}));
+      const eligibleStock = rows.map(row => {
+        const envelope = stockEnvelope(group, {partId:group.packageId,lengthIn:partLengthIn}, group.finishedWidthIn ?? row.actualW);
+        return {storeSku:row.storeSku, stockLengthIn:row.stockL_in,
+          ...(envelope.endOffsetIn > EPS ? {partStockEnvelopeIn:envelope.stockEnvelopeLengthIn,
+            endOffsetIn:envelope.endOffsetIn} : {}),
+          availableParents:row.onHand-row.allocated,
+          maxPartsPerParent:Math.max(0,Math.floor((row.stockL_in-model.dimensional.saw.kerfIn
+            -model.dimensional.stock.minRetainedLengthIn+EPS)/(envelope.stockEnvelopeLengthIn+model.dimensional.saw.kerfIn)))};
+      });
       const availablePartCapacity = eligibleStock.reduce((n,row)=>n+row.availableParents*row.maxPartsPerParent,0);
       if (availablePartCapacity < requiredParts) throw new Problem('ON_HAND_SHORT', group.packageId, 'UNAVAILABLE',
         {stockShortage:{partLengthIn,requiredParts,availablePartCapacity,eligibleStock,basis:'OPTIMISTIC_LENGTH_CAPACITY_BOUND'}});
@@ -802,7 +807,8 @@ function partSignature(p) {
 }
 function* parentPatterns(task, remaining, row, model) {
   const d = model.dimensional, capacity = row.stockL_in - d.saw.kerfIn - d.stock.minRetainedLengthIn;
-  const parts = task.group.parts, weight = i => parts[i].lengthIn + d.saw.kerfIn;
+  const parts = task.group.parts, width = task.group.finishedWidthIn ?? row.actualW;
+  const weight = i => stockEnvelope(task.group, parts[i], width).stockEnvelopeLengthIn + d.saw.kerfIn;
   if (task.group.singleParent) { if (remaining.reduce((s, i) => s + weight(i), 0) <= capacity + EPS) yield remaining; return; }
   const kinds = new Map();
   for (const i of remaining) { const key = task.partSignatures[i]; if (!kinds.has(key)) kinds.set(key, []); kinds.get(key).push(i); }
