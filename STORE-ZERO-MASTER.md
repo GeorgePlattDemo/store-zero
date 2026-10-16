@@ -160,7 +160,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
 
 ### 1.1 Frozen repository revisions
 
-The original master was compiled against the frozen source record below. Current document integration uses Store `ca6d3c2768cc7741d34daa81ea45bf44acdf6a3f`, System `1939e809ba931ff6a848e4c747bd73e795820d32` and Program `ae1ea61ebc56f631b9a642e1b38f3d6ba0ebdc65`. System's runtime pin remains `f7123a73c1ca60aa7eb180a86a1c365eaffe95db`. Of the 20 Store src/data files, main differs from the pin only in the manufacturing core's bounded per-evaluation cycle reuse during search; it does not cache complete answers or receipts between requests. Main, pinned runtime and historical evidence identities remain distinct.
+The source register below preserves the original audit baseline. Current executable owners are the files in this repository and System; System's `STORE_CANDIDATE`, browser configuration, CI checkout and startup declaration jointly identify the exact inspected Store commit. Current Project 1 evidence binds the current executable source digest. A frozen source link establishes provenance, not an active runtime selection.
 
 | Owner | Repository | Frozen source revision | Movement since audit |
 | --- | --- | --- | --- |
@@ -176,20 +176,20 @@ This master is the consolidated explanation. Enforceable behavior remains in the
 
 | Surface | Exact installed identifier | Source |
 | --- | --- | --- |
-| Request protocol | `STORE-ZERO-REQUEST-2` | [HTTP service](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/service/server.mjs) |
-| Definition conversion shapes | `USER_DEFINED_BOARD_V1`, `CUT_PACKAGE_V1`, `SHEET_PACKAGE_V1` | [Definition contracts](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/definitions.mjs) |
-| Neutral manufacturing job | `STORE-MANUFACTURING-JOB-1` | [Manufacturing core](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/engine/store-manufacturing-core.mjs) |
-| Manufacturing model | `STORE-MANUFACTURING-CORE-0.1` | Core `createModel`; [registered parameters](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/machine/manufacturing-core-0.1.json) |
-| Configuration execution class | `DECLARED_OCCUPANCY_EVENT_MODEL` | [Configuration reader](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/configuration.mjs) |
-| Catalog | `StoreZeroCallableCatalog`; declared clock `2026-09-10` | [Catalog](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/store-zero-catalog.json) |
-| Freshness rule | `STB-STORE-FRESH-EVALUATION-0.1` | [Request and receipt owner](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/store-request.mjs) |
-| Accepted packet | `STB-ACCEPTED-JOB-PACKET-2` | [Packet contract](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs) |
-| Local job | `STB-LOCAL-MANUFACTURING-JOB-1` | [Lowering](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) |
-| Operation records | `STB-MODELED-OPERATIONS-1` | [Machine-record contracts](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/machine-records.mjs) |
-| Virtual model | `STB-VIRTUAL-OCCUPANCY-MODEL-1` | [Replay](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs) |
-| Evidence protocol | `STORE-ZERO-MACHINE-EVIDENCE-2` | [Evidence entry point](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/evidence.mjs) |
-| Commercial record | `STB-COMMERCIAL-EVENT-1` | [Shared executable gate](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js) |
-| Commercial transport | `STORE-ZERO-COMMERCIAL-EVIDENCE-1` | [Commercial request boundary](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/commercial-request.mjs) |
+| Request protocol | `STORE-ZERO-REQUEST-2` | [HTTP service](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/service/server.mjs) |
+| Definition conversion shapes | `USER_DEFINED_BOARD_V1`, `CUT_PACKAGE_V1`, `SHEET_PACKAGE_V1` | [Definition contracts](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/definitions.mjs) |
+| Neutral manufacturing job | `STORE-MANUFACTURING-JOB-1` | [Manufacturing core](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/evaluation/engine/store-manufacturing-core.mjs) |
+| Manufacturing model | `STORE-MANUFACTURING-CORE-0.1` | Core `createModel`; [registered parameters](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/machine/manufacturing-core-0.1.json) |
+| Configuration execution class | `DECLARED_OCCUPANCY_EVENT_MODEL` | [Configuration reader](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/configuration.mjs) |
+| Catalog | `StoreZeroCallableCatalog`; declared clock `2026-09-10` | [Catalog](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/store-zero-catalog.json) |
+| Freshness rule | `STB-STORE-FRESH-EVALUATION-0.1` | [Request and receipt owner](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/store-request.mjs) |
+| Accepted packet | `STB-ACCEPTED-JOB-PACKET-2` | [Packet contract](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/job-packet.mjs) |
+| Local job | `STB-LOCAL-MANUFACTURING-JOB-1` | [Lowering](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/lowering.mjs) |
+| Operation records | `STB-MODELED-OPERATIONS-1` | [Machine-record contracts](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/machine-records.mjs) |
+| Virtual model | `STB-VIRTUAL-OCCUPANCY-MODEL-1` | [Replay](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/virtual-run.mjs) |
+| Evidence protocol | `STORE-ZERO-MACHINE-EVIDENCE-2` | [Evidence entry point](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/evidence.mjs) |
+| Commercial record | `STB-COMMERCIAL-EVENT-1` | [Shared executable gate](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/commercial-sequence.js) |
+| Commercial transport | `STORE-ZERO-COMMERCIAL-EVIDENCE-1` | [Commercial request boundary](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/commercial-request.mjs) |
 | System owner record | `STB-SYSTEM-RECORD-2` | [System source/pin record](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store-candidate.ts) |
 | Historical review | `D001 PROJECT1 DIGITAL TRAIL REVIEW 0.2` | [Preserved manuscript](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md) |
 | Historical virtual IR | `D001-VIRTUAL-IR-0.2` | Evidence ZIP `generated/motion-ir.json` |
@@ -278,10 +278,10 @@ The matrices below describe engineering correspondence to issued functions. Each
 | Key | Current code and evidence |
 | --- | --- |
 | I | System [published translator](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts), [compiler](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/compile.ts), [manifest](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/manifest.ts); published-wire and [HTTP integration checks](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/http.integration.test.ts) |
-| Q | Store [manufacturing core](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/engine/store-manufacturing-core.mjs), [catalog reader](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/catalog.mjs), catalog/model data; [21 self-checks](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/core-self-checks.mjs) and manufacturing test |
-| R | [Request/receipt layer](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/store-request.mjs), [definition contract](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/definitions.mjs), [packet verifier](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs); [protocol 2 tests](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/protocol2.test.mjs) and contract acceptance |
-| V | [Lowering](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs), [record validation](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/machine-records.mjs), [virtual replay](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs), [evidence boundary](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/evidence.mjs); current protocol/contract examples |
-| C | [Shared commercial gate](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js), [commercial tests](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/commercial-sequence.test.mjs); System's byte-identical gate and explicitly simulated source adapters |
+| Q | Store [manufacturing core](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/evaluation/engine/store-manufacturing-core.mjs), [catalog reader](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/evaluation/catalog.mjs), catalog/model data; [21 self-checks](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/core-self-checks.mjs) and manufacturing test |
+| R | [Request/receipt layer](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/store-request.mjs), [definition contract](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/definitions.mjs), [packet verifier](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/job-packet.mjs); [protocol 2 tests](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/protocol2.test.mjs) and contract acceptance |
+| V | [Lowering](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/lowering.mjs), [record validation](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/machine-records.mjs), [virtual replay](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/virtual-run.mjs), [evidence boundary](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/evidence.mjs); current protocol/contract examples |
+| C | [Shared commercial gate](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/commercial-sequence.js), [commercial tests](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/commercial-sequence.test.mjs); System's byte-identical gate and explicitly simulated source adapters |
 | H | [Original Project 1 manuscript](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/project-1-digital-trail/D001_Project1_Review.md), DOCX, ZIP, seven pinned sources and fourteen reference checks; [historical acceptance](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/acceptance/project-1/project-1.test.mjs) |
 
 ### 2.5 US 9720401 B2 claims 1 through 18
@@ -362,7 +362,7 @@ System's public pages use an outer `stb-store-zero-http/1` page wire carrying at
 
 The formal job request has exactly four top-level fields: `requestType`, `requestId`, `demand`, `manifest`. Request type and inquiry identity must be valid. Machine-local `spline`, `toolpath`, `gcode`, `controller` or `servoSteps` in the demand are refused. Unknown fields are not ignored. A prior answer, receipt, release or evaluation timestamp cannot be submitted as authority.
 
-The [shape checker](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/shape.mjs) checks declared JSON types and unknown nested fields. It treats null or absent values as unsupplied; completeness is checked in the core. A numeric-looking string from a UI may be explicitly converted by System before Store submission; Store's contract does not accept that string as a finite number. The same distinction applies to whole quantities.
+The [shape checker](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/shape.mjs) checks declared JSON types and unknown nested fields. It treats null or absent values as unsupplied; completeness is checked in the core. A numeric-looking string from a UI may be explicitly converted by System before Store submission; Store's contract does not accept that string as a finite number. The same distinction applies to whole quantities.
 
 A missing independent manifest fails before engine execution: `UNRESOLVED`, `INDEPENDENT_SYSTEM_MANIFEST_REQUIRED`, `freshEvaluation:false`, null calculation identity and null receipt. A clean request that reaches the engine can still receive a refusal, unresolved result or unavailable result with a **fresh evaluation receipt**. The receipt identifies that evaluation; it does not guarantee supportability.
 
@@ -432,7 +432,7 @@ Each item line carries `lineId`, positive integer `qty`, and exactly one selecto
 
 A sheet demand contains `sheet` dimensions and optional species/grade, `features`, `returnAllPieces:true`, and optional Boolean exterior requirement. Current feature kinds are `ARCHED_APERTURE`, `STRAIGHT_SPLIT`, `CROSSCUT`, `RIP`, `PATTERN`. Each kind has its own allowed operands. PATTERN offsets one named aperture; it is not arbitrary controller code or a second priced profile. Custom tab positions remain literal. A custom split without positions remains `UNRESOLVED` with no complete Q.
 
-Complete committed input examples are [cut package](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples/requests/cut-package.alcove-pine.json), [sheet package](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples/requests/sheet-package.playhouse.json), and [refused inputs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/contracts/examples/requests/refused.json). Their identities and fixtures are distinct from the public starting definitions in Chapter 8.
+Complete committed input examples are [cut package](https://github.com/GeorgePlattDemo/store-zero/blob/main/contracts/examples/requests/cut-package.alcove-pine.json), [sheet package](https://github.com/GeorgePlattDemo/store-zero/blob/main/contracts/examples/requests/sheet-package.playhouse.json), and [refused inputs](https://github.com/GeorgePlattDemo/store-zero/blob/main/contracts/examples/requests/refused.json). Their identities and fixtures are distinct from the public starting definitions in Chapter 8.
 
 ### 3.7 Answer receipt and transport
 
@@ -457,7 +457,7 @@ Packet verification rejects malformed, altered, foreign or temporally inconsiste
 
 ### 4.1 Catalog identity and provenance
 
-The runtime reads [data/store-zero-catalog.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/store-zero-catalog.json), validates it, and hashes its entire canonical JSON value for every inquiry. This is the callable supply record, not a live warehouse integration. Its `documentKind` is `StoreZeroCallableCatalog`, stage is 2, declared clock is `2026-09-10`, and price rule is `SZ-MARK-ON-5`. The frozen record contains **183 offerings: 137 boards, 9 sheets and 37 hardware lines**. The clock is metadata carried by this record, not the date on which every source price was observed. Later source CSV filenames carry 2026-09-26; their dates must not be used to relabel the runtime catalog.
+The runtime reads [data/store-zero-catalog.json](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/store-zero-catalog.json), validates it, and hashes its entire canonical JSON value for every inquiry. This is the callable supply record, not a live warehouse integration. Its `documentKind` is `StoreZeroCallableCatalog`, stage is 2, declared clock is `2026-09-10`, and price rule is `SZ-MARK-ON-5`. The frozen record contains **183 offerings: 137 boards, 9 sheets and 37 hardware lines**. The clock is metadata carried by this record, not the date on which every source price was observed. Later source CSV filenames carry 2026-09-26; their dates must not be used to relabel the runtime catalog.
 
 The declared material-price relationship is:
 
@@ -469,7 +469,7 @@ Each offering carries SKU, offered flag, form, species/grade where applicable, n
 
 The stock language is explicitly **fixture-declared on-hand stock — not a physical count**. `onHand` assertions are synthetic fixtures, allocations are simulated state, material mapping is mapped evidence, compatibility is declared stage-2 capability, and some external list prices are observed evidence. These different assertion bases are retained in discovery. A selected SKU plan does not reserve anything. Actual yard availability requires a seller/inventory-owned count, lot, location, condition and allocation record.
 
-[data/sources/store-zero-price-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-price-sheet-2026-09-26.csv), [hardware sheet](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-hardware-sheet-2026-09-26.csv) and [20 observations](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/sources/store-zero-observations.json) preserve price provenance. They are not additional runtime price calculators. The JSON catalog is the current evaluated supply authority; source CSV rows and observations support attribution.
+[data/sources/store-zero-price-sheet-2026-09-26.csv](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/sources/store-zero-price-sheet-2026-09-26.csv), [hardware sheet](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/sources/store-zero-hardware-sheet-2026-09-26.csv) and [20 observations](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/sources/store-zero-observations.json) preserve price provenance. They are not additional runtime price calculators. The JSON catalog is the current evaluated supply authority; source CSV rows and observations support attribution.
 
 ### 4.2 Board material categories
 
@@ -511,7 +511,7 @@ An offering's `supportedOps` is necessary supply metadata, not proof that the en
 
 ### 4.5 Discovery and attribution
 
-`OFFERING_LOOKUP` is discovery, not a manufacturing job, and accepts no manifest. An exact SKU query asks for a row; a search query asks for potential offerings. Search text is limited to 80 characters and results to 20. Text normalization handles case and dimension separators such as `×` and `x`; punctuation/space tokenization and hyphen-derived tokens are applied by [offering-lookup.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/offering-lookup.mjs). Rank is exact SKU, SKU prefix, then all-token text match. Ties retain catalog order. Only offered rows appear.
+`OFFERING_LOOKUP` is discovery, not a manufacturing job, and accepts no manifest. An exact SKU query asks for a row; a search query asks for potential offerings. Search text is limited to 80 characters and results to 20. Text normalization handles case and dimension separators such as `×` and `x`; punctuation/space tokenization and hyphen-derived tokens are applied by [offering-lookup.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/offering-lookup.mjs). Rank is exact SKU, SKU prefix, then all-token text match. Ties retain catalog order. Only offered rows appear.
 
 A search finding several candidates does not mean one material has been chosen. The answer identifies the catalog hash, release and evaluation time and includes mapped/observed/calculated assertion provenance. It carries no evaluated-job receipt. System owns turning a customer's selection into an exact manufacturing requirement, and a subsequent Store inquiry evaluates that full definition afresh.
 
@@ -720,7 +720,7 @@ This is the frozen runtime register, generated directly from the 183 catalog row
 
 ## 5. Manufacturing engine from request to Q
 
-The sole adopted planner, occupancy calculator and Q engine is [store-manufacturing-core.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/evaluation/engine/store-manufacturing-core.mjs). The public definition validators, catalog reader and request layer guard its inputs; they are not competing estimators. The machine layer consumes its selected ledger. It does not independently invent a route or recalculate a different quote.
+The sole adopted planner, occupancy calculator and Q engine is [store-manufacturing-core.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/evaluation/engine/store-manufacturing-core.mjs). The public definition validators, catalog reader and request layer guard its inputs; they are not competing estimators. The machine layer consumes its selected ledger. It does not independently invent a route or recalculate a different quote.
 
 ### 5.1 Compilation and validation
 
@@ -928,7 +928,7 @@ Changing a sheet aperture changes circular geometry, compensated perimeter, tab 
 
 ### 6.1 Registered model and units
 
-[configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/configuration.mjs) reads [manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/data/machine/manufacturing-core-0.1.json), admits only the declared configuration fields, and constructs the deeply frozen engine model. The configuration ID and model ID are both `STORE-MANUFACTURING-CORE-0.1`, but their hashes cover different objects. Configuration parameters override the permitted model inputs; the expanded model includes the remaining declared geometry, time, economics and assumptions. Its execution class is `DECLARED_OCCUPANCY_EVENT_MODEL`; measured and commissioned are false and physical authority is false.
+[configuration.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/configuration.mjs) reads [manufacturing-core-0.1.json](https://github.com/GeorgePlattDemo/store-zero/blob/main/data/machine/manufacturing-core-0.1.json), admits only the declared configuration fields, and constructs the deeply frozen engine model. The configuration ID and model ID are both `STORE-MANUFACTURING-CORE-0.1`, but their hashes cover different objects. Configuration parameters override the permitted model inputs; the expanded model includes the remaining declared geometry, time, economics and assumptions. Its execution class is `DECLARED_OCCUPANCY_EVENT_MODEL`; measured and commissioned are false and physical authority is false.
 
 Lengths are inches, angles degrees, time seconds and money USD. D-001/S-001 identify modeled cell families, not commissioned asset serial numbers. The expanded `createModel()` output supplies the exact declared operation facts registered before routine job evaluation; the JSON supplies its permitted parameters. Each function binds required operands, tool geometry, units/references, limits, modeled state prerequisites and outcomes. Registration and hash identity prove declared content, not calibration, traction or readiness.
 
@@ -1009,7 +1009,7 @@ A roller's coordinate being inside the stock interval proves only longitudinal o
 
 Register machine functions before the customer arrives: supported operation meaning and operands; actual stock envelopes; tooling identity/radius/length/kerf; station coordinates and axis roles; units, signed transforms, retained-face conventions and travel limits; approach/retract and engaged cutting rules; feeds/acceleration; restraint/contact conditions, limits and interlocks; state prerequisites, permitted outcomes, invalidation and recovery; component/feature identity, inspection tolerances and evidence custody. The customer supplies the variable part requirement. Store selects stock and plans supported work using that registration.
 
-Current [lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) verifies packet2 and registered model identity, then copies the exact accepted parents, operation ledger and predicted time into bound local records. It does not replace the accepted route, select material or compute another Q. A future controller-specific export extends that layer with registered execution mappings and source-operation witnesses. Unknown station/tool/axis/datum/controller facts produce unresolved export or refusal. Clamp and position-verification allowances remain modeled delays, never sensed confirmations.
+Current [lowering.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/lowering.mjs) verifies packet2 and registered model identity, then copies the exact accepted parents, operation ledger and predicted time into bound local records. It does not replace the accepted route, select material or compute another Q. A future controller-specific export extends that layer with registered execution mappings and source-operation witnesses. Unknown station/tool/axis/datum/controller facts produce unresolved export or refusal. Clamp and position-verification allowances remain modeled delays, never sensed confirmations.
 
 The technical foundation is established. [IEC 61131-3](https://webstore.iec.ch/en/publication/68533) specifies Structured Text; [PLCopen Motion Control](https://www.plcopen.org/standards/motion-control/) defines reusable motion functions, axis state models and homing interfaces. [TwinCAT PLC/NC PTP](https://www.beckhoff.com/en-us/products/automation/twincat/tcxxxx-twincat-3-base/tc1250.html) offers cyclic axis interfaces, simulation axes and fieldbus integration including EtherCAT, consistent with the preserved Project 1 reference. [Tc2_MC2 rules](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70043531.html), [MC_MoveAbsolute](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70094731.html) and [MC_GearIn](https://infosys.beckhoff.com/content/1033/tcplclib_tc2_mc2/70123403.html) provide specific positioning/coupling semantics. Cyclic calls, Execute transitions and terminal outcomes must govern the selected interpreter; a prior Done bit cannot become a lasting tool permission.
 
@@ -1250,9 +1250,9 @@ Fresh reproduction for this master passes **14/14**, with no failed checks. Scop
 
 ### 7.11 Separate current adopted-core evaluation
 
-The current fixture [project-1.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/tests/fixtures/project-1.mjs) reads the sealed demand and explicitly supplies the required grade/end meaning. Its comment retains an older assertion about reproducing the whole old answer; the actual current engine does not return the old calculation hashes or Q. Current tests distinguish the surviving geometry evidence from the adopted calculation.
+The treated-lumber comparison fixture reads the sealed source demand and explicitly supplies grade/end meaning. It produces its own current calculation and $10.81 Q, distinct from the original $11.09 calculation. The current SPF Project 1 proof is generated separately for both public settings.
 
-| Fact | Sealed historical Store | Current adopted core, source f7123a73 |
+| Fact | Sealed historical Store | Adopted-core treated comparison |
 |---|---|---|
 | Parent | PTAG 2×4×72 | PT 2×4×96 |
 | Material | $5.15 | $4.81 |
@@ -1313,112 +1313,41 @@ The current commercial chain in chapter 10 consumes the appropriate current rece
 
 ### 8.1 Exact inquiry and evaluation basis
 
-The five paths are System-owned project definitions; Store accepts three manufacturing classes, not five project-specific price engines. The current public root is [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-current.html), which composes the front door, base page and individual project pages. Older embedded static prices do not govern current inquiries. The [published-wire adapter](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/store/published-wire.ts) translates and preserves source meaning, creates the independent manifest before translation, sends protocol 2 to the pinned Store and interprets its attributable answer.
+System owns the five project definitions. Store accepts three neutral manufacturing classes and evaluates them with one planner/time/Q engine. The six complete reference requests below cover both Project 1 settings and the other four projects. Their explicit reference IDs distinguish reproducible inputs from captured live transactions. `npm run build:examples` regenerates every returned summary and this table against the current source and catalog; acceptance rejects stale worked results. The content-addressed reference release and fixed example clock are reproduction inputs, not deployed-process identities or transaction dates.
 
-The figures below were **freshly reevaluated for this master** with Store source `f7123a73c1ca60aa7eb180a86a1c365eaffe95db`, System source `ab09777d6f27d4b70a2193abc8564ebce611746f`, current disk catalog and registered model. The fixed evaluation clock is `2026-10-12T16:00:00.000Z`, explicitly a deterministic reproduction input, not a live inventory-observation timestamp. Request IDs begin `MASTER-`. Window Seat and Outdoor use labeled reconstruction revision IDs for the published default geometry rather than pretending to have captured a user's live UI timestamp/signature. Alcove runs its actual public definition functions against the frozen catalog width classes; its independent manifest comes from that pre-translation definition. Full requests, selected parents and identities appear below, so these figures can be reproduced without guessing the defaults.
+Required System Chromium checks exercise the actual nested pages, changed definitions, complete answers and refusals. Project 1 additionally exports the customer's actual simulated acceptance into the exact packet and submits it to the real pinned Store for lowering/replay. Its per-run artifact carries the actual System/Store revisions and source health identity. [Current Project 1 evidence](docs/project-1-digital-trail/README.md) explains the complete proof.
 
-| Public path | Store class | Material | Hardware | Hourly service | Fixed cuts | Q USD | Total modeled seconds |
-|---|---|---:|---:|---:|---:|---:|---:|
-| Start Your Own | USER_DEFINED_BOARD_V1 | 2.61 | 0.00 | 6.01 | 0.00 | **8.62** | 86.519086610639 |
-| Alcove | CUT_PACKAGE_V1 | 283.64 | 18.00 | 77.47 | 0.00 | **379.11** | 1115.544652777776 |
-| Window Seat | CUT_PACKAGE_V1 | 795.59 | 0.00 | 397.51 | 0.00 | **1193.10** | 5724.080625000045 |
-| Outdoor | CUT_PACKAGE_V1 | 200.05 | 18.88 | 74.23 | 0.00 | **293.16** | 1068.903160409143 |
-| Playhouse | SHEET_PACKAGE_V1 | 26.55 | 0.00 | 30.01 | 20.00 | **76.56** | 560.476174548359 |
+<!-- current-examples-table -->
+| Reference inquiry | Status | Manufacturing Q USD | Modeled seconds | Search complete |
+| --- | --- | ---: | ---: | --- |
+| MASTER-SYO-16 | SUPPORTABLE | 8.62 | 86.51908661063948 | true |
+| MASTER-SYO-18 | SUPPORTABLE | 9.13 | 86.46953628299116 | true |
+| MASTER-ALCOVE-ECONOMY | SUPPORTABLE | 372.19 | 1115.5446527777765 | true |
+| MASTER-WINDOW-SEAT | SUPPORTABLE | 1313.61 | 6463.942708333378 | false |
+| MASTER-OUTDOOR | UNRESOLVED | absent | absent | not evaluated |
+| MASTER-PLAYHOUSE | SUPPORTABLE | 76.56 | 560.4761745483586 | true |
+<!-- end-current-examples-table -->
 
-All five starting Q values reproduce the audit. The prices are definition/catalog/model-specific manufacturing evaluations, not timeless advertised prices or full delivered/assembled customer amounts. No path gains physical machine admission from a supportable quote.
-
-The actual optimization evidence also qualifies these answers. The search fixes group order and part order, does not reuse remnants or model concurrency, and limits visited nodes to 200,000. The counter records the first over-limit attempt as 200,001. Window Seat and Outdoor return a complete feasible plan found within that bound; their reported Q is not an established minimum even within the declared plan space. The other starting cases exhaust their declared bounded plan space, which still does not establish global manufacturing optimality.
-
-| Exact starting inquiry | Optimization status | Search complete | Visited nodes |
-|---|---|---|---:|
-| Start Your Own | MINIMUM_WITHIN_DECLARED_PLAN_SPACE | true | 10 |
-| Alcove ECONOMY | MINIMUM_WITHIN_DECLARED_PLAN_SPACE | true | 6694 |
-| Window Seat | BOUNDED_FEASIBLE_PLAN | false | 200001 |
-| Outdoor | BOUNDED_FEASIBLE_PLAN | false | 200001 |
-| Playhouse | MINIMUM_WITHIN_DECLARED_PLAN_SPACE | true | 2 |
-
-The separate current Project 1 inquiry visits eight nodes and reports MINIMUM_WITHIN_DECLARED_PLAN_SPACE with searchComplete=true. Alcove's BALANCED and ALL_EDGES variations also complete their searches, visiting 12,974 and 11,293 nodes respectively. These are actual returned fields from the same frozen evaluations, not inferred guarantees from the prices.
+Search completion is explicit. A bounded feasible result is a complete supported plan, with no claim that the optimum was established. An unresolved source datum or cut plane has no complete Q. All physical admission remains BLOCKED. Manufacturing Q excludes seller-specific extras, delivery, assembly and physical commissioning.
 
 ### 8.2 Start Your Own
 
-The current Job 1 path uses [system-build-current.html](https://github.com/GeorgePlattDemo/new-system/blob/1939e809ba931ff6a848e4c747bd73e795820d32/public/live/system-build-current.html), its active `three-frames.html` child, the admitted board bridge and published-wire translator. The retired standalone bench page remains historical source only. Intent establishes two SPF nominal 2×4 brace parts, parallel face miters and one centered 3/16-inch spot per part. The Bench changes length within the published 16–18-inch range on its ⅛-inch grid while preserving the eight-inch horizontal span. The bounded System rule refuses out-of-range or off-grid values before Store. Additional tool requirements without a supported representation remain carried/unresolved. The more general Store board envelope does not widen this published project.
+The active `three-frames.html` child derives two SPF nominal 2×4 braces from a finished length L on the 16–18-inch control grid. The horizontal span remains eight inches. Miter magnitude is `asin(8/L) × 180/π`, rounded to 12 decimals; rise is `sqrt(L² − 8²)`; each centered SPOT is at L/2. PART-1/PART-2 and SPOT-1/SPOT-2 remain independent identities in the manifest. The translator records the page's redundant `both` end identity and preserves the registered parallel-end, long-long outer-edge face-miter definition.
 
-**Customer definition → geometry → features → manifest → request.** The published rule derives `angleDeg = asin(8/L)×180/π`, rounded to 12 decimals, rise `sqrt(L²−8²)` and spot X `L/2`, rounded to six decimals. PART-1/PART-2 and SPOT-1/SPOT-2 retain identity. A changed control increments the owner revision; configuration versions at the endpoints are 0.1/0.2. The independent manifest contains both parts and both features, no sheet packages/items and no unresolved requirements. In the actual public adapter it is computed from the original definition after translation is selected, not from translated demand. The board translator records `both` as redundant with parallel/long-long, sends null endIdentity, and preserves cut plane and REFERENCE_CUT meaning. It sends a fresh protocol2 request; missing independent geometry is never silently removed.
+The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two parts and three nominal .125-inch consumption allowances. The 18-inch variation selects 72 inches and leaves 35.625 inches. Store independently chooses these parents through whole-job Q. The current full proof includes both requests, accepted packets, ledgers, virtual replay and zero permitted physical commands. Nominal kerf accounting does not establish the physical retained-face transform.
 
-**Stock resolution → plan.** Store normalizes the inquiry into one single-parent board package, preserves its part order, checks material/capability and searches eligible parent stock. Default 16-inch parts fit a 60-inch parent. With two 18-inch parts, that parent would leave only 23.625 inches, so the supported current plan selects the 72-inch SPF parent. Three nominal 0.125-inch longitudinal consumption allowances cover reference plus two separation cuts. This is the adopted nominal convention; an installed retained-face/kerf transform remains unregistered. Selection is not a reservation or physical allocation.
+**Complete reference request and current returned summary**
 
-| Requirement/result | 16-inch default | 18-inch variation |
-|---|---:|---:|
-| Each part L / derived angle | 16 in / 30° | 18 in / 26.387799961243° |
-| Derived rise / local center spot | 13.856406 in / 8 in | 16.124515 in / 9 in |
-| Configuration version | 0.1 | 0.2 |
-| Selected SKU | STB-ZERO-SPF-2X4-60-001 | STB-ZERO-SPF-2X4-72-001 |
-| Actual section / parent | 1.5×3.5 in / 60 in | 1.5×3.5 in / 72 in |
-| Nominal consumption | 2×16 + 3×0.125 = 32.375 in | 2×18 + 3×0.125 = 36.375 in |
-| Remainder | 27.625 in | 35.625 in |
-| Material / hourly service | $2.61 / $6.01 | $3.13 / $6.00 |
-| Complete Q | **$8.62** | **$9.13** |
-| Predicted occupancy | 86.51908661063948 s | 86.46953628299116 s |
-
-**Registered operations and coordinates.** The declared tool station is at X=36, saw at X=0, rollers at 24/48, fence Y=0 and support Z=0. A feature's parent coordinate is its part start plus local X; nominal positioning is `C = station X − feature X`. Part 2 starts at `L+0.125`. C is a linear workpiece-reference coordinate; A here is the saw-angle axis, not fence Datum A.
-
-| Virtual operand | 16-inch default | 18-inch variation |
-|---|---:|---:|
-| Angle-axis target A | +30° | +26.387799961243° |
-| Spot-1 parent X → C | 8 → +28 in | 9 → +27 in |
-| Spot-2 parent X → C | 24.125 → +11.875 in | 27.125 → +8.875 in |
-| Both spot Y | +1.75 in | +1.75 in |
-| Surface / tip target / retract Z | 1.5 / 1.256169316966 / 1.75 in | Same |
-| Each cutoff C after nominal rebase | −16 in | −18 in |
-
-The 118° drill point adds approximately 0.056330683 inch to the 3/16-inch full-diameter depth, giving 0.243830683-inch tip penetration. No angle, spot placement or local cutoff target is manually re-entered between definition and generated ledger.
-
-The accepted ordering is load/seat; angle positioning and settle; clamp allowance; reference saw cycle and nominal C capture; Spot-1 then Spot-2 indexing/Y/approach/plunge/retract/coverage; Part-1 then Part-2 indexing/saw/nominal capture; spot spindle off; release/label allowance. Saw cycles include on, approach, width-over-cosine cutting benchmark, retract, off allowance and off. All spots are processed while the parent remains unseparated. Contact screens retain unresolved roller states; elapsed allowances do not establish actual clamp or position confirmation.
-
-**Time → Q.** Stop-to-stop moves use the declared velocity/acceleration formula in section 5.6, with zero duration for zero travel. Saw feed is 3.6 in/s; spotting feed 0.4 in/s. One load/seat contributes 36 seconds and release/label 24 seconds. The summed evaluated ledger supplies every other category and the price—there is no separately priced replay.
-
-| Ledger category | 16-inch seconds | 18-inch seconds |
-|---|---:|---:|
-| Load | 36 | 36 |
-| Index, angle and verification/clamp allowances | 13.8 | 13.929593332041435 |
-| Reference cut and nominal datum capture | 3.0262008374788345 | 2.9664862842489175 |
-| Spotting | 3.7004840982030034 | 3.7004840982030034 |
-| Separation saw work | 5.99240167495767 | 5.872972568497836 |
-| Release/label | 24 | 24 |
-
-At the declared $250/hour, `roundToCents((totalSeconds/3600)×250)` gives $6.01/$6.00 service; adding selected material gives $8.62/$9.13. The slightly shallower 18-inch angle reduces the saw benchmark and angle travel enough to offset the changed longitudinal travel. Therefore a marginally lower service charge at 18 inches is consistent with the ledger. Whole-job boundaries round service and then Q; rounded parent summaries do not replace them.
-
-**Customer decision → accepted packet → configuration → lowering.** Job 1's published Accept & Pay records simulated customer decision, seller acceptance, capture and queue as separate commercial events tied to the current revision/receipt. That commercial demonstration does not prove a published packet2 export. The retained typed acceptance path and Store's existing contract specimens construct `STB-ACCEPTED-JOB-PACKET-2`: identified demand/manifest, unchanged answer/receipt, carried end requirements, accepted simulated decision and false physical release. Verification checks receipt, demand/manifest, expected Store release and current reevaluation; altered records are refused and changed current facts require requotation. The generic System packet loader's schema1 mismatch remains an identified executable defect, not a wording repair.
-
-`lowerJobPacket` then checks the registered configuration and accepted model and copies the exact selected parents, operation ledger and predicted time into `STB-LOCAL-MANUFACTURING-JOB-1`. `motionRecords` emits that same sequence as `STB-MODELED-OPERATIONS-1`, binding packet, demand/manifest, calculation, local job and machine configuration through validated parent records. Configuration is `STORE-MANUFACTURING-CORE-0.1`, hash `87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884`; manufacturing-model hash is `f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18`. Neither stage redesigns parts, chooses stock or reprices.
-
-**Virtual instructions → replay → evidence.** Both settings generate 51 occupancy records and 22 modeled MOVE events, including a zero-distance second Y move. Replay validates identity, ordering, tool engagement, positions and durations against the accepted predicted total. Its evidence class is PREDICTED_OCCUPANCY_ONLY; physical admission stays BLOCKED with zero permitted physical commands. A reusable controller-oriented exporter must extend this verified lowering path with explicit axis/tool/datum/units and required controller-parameter mappings. Missing mapping facts cannot become vendor defaults or omitted operations.
-
-The current-value comparison was executed from the published source fragments at System `1939e809` and Store `ca6d3c27` using a simulated browser context, fixed reproduction clock and review-constructed simulated packet. It is a local source diagnostic, not a new deployed-browser or customer-acceptance observation. Separate checks against the exact pinned source confirm the mathematical and operation-ledger equivalence for these two definitions. The source-snapshot release label, request IDs, owner revisions and receipts remain diagnostic identities, not production labels.
-
-**Historical correspondence.** Chapter 7 preserves original Project 1: two 18-inch treated parts, a 72-inch treated parent, original $11.09 Store Q, 85.5001-second Store estimate, and 45-command/21-axis-move controller-oriented reference. That reference's virtual replay is 86.46953628299116 seconds. Current SPF 18-inch Q is $9.13; a separate adopted-core treated inquiry is $10.81 on its current selected 96-inch parent. Material, catalog, model, request and source identities explain those different totals. The current count reconciliation is `45+4 contact screens+2 coverage events+1 zero-distance Y−1 COMPLETE=51`. These represent different stages and revisions; none replaces a sealed receipt or proves compiled TwinCAT execution.
-
-The governing sources for this walkthrough are:
-
-| Relationship | Governing source | Evidence boundary |
-| --- | --- | --- |
-| Length, span, angle, rise, centered spot | System `public/live/system-build-current.html` and active `three-frames.html`, at 1939e809 | Published derivation; the local diagnostic executes its source fragments |
-| Definition admission, translation and independent manifest | System board bridge, `src/system/store/published-wire.ts` and `src/system/manifest.ts` | Original definition determines required coverage |
-| Stock, kerf convention, sequencing, time and Q | Store `src/evaluation/engine/store-manufacturing-core.mjs`, catalog and registered model | One evaluated ledger; pinned/main results agree for these two requests |
-| Accepted packet, local job and replay | Store `src/contracts/job-packet.mjs`, `src/machine/lowering.mjs`, `src/machine/virtual-run.mjs` | Modeled evidence; genuine published acceptance-to-packet handoff remains to be proved |
-| Original $11.09 and 45-command reference | Chapter 7 and preserved Project 1 publication/package | Historical identities and calculations remain unchanged |
-
-**Exact reconstructed protocol 2 inquiry**
-
+<!-- current-request MASTER-SYO-16 -->
 ```json
 {
   "requestType": "USER_DEFINED_BOARD_V1",
-  "requestId": "MASTER-SYO",
+  "requestId": "MASTER-SYO-16",
   "demand": {
-    "title": "Start Your Own \u2014 User 1 X brace",
+    "title": "Start your own",
     "configurationId": "SYO-USER1-XBRACE",
     "configurationVersion": "0.1",
-    "classId": "app.user-defined-board.v1",
+    "classId": "user_defined_board",
     "materialDemand": {
       "species": "spf",
       "form": "board",
@@ -1485,27 +1414,304 @@ The governing sources for this walkthrough are:
 }
 ```
 
-**Identity of the retained exact 16-inch reconstruction.** The JSON above uses MASTER-SYO and the frozen master clock/catalog/pin, rather than the diagnostic or live request ID. Calculation input hash is `a2bae8c2a18c7aac0280c12a86cc69bd67abb2e1af4a5c295ca4bd8230305c39`; result hash `e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5`; receipt hash `4012a25021be499cf9e44208347c6dafcbae84181675c5352e78a9ecf69aec31`. To reproduce the 18-inch variant, identify a new request and owner revision, set configurationVersion and manifest.revision to 0.2, both lengths to 18, both spot X to 9 and angle to 26.387799961243. Evaluate afresh; do not reuse the old answer or hashes. The completed chain's remaining digital tests belong in section 9.6.
+<!-- current-result MASTER-SYO-16 -->
+```json
+{
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 8.62,
+  "reasonCodes": [],
+  "totals": {
+    "material": 2.61,
+    "hardware": 0,
+    "machine_service": 6.01,
+    "manual_cut_service": 0,
+    "Q": 8.62,
+    "sumOfSupportableLines": 8.62,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 86.51908661063948,
+    "T_MACHINE_min": 1.4419847768439913,
+    "T_MACHINE_hr": 0.024033079614066522,
+    "totalSeconds": 86.51908661063948,
+    "totalMinutes": 1.4419847768439913,
+    "hourlyBilledSeconds": 86.51908661063948,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 36,
+      "INDEX": 13.8,
+      "REFERENCE": 3.0262008374788345,
+      "SPOT": 3.7004840982030034,
+      "SAW": 5.99240167495767,
+      "RELEASE": 24
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-SPF-2X4-60-001",
+      "qty": 1,
+      "available": 60,
+      "remainingAvailable": 59,
+      "unitPrice": 2.61,
+      "stockL_in": 60,
+      "actualW": 3.5,
+      "actualT": 1.5,
+      "description": "2x4 x 60 in SPF construction",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    }
+  ],
+  "optimization": {
+    "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+    "searchComplete": true,
+    "nodes": 10,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "96f25000cc909c77ca8b09a40555d80820b2ccf72e9c247e64606af5eec3fe31",
+    "resultHash": "e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5"
+  },
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "USER_DEFINED_BOARD_V1",
+    "requestId": "MASTER-SYO-16",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "6f512b13fa494ddff307702a6063de6a4b03ccdafaf18f4450f283d1e0b3ffeb",
+    "manifestHash": "f070ea01aef4016eedd48878b624f8c84a589d380c23c1f2928fc61bb1309b62",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "96f25000cc909c77ca8b09a40555d80820b2ccf72e9c247e64606af5eec3fe31",
+      "resultHash": "e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5"
+    },
+    "receiptHash": "4a46a626859e1f46b0fccb35411dd4725504d7d120d9cb24b3746d8b2c36ce69"
+  },
+  "ledgerRecords": 51,
+  "physicalAuthority": false
+}
+```
+
+The second current Project 1 setting is a separate definition, inquiry, receipt and accepted packet. Neither its price nor downstream authority is inherited from the default.
+
+**Complete reference request and current returned summary**
+
+<!-- current-request MASTER-SYO-18 -->
+```json
+{
+  "requestType": "USER_DEFINED_BOARD_V1",
+  "requestId": "MASTER-SYO-18",
+  "demand": {
+    "title": "Start Your Own — User 1 X brace",
+    "configurationId": "SYO-USER1-XBRACE",
+    "configurationVersion": "0.2",
+    "classId": "app.user-defined-board.v1",
+    "materialDemand": {
+      "species": "spf",
+      "form": "board",
+      "nominalT": 2,
+      "nominalW": 4
+    },
+    "definedWorkpieceLengthIn": 60,
+    "requiredOps": [
+      "MITER_LIMITED",
+      "SPOT_ON_LOCATION"
+    ],
+    "sawAngleDeg": 26.387799961243,
+    "cutPlane": "miter-face",
+    "datumCMethod": "REFERENCE_CUT",
+    "endRelation": "parallel",
+    "lengthDatum": "long-long-outer-edge",
+    "declaredSawCuts": 3,
+    "declaredSpotCount": 2,
+    "unresolvedConditions": [],
+    "parts": [
+      {
+        "partId": "PART-1",
+        "lengthIn": 18,
+        "features": [
+          {
+            "featureId": "SPOT-1",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 9,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ]
+      },
+      {
+        "partId": "PART-2",
+        "lengthIn": 18,
+        "features": [
+          {
+            "featureId": "SPOT-2",
+            "kind": "SPOT_ON_LOCATION",
+            "xIn": 9,
+            "locationRule": "CENTERED_ON_PART",
+            "acrossWidthRule": "CENTERED_ON_WIDE_FACE"
+          }
+        ]
+      }
+    ]
+  },
+  "manifest": {
+    "jobId": "SYO-USER1-XBRACE",
+    "revision": "0.2",
+    "boardPartIds": [
+      "PART-1",
+      "PART-2"
+    ],
+    "sheetPackageIds": [],
+    "featureIds": [
+      "SPOT-1",
+      "SPOT-2"
+    ],
+    "items": [],
+    "unresolvedRequirements": []
+  }
+}
+```
+
+<!-- current-result MASTER-SYO-18 -->
+```json
+{
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 9.13,
+  "reasonCodes": [],
+  "totals": {
+    "material": 3.13,
+    "hardware": 0,
+    "machine_service": 6,
+    "manual_cut_service": 0,
+    "Q": 9.13,
+    "sumOfSupportableLines": 9.13,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 86.46953628299116,
+    "T_MACHINE_min": 1.4411589380498526,
+    "T_MACHINE_hr": 0.02401931563416421,
+    "totalSeconds": 86.46953628299116,
+    "totalMinutes": 1.4411589380498526,
+    "hourlyBilledSeconds": 86.46953628299116,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 36,
+      "INDEX": 13.929593332041435,
+      "REFERENCE": 2.9664862842489175,
+      "SPOT": 3.7004840982030034,
+      "SAW": 5.872972568497836,
+      "RELEASE": 24
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-SPF-2X4-72-001",
+      "qty": 1,
+      "available": 60,
+      "remainingAvailable": 59,
+      "unitPrice": 3.13,
+      "stockL_in": 72,
+      "actualW": 3.5,
+      "actualT": 1.5,
+      "description": "2x4 x 72 in SPF construction",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    }
+  ],
+  "optimization": {
+    "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+    "searchComplete": true,
+    "nodes": 9,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "f3050cbcfff47cde7613c7ee1c5332b323a10156fc94d0da27c411064013d3e5",
+    "resultHash": "771161aabc33029cf5c87241fc8e68b0fbbcf2a3e71220e89ec5033dffd8efea"
+  },
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "USER_DEFINED_BOARD_V1",
+    "requestId": "MASTER-SYO-18",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "d70ba4879c543add6ca6131aa86031237fe804152eccd1783d62cc59fe6cfa6f",
+    "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "f3050cbcfff47cde7613c7ee1c5332b323a10156fc94d0da27c411064013d3e5",
+      "resultHash": "771161aabc33029cf5c87241fc8e68b0fbbcf2a3e71220e89ec5033dffd8efea"
+    },
+    "receiptHash": "21e4bca707ca6578f9e8afc07be80b0970c22a25a47bc1ef18298b1072338f1c"
+  },
+  "ledgerRecords": 51,
+  "physicalAuthority": false
+}
+```
 
 ### 8.3 Alcove
 
-The operative public definition is in [system-build-base-8d8a9dd.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/system-build-base-8d8a9dd.html), with current wrapper/admission, [Alcove transport bridge](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-alcove-store-bridge.js) and `cutDemandFromAlcoveInsert` in published-wire. The starting unit is pine/select, height 72 inches, overall width 45.5, depth 14 and five shelves. With .75-inch sides the shelf span is 44. Four upright boards are 72 inches; each shelf is two strips, 7.25 and 6.75 inches wide, each 44 inches long. Shelf-elevation spots start **off**. The narrowing strip names a through longitudinal profile, path 44, Y=6.75, depth=.75, which the engine covers by parent preparation.
+The public definition uses pine/select, 72-inch height, 45.5-inch overall width, 14-inch depth and five shelves. The clear shelf span is 44 inches. Four upright board runs and ten shelf strips produce 14 components. ECONOMY uses 7.25-inch and 6.75-inch shelf strips; five explicit through-profile features identify narrowing. Shelf-elevation spots start off. The manifest identifies all components/features and the pins-and-screws kit before translation.
 
-The ECONOMY definition thus contains 14 components and five milling features, plus one `ALCOVE-PINS-AND-SCREWS` kit. Full-width upright and full-width shelf packages can merge in the engine; the parent plan below visibly places a 72-inch upright and 44-inch shelf strip on the same 144-inch parent. Narrowed strips require separate preparation-compatible parents. The selected eight board parents cost $283.64; kit $18; 1115.5446527777763 seconds cost $77.47. Q=$379.11.
+Parent planning considers mixed lengths cumulatively. Full-width uprights and shelves can share compatible parent patterns; narrowed strips require their stated preparation. BALANCED and ALL_EDGES are distinct geometry definitions and require fresh evaluation, with no inherited price or local surcharge. Added shelf spots carry their own feature IDs, positions and insets. A missing coordinate or incompatible tool remains a refusal or unresolved result.
 
-BALANCED is a separate request for two seven-inch strips; it costs $439.28, with $311.31 material, $109.97 service, $18 kit and 1583.545624999997 seconds. ALL_EDGES requests .125-inch removal on both edges of each seven-inch strip; it costs $499.24 with the same $311.31 material and $18 kit, $169.93 service and 2446.9675000000047 seconds. Extra routing and fence-reference responsibilities explain the difference, not a UI surcharge. All three remain physically blocked. The generic Store Alcove test fixture defaults to a different 65-inch height/strip arrangement; it must not replace this 72-inch public starting definition.
+**Complete reference request and current returned summary**
 
-Enabling shelf-elevation spotting generates explicit component feature identities and insets. System's published test checks 20 spots plus five profiles and complete coverage. A missing X, wrong tool diameter, unreconciled two-edge preparation or an offered material lacking the requested source class causes a refusal/unresolved answer; System must not silently shrink the shelf or remove the feature.
-
-**Exact reconstructed protocol 2 inquiry**
-
+<!-- current-request MASTER-ALCOVE-ECONOMY -->
 ```json
 {
   "requestType": "CUT_PACKAGE_V1",
   "requestId": "MASTER-ALCOVE-ECONOMY",
   "demand": {
     "configurationId": "ALCOVE-USER1",
-    "configurationVersion": "ALCOVE-UI-72|45.5|14|5|44|pine|ECONOMY|false|10|6|f7123a73c1ca60aa7eb180a86a1c365eaffe95db|8:7.25:ONE-EDGE,8:6.75:ONE-EDGE|",
+    "configurationVersion": "MASTER-PUBLIC-ECONOMY-1",
     "cutPackages": [
       {
         "packageId": "ALCOVE-UPRIGHT-PARENTS-8-TO-7.25",
@@ -1667,7 +1873,7 @@ Enabling shelf-elevation spotting generates explicit component feature identitie
   },
   "manifest": {
     "jobId": "ALCOVE-USER1",
-    "revision": "ALCOVE-UI-72|45.5|14|5|44|pine|ECONOMY|false|10|6|f7123a73c1ca60aa7eb180a86a1c365eaffe95db|8:7.25:ONE-EDGE,8:6.75:ONE-EDGE|",
+    "revision": "MASTER-PUBLIC-ECONOMY-1",
     "boardPartIds": [
       "ALCOVE-UPRIGHT-01",
       "ALCOVE-UPRIGHT-02",
@@ -1703,42 +1909,173 @@ Enabling shelf-elevation spotting generates explicit component feature identitie
 }
 ```
 
-**Selected complete plan**
-
-| SKU | Quantity | Parent length | Unit USD | Extension USD |
-|---|---:|---:|---:|---:|
-| STB-ZERO-HW-ALCOVE-PACK-001 | 1 | hardware | 18.00 | 18.00 |
-| STB-ZERO-PINE-1X8-120-001 | 4 | 120 | 34.59 | 138.36 |
-| STB-ZERO-PINE-1X8-144-001 | 3 | 144 | 41.51 | 124.53 |
-| STB-ZERO-PINE-1X8-72-001 | 1 | 72 | 20.75 | 20.75 |
-
-| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
-|---|---|---:|---:|---:|
-| STB-ZERO-PINE-1X8-72-001 | ALCOVE-SHELF-01-STRIP-02 | 6.75 | 27.75 | 179.382847222 |
-| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-02-STRIP-02, ALCOVE-SHELF-03-STRIP-02 | 6.75 | 31.625 | 253.330347222 |
-| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-04-STRIP-02, ALCOVE-SHELF-05-STRIP-02 | 6.75 | 31.625 | 253.330347222 |
-| STB-ZERO-PINE-1X8-120-001 | ALCOVE-UPRIGHT-01 | 7.25 | 47.75 | 78.414444444 |
-| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-02, ALCOVE-SHELF-01-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
-| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-03, ALCOVE-SHELF-02-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
-| STB-ZERO-PINE-1X8-144-001 | ALCOVE-UPRIGHT-04, ALCOVE-SHELF-03-STRIP-01 | 7.25 | 27.625 | 88.646666667 |
-| STB-ZERO-PINE-1X8-120-001 | ALCOVE-SHELF-04-STRIP-01, ALCOVE-SHELF-05-STRIP-01 | 7.25 | 31.625 | 85.146666667 |
-
-Calculation input hash: `314b4711b4fe5c61693706e5d11071dc8009bc1522f054312d31a82409a831d2`; result hash: `e3ae7c1ff7975a17435ba38f0075d0e01ad2023a1015fe9baf78778e77900285`; fixed-clock receipt hash: `7bb0a0c4c3d0e8f3e5919cfb38916bcdcfade003227b48b66f4c6c91d34f2a7b`.
+<!-- current-result MASTER-ALCOVE-ECONOMY -->
+```json
+{
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 372.19,
+  "reasonCodes": [],
+  "totals": {
+    "material": 276.72,
+    "hardware": 18,
+    "machine_service": 77.47,
+    "manual_cut_service": 0,
+    "Q": 372.19,
+    "sumOfSupportableLines": 372.19,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 1115.5446527777765,
+    "T_MACHINE_min": 18.592410879629607,
+    "T_MACHINE_hr": 0.30987351466049345,
+    "totalSeconds": 1115.5446527777765,
+    "totalMinutes": 18.592410879629607,
+    "hourlyBilledSeconds": 1115.5446527777765,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 288,
+      "INDEX": 97.19999999999997,
+      "REFERENCE": 35.597777777777786,
+      "MILL": 441.946875,
+      "SAW": 60.80000000000001,
+      "RELEASE": 192
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-HW-ALCOVE-PACK-001",
+      "qty": 1,
+      "available": 25,
+      "remainingAvailable": 24,
+      "unitPrice": 18,
+      "stockL_in": null,
+      "actualW": null,
+      "actualT": null,
+      "description": "Alcove hardware pack — pins + screws",
+      "cellFamily": [],
+      "supportedOps": []
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-120-001",
+      "qty": 2,
+      "available": 18,
+      "remainingAvailable": 16,
+      "unitPrice": 34.59,
+      "stockL_in": 120,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 120 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-144-001",
+      "qty": 4,
+      "available": 10,
+      "remainingAvailable": 6,
+      "unitPrice": 41.51,
+      "stockL_in": 144,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 144 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-72-001",
+      "qty": 2,
+      "available": 30,
+      "remainingAvailable": 28,
+      "unitPrice": 20.75,
+      "stockL_in": 72,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 72 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    }
+  ],
+  "optimization": {
+    "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+    "searchComplete": true,
+    "nodes": 9392,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "c15ab44e7bc9332e50e35e8ac22420d84667a1dade8509890c8af9adbf971117",
+    "resultHash": "37a5388e7905ca0791a12b26ac7da95f01228255c41d92db47418a94140a728d"
+  },
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "CUT_PACKAGE_V1",
+    "requestId": "MASTER-ALCOVE-ECONOMY",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "bd765bebb6ce3a6cfc07adb8c3f21ea76eb7942df93fe5374f48fedd690f5511",
+    "manifestHash": "422b616384641d1122c95c224cefa5449afa10f5a762f06885f7a10c90777e59",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "c15ab44e7bc9332e50e35e8ac22420d84667a1dade8509890c8af9adbf971117",
+      "resultHash": "37a5388e7905ca0791a12b26ac7da95f01228255c41d92db47418a94140a728d"
+    },
+    "receiptHash": "a1984714a0c51e30362968499c2ba9b8c2ca1fa10c89bc0bb15f8dbf0d8e7234"
+  },
+  "ledgerRecords": 269,
+  "physicalAuthority": false
+}
+```
 
 ### 8.4 Window Seat
 
-**Repair note, 2026-10-13.** The published 14-inch default has 12 upright board runs of 94 inches and 36 shorter board runs. Keeping shorter eligible parent stock repairs the false poplar shortage without adding inventory or changing the definition. Oak longitudinal milling is now declared under the common stocked-wood policy. The same default still exceeds declared oak upright stock: with the 24-inch retained-control requirement, only the eight available 120-inch oak parents can produce those 12 upright runs. Store therefore returns `ON_HAND_SHORT` with Q absent. Milling a stocked species and supplying a complete assembly are separate questions. The original worked answer and request below retain their original source identity; they are not overwritten as current prices.
+The default assembly is 94 inches high, with module widths 24/55/24, 14-inch depth, 22-inch seat height, 14-inch upper clear height, two upper bays, two lower cubbies and four shelves in each tower. Pine/select boards are .75 inch thick. Two seven-inch finished width runs cover the depth. The 24 assembly parts become 48 independent board runs, including twelve 94-inch upright runs. Each requires .25-inch far-edge preparation from nominal 1×8 stock. Spots, screws and the optional front board are absent until requested.
 
-[stb-window-seat-0.9.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-window-seat-0.9.html) derives the three-module assembly from the customer's sketch/facts. Starting height is 94 inches, module widths 24/55/24, depth 14, seat height 22, upper clear height 14, two upper bays, two lower cubbies and four shelves in each tower. Stock is select pine, .75-inch thickness. The fewest width runs covering 14 inches is two; each finished run is seven inches, prepared from nominal 1×8 actual 7.25-inch boards.
+Eligible shorter parents remain available for shorter runs while each assigned pattern must fit completely. A default oak assembly is short of suitable upright inventory and returns ON_HAND_SHORT; a smaller stocked oak assembly can use the same declared milling model. Offered milling does not establish sufficient material for every assembly. The published audit exports request type, original request ID, demand and independent manifest together, and distinguishes repeatable calculation identity from a fresh receipt timestamp/hash.
 
-There are six full-height sides, four shelves in each tower, tower tops/bottoms, center top/bottom/seat/upper shelf, one upper divider and one lower divider. Horizontal clear spans subtract two .75-inch sides: tower spans 22.5, center spans 53.5 inches. Upper divider is 14 inches; lower divider is `22 - 2*.75 = 20.5`. The resulting 24 assembly parts use **48 separately identified board runs**. All require .25-inch far-edge preparation; spots and screws start off.
+**Complete reference request and current returned summary**
 
-The optional FRONT knob's stored `P.front` is true, but `INTENT_START.added.front` is false. `has('FRONT')` therefore excludes that optional component from the default definition. Treating the stored boolean alone as admission incorrectly adds a 55-inch 1×4 front board: a separate trial produced $1209.70, not the default. The actual default below reproduces **$1193.10**: 11×120-inch and 10×144-inch pine 1×8 parents cost $795.59, 5724.080625000045 seconds cost $397.51. Milling occupies 3873.3156250000025 seconds, reflecting preparation over remaining parent lengths. Hardware is zero because none is requested.
-
-Tower shelf datums are derived from the upper window-head line and equal spacing rule, not supplied by Store. Fit checks use the narrowest controlling room width/lowest height and declared clearance; floor slope, baseboard, wall conditions and assembly/anchoring remain attributed job questions. Optional side/divider/extra spots and screws create distinct definitions and fresh Store inquiries. Hex-window trim seen in an image remains context, not an invented aperture operation.
-
-**Exact reconstructed protocol 2 inquiry**
-
+<!-- current-request MASTER-WINDOW-SEAT -->
 ```json
 {
   "requestType": "CUT_PACKAGE_V1",
@@ -2034,53 +2371,184 @@ Tower shelf datums are derived from the upper window-head line and equal spacing
 }
 ```
 
-**Selected complete plan**
-
-| SKU | Quantity | Parent length | Unit USD | Extension USD |
-|---|---:|---:|---:|---:|
-| STB-ZERO-PINE-1X8-120-001 | 11 | 120 | 34.59 | 380.49 |
-| STB-ZERO-PINE-1X8-144-001 | 10 | 144 | 41.51 | 415.10 |
-
-| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
-|---|---|---:|---:|---:|
-| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-01-R1 | 7 | 25.75 | 251.806458333 |
-| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | C-UPRIGHT-02-R2 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-01-R1 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | L-UPRIGHT-02-R2 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-01-R1 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-01-R2 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-120-001 | R-UPRIGHT-02-R1 | 7 | 25.75 | 249.681458333 |
-| STB-ZERO-PINE-1X8-144-001 | R-UPRIGHT-02-R2, L-BOTTOM-01-R1 | 7 | 27.125 | 290.115069444 |
-| STB-ZERO-PINE-1X8-144-001 | C-BOTTOM-01-R1, C-BOTTOM-01-R2 | 7 | 36.625 | 288.927569444 |
-| STB-ZERO-PINE-1X8-144-001 | C-SEAT-01-R1, C-SEAT-01-R2 | 7 | 36.625 | 288.927569444 |
-| STB-ZERO-PINE-1X8-144-001 | C-TOP-01-R1, C-TOP-01-R2 | 7 | 36.625 | 288.927569444 |
-| STB-ZERO-PINE-1X8-144-001 | C-UPPER-SHELF-01-R1, L-BOTTOM-01-R2, L-SHELF-01-R1, C-LOWER-DIVIDER-01-R1 | 7 | 24.375 | 299.669791667 |
-| STB-ZERO-PINE-1X8-144-001 | C-UPPER-SHELF-01-R2, L-SHELF-01-R2, L-SHELF-02-R1, C-LOWER-DIVIDER-01-R2 | 7 | 24.375 | 299.669791667 |
-| STB-ZERO-PINE-1X8-144-001 | L-SHELF-02-R2, L-SHELF-03-R1, L-SHELF-03-R2, L-SHELF-04-R1, L-SHELF-04-R2 | 7 | 30.75 | 303.478402778 |
-| STB-ZERO-PINE-1X8-144-001 | L-TOP-01-R1, L-TOP-01-R2, R-BOTTOM-01-R1, R-BOTTOM-01-R2, R-SHELF-01-R1 | 7 | 30.75 | 303.478402778 |
-| STB-ZERO-PINE-1X8-144-001 | R-SHELF-01-R2, R-SHELF-02-R1, R-SHELF-02-R2, R-SHELF-03-R1, R-SHELF-03-R2 | 7 | 30.75 | 303.478402778 |
-| STB-ZERO-PINE-1X8-144-001 | R-SHELF-04-R1, R-SHELF-04-R2, R-TOP-01-R1, R-TOP-01-R2, C-UPPER-DIVIDER-01-R1, C-UPPER-DIVIDER-01-R2 | 7 | 25.125 | 308.787013889 |
-
-Calculation input hash: `6728988d028831f4a0e75fa0a30242a3f9f309f33a7ef0e1e7fcc33bf6b0f944`; result hash: `f23cdc32c96d75d0e77ec424b8ee5c1eb470f3ab44301aab02f95a86147c7ea0`; fixed-clock receipt hash: `f22d48e5cfed5d37fa2feda62039860fdf637d4cbee88d195c7168252cfe0d0c`.
+<!-- current-result MASTER-WINDOW-SEAT -->
+```json
+{
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 1313.61,
+  "reasonCodes": [],
+  "totals": {
+    "material": 864.73,
+    "hardware": 0,
+    "machine_service": 448.88,
+    "manual_cut_service": 0,
+    "Q": 1313.61,
+    "sumOfSupportableLines": 1313.61,
+    "manualCutCount": 0,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 6463.942708333378,
+    "T_MACHINE_min": 107.73237847222296,
+    "T_MACHINE_hr": 1.795539641203716,
+    "totalSeconds": 6463.942708333378,
+    "totalMinutes": 107.73237847222296,
+    "hourlyBilledSeconds": 6463.942708333378,
+    "fixedPriceOccupiedSeconds": 0,
+    "categories": {
+      "LOAD": 972,
+      "INDEX": 291.77500000000043,
+      "REFERENCE": 120.15000000000015,
+      "MILL": 4225.084375000003,
+      "SAW": 206.93333333333322,
+      "RELEASE": 648
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-120-001",
+      "qty": 12,
+      "available": 18,
+      "remainingAvailable": 6,
+      "unitPrice": 34.59,
+      "stockL_in": 120,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 120 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-144-001",
+      "qty": 4,
+      "available": 10,
+      "remainingAvailable": 6,
+      "unitPrice": 41.51,
+      "stockL_in": 144,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 144 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-72-001",
+      "qty": 3,
+      "available": 30,
+      "remainingAvailable": 27,
+      "unitPrice": 20.75,
+      "stockL_in": 72,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 72 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    },
+    {
+      "storeSku": "STB-ZERO-PINE-1X8-96-001",
+      "qty": 8,
+      "available": 36,
+      "remainingAvailable": 28,
+      "unitPrice": 27.67,
+      "stockL_in": 96,
+      "actualW": 7.25,
+      "actualT": 0.75,
+      "description": "1x8 x 96 in select pine S4S",
+      "cellFamily": [
+        "D-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "MITER_LIMITED",
+        "SPOT_ON_LOCATION",
+        "DRILL",
+        "MILL_LONGITUDINAL_PROFILE",
+        "MILL_END_PROFILE"
+      ]
+    }
+  ],
+  "optimization": {
+    "status": "BOUNDED_FEASIBLE_PLAN",
+    "searchComplete": false,
+    "nodes": 200001,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "0872cb819d46f0f196357b8f0d66941c7b3119a49bcc0cb565b4c481bfcee35d",
+    "resultHash": "d099aa232d1196f10641455021fa52849328b1844daa22de589d333ad5367a2d"
+  },
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "CUT_PACKAGE_V1",
+    "requestId": "MASTER-WINDOW-SEAT",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "113b736703bed4d28f626009a3f43d487e6acfb0fc7b87f46b83d461f0e6fea1",
+    "manifestHash": "25db633fad12c36bd6c3d8705bbfa8c38736a0652640ca4a4198479502b05810",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "0872cb819d46f0f196357b8f0d66941c7b3119a49bcc0cb565b4c481bfcee35d",
+      "resultHash": "d099aa232d1196f10641455021fa52849328b1844daa22de589d333ad5367a2d"
+    },
+    "receiptHash": "fabace06cd05ee376e82f4d85b2298df5203c81d39ee9f26c8f1c33f60c3fe80"
+  },
+  "ledgerRecords": 1072,
+  "physicalAuthority": false
+}
+```
 
 ### 8.5 Outdoor
 
-[stb-outdoor-picnic-0.4.html](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-outdoor-picnic-0.4.html) currently starts from the Classic A-frame plan at 72-inch slat length, above-ground treated SYP, coated hardware, no optional spots/decorative cuts. Its selected source is Ana White's *Easiest to Build Picnic Table*. The demand contains twelve 2×6 slats at 72 (six top/six seat), four 2×6 legs at 31.375 with 25-degree ends, two 2×4 braces at 32.875 with 25-degree ends, two square 2×4 supports at 61, two square 2×2 end cleats at 34.25 and one middle cleat at 29.25: 23 parts. It requests 100 coated #10 2.5-inch wood screws; Store buys two 90-piece packages at $9.44, totaling $18.88 and 180 offered pieces.
+The [Ana White source](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) supplies the A-frame's angled-end lengths as long-point-to-short-point dimensions and specifies a bevel for the center supports. System preserves those dimensions and the support cut plane. It supplies no unverified conversion to Store's registered long-long face-miter datum. The resulting complete request remains UNRESOLVED with no Q; its unsupported requirements are not dropped to obtain a price.
 
-The selected 13 parents cost $200.05; 1068.903160409143 modeled seconds cost $74.23; Q=$293.16. Five 192-inch 2×6 parents each carry two long slats, two 120-inch parents carry one each, one 168-inch parent carries four legs, three 96-inch 2×4 parents carry supports/braces, and two 96-inch 2×2 parents carry cleats. Parent choice accounts for complete inventory/cost, not merely the shortest row.
+The selected wood is an application/customer variant applied across its groups. The source recommends untreated tabletop/seat boards and permits treated legs/supports; an all-treated variant is not labeled the source's wood recommendation. Screw gauge and inferred hardware counts remain attributed application choices.
 
-**Unresolved source-to-demand correspondence:** the page's `angleNote` explicitly says the published angled parts are measured **long point to short point**; `packagesFor` declares **parallel, long-long outer-edge, miter-face** for the outgoing angled demand. A reported 31.375 or 32.875-inch number therefore does not yet have a demonstrated source-to-demand transformation. The published source calls the cross-support operation a bevel; its cut-plane/angle interpretation must therefore be identified against the diagram and part orientation before the outgoing miter-face convention can be called source-faithful. The master reproduces what current code evaluates and does not certify it as a faithful manufacturing transcription of the published plan. System owns resolving that meaning; no new offset or reinterpretation is inserted here. Q is an answer to the encoded demand while this issue remains identified.
+The separately selectable table-and-benches plan uses square cuts. Its supported definitions still receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
 
-Material attribution is a second, distinct source issue. The current Idea presentation calls the all-treated default “the plan's wood,” while the published source recommends untreated tabletop and seat material, with treated legs as an option. The treated variant can be an explicit application/customer choice, but it must not be attributed as the source's universal material requirement. The $293.16 result above evaluates that application's all-treated choice. Similarly, detached-bench hardware totals or gauges inferred by the application must be identified as adopted readings where the plan does not supply them. No material change or new transformation is made here.
+**Complete reference request and current returned summary**
 
-The alternate Table + two benches plan is square-cut, all 2×4, with 13 slats following chosen length and fixed frame lengths. Its hardware counts include project interpretations where the source does not publish totals/gauge. Material/exposure, finish tiers, optional located spots and decorative face-angle cuts are separate choices evaluated independently. Hole diameters/depth and structural/assembly engineering are not supplied by a center-spot operation or a Store quote. BYO hardware changes purchase scope; it does not erase the plan's assembly requirement.
-
-**Exact reconstructed protocol 2 inquiry**
-
+<!-- current-request MASTER-OUTDOOR -->
 ```json
 {
   "requestType": "CUT_PACKAGE_V1",
@@ -2167,7 +2635,7 @@ The alternate Table + two benches plan is square-cut, all 2×4, with 13 slats fo
         "endCut": {
           "angleDeg": 25,
           "endRelation": "parallel",
-          "lengthDatum": "long-long-outer-edge",
+          "lengthDatum": "long-point-to-short-point",
           "plane": "miter-face"
         },
         "parts": [
@@ -2201,8 +2669,8 @@ The alternate Table + two benches plan is square-cut, all 2×4, with 13 slats fo
         "endCut": {
           "angleDeg": 25,
           "endRelation": "parallel",
-          "lengthDatum": "long-long-outer-edge",
-          "plane": "miter-face"
+          "lengthDatum": "long-point-to-short-point",
+          "plane": "bevel-edge"
         },
         "parts": [
           {
@@ -2327,49 +2795,53 @@ The alternate Table + two benches plan is square-cut, all 2×4, with 13 slats fo
 }
 ```
 
-**Selected complete plan**
-
-| SKU | Quantity | Parent length | Unit USD | Extension USD |
-|---|---:|---:|---:|---:|
-| STB-ZERO-HW-COATED-SCR10-2P5-90-001 | 2 | hardware | 9.44 | 18.88 |
-| STB-ZERO-PT-2X4-96-001 | 3 | 96 | 4.81 | 14.43 |
-| STB-ZERO-PTAG-2X2-96-001 | 2 | 96 | 5.54 | 11.08 |
-| STB-ZERO-PTAG-2X6-120-001 | 2 | 120 | 13.23 | 26.46 |
-| STB-ZERO-PTAG-2X6-168-001 | 1 | 168 | 19.43 | 19.43 |
-| STB-ZERO-PTAG-2X6-192-001 | 5 | 192 | 25.73 | 128.65 |
-
-| Parent SKU | Assigned component identities | Prepared W | Retained L | Predicted seconds |
-|---|---|---:|---:|---:|
-| STB-ZERO-PTAG-2X2-96-001 | CLEAT-END-01, CLEAT-END-02 | 1.5 | 27.125 | 75.042500000 |
-| STB-ZERO-PTAG-2X2-96-001 | CLEAT-MID-01 | 1.5 | 66.5 | 67.959583333 |
-| STB-ZERO-PT-2X4-96-001 | SUPPORT-01 | 3.5 | 34.75 | 73.706111111 |
-| STB-ZERO-PT-2X4-96-001 | SUPPORT-02 | 3.5 | 34.75 | 73.706111111 |
-| STB-ZERO-PTAG-2X6-120-001 | SEAT-01 | 5.5 | 47.75 | 76.858888889 |
-| STB-ZERO-PTAG-2X6-120-001 | SEAT-02 | 5.5 | 47.75 | 76.858888889 |
-| STB-ZERO-PTAG-2X6-192-001 | SEAT-03, SEAT-04 | 5.5 | 47.625 | 89.813333333 |
-| STB-ZERO-PTAG-2X6-192-001 | SEAT-05, SEAT-06 | 5.5 | 47.625 | 89.813333333 |
-| STB-ZERO-PTAG-2X6-192-001 | TOP-01, TOP-02 | 5.5 | 47.625 | 89.813333333 |
-| STB-ZERO-PTAG-2X6-192-001 | TOP-03, TOP-04 | 5.5 | 47.625 | 89.813333333 |
-| STB-ZERO-PTAG-2X6-192-001 | TOP-05, TOP-06 | 5.5 | 47.625 | 89.813333333 |
-| STB-ZERO-PT-2X4-96-001 | BRACE-01, BRACE-02 | 3.5 | 29.875 | 79.031180288 |
-| STB-ZERO-PTAG-2X6-168-001 | LEG-01, LEG-02, LEG-03, LEG-04 | 5.5 | 41.875 | 96.673230121 |
-
-Calculation input hash: `5787a8352f6e8f5a8841fccac19c1a67829678faeea61047ece47b94db89311b`; result hash: `79e514477ce8557beaca5e7477bba85efe8c760d1d939e4a637f24ea89593d6d`; fixed-clock receipt hash: `4dfc0a5289f92bae083a88668dd7cb4a68821fca0a17e6031c1f5bc902e15802`.
+<!-- current-result MASTER-OUTDOOR -->
+```json
+{
+  "status": "UNRESOLVED",
+  "complete": false,
+  "Q": null,
+  "reasonCodes": [
+    "MITER_END_GEOMETRY_NOT_EVALUATED"
+  ],
+  "totals": null,
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "CUT_PACKAGE_V1",
+    "requestId": "MASTER-OUTDOOR",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "95fc02195ee3aa1db96bf150ded24e0ffb3f30f1d75d3fe20be71a61ebcc24e7",
+    "manifestHash": "f7aeb5d59caba7a50954d3d824851268c0d66106013bbd4125196b20d0eddc21",
+    "status": "UNRESOLVED",
+    "calculationIdentity": null,
+    "receiptHash": "dbad1155c9104b4b5e689412dc3294e74e56ef2861a4befaf291c07932f78623"
+  },
+  "ledgerRecords": 0,
+  "physicalAuthority": false
+}
+```
 
 ### 8.6 Playhouse
 
-The current Playhouse sheet path in the composed public base/front-door and [Playhouse admission tests](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/src/system/playhouse-admission.test.ts) produces `SHEET_PACKAGE_V1`. The default is one .5-inch 96×48 sheet with centered 36-inch-wide aperture, 24-inch straight height, 12-inch rise, tab retention, vertical center split and crosscuts 18 inches from each end. It returns all pieces.
+A 48×96×.5-inch sheet carries a centered 36-inch-wide opening with 24-inch straight height and 12-inch rise, a vertical center split and two 18-inch outside crosscuts. Radius is `width²/(8×rise) + rise/2 = 19.5 inches`. The registered .5-inch cutter, compensated path, tab geometry and panel clearances determine the same operation ledger that supplies time and Q.
 
-The opening box is X=30..66, Y=6..42, within the central router field. Radius is 19.5, sweep 2.3520104141902705 radians, nominal perimeter 129.86420307671028 and compensated centerline 128.0761745483586 inches. AUTO raises contour tabs from requested minimum four to **seven** at developed positions 8.72398549452069, 27.276014505479303, 45.828043516437916, 64.38007252739652, 82.93210153835514, 101.48413054931375 and 120.03615956027237 inches. Center-split path is 36 inches with two bridges at 12/24. Retention is geometric, not tested tab strength.
+Hourly work and separately billed panel cuts remain distinct. The current reference returns two outside panels, the center frame and two retained routed halves with identified nominal bounds. Retention is modeled geometry, not inspected tab strength. Missing custom split-tab positions, an unsupported exterior requirement or a panel cut through the opening prevents complete support. Sheet evidence reports occupancy; it is not a full independently replayed XY controller trajectory.
 
-One routing pass is needed. Hourly work is load120 + aperture plunge10/path128.0761745483586/tabs14 + split plunge10/path36/tabs4 + release60 + five labels50 = **432.0761745483586 seconds**. Two separately priced 64.2-second panel cuts add 128.4 occupied seconds, for total **560.4761745483586**. Hourly service $30.01 + sheet $26.55 + fixed cuts $20 gives **$76.56**.
+**Complete reference request and current returned summary**
 
-Returned pieces are two outside panels each nominally 17.9375×48, center frame 59.875×48, and two retained routed halves each bounding 17.75×35.5. Their IDs appear in the evaluated `pieces`; bridges keep the routed halves retained. These are modeled nominal bounds, not inspected sizes. The three panel pieces carry the declared ±.25-inch panel positioning tolerance.
-
-A larger rise than half opening width is refused. Added panel cuts change fixed charges and returned labels; cuts too close to the aperture or producing pieces under six inches are refused. A moved pattern must remain inside the registered field. CUSTOM split without explicit positions is unresolved. Exterior rating requires supporting catalog evidence. System cannot turn an unresolved exterior/material/retention question into a supported result by dropping the field.
-
-**Exact reconstructed protocol 2 inquiry**
-
+<!-- current-request MASTER-PLAYHOUSE -->
 ```json
 {
   "requestType": "SHEET_PACKAGE_V1",
@@ -2433,27 +2905,114 @@ A larger rise than half opening width is refused. Added panel cuts change fixed 
 }
 ```
 
-**Selected complete plan**
-
-| SKU | Quantity | Parent length | Unit USD | Extension USD |
-|---|---:|---:|---:|---:|
-| STB-ZERO-PLY-050-48X96-001 | 1 | 96 | 26.55 | 26.55 |
-
-Calculation input hash: `7c1d6ed0bd5fdebd77b757ab2a35ba101f3493b0c9a23ddbf118363b40a4cbf5`; result hash: `f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31`; fixed-clock receipt hash: `90d62bbc57f3b3fd50d0bab051644facbbf3c1a0fc887dfa24c7082d37f1eb81`.
+<!-- current-result MASTER-PLAYHOUSE -->
+```json
+{
+  "status": "SUPPORTABLE",
+  "complete": true,
+  "Q": 76.56,
+  "reasonCodes": [],
+  "totals": {
+    "material": 26.55,
+    "hardware": 0,
+    "machine_service": 30.01,
+    "manual_cut_service": 20,
+    "Q": 76.56,
+    "sumOfSupportableLines": 76.56,
+    "manualCutCount": 2,
+    "hourlyRate": 250
+  },
+  "time": {
+    "T_MACHINE_sec": 560.4761745483586,
+    "T_MACHINE_min": 9.341269575805976,
+    "T_MACHINE_hr": 0.15568782626343294,
+    "totalSeconds": 560.4761745483586,
+    "totalMinutes": 9.341269575805976,
+    "hourlyBilledSeconds": 432.0761745483586,
+    "fixedPriceOccupiedSeconds": 128.39999999999998,
+    "categories": {
+      "LOAD": 120,
+      "ROUTE": 202.0761745483586,
+      "RELEASE": 60,
+      "PANEL_SAW": 128.4,
+      "LABEL": 50
+    },
+    "concurrency": "SERIAL_OCCUPANCY"
+  },
+  "selectedStock": [
+    {
+      "storeSku": "STB-ZERO-PLY-050-48X96-001",
+      "qty": 1,
+      "available": 18,
+      "remainingAvailable": 17,
+      "unitPrice": 26.55,
+      "stockL_in": 96,
+      "actualW": 48,
+      "actualT": 0.5,
+      "description": "1/2 in x 48 x 96 4-ply sheathing",
+      "cellFamily": [
+        "S-001"
+      ],
+      "supportedOps": [
+        "CROSSCUT",
+        "RIP",
+        "ROUTE_PROFILE"
+      ]
+    }
+  ],
+  "optimization": {
+    "status": "MINIMUM_WITHIN_DECLARED_PLAN_SPACE",
+    "searchComplete": true,
+    "nodes": 2,
+    "planSpace": "MIXED_PARENTS_FIXED_GROUP_ORDER_FIXED_PART_ORDER_NO_REMNANT_REUSE_NO_CONCURRENCY",
+    "globalManufacturingOptimalityClaimed": false
+  },
+  "calculationIdentity": {
+    "inputHash": "7e1ae0a82881e12e1afa44e64ec4dedece52191518890fa3f8283c4d343618bf",
+    "resultHash": "f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31"
+  },
+  "evaluationReceipt": {
+    "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
+    "requestType": "SHEET_PACKAGE_V1",
+    "requestId": "MASTER-PLAYHOUSE",
+    "evaluatedAt": "2026-10-08T12:00:00.000Z",
+    "authority": {
+      "storeRevision": "source-sha256:e1cc015aa66103b3d5a48528f4921800aae4bfdf8cd4a516e3093dd8bcfe90d2",
+      "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
+      "manufacturingModel": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+      },
+      "machineConfiguration": {
+        "id": "STORE-MANUFACTURING-CORE-0.1",
+        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+      }
+    },
+    "demandHash": "7cb551e675cfa5cf7b05fac84200521d7856ac5d39a6f599a8371ecdcb853d8a",
+    "manifestHash": "a0e0c9ad896830281337573e11b9b0a53aefd3f879225ccac3bbcd3a1270b009",
+    "status": "SUPPORTABLE",
+    "calculationIdentity": {
+      "inputHash": "7e1ae0a82881e12e1afa44e64ec4dedece52191518890fa3f8283c4d343618bf",
+      "resultHash": "f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31"
+    },
+    "receiptHash": "9bb32a973aa7ca3bda55446d5fae194c74f923412a35545e8f8018be75b85be7"
+  },
+  "ledgerRecords": 15,
+  "physicalAuthority": false
+}
+```
 
 ### 8.7 Variations refusals and commercial scope
 
-A representative supported revision preserves its full component/feature/hardware manifest, obtains a new Store answer and recalculates geometry, stock, occupancy and Q. A refused revision remains a refusal in System custody; the preceding supportable answer is historical rather than permission for the revised job. Changes outside a bounded System control may be blocked before inquiry, while an admitted requirement outside Store's capability is answered by Store with its own reason.
+Every consequential change creates a fresh identified definition and independent manifest before Store evaluation. A refusal remains a valid manufacturing answer with Q absent. Customer acceptance, seller order, financial events, stock allocation and readiness are separate evidence records. No manufacturing result authorizes physical motion.
 
-All five paths use System admission, an independent manifest and an attributable Store inquiry/answer. Current acceptance, packet and evidence contracts support all three converted manufacturing classes; the fresh master probes produce accepted packets and successful lowering/replay for all five exact starting inquiries. Progress through a public customer decision and commercial handoff depends on the source-owned events and policy available for that path; the all-five manufacturing probes do not demonstrate an actual commercial transaction on every public tile. The public `ALCOVE_INSERT_V1` vocabulary is translated by System into Store's generic cut-package class; Store does not maintain a separate Alcove evaluator. System's generic recipe library and the active public defaults can differ. Prices in this chapter deliberately bind to the explicit current default requests rather than whichever old example has the same project title.
-
-Customer Q covers the evaluated manufacturing scope. Labeling, inspection, bundling, protection, sanding, pickup/delivery and assembly requests may exist in System custody without being included in the engine's quote. The seller must state which are included, separately charged, waived, unresolved or outside scope. Job 1 has an explicit simulated demo checkout policy; the other paths do not inherit it automatically. Chapter 10 explains what can progress and what remains pending.
+To reproduce any reference request, save its complete JSON and run the current Store request layer with the receipt's content-addressed release label and fixed evaluatedAt time. Compare calculation and receipt identities only under those same inputs. The result summary omits the full operation arrays for readability; the request layer returns them. Current Project 1's complete serialized evidence retains every record.
 
 ## 9. Lowering packets and virtual evidence
 
 ### 9.1 Accepted packet verification
 
-[STB-ACCEPTED-JOB-PACKET-2](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/job-packet.mjs) is the current machine-side input. System supplies packet identity, project identity/class/title, identified definition/revision/request type, exact demand, independent manifest, carried requirements, the exact Store answer, accepted simulated decision and authority with `physicalRelease: false`. User-board carried end relation/datum/identity must agree with the priced demand. An unpriced independent geometry fact cannot override the geometry Store actually evaluated.
+[STB-ACCEPTED-JOB-PACKET-2](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/job-packet.mjs) is the current machine-side input. System supplies packet identity, project identity/class/title, identified definition/revision/request type, exact demand, independent manifest, carried requirements, the exact Store answer, accepted simulated decision and authority with `physicalRelease: false`. User-board carried end relation/datum/identity must agree with the priced demand. An unpriced independent geometry fact cannot override the geometry Store actually evaluated.
 
 `packetProblems` enforces declared shape, required/nonblank identities, accepted decision, simulated evidence, false physical release and a real UTC timestamp. `verifyJobPacket` checks request type, supportable answer, fresh receipt, the receipt hash and exact receipt fields, timestamp validity and decision no earlier than evaluation, request identity, calculation/receipt agreement, demand hash, manifest hash and expected Store release. It then **reevaluates the same request** against the applicable current catalog/model. A changed answer with the same calculation identity is alteration; a genuinely changed calculation or authority is stale and requires re-quotation. JSON serialization removes fields that do not survive a saved file before answer comparison, avoiding undefined-value artifacts.
 
@@ -2461,7 +3020,7 @@ Verification establishes content consistency and currentness. System still owns 
 
 ### 9.2 Current local job
 
-[lowerJobPacket](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/lowering.mjs) first verifies the packet, then verifies the registered configuration and accepted model identity. It requires the accepted operations, parents and time. It copies them into `STB-LOCAL-MANUFACTURING-JOB-1`, binding packet/project/definition/revision, demand and manifest hashes, Store release/calculation, packet hash, configuration ID/hash, model hash, execution class, exact operations/parents and predicted time. `localJobHash` is the canonical hash of that complete object before adding the hash itself.
+[lowerJobPacket](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/lowering.mjs) first verifies the packet, then verifies the registered configuration and accepted model identity. It requires the accepted operations, parents and time. It copies them into `STB-LOCAL-MANUFACTURING-JOB-1`, binding packet/project/definition/revision, demand and manifest hashes, Store release/calculation, packet hash, configuration ID/hash, model hash, execution class, exact operations/parents and predicted time. `localJobHash` is the canonical hash of that complete object before adding the hash itself.
 
 This lowerer does not change part dimensions, substitute a parent, choose another route or recalculate Q. It adds machine-binding/evidence facts to the accepted ledger. Release blockers combine `CONFIGURATION_NOT_COMMISSIONED`, `LOCAL_MATERIAL_AND_READINESS_NOT_ADMITTED` and all evaluated physical gaps. Local job creation is a modeled transformation, not a production-release event.
 
@@ -2473,20 +3032,22 @@ These are virtual nominal instructions within a priced occupancy representation.
 
 ### 9.4 Independent virtual replay
 
-[runVirtual](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/machine/virtual-run.mjs) validates record shape/hash, caller-expected binding and current registered model/configuration. It checks sequence numbers, nonnegative finite durations, cumulative start/end consistency, starting pose and every modeled MOVE duration. It independently tracks C/Y/A/S/Z/RZ, saw and spot state and elapsed time while replaying the accepted ledger. It shares `moveSeconds` with the engine: this is an independent state/sequence replay, not an independently implemented kinematic formula.
+[runVirtual](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/machine/virtual-run.mjs) validates record shape/hash, caller-expected binding and current registered model/configuration. It checks sequence numbers, nonnegative finite durations, cumulative start/end consistency, starting pose and every modeled MOVE duration. It independently tracks C/Y/A/S/Z/RZ, saw and spot state and elapsed time while replaying the accepted ledger. It shares `moveSeconds` with the engine: this is an independent state/sequence replay, not an independently implemented kinematic formula.
 
 It stops for stock-position faults, unconfirmed retract, C indexing with a tool down, saw stroke with saw off, spot plunge with spindle off, angle movement with saw down, invalid router state/path duration, datum capture with saw down, completion with active tools or time mismatch. Router-cut events update longitudinal pose while engaged; ordinary index moves require clearance. Fault injection fields `slipAtSeq` and `retractUnconfirmedAtSeq` exercise interruption without generating physical I/O.
 
 Sheet occupancy events are replayed for duration/order/binding but no physical contour is independently reconstructed and cut. A successful replay says the serialized occupancy model is coherent under its registered rules. It does not measure clamp strength, tool cutting behavior, actual reference, payment, part acceptance or customer handoff.
 
-| Fresh master case | Ledger records | Replay move count | Replay seconds | Physical admission |
-|---|---:|---:|---:|---|
-| SYO | 51 | 22 | 86.519086610639 | BLOCKED |
-| PROJECT1 | 51 | 22 | 86.469536282991 | BLOCKED |
-| ALCOVE-ECONOMY | 269 | 115 | 1115.544652777776 | BLOCKED |
-| WINDOW-SEAT | 940 | 442 | 5724.080625000045 | BLOCKED |
-| OUTDOOR | 386 | 156 | 1068.903160409143 | BLOCKED |
-| PLAYHOUSE | 15 | 0 | 560.476174548359 | BLOCKED |
+<!-- current-ledger-table -->
+| Reference inquiry | Ledger records | Modeled moves | Occupied seconds | Physical authority |
+| --- | ---: | ---: | ---: | --- |
+| MASTER-SYO-16 | 51 | 22 | 86.51908661063948 | false |
+| MASTER-SYO-18 | 51 | 22 | 86.46953628299116 | false |
+| MASTER-ALCOVE-ECONOMY | 269 | 112 | 1115.5446527777765 | false |
+| MASTER-WINDOW-SEAT | 1072 | 487 | 6463.942708333378 | false |
+| MASTER-OUTDOOR | absent | absent | absent | false |
+| MASTER-PLAYHOUSE | 15 | 0 | 560.4761745483586 | false |
+<!-- end-current-ledger-table -->
 
 The current Project 1 case has 51 ledger records and 22 replayed move events; historical IR has 45 records and 21 axis commands. The counts are not interchangeable. The count reconciliation is explicit: the current ledger adds four CONTROL_SCREEN records, two FEATURE_ANSWERED records and a zero-distance Y MOVE for the second spot, and does not retain the historical COMPLETE record: `45 + 4 + 2 + 1 - 1 = 51`. Its move method emits that second Y placement even though Y is already at the center; the original generator places Y only for the first spot. The extra move has zero duration. The diagnostic/coverage records also have zero duration, so these count changes do not add processing time or commissioned physical commands. Playhouse's zero replay move count does not mean no manufacturing work: its 15 records describe sheet path/handling/panel occupancy rather than serialized servo MOVE records.
 
@@ -2494,22 +3055,23 @@ The current Project 1 case has 51 ledger records and 22 replayed move events; hi
 
 `POST /v1/machine-evidence` uses `STORE-ZERO-MACHINE-EVIDENCE-2`. Its complete input is `{packet, expectedMachineConfigId, expectedMachineConfigHash}`. It rejects missing/extra/mistyped fields and configuration mismatch before lowering. A successful answer is `{status: 'VIRTUAL_EVIDENCE_READY', physicalAuthority: false, localJob, records, run, admission}`; all six fields are serialized under the transport envelope with protocol, Store release, byte payload digest and respondedAt.
 
-For the master Project 1 packet, the complete binding and disposition values are:
+For the current 18-inch SPF Project 1 reference packet, the regenerated binding and disposition values are:
 
+<!-- current-machine-example -->
 ```json
 {
   "status": "VIRTUAL_EVIDENCE_READY",
   "physicalAuthority": false,
   "recordsBinding": {
-    "packetId": "MASTER-PACKET-PROJECT1",
-    "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
-    "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
-    "packetHash": "ab6b3ad36801bf59521cfccf5114651ab7fc6363729089176b630b57ec6a82c2",
+    "packetId": "PACKET-CURRENT-PROJECT-1-18",
+    "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
+    "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
+    "packetHash": "378d1f29ae3100f048b6108df4800bb8db43110de7eba60e3279d22a76a1aad6",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
     "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
     "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-    "localJobHash": "7c900b71fc909b9acfb37260bb16cd91b1c6d961b894f5d86ce363400e5a383f",
-    "motionHash": "a20737b08afc3d656d540e04760645fa8d67f2a0d145a2523b40fb6d03d38da4"
+    "localJobHash": "b456e4e0bab0dbf0e4ad120cb19d26251e7883227f8d94295e2508605e2b3cee",
+    "motionHash": "4b693ae67a03f6236475d2322ae6436b7de83abaa22a11e9895fb1ddf82b756c"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "expectedSeconds": 86.46953628299116,
@@ -2518,7 +3080,1280 @@ For the master Project 1 packet, the complete binding and disposition values are
     "physicalAuthority": false,
     "model": "STB-VIRTUAL-OCCUPANCY-MODEL-1",
     "timeSec": 86.46953628299116,
-    "motionCommands": 22
+    "motionCommands": 22,
+    "trace": [
+      {
+        "sequence": 1,
+        "kind": "LOAD_AND_SEAT",
+        "seconds": 36,
+        "subject": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "LOAD",
+        "billing": "HOURLY",
+        "startSec": 0,
+        "endSec": 36,
+        "durationSec": 36,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 0,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 2,
+        "kind": "MOVE",
+        "seconds": 1.1295933320414333,
+        "subject": "PARENT_END_ANGLE",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "A",
+        "from": 0,
+        "target": 26.387799961243,
+        "velocity": 30,
+        "acceleration": 120,
+        "startSec": 36,
+        "endSec": 37.12959333204143,
+        "durationSec": 1.1295933320414333,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 3,
+        "kind": "ANGLE_SETTLE",
+        "seconds": 0.1,
+        "subject": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 37.12959333204143,
+        "endSec": 37.22959333204143,
+        "durationSec": 0.1,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 4,
+        "kind": "CLAMP_ALLOWANCE",
+        "seconds": 0.25,
+        "subject": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 37.22959333204143,
+        "endSec": 37.47959333204143,
+        "durationSec": 0.25,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 5,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 37.47959333204143,
+        "endSec": 37.47959333204143,
+        "durationSec": 0,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 6,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 37.47959333204143,
+        "endSec": 37.97959333204143,
+        "durationSec": 0.5,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 1.5,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 7,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 37.97959333204143,
+        "endSec": 39.214897259697004,
+        "durationSec": 1.235303927655574,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 5.4070941395600665,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 8,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 39.214897259697004,
+        "endSec": 40.36607961629035,
+        "durationSec": 1.1511823565933446,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 9,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.36607961629035,
+        "endSec": 40.41607961629035,
+        "durationSec": 0.05,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 10,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "startSec": 40.41607961629035,
+        "endSec": 40.41607961629035,
+        "durationSec": 0,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 11,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "REFERENCE_CUT",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": 0,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 40.41607961629035,
+        "endSec": 40.426079616290345,
+        "durationSec": 0.01,
+        "positions": {
+          "C": 0,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 12,
+        "kind": "MOVE",
+        "seconds": 3.625,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": 27,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 40.426079616290345,
+        "endSec": 44.051079616290345,
+        "durationSec": 3.625,
+        "positions": {
+          "C": 27,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 13,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 44.051079616290345,
+        "endSec": 44.10107961629034,
+        "durationSec": 0.05,
+        "positions": {
+          "C": 27,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 14,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 27,
+        "remainingLengthIn": 71.875,
+        "rollerContacts": [
+          false,
+          true
+        ],
+        "startSec": 44.10107961629034,
+        "endSec": 44.10107961629034,
+        "durationSec": 0,
+        "positions": {
+          "C": 27,
+          "Y": 0,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 15,
+        "kind": "MOVE",
+        "seconds": 0.6875,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 0,
+        "target": 1.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 44.10107961629034,
+        "endSec": 44.78857961629034,
+        "durationSec": 0.6875,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 16,
+        "kind": "SPOT_SPINDLE_ON",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 44.78857961629034,
+        "endSec": 44.78857961629034,
+        "durationSec": 0,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 17,
+        "kind": "SPOT_READY_ALLOWANCE",
+        "seconds": 0.5,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 44.78857961629034,
+        "endSec": 45.28857961629034,
+        "durationSec": 0.5,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 18,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 45.28857961629034,
+        "endSec": 45.53857961629034,
+        "durationSec": 0.25,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.5,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 19,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 45.53857961629034,
+        "endSec": 46.17315632387493,
+        "durationSec": 0.6345767075845848,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.256169316966166,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 20,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 46.17315632387493,
+        "endSec": 46.545071665391845,
+        "durationSec": 0.37191534151691696,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 21,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "SPOT-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "PART-1",
+        "featureId": "SPOT-1",
+        "coverage": true,
+        "startSec": 46.545071665391845,
+        "endSec": 46.545071665391845,
+        "durationSec": 0,
+        "positions": {
+          "C": 27,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 22,
+        "kind": "MOVE",
+        "seconds": 2.515625,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 27,
+        "target": 8.875,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 46.545071665391845,
+        "endSec": 49.060696665391845,
+        "durationSec": 2.515625,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 23,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 49.060696665391845,
+        "endSec": 49.11069666539184,
+        "durationSec": 0.05,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 24,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": 8.875,
+        "remainingLengthIn": 71.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 49.11069666539184,
+        "endSec": 49.11069666539184,
+        "durationSec": 0,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 25,
+        "kind": "MOVE",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Y",
+        "from": 1.75,
+        "target": 1.75,
+        "velocity": 4,
+        "acceleration": 16,
+        "startSec": 49.11069666539184,
+        "endSec": 49.11069666539184,
+        "durationSec": 0,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 26,
+        "kind": "MOVE",
+        "seconds": 0.25,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.75,
+        "target": 1.5,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 49.11069666539184,
+        "endSec": 49.36069666539184,
+        "durationSec": 0.25,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.5,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 27,
+        "kind": "MOVE",
+        "seconds": 0.6345767075845848,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.5,
+        "target": 1.256169316966166,
+        "velocity": 0.4,
+        "acceleration": 16,
+        "startSec": 49.36069666539184,
+        "endSec": 49.99527337297643,
+        "durationSec": 0.6345767075845848,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.256169316966166,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 28,
+        "kind": "MOVE",
+        "seconds": 0.37191534151691696,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "axis": "Z",
+        "from": 1.256169316966166,
+        "target": 1.75,
+        "velocity": 2,
+        "acceleration": 16,
+        "startSec": 49.99527337297643,
+        "endSec": 50.367188714493345,
+        "durationSec": 0.37191534151691696,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 29,
+        "kind": "FEATURE_ANSWERED",
+        "seconds": 0,
+        "subject": "SPOT-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "partId": "PART-2",
+        "featureId": "SPOT-2",
+        "coverage": true,
+        "startSec": 50.367188714493345,
+        "endSec": 50.367188714493345,
+        "durationSec": 0,
+        "positions": {
+          "C": 8.875,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 30,
+        "kind": "MOVE",
+        "seconds": 3.609375,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 8.875,
+        "target": -18,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 50.367188714493345,
+        "endSec": 53.976563714493345,
+        "durationSec": 3.609375,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 31,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 53.976563714493345,
+        "endSec": 54.02656371449334,
+        "durationSec": 0.05,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 32,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -18,
+        "remainingLengthIn": 71.875,
+        "rollerContacts": [
+          true,
+          true
+        ],
+        "startSec": 54.02656371449334,
+        "endSec": 54.02656371449334,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 33,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 54.02656371449334,
+        "endSec": 54.02656371449334,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 34,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 54.02656371449334,
+        "endSec": 54.52656371449334,
+        "durationSec": 0.5,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 1.5,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 35,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 54.52656371449334,
+        "endSec": 55.761867642148914,
+        "durationSec": 1.235303927655574,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 5.4070941395600665,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 36,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 55.761867642148914,
+        "endSec": 56.91304999874226,
+        "durationSec": 1.1511823565933446,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 37,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 56.91304999874226,
+        "endSec": 56.96304999874226,
+        "durationSec": 0.05,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 38,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 56.96304999874226,
+        "endSec": 56.96304999874226,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 39,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "PART-1",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -18,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 56.96304999874226,
+        "endSec": 56.973049998742255,
+        "durationSec": 0.01,
+        "positions": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 40,
+        "kind": "MOVE",
+        "seconds": 2.5,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "axis": "C",
+        "from": 0,
+        "target": -18,
+        "velocity": 8,
+        "acceleration": 32,
+        "startSec": 56.973049998742255,
+        "endSec": 59.473049998742255,
+        "durationSec": 2.5,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 41,
+        "kind": "VERIFY_POSITION_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "startSec": 59.473049998742255,
+        "endSec": 59.52304999874225,
+        "durationSec": 0.05,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 42,
+        "kind": "CONTROL_SCREEN",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "INDEX",
+        "billing": "HOURLY",
+        "nominalCIn": -18,
+        "remainingLengthIn": 53.75,
+        "rollerContacts": [
+          true,
+          false
+        ],
+        "startSec": 59.52304999874225,
+        "endSec": 59.52304999874225,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 43,
+        "kind": "SAW_ON",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 59.52304999874225,
+        "endSec": 59.52304999874225,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 44,
+        "kind": "MOVE",
+        "seconds": 0.5,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 0,
+        "target": 1.5,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 59.52304999874225,
+        "endSec": 60.02304999874225,
+        "durationSec": 0.5,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 1.5,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 45,
+        "kind": "MOVE",
+        "seconds": 1.235303927655574,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 1.5,
+        "target": 5.4070941395600665,
+        "velocity": 3.6,
+        "acceleration": 24,
+        "startSec": 60.02304999874225,
+        "endSec": 61.258353926397824,
+        "durationSec": 1.235303927655574,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 5.4070941395600665,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 46,
+        "kind": "MOVE",
+        "seconds": 1.1511823565933446,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "axis": "S",
+        "from": 5.4070941395600665,
+        "target": 0,
+        "velocity": 6,
+        "acceleration": 24,
+        "startSec": 61.258353926397824,
+        "endSec": 62.40953628299117,
+        "durationSec": 1.1511823565933446,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 47,
+        "kind": "SAW_OFF_ALLOWANCE",
+        "seconds": 0.05,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 62.40953628299117,
+        "endSec": 62.459536282991166,
+        "durationSec": 0.05,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 48,
+        "kind": "SAW_OFF",
+        "seconds": 0,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SAW",
+        "billing": "HOURLY",
+        "startSec": 62.459536282991166,
+        "endSec": 62.459536282991166,
+        "durationSec": 0,
+        "positions": {
+          "C": -18,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 49,
+        "kind": "NOMINAL_DATUM_CAPTURE",
+        "seconds": 0.01,
+        "subject": "PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "REFERENCE",
+        "billing": "HOURLY",
+        "oldCIn": -18,
+        "targetCIn": 0,
+        "convention": "NOMINAL_C_REBASE_AFTER_LONGITUDINAL_KERF_ALLOWANCE",
+        "startSec": 62.459536282991166,
+        "endSec": 62.469536282991164,
+        "durationSec": 0.01,
+        "positions": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 50,
+        "kind": "SPOT_SPINDLE_OFF",
+        "seconds": 0,
+        "subject": "PARENT_COMPLETE",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "SPOT",
+        "billing": "HOURLY",
+        "startSec": 62.469536282991164,
+        "endSec": 62.469536282991164,
+        "durationSec": 0,
+        "positions": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      },
+      {
+        "sequence": 51,
+        "kind": "RELEASE_AND_LABEL",
+        "seconds": 24,
+        "subject": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "parentId": "STB-ZERO-SPF-2X4-72-001:PART-1+PART-2",
+        "cell": "D-001",
+        "category": "RELEASE",
+        "billing": "HOURLY",
+        "startSec": 62.469536282991164,
+        "endSec": 86.46953628299116,
+        "durationSec": 24,
+        "positions": {
+          "C": 0,
+          "Y": 1.75,
+          "A": 26.387799961243,
+          "S": 0,
+          "Z": 1.75,
+          "RZ": 1.75
+        },
+        "evidenceClass": "PREDICTED_OCCUPANCY_ONLY"
+      }
+    ]
   },
   "admission": {
     "status": "BLOCKED",
@@ -2535,46 +4370,23 @@ For the master Project 1 packet, the complete binding and disposition values are
   }
 }
 ```
+<!-- end-current-machine-example -->
 
 The displayed projection shows the binding and disposition values. The full response additionally carries the complete local job, serialized operation records and replay trace. The following executable example constructs the complete input and emits the **entire serialized output**, including those structures.
 
 ### 9.6 Complete reproducible examples
 
-From a checkout of the frozen Store source, use Node 22. This read-only example writes no repository files. It reads the current fixture definition, explicitly lists its independent component/feature manifest, obtains a fresh current-catalog answer, builds a complete simulated packet, and prints the full packet/evidence request and response. The sample request identity `MASTER-PROJECT1` matches chapter 7's current calculation. No historical catalog is substituted.
+From a current Store checkout, use Node 22 or later:
 
 ```sh
-node --input-type=module <<'JS'
-import {project1Demand} from './tests/fixtures/project-1.mjs';
-import {evaluateStoreRequest} from './src/requests/store-request.mjs';
-import {evaluateMachineEvidence,machineEvidenceIdentity} from './src/machine/evidence.mjs';
-const release='f7123a73c1ca60aa7eb180a86a1c365eaffe95db';
-const demand=project1Demand();
-const manifest={jobId:demand.configurationId,revision:demand.configurationVersion,
-  boardPartIds:['PART-1','PART-2'],sheetPackageIds:[],featureIds:['SPOT-1','SPOT-2'],
-  items:[],unresolvedRequirements:[]};
-const request={requestType:'USER_DEFINED_BOARD_V1',requestId:'MASTER-PROJECT1',demand,manifest};
-const options={release,now:()=> '2026-10-12T16:00:00.000Z'};
-const storeAnswer=JSON.parse(JSON.stringify(evaluateStoreRequest(request,options)));
-const packet={schema:'STB-ACCEPTED-JOB-PACKET-2',packetId:'MASTER-PACKET-PROJECT1',
- project:{projectId:'MASTER-PROJECT-PROJECT1',classId:demand.classId,title:'PROJECT1'},
- definition:{definitionId:'MASTER-DEFINITION-PROJECT1',revisionId:demand.configurationVersion,
-  requestType:request.requestType,demand,manifest,
-  requirements:{endRelation:demand.endRelation,lengthDatum:demand.lengthDatum}},
- storeAnswer,decision:{decisionId:'MASTER-DECISION-PROJECT1',kind:'ACCEPTED',
-  offerId:'MASTER-OFFER-PROJECT1',decidedAt:'2026-10-12T16:05:00.000Z',evidenceClass:'SIMULATED'},
- authority:{physicalRelease:false,evidenceClass:'SIMULATED'}};
-const identity=machineEvidenceIdentity();
-const evidenceRequest={packet,expectedMachineConfigId:identity.machineConfigId,
- expectedMachineConfigHash:identity.machineConfigHash};
-const evidence=evaluateMachineEvidence(evidenceRequest,options);
-if(storeAnswer.Q!==10.81||evidence.status!=='VIRTUAL_EVIDENCE_READY'||
- evidence.run.timeSec!==storeAnswer.time.totalSeconds||evidence.admission.status!=='BLOCKED')
- throw Error('Example verification failed');
-console.log(JSON.stringify({request,storeAnswer,evidenceRequest,evidence},null,2));
-JS
+npm run build:examples
+npm test
+node --input-type=module -e 'import {currentProject1Proof} from "./scripts/build-contract-examples.mjs"; console.log(JSON.stringify(currentProject1Proof(),null,2))'
 ```
 
-For the five chapter-8 examples, evaluate their exact JSON requests under their recorded release and clock; do not change IDs and expect old hashes. For current Job 1, section 8.2 supplies the complete default request and explicit 18-inch changes. A completion test must obtain two real System definition revisions, preserve the independent manifest, obtain fresh Store answers, bind each actual accepted record and generate different traceable instruction operands without re-entry. The local source diagnostic establishes the arithmetic and Store path; it does not substitute for proving the published accepted-packet handoff or target-controller execution.
+The output is the complete current proof for both SPF settings, including the exact definitions/manifests, current source identity, Store answers, simulated accepted packets, verified local jobs, all motion/occupancy records, replay and blocked physical admission. The ordinary examples and six master inquiries are regenerated by the same command and checked against committed content.
+
+The required System Chromium workflow supplies the actual published acceptance-to-packet handoff: each displayed setting is accepted through the existing terms flow, whose `acceptedPacket()` exports its original customer decision and exact unmodified Store answer. The browser gate submits that packet to the pinned Store machine-evidence endpoint and publishes the resulting full proof with both repository identities. The reference replay does not claim actual commercial or physical execution.
 
 Remaining export work belongs at the existing configuration/record/lowering owners: declare controller axis/unit/datum and tool mappings, attach source-operation/requirement witnesses, validate deterministic ordered output, and generate reference ST data only for mapped operations. Test unsupported tooling, impossible/missing geometry, foreign Store/configuration, stale or altered packets, missing machine facts, dropped parts/features and invalidated tool/reference state. Same identified input/configuration/export version must produce the same instruction content; receipt clock evidence remains outside that deterministic instruction core. Physical admission remains blocked.
 
@@ -2594,7 +4406,7 @@ Release is the host commit (`RENDER_GIT_COMMIT` or `RAILWAY_GIT_COMMIT_SHA`), or
 
 ### 10.1 Contract ownership and installed scope
 
-The shared executable authority is [commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/commercial-sequence.js), served as the byte-identical [System public commercial contract](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js). The [commercial template](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) supplies the intended source-owned transaction design. This chapter explains those primary sources; it does not introduce a competing normative contract. [commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/requests/commercial-request.mjs) exposes the simulated gate at `/v1/commercial-events`, protocol `STORE-ZERO-COMMERCIAL-EVIDENCE-1`.
+The shared executable authority is [commercial-sequence.js](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/commercial-sequence.js), served as the byte-identical [System public commercial contract](https://github.com/GeorgePlattDemo/new-system/blob/ab09777d6f27d4b70a2193abc8564ebce611746f/public/live/stb-commercial-sequence.js). The [commercial template](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/docs/commercial-sequence-template.md) supplies the intended source-owned transaction design. This chapter explains those primary sources; it does not introduce a competing normative contract. [commercial-request.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/requests/commercial-request.mjs) exposes the simulated gate at `/v1/commercial-events`, protocol `STORE-ZERO-COMMERCIAL-EVIDENCE-1`.
 
 Manufacturing Q, seller offer, customer decision, seller order, finance, reservation, allocation, queue, release, operation and custody are distinct facts. A supportable calculation does not cause the rest to occur. The installed gate accepts **SIMULATED** source records, rejects ACTUAL records with `ACTUAL_SOURCE_ADAPTER_NOT_INSTALLED`, and performs no payment, stock mutation, persistent order write, notification or machine act. It validates an attributable event sequence and returns the resulting simulated record.
 
@@ -2900,7 +4712,7 @@ The retired partial aggregate `NOT_ALL_LINES_SUPPORTABLE` survives in some Syste
 
 ### 11.2 Admission and manufacturing reason register
 
-The public request boundary's principal reasons are REQUEST_MUST_BE_AN_OBJECT, `REQUEST_FIELD_NOT_DECLARED:<field>`, REQUEST_TYPE_NOT_ACCEPTED, STORE_EVALUATION_REQUEST_ID_REQUIRED, DEFINITION_REQUIRED, MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED, INDEPENDENT_SYSTEM_MANIFEST_REQUIRED and DISCOVERY_MANIFEST_NOT_ACCEPTED. Typed definition validation adds `DEFINITION_FIELD_NOT_DECLARED:<path>`, `DEFINITION_FIELD_TYPE:<path>` and the declared enum/type reason variants produced by [shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/f7123a73c1ca60aa7eb180a86a1c365eaffe95db/src/contracts/shape.mjs). Missing identity/manifest is unresolved; undeclared/mistyped or machine-local language is refused. These checks precede manufacturing.
+The public request boundary's principal reasons are REQUEST_MUST_BE_AN_OBJECT, `REQUEST_FIELD_NOT_DECLARED:<field>`, REQUEST_TYPE_NOT_ACCEPTED, STORE_EVALUATION_REQUEST_ID_REQUIRED, DEFINITION_REQUIRED, MACHINE_LOCAL_LANGUAGE_NOT_ACCEPTED, INDEPENDENT_SYSTEM_MANIFEST_REQUIRED and DISCOVERY_MANIFEST_NOT_ACCEPTED. Typed definition validation adds `DEFINITION_FIELD_NOT_DECLARED:<path>`, `DEFINITION_FIELD_TYPE:<path>` and the declared enum/type reason variants produced by [shape.mjs](https://github.com/GeorgePlattDemo/store-zero/blob/main/src/contracts/shape.mjs). Missing identity/manifest is unresolved; undeclared/mistyped or machine-local language is refused. These checks precede manufacturing.
 
 The following register gives the actual core conditions, extracted from the frozen source. A condition shown must be **true** to proceed; its failure emits the adjacent reason. Dynamic reason prefixes end in `:` and append the actual field/operation. REFUSED is the default; explicit UNRESOLVED/UNAVAILABLE distinctions are preserved. The same code can occur in more than one check, with a different condition/status, and both occurrences are included. Model-input/internal consistency checks are listed because an invalid registered model is also a refusal, not permission to estimate anyway. Detailed physical meaning and numerical boundaries are developed in chapters 5–6. Each predicate applies within its originating feature or conditional field context; an omitted optional field does not activate every listed check.
 
@@ -3127,9 +4939,9 @@ At 600 productive hours, pool cost is $200/hour and selling rate at .20 gross ma
 
 ### 13.2 Productive utilization and service burden
 
-Holding the pool/margin and current Project 1's 86.46953628299116 seconds constant illustrates utilization sensitivity:
+Holding the pool/margin and treated-lumber comparison's 86.46953628299116 seconds constant illustrates utilization sensitivity:
 
-| Productive hours/year | Break-even USD/h | Sell USD/h | Current Project 1 service USD | Q with current $4.81 parent |
+| Productive hours/year | Break-even USD/h | Sell USD/h | Treated comparison service USD | Q with $4.81 treated parent |
 |---:|---:|---:|---:|---:|
 | 300 | 400 | 500 | 12.01 | 16.82 |
 | 600 | 200 | 250 | 6.00 | 10.81 |
@@ -3444,7 +5256,7 @@ For Program: `python tools/check_program.py` at its frozen source. Do not move a
 | Program documentary check | PASS, 4 local Markdown links | Current Program local navigation |
 | Original Project 1 reproduction | **14 passed, 0 failed** | Original seven sources; Q $11.09, Store 85.5001 s, virtual 86.46953628299116 s |
 | Five starting Q reevaluations | $8.62 / $379.11 / $1193.10 / $293.16 / $76.56 | Exact chapter-8 requests/current catalog/model |
-| Current Project 1 inquiry | $10.81, 86.46953628299116 s | Explicit grade/end meaning, current whole-job core |
+| Treated-lumber comparison inquiry | $10.81, 86.46953628299116 s | Explicit grade/end meaning, current whole-job core |
 | Five current accepted packet/lowering/replays | VIRTUAL_EVIDENCE_READY; replay seconds equal quoted seconds | All three classes; physical BLOCKED |
 | Full executable 9.6 example | PASS; complete evidence equals independent probe serialization | Actual document code exercised |
 | Shared commercial gate | Byte-identical Store/System served copy | One shared executable contract |
@@ -3477,66 +5289,40 @@ The old answer corpus has 1786 immutable cases: 44 Alcove,114 cut-package,754 en
 
 ### 15.2 Audit issues and resolution status
 
-The attached *Scan-to-Build-Read-Only-Audit-2026-10-12(1).md* examined the same three source revisions. It was read in full, including implementation findings, patent rows, document inventory and repair sequence. Its file content is identified by SHA-256 `cb59aaf1f8f3901bc616de7fc1cd812f133e9cb368c34a146855b4c80a5dfb43`. The master preserves that explanatory record. Current documentary reconciliation is distinguished from unresolved executable repairs; the original audit is evidence of its recorded sources, not a selector for current runtime behavior.
+Current owner behavior is explicit:
 
-| Issue in audit | Present resolution in this master | Original-source status and appropriate next owner/target |
-|---|---|---|
-| Outdoor long-short vs long-long, plane/source correspondence | Exact encoded demand/Q shown; discrepancy expressly retained in 8.5 | Unresolved; System source/definition reconciliation required |
-| Shared definitions describe old request/manifest/lowering contracts | Protocol2, packet2 and modeled three-class evidence agree across 3/9, System master and dictionary | Documentary contradiction resolved; generic machine presentation and packet-loader defects remain executable work |
-| Current patent navigation points to removed active-spec matrix | All 33 current claim/function rows and evidence stage supplied in2 | Patent README's old navigation unchanged; later point to master claim chapters |
-| Store README says core active then not imported | Sole runtime core authority fully documented in1/5 | README unchanged; later concise owner/behavior entry correction |
-| Commercial template adoption wording drifts | Executable simulated gate vs intended source integration explained in10 | Template unchanged; shared owner reconciles prose/envelope deliberately |
-| Project 1 wrapper links old pin/removed sections | Sealed original and current inquiry/identities separated in7 | Wrapper unchanged; later current navigation without changing evidence |
-| Window Seat old exported command lacks manifest | Complete current48-run inquiry supplied in8.4 and protocol explained | Existing stale command unchanged; System must correct its example |
-| Live reviewer guides say formal manifest absent or miss discovery scope | Actual public admission/manifest/discovery described in3/8 | Guides unchanged; concise corrections under System |
-| Program opening describes current virtual commands too broadly | Implemented planning, modeled ledger/replay, historical ST and proposed export distinguished | Program evidence and trial explanations now use the same stages; no runtime change |
-| Broken moved paths/removed specification anchors | All master references use existing owner paths at exact revisions | Old document links remain unchanged; later repair specific current links |
-| README clutter and potentially unused candidate artifacts | Content consolidated here; dependency-sensitive retention recommended | No deletions; verify runtime/record/asset dependencies before later cleanup |
-| Historical statistics/price figures mixed with current context | Dated sources/evidence kept separate from current exact evaluations | Do not redate history or replace it with current prices silently |
-
-The masters, operative specification and System dictionary now explain one compilation/authority relationship. Remaining executable meaning, packet and presentation defects require their owning implementation and tests; documentation integration does not erase them. Original patent and Project 1 source/record identities remain unchanged.
+| Concern | Current governing behavior |
+| --- | --- |
+| Source end meaning | System preserves A-frame source lengths/datum and support bevel; Store returns UNRESOLVED without Q for unregistered end geometry |
+| Material attribution | A chosen all-treated definition is an application/customer variant; it is not attributed as the source recommendation |
+| Manifest and optional fields | The independent System manifest covers all required work; System definition shapes match the inspected Store contract, including optional tooling/profile/tab/offset fields |
+| Accepted packet | Public terms export the existing accepted decision with exact manifest, demand and Store answer; Store independently verifies and requotes before lowering |
+| Saved records | Current packet2 round-trips; malformed and unknown versions are rejected; reopened records retain history without current price authority |
+| Machine presentation | All three registered manufacturing definition classes may request modeled evidence; support and physical release remain separate |
+| Window Seat audit | The full original request and independent manifest are exported; repeated calculation identity and fresh receipt identity are distinguished |
+| Project 1 | Current reference proof and actual browser/HTTP acceptance-to-lowering proof are required; original sealed evidence is provenance |
+| Worked master results | Six exact requests, returned summaries, ledger counts and the current Project 1 machine binding regenerate from executable source |
 
 ### 15.3 Additional source discrepancies
 
-Further source inspection during reconstruction identified the following qualifications:
+Commercial exception recovery still has a conservative hold: an earlier unresolved exception is not generally cleared by a later resolved record. A complete correction/recovery policy, actual source authentication, durable cross-order concurrency and full seller-specific commercial reconciliation require their own adopted contracts and source integrations. The current repair grants none of those authorities.
 
-- **Generic System saved-record loader:** `session.ts` packetOk checks packet1, while current acceptance emits packet2. Current acceptance/evidence can work while a saved current packet fails that structural reopening path. Source remains unchanged.
-- **Commercial exception recovery:** historical unresolved exceptions continue blocking normal events after a later resolved exception. The installed gate has no general hold-clearing policy.
-- **Commercial template envelope:** broader illustrative links/uppercase role do not match exact ten-field/lower-case executable binding. Actual event serialization must follow the executable contract.
-- **Commercial semantic limits:** amount/extra reconciliation, full allocation/component coverage, actual source authentication, order-time expiry recheck and durable cross-order concurrency are not supplied by the in-memory gate. They require explicit owner integrations.
-- **Catalog operation breadth:** DRILL/MILL_END_PROFILE declarations remain on some rows while the current core implements the narrower represented operations. The master lists these as declarations without promoting them to callable machining.
-- **Core comments/document dates:** the engine's introductory Program review references an earlier Program revision and removed Program research paths. Current Program root documents, frozen here, govern the research explanation. Its commercial comment calling the sequence C01–C16 does not define the installed twenty event types.
-- **Project 1 fixture comment:** assertion of reproducing the old full answer/hashes is stale; actual acceptance checks preserve $11.09 and verify a separate current $10.81 result.
-- **Rounding language:** exact implementation rounds whole-job hourly service then total Q; parent summaries are not an independent total authority.
-- **Replay independence:** state/order/hash replay is separate, but the motion formula is shared and sheet XY controller geometry is not independently executed.
-- **Window Seat default:** optional front boolean alone is not admission; Intent's starting added.front=false determines the current $1193.10 definition. Generic recipe and admitted optional-front variants have different results.
-
-These findings are bounded documentation/engineering facts. Document integration changes no executable source, catalog, runtime pin or deployment configuration. The code and test passing evidence do not erase the identified source discrepancies.
+Catalog operation declarations do not create callable toolpaths outside the represented core operations. Current virtual replay checks state, sequence, hashes and timing; its timing formula is shared with the model, and sheet XY controller geometry is not independently executed. Physical stock control, retained-face/kerf registration, saw geometry and inspection remain unresolved engineering work. Modeled clamp and position-verification allowances are not sensed confirmation.
 
 ### 15.4 Protected evidence and future consolidation
 
-Issued patent PDFs/checksums; original Project 1 Markdown/DOCX/ZIP/publication identities; retained original sources and generated acceptance evidence; and immutable migration recordings remain in their established custody. They are primary evidence. The archived specification remains a dated source with its original identity and interpretation.
+Issued patents/checksums, original D001 manuscript/Word/ZIP/publication identities and original acceptance/migration recordings retain their exact source identities. They establish their recorded claims and provenance. Project 1's operative current review and full evidence are separate regenerating outputs and must describe the current integrated behavior. An older artifact cannot substitute for that proof.
 
-The original master proposed shorter entry/specification documents and a separate operating specification. Subsequent preservation instructions superseded that proposal. The current structure retains the complete master, complete operative specification, approved README and maintainer governance. The README is unchanged; no new operating specification or parallel authority is created. Technical explanations may be reconciled in their owning documents while sealed records and issued sources remain immutable.
-
-Patent navigation and the Project 1 wrapper retain their original source context. Any future navigation repair must preserve issued sources, the historical/current distinction and sealed evidence. Runtime and record dependencies must be established before relocation or retirement. System owns shared meaning and the commercial design map; Store owns its operative manufacturing specification. Neither master is another executable contract.
+The README is the public entrance; this complete master and the operative specification retain their distinct responsibilities. System owns shared definitions and application custody; Program owns research and adoption decisions. Code changes reconcile all affected operative documents in present tense. Git history records the change chronology.
 
 ### 15.5 Master completion and navigation checks
 
-This reference contains 15 substantive chapters. Its contents follow the actual headings. It covers all 33 issued claim/function correspondences, three modeled manufacturing classes, five public project paths, original Project 1 and current Job 1, registered model/configuration, the 183-row catalog, evidence pipeline, twenty commercial event types, refusals, inspection/custody, economics and source identities.
-
-The original master publication checked 366 links and 120 distinct commit-specific primary paths. Those counts describe that publication. Current verification checks the revised headings, internal anchors, referenced source paths, complete examples and governing calculations. It also compares publication bytes and the complete diff against the identified baseline. Compiler integration changes this master and `docs/STORE-ZERO-SPECIFICATION.md`; the approved README, executable source/data/tests, runtime pin, deployment configuration, patents and sealed Project 1 evidence remain unchanged.
-
-Remaining discrepancies are identified in 15.2–15.3. Program and System revisions are confined to their documentary responsibilities. Current publication checks run at their own commits; original results in 14.5 remain separately reproducible. Physical and commercial questions retain their responsible owner and evidence stage.
+Required Store checks validate the catalog, manufacturing/contract/service boundaries, exact regenerated examples and current Project 1 proof, immutable source evidence, links, source digest, independent Q reconciliation and benchmark behavior. System must pass tests, production build, type checking and the actual five-project Chromium proof against the exact clean pinned Store checkout. Program checks its supporting navigation. Per-run CI identities and artifacts establish which revisions were exercised; an earlier green run does not verify later code.
 
 ### 15.6 Subsequent permanent preservation and repository disposition
 
-The structural-cleanup baseline is Store **a88a2b52681f2f2926d841795c4e5a03a60e2c42**, System **20b01b55f6d1ccdf275285f075bfc2cfe1bdad31**, and Program **04ec327df39a54e92aae65ef4b07d10f2c8a8985** (read-only during that cleanup). System's exact executable Store pin remains **f7123a73c1ca60aa7eb180a86a1c365eaffe95db**. Documentary `main` commits do not move that integration pin.
+Supporting directories have distinct owners: `src/` supplies one service/request boundary, catalog interpretation, manufacturing core, packet verification, lowering and commercial gate; `data/` supplies registered stock/model/economics inputs; `contracts/examples/` supplies reproducible exchanges; `acceptance/` supplies boundaries, current proof checks and immutable source recordings; `tests/` supplies current behavior checks; `docs/` supplies the specification, issued sources and living Project 1 trail; `scripts/` supplies regeneration and verification. Removing evidence or weakening a check is not an alignment strategy.
 
-**The permanent preservation instruction superseded the original shortening proposal.** The complete operative specification and both masters remain independent engineering documents. Their technical depth is retained while current explanations are reconciled in place. Original documentary revisions remain accessible in Git. The full `docs/project-1-digital-trail/`, issued files in `docs/patents/`, sealed `acceptance/project-1/` evidence, historical recordings and original publication identities remain byte-identical. Approved READMEs remain unchanged. Program now integrates the evidence and supervised-trial explanation within its own research responsibility.
+A successor capability-impact engine is a core development requirement. It preserves the complete refused/unresolved demand and identified capability gap, evaluates a separately registered proposed configuration through the deterministic compiler/Store, and compares newly feasible work, time, Q, investment, utilization and complete service cost. Proposed results remain hypothetical and cannot alter today's capability or grant release. Learning may identify patterns; it cannot replace deterministic requirement satisfaction.
 
-The surviving Store tree has one service/request boundary, one catalog, one manufacturing core, one packet/machine-evidence route and one commercial gate. Each supporting directory has a distinct purpose: `acceptance/` preserves boundaries, contract/capability checks and original/differential evidence; `contracts/examples/` preserves reproducible exchanges; `data/` holds stock, declared machine configuration and price/source attribution; `docs/` preserves the complete specification, patents and Project 1 trail; `tests/` checks current protocol, service, manufacturing, commercial and deployment behavior; `scripts/` supplies catalog/example/digest/deployment checks, historical migration replay and fresh benchmarking. In particular, `scripts/build-migration-audit.mjs` is imported by differential acceptance and reproduces the preserved NEW baseline; its name is not evidence that it is unused.
-
-The System commercial design map remains at its established path because this protected specification references it. Its full relevant explanation is now incorporated, in original sequence and with proposal/current distinctions, in chapter 10 of both masters. System's dated verification note remains independently linked from Program, with current source diagnostics clearly distinguished from earlier observations. Current Outdoor source-comparison pages remain linked from its live Rule Book. None of those references is retired merely to reduce a file count. Store has no further executable or evidence file whose independent purpose is shown to have ended in this pass.
-
-The structural cleanup recorded tracked-file hashes, Git blobs, byte counts and repository heads and checked preservation against that baseline. Current compiler integration verifies the exact seven-file documentary scope across the repositories, unchanged protected paths and the intact original Project 1 chapter. It checks reconciled calculations against the published System rules and both identified Store sources. CI and Chromium assess executable behavior separately. The executable discrepancies retain their named files, causes, proposed corrections and tests; document edits do not repair them. **NO BLOOD ON WOOD.**
+Adding a third or fourth machine must extend registered capability and execution mappings without rebuilding System's customer-definition compiler. The successor must prove this with unchanged definitions, complete requirement coverage and separately identified current/proposed results. This is an architectural acceptance requirement, not installed current behavior. **NO BLOOD ON WOOD.**

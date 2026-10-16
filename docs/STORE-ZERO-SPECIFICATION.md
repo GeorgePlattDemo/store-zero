@@ -100,4 +100,4 @@ A manufacturing answer, seller offer, customer decision, seller order, financial
 
 # Appendix D. Executable examples
 
-Regenerate protocol requests, accepted/refused packets and machine evidence with `npm run build:examples`. `scripts/build-contract-examples.mjs` authors explicit test manifests; it is not a runtime authority. Acceptance checks that the committed examples exactly match current executable output.
+Regenerate protocol requests, accepted/refused packets and machine evidence with `npm run build:examples`. `scripts/build-contract-examples.mjs` authors explicit test manifests; it is not a runtime authority. Acceptance checks that the committed examples exactly match current executable output. The same generator maintains all six complete reference inquiries and returned summaries in Store master chapter 8, their ledger table, and the current Project 1 machine binding. Those master results also fail acceptance if stale.

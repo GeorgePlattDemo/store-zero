@@ -1,7 +1,6 @@
-// Project 1's definition, read from the sealed evidence, with the facts it was priced on now stated.
-// The review's inquiry named no grade and carried its end geometry beside the demand (the review, "Ends and length datum":
-// parallel face miters, long-long outer edge). Store now reads both in the definition, so the sealed inquiry
-// is asked for them; stated, this Store gives the review's whole answer, hashes included (acceptance/project-1).
+// Treated-lumber comparison derived from the sealed source specimen with explicit grade/end geometry.
+// Its current core answer has its own Q and calculation identities. Current SPF Project 1 proof is generated
+// by scripts/build-contract-examples.mjs for both public settings. Original evidence remains unchanged.
 import { readFileSync } from "node:fs";
 
 export const PROJECT_1_GRADE = "above-ground";

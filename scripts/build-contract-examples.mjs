@@ -222,6 +222,28 @@ export function currentProject1Review(proof=currentProject1Proof()) {
   return lines.join('\n')+'\n';
 }
 
+export function currentMasterExamples(text=readFileSync(join(ROOT,'STORE-ZERO-MASTER.md'),'utf8')) {
+  const source=sourceDigest(),release='source-sha256:'+source.digest;
+  const answers=[];
+  text=text.replace(/<!-- current-request ([\w-]+) -->\n```json\n([^]*?)\n```\n\n<!-- current-result \1 -->\n```json\n[^]*?\n```/g,(_whole,id,input)=>{
+    const request=JSON.parse(input),answer=evaluateStoreRequest(request,{release,now:()=>EXAMPLE_CLOCK});
+    const summary=Object.fromEntries(['status','complete','Q','reasonCodes','totals','time','selectedStock','optimization','calculationIdentity','evaluationReceipt'].filter(k=>answer[k]!==undefined).map(k=>[k,answer[k]]));
+    summary.ledgerRecords=answer.operations?.length??0;summary.physicalAuthority=false;
+    answers.push({id,answer});
+    return '<!-- current-request '+id+' -->\n```json\n'+JSON.stringify(request,null,2)+'\n```\n\n<!-- current-result '+id+' -->\n```json\n'+JSON.stringify(summary,null,2)+'\n```';
+  });
+  if(answers.length!==6)throw Error('The master requires six complete current reference requests');
+  const table=['| Reference inquiry | Status | Manufacturing Q USD | Modeled seconds | Search complete |',
+    '| --- | --- | ---: | ---: | --- |',...answers.map(({id,answer:a})=>'| '+id+' | '+a.status+' | '+(a.Q??'absent')+' | '+(a.time?.totalSeconds??'absent')+' | '+(a.optimization?.searchComplete??'not evaluated')+' |')].join('\n');
+  const ledger=['| Reference inquiry | Ledger records | Modeled moves | Occupied seconds | Physical authority |',
+    '| --- | ---: | ---: | ---: | --- |',...answers.map(({id,answer:a})=>'| '+id+' | '+(a.operations?.length??'absent')+' | '+(a.operations?.filter(o=>o.kind==='MOVE').length??'absent')+' | '+(a.time?.totalSeconds??'absent')+' | false |')].join('\n');
+  const specimen=currentProject1Proof().specimens[1];
+  const machine={status:'VIRTUAL_EVIDENCE_READY',physicalAuthority:false,recordsBinding:specimen.records.binding,evidenceClass:specimen.records.evidenceClass,expectedSeconds:specimen.records.expectedSeconds,run:specimen.run,admission:specimen.admission};
+  return text.replace(/<!-- current-examples-table -->[^]*?<!-- end-current-examples-table -->/,'<!-- current-examples-table -->\n'+table+'\n<!-- end-current-examples-table -->')
+    .replace(/<!-- current-ledger-table -->[^]*?<!-- end-current-ledger-table -->/,'<!-- current-ledger-table -->\n'+ledger+'\n<!-- end-current-ledger-table -->')
+    .replace(/<!-- current-machine-example -->[^]*?<!-- end-current-machine-example -->/,'<!-- current-machine-example -->\n```json\n'+JSON.stringify(machine,null,2)+'\n```\n<!-- end-current-machine-example -->');
+}
+
 export function buildExamples() {
   const files = {};
   const put = (path, value) => { files[path] = JSON.stringify(value, null, 2) + "\n"; };
@@ -243,6 +265,7 @@ export function buildExamples() {
   const proof=currentProject1Proof();
   put('docs/project-1-digital-trail/current-proof.json',proof);
   files['docs/project-1-digital-trail/current-proof.md']=currentProject1Review(proof);
+  files['STORE-ZERO-MASTER.md']=currentMasterExamples();
   return files;
 }
 
