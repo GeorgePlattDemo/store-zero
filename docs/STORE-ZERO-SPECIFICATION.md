@@ -14,6 +14,16 @@ Manifest fields are jobId, revision, boardPartIds, sheetPackageIds, featureIds, 
 
 Angled packages independently state the end relation, cut plane, measured length datum and any required endpoint orientation. The registered face-miter operation accepts parallel ends; long-long-outer-edge length and explicit long-point-to-short-point/long-to-short geometry have their respective stock-envelope mappings. Missing or unknown end meaning remains unresolved; an unsupported plane or out-of-range angle receives a specific refusal and human-readable explanation. A centered spot cannot also declare an edge inset or noncentered coordinate. No missing angle becomes square; no missing amount becomes zero.
 
+# 1.1. Required manufacturing meaning and extension contract
+
+*Authority category: Adopted engineering requirements*
+
+The [System manufacturing meaning contract](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md#manufacturing-terminology-source-words-versus-physical-requirements) governs shared physical terminology. System master [chapter 8](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#86-required-manufacturing-chain-for-every-project) governs the required transitions and owns the [single conformance register](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#155-manufacturing-contract-conformance-register). This specification governs Store's obligations. Required behavior and verified implementation status remain explicit; existing executable behavior cannot silently redefine a physical requirement.
+
+Store evaluates the identified physical result, exact operands, independent manifest and unresolved conditions it receives. A project name or source word cannot select a hidden capability exception. Reject unknown fields and malformed explicit values at the declared boundary; preserve reasons and missing requirements. Do not turn null or invalid depth into the nominal operation, treat a partial plan as complete, or discard unsupported features before checking coverage.
+
+Existing request shapes may represent new projects using existing operations without a Store project-specific path. A new representation, physical result or machine function requires a versioned contract/configuration decision, complete operand domains, applicable material/stock/control limits, planning and lowering support, and unfavorable acceptance cases. A named feature is answered only when all its required parameters and physical result are evaluated. Identity-set equality alone cannot prove parameter fidelity.
+
 # 2. Catalog and material selection
 
 *Authority category: Current System Behavior*
@@ -43,6 +53,18 @@ The D-001 longitudinal router diameter is **1 in**, axial pass depth **0.75 in**
 Each operation states kind, subject, parent, cell, category, billing basis, seconds, sequence, start and end. Occupancy is serial and returned whole-job time is the sum of this same ledger. Search memoization preserves all six declared pose coordinates (C, Y, A, S, Z, RZ); per-part geometry signatures and bounded cycle caches are evaluation-local. Malformed nested rows at either exported core entry point return named `OBJECT_REQUIRED` refusals instead of throwing. MOVE durations use declared acceleration and velocity; cutting feed is explicit. Geometry checks cover kerf, face datums, retained control, tool engagement, milling passes, inset/centered spots, sheet apertures/splits/tabs and returned pieces.
 
 All timing is modeled. Full width saw stroke, rim-cut allowance, nominal datum capture, stock-control evidence and sheet tab strength retain explicit physical gaps. A mathematical quote never establishes machine commissioning or physical production authority.
+
+## Required D-001 selected-depth and location contract
+
+*Authority category: Adopted engineering requirements; implementation is stated in the registered-function paragraph above*
+
+The registered pointed drill is 0.1875 inch in diameter at a 118-degree included point angle. Separate its nominal full-diameter penetration from its maximum: both are currently 0.1875 inch, but an explicitly requested supported depth is a feature operand. The required range is strictly positive and no greater than the registered maximum. Each admitted feature uses its own requested depth plus point height to derive actual Z target, movement duration and whole-job occupied time and Q. Do not merely admit a shallower input while generating the maximum-depth move. Do not round, clamp, substitute or silently omit an explicit value.
+
+An omitted depth adopts the registered nominal only where the definition selected the named standard spot and its default rule. An unspecified imported hole or pilot has no inferred depth. Reject wrong diameter, invalid/nonfinite/null depth, excessive penetration, flat-bottom spotface, unsupported axis or location, and any incompatible physical result. Distinguish the conical point from full-diameter penetration and from approach/clearance movement. Keep the maximum as a registered capability fact; do not make the customer carry a machine-local Z command.
+
+Each spot retains feature identity, component identity, declared part datum, longitudinal X and the supported across-width representation. A derived center rule and an explicit part-relative coordinate are distinct. Check tool-radius clearances and actual registered stock/travel/control limits without moving the requested position. Arbitrary Y is not implied by a centered/inset interface. Required geometric operands survive evaluated component records, receipt, accepted packet, lowering and replay.
+
+Acceptance must vary two features independently so one nominal depth cannot hide the other feature's shallower request. Check the actual plunge target and processing duration, complete plan timing, calculation/receipt binding, unfavorable cases and unchanged nominal examples. Preserve registered tool/configuration identity and blocked physical authority.
 
 # 4. Fresh receipts and accepted packets
 
@@ -91,6 +113,16 @@ Preserved records include `acceptance/project-1/from-evidence/`, `acceptance/fix
 The supplied 22 independent self-checks are in `tests/core-self-checks.mjs`, executed by `tests/manufacturing-core.test.mjs`.
 
 `acceptance/differential/core-replay-baseline.json` explicitly classifies every 1,786 historical recording: 844 public job inputs replay against the new declared model, with no guessed missing facts, and 942 retired internal-export cases are classified as retired. `scripts/build-migration-audit.mjs` reproduces this NEW baseline; it does not claim equality with the old engine. Protocol, forged/stale packets, occupancy faults, catalog rules, independent Q reconciliation, current HTTP transport, exact examples, source digest and commercial prerequisites have current tests.
+
+## Maintained proof and release obligations
+
+*Authority category: Adopted engineering requirements*
+
+Current proof is a reproducible account of the current executable chain, not a frozen publication. Preserve the complete 16-inch and 18-inch SPF defaults and add separately identified selected-location/shallower-depth evidence when that behavior is integrated. Each specimen retains its request, independent manifest, actual answer/receipt, accepted packet, verification, exact local plan, modeled records, complete replay and blocked physical admission. Its report derives geometry and timing from that specimen's actual request, registration and evaluated operations rather than labeling every feature with the registered maximum.
+
+The existing generator and exact-output acceptance own the current reference JSON and Markdown, master inquiry examples and machine bindings. Extend those owners; never hand-edit calculated results or sealed evidence to manufacture agreement. System's browser proof must also accept and lower the selected revision through real HTTP. Source-content digest and immutable git release identify different things and must remain distinct. Fixed specimen clocks are deterministic example inputs, not transaction dates.
+
+For every consequential change, amend the affected specification, masters, shared definitions and Program claims without reducing technical content. Check current owner links and anchors, regenerate examples and run Store acceptance, catalog rules and the evaluation benchmark. System separately verifies its exact pin across runtime, source, workflow, browser acceptance and startup and reruns the public chain. Deployment completion requires observed deployed release/source identity and fresh matching receipts, not merely a main-branch merge. The root READMEs remain frozen for this authorized work.
 
 # 20.2. One authority per decision
 
