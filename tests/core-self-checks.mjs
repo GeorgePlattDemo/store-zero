@@ -111,7 +111,7 @@ export async function runSelfChecks(catalog) {
   });
   await check('angle alone and carried unevaluated job requirements cannot complete the job', () => {
     const j = clone(five); j.boards[0].endCut.angleDeg = 25;
-    assert.ok(evaluate(j).reasonCodes.includes('MITER_END_GEOMETRY_NOT_EVALUATED'));
+    assert.ok(evaluate(j).reasonCodes.includes('END_RELATION_NOT_REGISTERED'));
     j.boards[0].endCut.angleDeg = 0; j.manifest.unresolvedRequirements = ['REQUESTED_SANDING_NOT_EVALUATED'];
     assert.equal(evaluate(j).status, 'UNRESOLVED'); assert.equal(evaluate(j).Q, null);
   });
