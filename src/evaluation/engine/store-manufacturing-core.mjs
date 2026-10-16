@@ -838,9 +838,11 @@ function refusal(p, extra = {}) {
   const reasonCodes = extra.reasonCodes ?? [p.code];
   const reasonRecords = (extra.reasonRecords ?? [{code:p.code,subject:p.subject,authority:'STORE',status:p.status}])
     .map(r => ({...r,message:reasonMessageForCode(r.code,r.subject,r.code===p.code?p.details:{})}));
-  return {status:p.status,complete:false,Q:null,totals:null,
-    ...p.details,...extra,reasonCodes,reasonRecords,reasonMessage:reasonRecords.map(r=>r.message).join(' '),
-    physicalRelease:false,physicalAdmission:'BLOCKED'};
+  // Retain original key order for the unchanged historical answer fields.
+  // New explanatory metadata is appended; legacy sealed evidence is not rewritten.
+  return {status:p.status,complete:false,Q:null,totals:null,reasonCodes,reasonRecords,
+    physicalRelease:false,physicalAdmission:'BLOCKED',
+    ...p.details,...extra,reasonCodes,reasonRecords,reasonMessage:reasonRecords.map(r=>r.message).join(' ')};
 }
 
 export function evaluateManufacturingJob(catalog, job, model = createModel()) {
