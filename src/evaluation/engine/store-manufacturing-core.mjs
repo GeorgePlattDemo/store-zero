@@ -825,10 +825,22 @@ function* parentPatterns(task, remaining, row, model) {
   for (const indices of counts(0, 0, [])) yield indices.sort((a, b) => a - b);
 }
 
+export function reasonMessageForCode(code, subject = 'job', details = {}) {
+  if (code === 'END_ANGLE_OUTSIDE_MODEL') return `Requested end angle ${details.requestedAngleDeg ?? 'unknown'}° exceeds the registered saw limit of ${details.registeredMaximumAngleDeg ?? createModel().dimensional.saw.maxAngleDeg}°.`;
+  if (code === 'END_RELATION_NOT_REGISTERED') return `The declared end relation for ${subject} cannot be made with the registered parallel-end operation.`;
+  if (code === 'CUT_PLANE_NOT_REGISTERED') return `The declared cut plane for ${subject} has no registered manufacturing operation.`;
+  if (code === 'LENGTH_DATUM_GEOMETRY_UNRESOLVED') return `The declared length datum for ${subject} cannot be converted to a stock envelope without a defined geometric interpretation.`;
+  if (code === 'END_POINT_ORIENTATION_CONTRADICTS_DATUM') return `The end-point orientation for ${subject} contradicts the stated length datum.`;
+  if (code === 'ON_HAND_SHORT') return `The available stock cannot accommodate the geometry-derived material envelope for ${subject}.`;
+  return `Store cannot support ${subject}: ${String(code).replace(/[_:]/g,' ').toLowerCase()}.`;
+}
 function refusal(p, extra = {}) {
-  return { status: p.status, complete: false, Q: null, totals: null, reasonCodes: [p.code],
-    reasonRecords: [{ code: p.code, subject: p.subject, authority: 'STORE', status: p.status }],
-    physicalRelease: false, physicalAdmission: 'BLOCKED', ...p.details,...extra };
+  const reasonCodes = extra.reasonCodes ?? [p.code];
+  const reasonRecords = (extra.reasonRecords ?? [{code:p.code,subject:p.subject,authority:'STORE',status:p.status}])
+    .map(r => ({...r,message:reasonMessageForCode(r.code,r.subject,r.code===p.code?p.details:{})}));
+  return {status:p.status,complete:false,Q:null,totals:null,
+    ...p.details,...extra,reasonCodes,reasonRecords,reasonMessage:reasonRecords.map(r=>r.message).join(' '),
+    physicalRelease:false,physicalAdmission:'BLOCKED'};
 }
 
 export function evaluateManufacturingJob(catalog, job, model = createModel()) {
