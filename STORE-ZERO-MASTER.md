@@ -746,7 +746,7 @@ Tasks run as sorted board groups, then sheet packages, then pooled hardware sele
 
 Before searching, Store may prove a shortage using the optimistic length capacity `sum(available parents × floor((parent length − reference kerf − minimum retained length)/(part length + kerf)))` for each required part length. If this upper bound is below the required count, the job returns `UNAVAILABLE / ON_HAND_SHORT`, with its required count and candidate stock capacity. Passing the bound does not establish a plan; tooling, features, competing parts and cumulative inventory still require complete evaluation.
 
-Angles must be numeric from 0 to 45 degrees. A nonzero angle requires parallel, long-long, miter-face end meaning. Missing nonzero end meaning is unresolved; an out-of-model angle is refused. Square packages can omit those redundant end facts, but supplied facts must agree. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
+Angles must be numeric and within the registered saw limit (45° in the adopted model). End relation and cut plane are independently checked against registered parallel face-miter operations. The length datum is a System-owned part fact, not an invented closed list: long-long outer-edge needs no added end offset; explicit long-point-to-short-point with its matching endpoint orientation is converted using actual stock width × tan(angle). Any unknown datum remains UNRESOLVED rather than silently treated as long-long. Every refusal contains its code and human-readable message. Square packages may omit redundant end facts. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
 
 Hardware and sheet eligibility use their own selector and model rules. The engine does not substitute a different wood grade, change a customer's fastener finish, or shrink an aperture to rescue feasibility.
 
@@ -2540,11 +2540,13 @@ Eligible shorter parents remain available for shorter runs while each assigned p
 
 ### 8.5 Outdoor
 
-The [Ana White source](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) supplies the A-frame's angled-end lengths as long-point-to-short-point dimensions and specifies a bevel for the center supports. System preserves those dimensions and the support cut plane. It supplies no unverified conversion to Store's registered long-long face-miter datum. The resulting complete request remains UNRESOLVED with no Q; its unsupported requirements are not dropped to obtain a price.
+The [Ana White source](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) calls the cross-support cut a “bevel.” That source wording is retained only as attributed evidence. The operative System definition is 25° parallel face-miter ends with a long-point-to-short-point length and a separately declared long-to-short endpoint orientation. The Store derives the stock envelope from the selected board's actual width: 32.875 + 3.5 × tan(25°) ≈ 34.507 in for each cross support. The finished length remains 32.875 in; parent feasibility, packing, inventory capacity, modeled motion and Q consume the longer stock envelope. A separately preserved description in the older source PDF contradicts the drawing's parallelism; it belongs to that PDF revision, not to the operative end-plane definition. These are model calculations, not physical admission or a recorded sale.
 
 The selected wood is an application/customer variant applied across its groups. The source recommends untreated tabletop/seat boards and permits treated legs/supports; an all-treated variant is not labeled the source's wood recommendation. Screw gauge and inferred hardware counts remain attributed application choices.
 
 The separately selectable table-and-benches plan uses square cuts. Its supported definitions still receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
+
+**Superseded sealed source request and response (unaltered):** The following JSON was published with the former `bevel-edge` classification and `MITER_END_GEOMETRY_NOT_EVALUATED` refusal. Its original request, receipt, and result hashes remain preserved as evidence of that former revision. They must not be used as a current Store quote or rewritten to portray a new test result.
 
 **Complete reference request and current returned summary**
 
@@ -4749,10 +4751,13 @@ The following register gives the actual core conditions, extracted from the froz
 | `JOB_REQUIREMENTS_REMAIN_UNEVALUATED` | UNRESOLVED | `Array.isArray(m.unresolvedRequirements) && m.unresolvedRequirements.length === 0` |
 | `BOARD_MATERIAL_REQUIRED` | UNRESOLVED | `text(b.material.species) && b.material.form === 'board' && positive(b.material.nominalT) && positive(b.material.nominalW)` |
 | `END_ANGLE_OUTSIDE_MODEL` | REFUSED | `number(b.endCut.angleDeg) && b.endCut.angleDeg >= 0 && b.endCut.angleDeg <= 45` |
-| `MITER_END_GEOMETRY_NOT_EVALUATED` | UNRESOLVED | `b.endCut.endRelation === 'parallel' && b.endCut.lengthDatum === 'long-long-outer-edge' && b.endCut.plane === 'miter-face'` |
-| `END_RELATION_NOT_DECLARED` | REFUSED | `b.endCut.endRelation === 'parallel'` |
-| `LENGTH_DATUM_NOT_DECLARED` | REFUSED | `b.endCut.lengthDatum === 'long-long-outer-edge'` |
-| `CUT_PLANE_NOT_DECLARED` | REFUSED | `b.endCut.plane === 'miter-face'` |
+| `END_RELATION_NOT_REGISTERED` | UNRESOLVED | The requested end relation is not supported by the registered operation |
+| `CUT_PLANE_NOT_REGISTERED` | UNRESOLVED | The requested cut plane is not registered |
+| `LENGTH_DATUM_GEOMETRY_UNRESOLVED` | UNRESOLVED | The declared datum has no defined stock-envelope transform |
+| `END_POINT_ORIENTATION_CONTRADICTS_DATUM` | UNRESOLVED | Endpoint orientation contradicts the measured datum |
+| `END_RELATION_REQUIRED` | UNRESOLVED | Provided end relation must be meaningful text |
+| `LENGTH_DATUM_REQUIRED` | UNRESOLVED | An angled part needs a declared dimensional datum |
+| `CUT_PLANE_REQUIRED` | UNRESOLVED | Provided cut plane must be meaningful text |
 | `FINISHED_WIDTH_INVALID` | REFUSED | `positive(b.finishedWidthIn)` |
 | `TWO_EDGE_GEOMETRY_REQUIRED` | REFUSED | `positive(b.finishedWidthIn) && positive(b.edgePreparation.farEdgeRemovalIn) && positive(b.edgePreparation.fenceEdgeRemovalIn)` |
 | `MINIMUM_PARENT_LENGTH_INVALID` | REFUSED | `positive(b.minimumParentLengthIn)` |
