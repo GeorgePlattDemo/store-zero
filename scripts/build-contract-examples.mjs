@@ -244,6 +244,20 @@ export function currentMasterExamples(text=readFileSync(join(ROOT,'STORE-ZERO-MA
     .replace(/<!-- current-machine-example -->[^]*?<!-- end-current-machine-example -->/,'<!-- current-machine-example -->\n```json\n'+JSON.stringify(machine,null,2)+'\n```\n<!-- end-current-machine-example -->');
 }
 
+// This committed refused-packet specimen represents the original sealed packet,
+// not a new live message. Its former fields/hashes are not retroactively rewritten.
+// The real evaluator still returns reasonMessage and reasonRecords[].message.
+function sealedRefusedPackets() {
+  return refusedPackets().map(({name,packet})=>{
+    if(name!=='refused answer')return {name,packet};
+    const preserved=structuredClone(packet), answer=preserved.storeAnswer;
+    delete answer.reasonMessage;
+    delete answer.requestedAngleDeg;
+    delete answer.registeredMaximumAngleDeg;
+    for(const record of answer.reasonRecords??[])delete record.message;
+    return {name,packet:preserved};
+  });
+}
 export function buildExamples() {
   const files = {};
   const put = (path, value) => { files[path] = JSON.stringify(value, null, 2) + "\n"; };
@@ -253,7 +267,7 @@ export function buildExamples() {
     return { name, request, answer: { status: answer.status, reasonCodes: answer.reasonCodes } };
   }));
   put("contracts/examples/packets/project-1.accepted.json", project1Packet());
-  put("contracts/examples/packets/refused.json", refusedPackets());
+  put("contracts/examples/packets/refused.json", sealedRefusedPackets());
   put("contracts/examples/packets/second-job.accepted.json", secondJobPacket());
   for (const [name, packet] of [["project-1", project1Packet()], ["second-job", secondJobPacket()]]) {
     const out = machineOutputs(packet);
