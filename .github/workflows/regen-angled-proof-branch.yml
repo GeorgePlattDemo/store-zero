@@ -1,0 +1,28 @@
+name: Regenerate living evidence on repair branch
+on:
+  push:
+    branches:
+      - repair/parallel-end-length-datum-20261015
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: repair/parallel-end-length-datum-20261015
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run build:examples
+      - name: Commit generated evidence to review branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add contracts/examples docs/project-1-digital-trail/current-proof.json docs/project-1-digital-trail/current-proof.md STORE-ZERO-MASTER.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Regenerate exact living proof from changed manufacturing source"
+            git push
+          fi
