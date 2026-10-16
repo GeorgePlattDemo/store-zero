@@ -1,0 +1,30 @@
+name: Refresh current proof for spot-depth repair
+on:
+  push:
+    branches: [feature/manufacturing-terms-spot-depth-20261016]
+    paths:
+      - .github/workflows/refresh-spot-proof.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate actual current Store artifacts
+        run: npm run build:examples
+      - name: Commit generated current proofs without rewriting sealed history
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/project-1-digital-trail/current-proof.json docs/project-1-digital-trail/current-proof.md STORE-ZERO-MASTER.md
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh executable Project 1 evidence under depth-aware Store core'
+            git push origin HEAD:feature/manufacturing-terms-spot-depth-20261016
+          fi
