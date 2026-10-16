@@ -1,6 +1,6 @@
 # Project 1 current digital manufacturing proof
 
-The original Project 1 publication is historical evidence, not architectural authority. The separate generated SPF cases below provide current integration acceptance evidence. Executable contracts govern behavior; consequential changes require these outputs and operative documentation to agree.
+The original Project 1 publication is historical evidence, not architectural authority. The current proof uses the unchanged 3/16-inch nominal spot-depth examples. The registered D-001 function also admits independently stated shallower positive full-diameter depths, with each accepted feature's Z travel and time recomputed. Those alternative customer choices require their own revision, receipt and evidence; they are not retroactively inserted into the original specimens. The separate generated SPF cases below provide current integration acceptance evidence. Executable contracts govern behavior; consequential changes require these outputs and operative documentation to agree.
 
 - [Current engineering review](current-proof.md) describes both the 16-inch SPF default and 18-inch variation, their complete evaluated ledgers and evidence limits.
 - [Complete current reference evidence](current-proof.json) contains each request, independent manifest, fresh answer, simulated accepted packet, verification, local job, virtual records, replay and physical admission.
