@@ -88,11 +88,59 @@ test('D-001 registered 3/16-in pointed-drill spot is never modeled deeper than i
  deeper.parts[0].features[0].fullDiameterDepthIn=0.25;
  const refused=ask(deeper,'deeper');
  assert.equal(refused.status,'REFUSED');
- assert.ok(refused.reasonCodes.includes('SPOT_DEPTH_NOT_DECLARED'));
+ assert.ok(refused.reasonCodes.includes('SPOT_FULL_DIAMETER_DEPTH_EXCEEDS_MAX'));
  assert.equal(refused.Q,null);
  const shallower=structuredClone(nominal);
  shallower.parts[0].features[0].fullDiameterDepthIn=0.125;
- const fixedRange=ask(shallower,'shallower');
- assert.equal(fixedRange.status,'REFUSED');
- assert.ok(fixedRange.reasonCodes.includes('SPOT_DEPTH_NOT_DECLARED'));
+ shallower.parts[0].features[0].locationRule='PART_RELATIVE_FROM_START';
+ shallower.parts[0].features[0].xIn=5.25;
+ const shortened=ask(shallower,'shallower');
+ assert.equal(shortened.status,'SUPPORTABLE',JSON.stringify(shortened.reasonRecords));
+ const spotDrillZ=shortened.operations.filter(e=>e.kind==='MOVE'&&e.axis==='Z'&&e.category==='SPOT'&&e.subject==='SPOT-1'&&e.target<parent.actualT);
+ assert.equal(spotDrillZ.length,1);
+ assert.ok(Math.abs(spotDrillZ[0].target-(parent.actualT-pointHeight-0.125))<1e-9);
+ const defaultDepthMove=answer.operations.find(e=>e.kind==='MOVE'&&e.axis==='Z'&&e.category==='SPOT'&&e.subject==='SPOT-1'&&e.target<parent.actualT);
+ assert.ok(defaultDepthMove,'the default depth must produce a modeled plunge');
+ assert.ok(spotDrillZ[0].seconds < defaultDepthMove.seconds,
+   'the shallower plunge must be shorter even when the selected X changes indexed travel time');
+ assert.notEqual(shortened.time.totalSeconds,answer.time.totalSeconds,'changing the job must recalculate whole-job timing');
+ assert.notEqual(shortened.calculationIdentity.resultHash,answer.calculationIdentity.resultHash);
+ const invalidLocation=structuredClone(shallower);
+ invalidLocation.parts[0].features[0].xIn=0;
+ const locationRefusal=ask(invalidLocation,'off-board');
+ assert.equal(locationRefusal.status,'REFUSED');
+ assert.ok(locationRefusal.reasonCodes.includes('SPOT_TOOL_LEAVES_PART_END'));
+ const wrongDiameter=structuredClone(nominal);
+ wrongDiameter.parts[0].features[0].toolDiameterIn=0.25;
+ const wrongDrill=ask(wrongDiameter,'wrong-drill');
+ assert.equal(wrongDrill.status,'REFUSED');
+ assert.ok(wrongDrill.reasonCodes.includes('SPOT_DIAMETER_NOT_DECLARED'));
+ const missingInterpretation=structuredClone(nominal);
+ missingInterpretation.parts[0].features[0].kind='FLAT_BOTTOM_SPOTFACE';
+ const flat=ask(missingInterpretation,'flat-surface');
+ assert.equal(flat.status,'REFUSED');
+ assert.ok(flat.reasonCodes.includes('FEATURE_KIND_NOT_HANDLED'));
+});
+
+// Explicit operands are not defaults, including malformed JSON values.
+test('each spot depth independently controls its own move and invalid depths never become nominal',()=>{
+ const registration=loadMachineConfig().model.dimensional.spot;
+ assert.equal(registration.maximumFullDiameterDepthIn,0.1875);
+ const ask=d=>evaluateStoreRequest(identifiedRequest('USER_DEFINED_BOARD_V1',d,'INDEPENDENT-DEPTHS'),{release:'DEPTHS',catalog:loadCatalog(),now:()=> '2026-10-16T12:00:00.000Z'});
+ const demand=structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND);
+ demand.parts[0].features[0].fullDiameterDepthIn=0.125;
+ demand.parts[1].features[0].fullDiameterDepthIn=0.0625;
+ const answer=ask(demand);assert.equal(answer.status,'SUPPORTABLE',JSON.stringify(answer.reasonRecords));
+ const point=(registration.diameterIn/2)/Math.tan(registration.pointAngleDeg*Math.PI/360);
+ const thickness=answer.parents.find(p=>p.kind==='board').actualT;
+ for(const [i,depth] of [0.125,0.0625].entries()){
+  const moves=answer.operations.filter(o=>o.kind==='MOVE'&&o.axis==='Z'&&o.subject==='SPOT-'+(i+1)&&o.target<thickness);
+  assert.equal(moves.length,1);assert.ok(Math.abs(moves[0].target-(thickness-point-depth))<1e-12);
+ }
+ for(const depth of [null,0,-0.1,'0.125','',false,0.187500000001,NaN,Infinity]){
+  const invalid=structuredClone(demand);invalid.parts[1].features[0].fullDiameterDepthIn=depth;
+  const refused=ask(invalid);assert.equal(refused.status,'REFUSED',String(depth));assert.equal(refused.Q??null,null);
+  if(depth!==null&&(typeof depth!=='number'||!Number.isFinite(depth))){assert.deepEqual(refused.reasonCodes,['DEFINITION_FIELD_TYPE:parts[1].features[0].fullDiameterDepthIn:number']);continue;}
+  assert.ok(refused.reasonCodes.includes(typeof depth==='number'&&Number.isFinite(depth)&&depth>0?'SPOT_FULL_DIAMETER_DEPTH_EXCEEDS_MAX':'SPOT_FULL_DIAMETER_DEPTH_INVALID'));
+ }
 });

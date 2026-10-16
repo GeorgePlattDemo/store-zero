@@ -1637,7 +1637,7 @@
     },
     "model": {
       "id": "STORE-MANUFACTURING-CORE-0.1",
-      "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+      "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
       "basis": "DECLARED_REFERENCE_MODEL",
       "measured": false
     },
@@ -2498,8 +2498,8 @@
       }
     ],
     "calculationIdentity": {
-      "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-      "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+      "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+      "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
     },
     "freshEvaluation": true,
     "evaluationReceipt": {
@@ -2512,21 +2512,21 @@
         "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
         "manufacturingModel": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
         },
         "machineConfiguration": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+          "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
         }
       },
       "demandHash": "5b4fdcea42a2ac75a1bd63bb375f532d0159a0ac5487ef468930a2c17d08be5c",
       "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
-        "inputHash": "e3faad57bcc36eb962dcc6845b102119aa749b17ab156266c01993dcb8e9c336",
-        "resultHash": "1ccfd4d34ef286d281a84c6b79e5d16664f4f3037305d3c0fd3b2d8b44c61e97"
+        "inputHash": "734df3000bb3e3b2bc7e1d09b255423339644ff22751b7e71b997d7de8be53fe",
+        "resultHash": "49b0fedb8a4eb043a33dd3f172f2de09060e06b102cf59e02719fcc2513ef3c6"
       },
-      "receiptHash": "19691bf8ec919a4118b0abe04725d4a95fc88de2aec8d75781b696af66a77843"
+      "receiptHash": "d029c210491280230e13be316ebd7c16674d3ed797c04ebc609dafffd9ed1705"
     }
   },
   "decision": {

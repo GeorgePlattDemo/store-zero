@@ -1,6 +1,6 @@
 /** Explicit cross-model audit: immutable recordings are historical evidence, not a second executable engine. */
 import {readFileSync,writeFileSync} from 'node:fs';import {gunzipSync} from 'node:zlib';import {createHash} from 'node:crypto';
-import {evaluateDefinition,createModel,calculationHash} from '../src/evaluation/engine/store-manufacturing-core.mjs';
+import {compileDefinition,evaluateDefinition,createModel,calculationHash} from '../src/evaluation/engine/store-manufacturing-core.mjs';
 import {recordedCatalogAsRead,toCurrentSchema} from '../acceptance/fixtures/recorded-catalog.mjs';import {testManifest} from '../tests/fixtures/manifest.mjs';
 const corpusPath=new URL('../acceptance/differential/pin-9c62d9d-answers.jsonl.gz',import.meta.url),bytes=readFileSync(corpusPath);
 export const recordings=gunzipSync(bytes).toString().trim().split('\n').map(JSON.parse);
@@ -18,6 +18,21 @@ function archivedCalculationView(answer) {
   return {...original,reasonRecords:answer.reasonRecords.map(({message,...record})=>record)};
 }
 export function replay(record){const args=JSON.parse(record.input,(_k,v)=>v&&typeof v==='object'&&!Array.isArray(v)?'$num'in v?Number(v.$num):'$catalog'in v?catalog(v.$catalog):v:v);const type=mapping[record.name];if(!type)return {key:record.key,evaluator:record.name,disposition:'RETIRED_INTERNAL_EXPORT'};const [c,d]=args;const demand=d&&typeof d==='object'?d:{};let manifest;try{manifest=testManifest(type,demand);}catch{manifest={jobId:demand.configurationId,revision:demand.configurationVersion,boardPartIds:[],sheetPackageIds:[],featureIds:[],items:[]};}
-const a=evaluateDefinition(c,{requestType:type,requestId:'MIGRATION-AUDIT:'+record.key,demand:d},manifest,createModel());return {key:record.key,evaluator:record.name,disposition:'NEW_MODEL_REPLAY',status:a.status,Q:a.Q??null,reasonCodes:a.reasonCodes,totalSeconds:a.time?.totalSeconds??null,resultHash:calculationHash(archivedCalculationView(a))};}
+const request={requestType:type,requestId:'MIGRATION-AUDIT:'+record.key,demand:d};
+const model=createModel(),a=evaluateDefinition(c,request,manifest,model);
+let view=archivedCalculationView(a);
+if(a.status==='SUPPORTABLE'){
+ const {calculationIdentity,...result}=a;
+ if(calculationIdentity.resultHash!==calculationHash(result))throw Error('CURRENT_RESULT_IDENTITY_INVALID');
+ const job=compileDefinition(request,manifest).job;
+ if(calculationIdentity.inputHash!==calculationHash({job,model,catalog:c}))throw Error('CURRENT_INPUT_IDENTITY_INVALID');
+ const archivedModel=structuredClone(model);
+ if(archivedModel.dimensional.spot.maximumFullDiameterDepthIn!==archivedModel.dimensional.spot.fullDiameterDepthIn)throw Error('HISTORICAL_NOMINAL_MAXIMUM_CHANGED');
+ delete archivedModel.dimensional.spot.maximumFullDiameterDepthIn;
+ const {calculationIdentity:ignored,...archivedResult}=view;
+ archivedResult.model={...archivedResult.model,hash:calculationHash(archivedModel)};
+ view={...archivedResult,calculationIdentity:{inputHash:calculationHash({job,model:archivedModel,catalog:c}),resultHash:calculationHash(archivedResult)}};
+}
+return {key:record.key,evaluator:record.name,disposition:'NEW_MODEL_REPLAY',status:a.status,Q:a.Q??null,reasonCodes:a.reasonCodes,totalSeconds:a.time?.totalSeconds??null,resultHash:calculationHash(view)};}
 export function buildAudit(){const results=recordings.map(replay),counts={};for(const r of results)counts[r.evaluator]=(counts[r.evaluator]??0)+1;return {change:'ADOPT-SHARED-MANUFACTURING-CORE-AND-MANIFEST-2',historicalCorpusSha256:createHash('sha256').update(bytes).digest('hex'),historicalRecords:recordings.length,counts,policy:'The supplied declared core replaces all previous geometry, time and Q exports. Replay states no missing geometry or grade and introduces an independently enumerated test manifest. Results are an explicit NEW baseline; old recordings remain immutable. Internal export coverage is replaced by the 21 independent supplied core checks and protocol/machine/commercial boundary tests.',results};}
 if(process.argv[1]&&new URL('file:'+process.argv[1]).href===import.meta.url){const audit=buildAudit();writeFileSync(new URL('../acceptance/differential/core-replay-baseline.json',import.meta.url),JSON.stringify(audit,null,2)+'\n');console.log(JSON.stringify({historicalRecords:audit.historicalRecords,counts:audit.counts,replayed:audit.results.filter(r=>r.disposition==='NEW_MODEL_REPLAY').length,supportable:audit.results.filter(r=>r.status==='SUPPORTABLE').length}));}

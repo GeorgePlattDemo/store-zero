@@ -4,7 +4,8 @@ import {testManifest} from "../tests/fixtures/manifest.mjs";
 // the frozen recorded catalog, and the acceptance release. `npm run build:examples` writes them;
 // acceptance/contracts fails if a committed example differs from what this produces.
 import { project1Demand } from "../tests/fixtures/project-1.mjs";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { mkdirSync, readdirSync, statSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { evaluateStoreRequest } from "../src/requests/store-request.mjs";
@@ -178,51 +179,53 @@ export function refusedPackets() {
 export function currentProject1Proof() {
   const source=sourceDigest(),release='source-sha256:'+source.digest;
   const context={release,catalog:loadCatalog(),now:()=>EXAMPLE_CLOCK};
-  const specimens=[16,18].map(lengthIn=>{
+  const specimens=[{id:'16',lengthIn:16},{id:'18',lengthIn:18},{id:'18-selected',lengthIn:18,selected:true}].map(({id,lengthIn,selected})=>{
     const demand=structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND);
-    demand.configurationVersion='current-'+lengthIn;
+    demand.configurationVersion='current-'+id;
     demand.sawAngleDeg=Number((Math.asin(8/lengthIn)*180/Math.PI).toFixed(12));
-    for(const part of demand.parts){part.lengthIn=lengthIn;part.features[0].xIn=lengthIn/2;}
-    const request={requestType:'USER_DEFINED_BOARD_V1',requestId:'CURRENT-PROJECT-1-'+lengthIn,demand,manifest:testManifest('USER_DEFINED_BOARD_V1',demand)};
+    for(const [i,part] of demand.parts.entries()){part.lengthIn=lengthIn;part.features[0].xIn=selected?[5.25,10.25][i]:lengthIn/2;
+      if(selected)Object.assign(part.features[0],{locationRule:'PART_RELATIVE_FROM_START',fullDiameterDepthIn:[0.125,0.0625][i]});}
+    const request={requestType:'USER_DEFINED_BOARD_V1',requestId:'CURRENT-PROJECT-1-'+id,demand,manifest:testManifest('USER_DEFINED_BOARD_V1',demand)};
     const answer=evaluateStoreRequest(request,context);
     const packet={schema:JOB_PACKET_SCHEMA,packetId:'PACKET-'+request.requestId,
-      project:{projectId:'PROJECT-1-CURRENT-'+lengthIn,classId:demand.classId,title:demand.title},
+      project:{projectId:'PROJECT-1-CURRENT-'+id,classId:demand.classId,title:demand.title},
       definition:{definitionId:demand.configurationId,revisionId:demand.configurationVersion,requestType:request.requestType,demand,manifest:request.manifest,requirements:{endRelation:demand.endRelation,lengthDatum:demand.lengthDatum}},
       storeAnswer:answer,decision:{decisionId:'DECISION-'+request.requestId,kind:'ACCEPTED',offerId:'OFFER-'+request.requestId,decidedAt:'2026-10-08T12:05:00.000Z',evidenceClass:'SIMULATED'},authority:{physicalRelease:false,evidenceClass:'SIMULATED'}};
     const verification=verifyJobPacket(packet,context),lowered=lowerJobPacket(packet,context);
     if(verification.status!=='VERIFIED'||lowered.status!=='LOWERED')throw Error('Current Project 1 cannot verify/lower: '+lengthIn);
     const records=motionRecords(lowered.localJob),run=runVirtual(records,{expected:records.binding}),admission=physicalAdmission(lowered.localJob);
     if(run.status!=='VIRTUAL_MODEL_COMPLETE'||admission.status!=='BLOCKED'||admission.motionCommands!==0)throw Error('Current Project 1 evidence boundary failed');
-    return {lengthIn,request,packet,verification,localJob:lowered.localJob,records,run,admission};
+    return {id,lengthIn,request,packet,verification,localJob:lowered.localJob,records,run,admission};
   });
   return {schema:'PROJECT-1-CURRENT-PROOF-1',source,release,scope:'Current Store reference replay; simulated acceptance; predicted occupancy only',specimens};
 }
 
 export function currentProject1Review(proof=currentProject1Proof()) {
   const lines=['# Project 1 current digital proof','',
-    'Project 1 proves the current manufacturing chain for the two-brace SPF job: identified definition and independent manifest → fresh Store answer → simulated accepted packet → independent verification → registered lowering → complete virtual replay. The 16-inch default and 18-inch variation share an eight-inch horizontal span. No angle, coordinate, stock choice or Q is re-entered after acceptance.','',
+    'Project 1 proves the current manufacturing chain for the two-brace SPF job: identified definition and independent manifest → fresh Store answer → simulated accepted packet → independent verification → registered lowering → complete virtual replay. The 16-inch default, 18-inch centered variation and 18-inch selected-location specimen share an eight-inch horizontal span. The third specimen independently requests 1/8-inch and 1/16-inch full-diameter depths at X=5.25 and 10.25 inches. No angle, coordinate, stock choice or Q is re-entered after acceptance.','',
     'The complete serialized requests, answers, packets, local plans, records, replay and admission results are in [current-proof.json](current-proof.json). `npm run build:examples` regenerates this proof from current code and catalog; `npm test` rejects any byte disagreement. Changing executable inputs requires regeneration and review of the resulting evidence.','',
     '**Source identity:** `'+proof.source.digest+'` ('+proof.source.files+' package, source and data files). The reference release label is this source digest, not a deployed git identity. Fixed example times make reproduction deterministic; they are not transaction dates.','',
-    'System supplies the live integration counterpart in its required Chromium job: the published nested application derives both revisions, receives real HTTP Store answers, records customer acceptance, exports each exact packet and submits it to the pinned Store machine-evidence endpoint. The workflow publishes the full requests, commercial source events, accepted packets and virtual evidence under its actual System and Store revisions. A reference replay alone does not establish that browser handoff.','',
-    '| Requirement or result | 16-inch default | 18-inch variation |','| --- | ---: | ---: |'];
+    'System supplies the live integration counterpart in its required Chromium job: the published nested application derives default, length and selected-location/depth revisions, receives real HTTP Store answers, records customer acceptance, exports each exact packet and submits it to the pinned Store machine-evidence endpoint. The workflow publishes the full requests, commercial source events, accepted packets and virtual evidence under its actual System and Store revisions. A reference replay alone does not establish that browser handoff.','',
+    '| Requirement or result | 16-inch default | 18-inch variation | 18-inch selected locations/depths |','| --- | ---: | ---: | ---: |'];
   const registration=loadMachineConfig().model.dimensional.spot;
   const pointHeight=(registration.diameterIn/2)/Math.tan(registration.pointAngleDeg*Math.PI/360);
-  const values=proof.specimens.map(s=>({length:s.lengthIn,angle:s.request.demand.sawAngleDeg,spot:s.lengthIn/2,answer:s.packet.storeAnswer}));
+  const values=proof.specimens.map(s=>({length:s.lengthIn,angle:s.request.demand.sawAngleDeg,spots:s.request.demand.parts.flatMap(p=>p.features),answer:s.packet.storeAnswer}));
   const row=(label,fn)=>lines.push('| '+label+' | '+values.map(fn).join(' | ')+' |');
-  row('Face miter magnitude',s=>s.angle+'°');row('Centered spot X',s=>s.spot+' in');
+  row('Face miter magnitude',s=>s.angle+'°');row('Part-relative spot X (parts 1 / 2)',s=>s.spots.map(f=>f.xIn+' in').join(' / '));
   row('Registered spot drill diameter',()=>registration.diameterIn+' in');
   row('Drill-point included angle',()=>registration.pointAngleDeg+'°');
-  row('Nominal full-diameter depth beyond point / current maximum',()=>registration.fullDiameterDepthIn+' in');
-  row('Modeled total drill-tip plunge',()=>Number((registration.fullDiameterDepthIn+pointHeight).toFixed(9))+' in');
+  row('Registered nominal / maximum full-diameter depth',()=>registration.fullDiameterDepthIn+' / '+registration.maximumFullDiameterDepthIn+' in');
+  row('Requested full-diameter depth (parts 1 / 2)',s=>s.spots.map(f=>(f.fullDiameterDepthIn??registration.fullDiameterDepthIn)+' in').join(' / '));
+  row('Modeled total drill-tip plunge (parts 1 / 2)',s=>s.spots.map(f=>Number(((f.fullDiameterDepthIn??registration.fullDiameterDepthIn)+pointHeight).toFixed(9))+' in').join(' / '));
   row('Selected parent',s=>s.answer.selectedStock[0].storeSku);row('Material',s=>'$'+s.answer.totals.material.toFixed(2));
   row('Modeled machine service',s=>'$'+s.answer.totals.machine_service.toFixed(2));row('Manufacturing Q',s=>'$'+s.answer.Q.toFixed(2));
   row('Occupied seconds',s=>s.answer.time.totalSeconds);row('Ledger records',s=>s.answer.operations.length);row('Modeled move events',s=>s.answer.operations.filter(o=>o.kind==='MOVE').length);
   lines.push('', '## Evidence and authority','',
-    'The D-001 feature is an identified-location shallow pointed-drill spot (\`SPOT_ON_LOCATION\`), not a flat-bottom spotface, through-hole or general fastening pilot. The centered longitudinal position follows the System project rule \`L/2\` from the customer\'s selected brace length; it is not separately re-entered. Registered tool diameter and full-diameter depth are each 3/16 in; the depth is measured beyond the 118° drill point and is the current configured maximum. An independently specified nonmatching depth is refused by the current fixed-depth evaluator. The complete accepted Store plan supplies the spot Z moves. Physical inspection and commissioning remain outstanding.','',
+    'The D-001 feature is an identified-location shallow pointed-drill spot (\`SPOT_ON_LOCATION\`), not a flat-bottom spotface, through-hole or general fastening pilot. The centered longitudinal position follows the System project rule \`L/2\` from the customer\'s selected brace length; it is not separately re-entered. Registered tool diameter is 3/16 in. Nominal full-diameter depth and maximum are separately registered at 3/16 in, measured beyond the 118° drill point. Each explicitly selected positive depth up to the maximum governs its own plunge and time; omission on the named standard spot uses the nominal. Invalid or excessive depths and incompatible physical functions are refused. The complete accepted Store plan supplies the spot Z moves. Physical inspection and commissioning remain outstanding.','',
     'The receipt binds demand, manifest, catalog, machine configuration, model and calculation. Packet verification checks that binding and independently evaluates the current definition. Lowering carries the exact selected parents and operation ledger; virtual replay consumes those records without another stock search or pricing engine. Tests reject changed definitions, altered receipts and motion records, foreign release identities and physical-release claims.','',
     'All operation times and resulting component dimensions are modeled. Datum capture is nominal; retained-face/kerf registration, saw stroke and stock-control qualification remain physical gaps. Physical admission is BLOCKED and permits zero physical motion commands. No compiled controller runtime, inspected parts, live stock reservation, actual payment or commercial return is established. The current machine functions and operating envelope are governed by Store master chapters 5, 6 and 9.','',
     '## Complete evaluated ledgers','');
-  for(const s of proof.specimens){lines.push('### '+s.lengthIn+' inch specimen','',
+  for(const s of proof.specimens){lines.push('### '+s.id+' inch specimen','',
     'Calculation input `'+s.packet.storeAnswer.calculationIdentity.inputHash+'`; result `'+s.packet.storeAnswer.calculationIdentity.resultHash+'`.','',
     '| Sequence | Operation | Subject | Seconds |','| ---: | --- | --- | ---: |');
     for(const [i,op] of s.packet.storeAnswer.operations.entries())lines.push('| '+(i+1)+' | '+op.kind+(op.axis?' '+op.axis+' '+op.from+' → '+op.target:'')+' | '+op.subject+' | '+op.seconds+' |');
@@ -247,6 +250,10 @@ export function currentMasterExamples(text=readFileSync(join(ROOT,'STORE-ZERO-MA
     '| --- | ---: | ---: | ---: | --- |',...answers.map(({id,answer:a})=>'| '+id+' | '+(a.operations?.length??'absent')+' | '+(a.operations?.filter(o=>o.kind==='MOVE').length??'absent')+' | '+(a.time?.totalSeconds??'absent')+' | false |')].join('\n');
   const specimen=currentProject1Proof().specimens[1];
   const machine={status:'VIRTUAL_EVIDENCE_READY',physicalAuthority:false,recordsBinding:specimen.records.binding,evidenceClass:specimen.records.evidenceClass,expectedSeconds:specimen.records.expectedSeconds,run:specimen.run,admission:specimen.admission};
+  const list=dir=>readdirSync(join(ROOT,dir)).flatMap(name=>{const path=dir+'/'+name;return statSync(join(ROOT,path)).isDirectory()?list(path):[path];});
+  const inventory=['package.json',...list('src'),...list('data')].sort().map(path=>{const bytes=readFileSync(join(ROOT,path));return '| `'+path+'` | '+bytes.length+' | `'+createHash('sha256').update(bytes).digest('hex')+'` | `'+createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex')+'` |';}).join('\n');
+  text=text.replace(/The current digest is `[a-f0-9]+` over \d+ files\./,'The current digest is `'+source.digest+'` over '+source.files+' files.');
+  text=text.replace(/(### 14\.4 Content identities[^]*?\| --- \| ---: \| --- \| --- \|\n)[^]*?(\n\nPatents and original)/,'$1'+inventory+'$2');
   return text.replace(/<!-- current-examples-table -->[^]*?<!-- end-current-examples-table -->/,'<!-- current-examples-table -->\n'+table+'\n<!-- end-current-examples-table -->')
     .replace(/<!-- current-ledger-table -->[^]*?<!-- end-current-ledger-table -->/,'<!-- current-ledger-table -->\n'+ledger+'\n<!-- end-current-ledger-table -->')
     .replace(/<!-- current-machine-example -->[^]*?<!-- end-current-machine-example -->/,'<!-- current-machine-example -->\n```json\n'+JSON.stringify(machine,null,2)+'\n```\n<!-- end-current-machine-example -->');

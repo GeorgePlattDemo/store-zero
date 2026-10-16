@@ -131,7 +131,7 @@ export function createModel({ routerDiameterIn = 1, routerPassDepthIn = 0.75,
       saw: { diameterIn: 20, rpm: 1800, teeth: 80, chipLoadIn: 0.003, finishFactor: 0.5,
         approachIn: 1.5, kerfIn: 0.125, maxAngleDeg: 45, strokeBasis: 'VIRTUAL_WIDTH_OVER_COSINE_BENCHMARK' },
       spot: { diameterIn: 0.1875, rpm: 3000, feedPerRevIn: 0.008, pointAngleDeg: 118,
-        fullDiameterDepthIn: 0.1875, clearanceIn: 0.25, insetsIn: [1.5, 2] },
+        fullDiameterDepthIn: 0.1875, maximumFullDiameterDepthIn: 0.1875, clearanceIn: 0.25, insetsIn: [1.5, 2] },
       router: { diameterIn: routerDiameterIn, axialPassDepthIn: routerPassDepthIn,
         longitudinalFeedInPerMin, plungeFeedInPerMin: 24, clearanceIn: 0.25,
         startupSec: 0.5, plungeBasis: 'EXPLICIT_NEW_REFERENCE_ALLOWANCE', maxProfileLengthIn: 60,
@@ -359,9 +359,19 @@ function captureC(ledger, subject) {
 function spotY(feature, width, model) {
   const s = model.dimensional.spot;
   if (feature.kind !== undefined) need(feature.kind === 'SPOT_ON_LOCATION', 'SPOT_KIND_NOT_DECLARED', feature.featureId);
-  if (feature.locationRule !== undefined) need(feature.locationRule === 'CENTERED_ON_PART', 'SPOT_LOCATION_RULE_NOT_DECLARED', feature.featureId);
-  if (feature.toolDiameterIn !== undefined) need(feature.toolDiameterIn === s.diameterIn, 'SPOT_DIAMETER_NOT_DECLARED', feature.featureId);
-  if (feature.fullDiameterDepthIn !== undefined) need(feature.fullDiameterDepthIn === s.fullDiameterDepthIn, 'SPOT_DEPTH_NOT_DECLARED', feature.featureId);
+  // A feature's location is an independent customer fact: the named centered
+  // rule is checked, while a directly selected X is measured from the same
+  // finished-part start datum. Neither rule supplies a missing coordinate.
+  if (feature.locationRule !== undefined)
+    need(['CENTERED_ON_PART', 'PART_RELATIVE_FROM_START'].includes(feature.locationRule),
+      'SPOT_LOCATION_RULE_NOT_DECLARED', feature.featureId);
+  if (feature.toolDiameterIn !== undefined)
+    need(feature.toolDiameterIn === s.diameterIn, 'SPOT_DIAMETER_NOT_DECLARED', feature.featureId);
+  if (feature.fullDiameterDepthIn !== undefined) {
+    need(positive(feature.fullDiameterDepthIn), 'SPOT_FULL_DIAMETER_DEPTH_INVALID', feature.featureId);
+    need(feature.fullDiameterDepthIn <= s.maximumFullDiameterDepthIn,
+      'SPOT_FULL_DIAMETER_DEPTH_EXCEEDS_MAX', feature.featureId);
+  }
   let y;
   if (feature.acrossWidthRule === 'CENTERED_ON_WIDE_FACE') { need(feature.insetFromEdgeIn === undefined, 'CENTERED_SPOT_HAS_INSET', feature.featureId); y = width / 2; }
   else { need(feature.acrossWidthRule === 'INSET_FROM_EDGE' && s.insetsIn.includes(feature.insetFromEdgeIn), 'SPOT_INSET_NOT_DECLARED', feature.featureId); y = feature.insetFromEdgeIn; }
@@ -469,7 +479,12 @@ function boardCycle(model, stock, group, parts, previous) {
     l.index(d.stations.toolXIn - f.globalXIn, f.featureId, remaining);
     l.move('Y', f.yIn, f.featureId, 'SPOT');
     if (!spindleOn) { l.event('SPOT_SPINDLE_ON', 0, f.featureId, {}, 'SPOT'); l.delay('SPOT_READY_ALLOWANCE', d.allowances.spindleReadySec, f.featureId, 'SPOT'); spindleOn = true; }
-    const point = (d.spot.diameterIn / 2) / Math.tan(d.spot.pointAngleDeg * Math.PI / 360), plunge = point + d.spot.fullDiameterDepthIn;
+    // The registered 3/16-in full-diameter depth is the MAXIMUM and nominal
+    // when this particular selected spot has no independent depth request.
+    // The conical drill-point height is included in total tip travel.
+    const fullDiameterDepthIn = f.fullDiameterDepthIn ?? d.spot.fullDiameterDepthIn;
+    const point = (d.spot.diameterIn / 2) / Math.tan(d.spot.pointAngleDeg * Math.PI / 360);
+    const plunge = point + fullDiameterDepthIn;
     need(plunge <= stock.actualT + EPS, 'SPOT_PENETRATION_EXCEEDS_STOCK', f.featureId);
     l.move('Z', stock.actualT, f.featureId, 'SPOT');
     l.move('Z', stock.actualT - plunge, f.featureId, 'SPOT', d.spot.rpm * d.spot.feedPerRevIn / 60);

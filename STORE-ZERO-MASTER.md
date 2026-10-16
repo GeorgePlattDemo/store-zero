@@ -39,6 +39,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [3.6 Cut and sheet contracts](#36-cut-and-sheet-contracts)
   - [3.7 Answer receipt and transport](#37-answer-receipt-and-transport)
   - [3.8 Revision custody and accepted packets](#38-revision-custody-and-accepted-packets)
+  - [3.9 Governing physical requirements and future projects](#39-governing-physical-requirements-and-future-projects)
 - [4. Store-owned catalog and inventory](#4-store-owned-catalog-and-inventory)
   - [4.1 Catalog identity and provenance](#41-catalog-identity-and-provenance)
   - [4.2 Board material categories](#42-board-material-categories)
@@ -64,6 +65,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [5.15 Whole-job economics and rounding](#515-whole-job-economics-and-rounding)
   - [5.16 Completion and calculation identity](#516-completion-and-calculation-identity)
   - [5.17 Worked calculations and sensitivities](#517-worked-calculations-and-sensitivities)
+  - [5.18 Adopted variable-depth and location obligations](#518-adopted-variable-depth-and-location-obligations)
 - [6. Registered machine functions](#6-registered-machine-functions)
   - [6.1 Registered model and units](#61-registered-model-and-units)
   - [6.2 Dimensional parameter register](#62-dimensional-parameter-register)
@@ -126,6 +128,7 @@ The proposed supervised laboratory will establish the physical link: measured fe
   - [12.3 Identity labels and remnants](#123-identity-labels-and-remnants)
   - [12.4 Custody and historical reproduction](#124-custody-and-historical-reproduction)
   - [12.5 Release responsibility](#125-release-responsibility)
+  - [12.6 Current proof and documentation maintenance](#126-current-proof-and-documentation-maintenance)
 - [13. Economics and operating implications](#13-economics-and-operating-implications)
   - [13.1 Current declared cost pool](#131-current-declared-cost-pool)
   - [13.2 Productive utilization and service burden](#132-productive-utilization-and-service-burden)
@@ -160,7 +163,9 @@ The proposed supervised laboratory will establish the physical link: measured fe
 
 Store's executable source and contracts govern current manufacturing behavior. System records the inspected Store commit in its candidate, browser runtime, CI checkout and local startup declarations. The deployed Store is `3f813fe060f1eff46a1b3cfdad1ad41465d230e0` at [store-zero-candidate](https://store-zero-candidate-production.up.railway.app/health); its `/health` response supplies the release and shipped-source digest.
 
-Current executable contracts and verified outputs govern descriptions of installed behavior. The original Project 1 publication is historical evidence, not architectural authority. Regenerated reference evidence and revision-bound browser runs demonstrate current behavior for their identified inputs; they do not define that behavior. Consequential changes require affected specifications, masters, shared definitions, Program descriptions and current acceptance evidence to agree. Preserve sealed source bytes and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
+The adopted definitions and specifications govern required behavior. Executable source, identified configuration and verified outputs establish what a particular revision actually implements. A disagreement is a conformance defect: preserve the requirement, identify the affected owner and evidence, and repair the implementation or obtain an explicit requirement decision. Neither a passing test nor existing code silently overrides the adopted contract. Documentation must distinguish adopted requirements, verified implementation, proposed capability and physical qualification.
+
+The current Project 1 proof is maintained acceptance evidence, regenerated from the operative source and configuration when consequential behavior changes. Original sealed publications retain their source identities and historical results. Consequential changes must reconcile the affected definitions, specifications, masters, Program descriptions, current proof, tests, links and operational identities before completion. Preserve full technical content and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
 
 ### 1.2 Registered versions and identity rules
 
@@ -481,6 +486,16 @@ System retains supplied facts, derivation trace, revision, sent bytes, attempts,
 An accepted packet carries schema 2, packet/project identity, definition ID/revision/type/demand/**manifest**/requirements, unchanged Store answer, accepted simulated decision with offer/time identity, and false physical release. Packet definition revision is the owner-record revision; demand `configurationVersion` is the manufacturing configuration revision. They can differ and are carried as separate identities. Store checks demand-manifest configuration identity and receipt binding; System binds its saved decision to the owner revision.
 
 Packet verification rejects malformed, altered, foreign or temporally inconsistent content, and freshly evaluates the same demand and manifest. An edited answer under an unchanged calculation identity is refused. An intact answer whose current calculation/authority changed is stale and must be requoted. Verification establishes consistency, not actor authentication. Detailed packet checks and replay are in Chapter 9; commercial offer/order authority is in Chapter 10.
+
+### 3.9 Governing physical requirements and future projects
+
+*Authority category: Adopted engineering requirements*
+
+The [manufacturing meaning contract](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md#manufacturing-terminology-source-words-versus-physical-requirements) defines source expressions, substantiated geometry, normalized features, standard-operation defaults, cut planes, holes, routing geometry, references and evidence states. The [Store specification](docs/STORE-ZERO-SPECIFICATION.md#11-required-manufacturing-meaning-and-extension-contract) governs Store acceptance. System master [chapter 8](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#86-required-manufacturing-chain-for-every-project) governs the complete transition chain and its [conformance register](https://github.com/GeorgePlattDemo/new-system/blob/main/SYSTEM-MASTER.md#155-manufacturing-contract-conformance-register) records open implementation obligations.
+
+An imported term is not a capability declaration. Store receives established component requirements and independently identified coverage; it cannot decide that a plan must have meant the operation it happens to support. Preserve positive dimensions, explicit coordinate/depth/bottom conditions, material constraints, unsupported kinds and unresolved facts. A complete answer requires evaluation of every required feature parameter as well as its identity. Unknown or malformed requirements cannot disappear at translation or admission.
+
+A new project may compose existing request representations and registered operations. Its name supplies no Store exception and requires no new price engine. A new physical function requires an explicit feature/operand contract, registration, planning/time/economic treatment, accepted-plan lowering and evidence. Missing representation or capability has an attributable unresolved/refused result until the responsible extension is verified.
 
 ## 4. Store-owned catalog and inventory
 
@@ -880,9 +895,9 @@ Named standalone longitudinal profiles are limited to 60 inches and the containi
 
 *Authority category: Current System Behavior*
 
-D-001's registered `SPOT_ON_LOCATION` test function is bounded **pointed-drill spotting at specified component positions**. It is not a registered flat-bottom spotface, counterbore, through-hole, or general-purpose fastening pilot. The drill diameter is exactly **0.1875 inch (3/16 inch)**, the point included angle **118°**, and the currently modeled **full-diameter penetration is 0.1875 inch beyond the drill point**. That is also the stated *maximum* for this registered test configuration, not a requirement to penetrate beyond it. The existing engine currently executes that fixed nominal depth and admits an explicitly stated `fullDiameterDepthIn` only when exactly 0.1875; independently specified shallower depths must be refused until a separately validated variable-depth transform is implemented. Missing depth currently selects the registered nominal through Store, not System.
+D-001's registered `SPOT_ON_LOCATION` test function is bounded **pointed-drill spotting at specified component positions**. It is not a registered flat-bottom spotface, counterbore, through-hole, or general-purpose fastening pilot. The drill diameter is exactly **0.1875 inch (3/16 inch)**, the point included angle **118°**, and the currently modeled **full-diameter penetration is 0.1875 inch beyond the drill point**. That is also the stated *maximum* for this registered test configuration, not a requirement to penetrate beyond it. The model separately registers `fullDiameterDepthIn` (nominal) and `maximumFullDiameterDepthIn` (ceiling). Each explicit feature depth must be finite, strictly positive and no greater than that ceiling. The engine executes that feature’s depth plus point height, without clamping or rounding; invalid or null values are refused. Missing depth on the named standard spot selects the registered nominal through Store. An imported unspecified hole does not select that standard operation.
 
-Spots are customer-named features, not a generic hole count. Across-width rule is either centered on the prepared wide face or an allowed 1.5/2-inch inset from its edge. Centered spots cannot also carry a contradictory inset. Tool diameter and full-diameter depth, when supplied, must match the registered operation. A spot must fit within the part length by at least cutter radius at each end; an explicit longitudinal center rule also requires X=`length/2`.
+Spots are customer-named features, not a generic hole count. Across-width rule is either centered on the prepared wide face or an allowed 1.5/2-inch inset from its edge. Centered spots cannot also carry a contradictory inset. Tool diameter, when supplied, must match the registered operation; an explicit full-diameter depth must satisfy the independently registered positive range. A spot must fit within the part length by at least cutter radius at each end; an explicit longitudinal center rule also requires X=`length/2`.
 
 A location may be directly selected by the customer or derived by a named project rule from a customer choice. Job 1's center coordinate comes from `xIn = partLengthIn / 2`; it is not evidence that every possible spot location is available in that one specimen. The other admitted cut-package paths preserve supported explicit X and across-width rules. Both diameter and depth constraints, if supplied, must survive System translation and Store validation intact; a received but discarded requirement cannot be treated as satisfied.
 
@@ -1005,6 +1020,14 @@ Its occupancy categories are load 36, index 13.929593332041435, reference 2.9664
 Changing part length changes index distance, feature coordinates when System derives them from length, available parent patterns, retained stock and possibly parent SKU/count. Crossing a capacity boundary can add an entire parent, another reference cycle and another 60 seconds load/release. Changing angle changes A motion and the virtual saw span `width/cos(angle)`; changing nominal width can change both material price and saw time. Narrowing changes routing geometry/pass count and can add physical datum/offcut gaps. Changing stock thickness changes vertical motion and axial pass count. Adding a spot adds approach/plunge/retract and indexing but may reuse a started spindle and unchanged Y.
 
 Changing a sheet aperture changes circular geometry, compensated perimeter, tab count and field/clearance eligibility. Changing hardware quantity within a package boundary may leave Q unchanged; crossing that boundary adds a package. Changing a seller charge or tax is not a manufacturing-engine sensitivity: it changes the seller's offer under commercial authority. A customer's revised supported value always requires a fresh definition, independent manifest, Store inquiry and appropriately bound answer; an old price label is not revalidation.
+
+### 5.18 Adopted variable-depth and location obligations
+
+*Authority category: Adopted engineering requirements*
+
+Section 5.9 describes the operative evaluator. The [selected-depth/location contract](docs/STORE-ZERO-SPECIFICATION.md#required-d-001-selected-depth-and-location-contract) requires each identified spot's positive full-diameter depth to govern that feature's actual Z plunge and motion time within the registered 0.1875-inch maximum. An omitted value may select the nominal only under an explicit standard-operation rule; an imported unspecified hole remains unresolved. Wrong diameter, excessive/invalid depth and flat-bottom requirements cannot be fulfilled by substituting the nominal pointed-drill operation.
+
+Customer coordinates remain part-relative requirements. Store converts them through registered datums and selected stock without shifting their requested locations. Centered and declared inset rules are bounded representations; neither implies arbitrary Y control. The exact plan, calculated identity, receipt, packet and lowering must preserve independently varied feature operands. Verify this with two separately identified depths/locations and actual returned plunge records, including unfavorable cases. This section specifies required conformance; it does not promote an unmerged review implementation into current operation.
 
 ## 6. Registered machine functions
 
@@ -1417,7 +1440,7 @@ Search completion is explicit. A bounded feasible result is a complete supported
 
 The active `three-frames.html` child derives two SPF nominal 2×4 braces from a finished length L on the 16–18-inch control grid. The horizontal span remains eight inches. Miter magnitude is `asin(8/L) × 180/π`, rounded to 12 decimals; rise is `sqrt(L² − 8²)`; each centered SPOT is at L/2. PART-1/PART-2 and SPOT-1/SPOT-2 remain independent identities in the manifest. The translator records the page's redundant `both` end identity and preserves the registered parallel-end, long-long outer-edge face-miter definition.
 
-The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two parts and three nominal .125-inch consumption allowances. The 18-inch variation selects 72 inches and leaves 35.625 inches. Store independently chooses these parents through whole-job Q. The current full proof includes both requests, accepted packets, ledgers, virtual replay and zero permitted physical commands. Nominal kerf accounting does not establish the physical retained-face transform.
+The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two parts and three nominal .125-inch consumption allowances. The 18-inch variation selects 72 inches and leaves 35.625 inches. Store independently chooses these parents through whole-job Q. The current full reference proof retains both nominal requests, accepted packets, ledgers and virtual replay, and adds an 18-inch selected-location specimen with X=5.25/10.25 inches and independent full-diameter depths 0.125/0.0625 inch. Each named feature governs its own point-height-adjusted Z move. The System Bench additionally selects independent X and one depth for both spots; its required browser artifact follows that exact selected revision through acceptance, packet export, HTTP lowering and replay, and preserves excessive-depth refusal without downstream acceptance. Both evidence routes permit zero physical commands. Nominal kerf accounting does not establish the physical retained-face transform.
 
 **Complete current reference request and regenerated returned summary**
 
@@ -1564,8 +1587,8 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "96f25000cc909c77ca8b09a40555d80820b2ccf72e9c247e64606af5eec3fe31",
-    "resultHash": "e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5"
+    "inputHash": "8321bd81011748c11ba33cfb41d1a9c4b117f559935fe7a1cef1652e803707d6",
+    "resultHash": "15ebbe3b624d15b87d0a5d953de94ee4dad8b40210b3ba1fa4d6cb28371b00ab"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -1573,25 +1596,25 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
     "requestId": "MASTER-SYO-16",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "6f512b13fa494ddff307702a6063de6a4b03ccdafaf18f4450f283d1e0b3ffeb",
     "manifestHash": "f070ea01aef4016eedd48878b624f8c84a589d380c23c1f2928fc61bb1309b62",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "96f25000cc909c77ca8b09a40555d80820b2ccf72e9c247e64606af5eec3fe31",
-      "resultHash": "e44dfd7a05d6805918cc1c9f61a6baf4eedb62442284a6e0fb67459d85a3ccc5"
+      "inputHash": "8321bd81011748c11ba33cfb41d1a9c4b117f559935fe7a1cef1652e803707d6",
+      "resultHash": "15ebbe3b624d15b87d0a5d953de94ee4dad8b40210b3ba1fa4d6cb28371b00ab"
     },
-    "receiptHash": "ced98d96e15221907a3ef95ace99978d024ad4726fa6e74f072e275edea646dd"
+    "receiptHash": "4611d8f9d12d7498985ad8dac89dbbbbdcac4168a69c303456e2568317917b61"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -1745,8 +1768,8 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "f3050cbcfff47cde7613c7ee1c5332b323a10156fc94d0da27c411064013d3e5",
-    "resultHash": "771161aabc33029cf5c87241fc8e68b0fbbcf2a3e71220e89ec5033dffd8efea"
+    "inputHash": "b963674eccd5aa85087606b6187893a05acfb24bef3f2f71b8e0403134ef3361",
+    "resultHash": "1c4bf6a2261268a4daf989051d6d0137f6d0c6b707cb71a10bc0bd5fd4a1c2ac"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -1754,25 +1777,25 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
     "requestId": "MASTER-SYO-18",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "d70ba4879c543add6ca6131aa86031237fe804152eccd1783d62cc59fe6cfa6f",
     "manifestHash": "5e7a42b37dbab50fdff3212aad39cfa0572f1057661e263456888906277cc8df",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "f3050cbcfff47cde7613c7ee1c5332b323a10156fc94d0da27c411064013d3e5",
-      "resultHash": "771161aabc33029cf5c87241fc8e68b0fbbcf2a3e71220e89ec5033dffd8efea"
+      "inputHash": "b963674eccd5aa85087606b6187893a05acfb24bef3f2f71b8e0403134ef3361",
+      "resultHash": "1c4bf6a2261268a4daf989051d6d0137f6d0c6b707cb71a10bc0bd5fd4a1c2ac"
     },
-    "receiptHash": "5d1bb947257f7b637cc264d45791a15584584150dade0f1951434861060da73f"
+    "receiptHash": "0df36f47c8671213cf2a44980c1fdaaa955cfbea30f4e96e6bb35dfcca27c93f"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -2118,8 +2141,8 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "c15ab44e7bc9332e50e35e8ac22420d84667a1dade8509890c8af9adbf971117",
-    "resultHash": "37a5388e7905ca0791a12b26ac7da95f01228255c41d92db47418a94140a728d"
+    "inputHash": "56929717b78d58f5ad2d7baf2ae7449724ed7ab6fe1acf4ee85a2f54f3328b9f",
+    "resultHash": "4fb529b9f5e4a3a51c519b5a6be67e138f03c50aac76c035521106ac4910e779"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -2127,25 +2150,25 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
     "requestId": "MASTER-ALCOVE-ECONOMY",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "bd765bebb6ce3a6cfc07adb8c3f21ea76eb7942df93fe5374f48fedd690f5511",
     "manifestHash": "422b616384641d1122c95c224cefa5449afa10f5a762f06885f7a10c90777e59",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "c15ab44e7bc9332e50e35e8ac22420d84667a1dade8509890c8af9adbf971117",
-      "resultHash": "37a5388e7905ca0791a12b26ac7da95f01228255c41d92db47418a94140a728d"
+      "inputHash": "56929717b78d58f5ad2d7baf2ae7449724ed7ab6fe1acf4ee85a2f54f3328b9f",
+      "resultHash": "4fb529b9f5e4a3a51c519b5a6be67e138f03c50aac76c035521106ac4910e779"
     },
-    "receiptHash": "aadb23bf143dbfb9fce60b9bdac09276d20af50b4fc57b9333e3622cb906904f"
+    "receiptHash": "49e4d0014738fce5589539618f27e2988b0670fb45e8f72dcdb743d31500408f"
   },
   "ledgerRecords": 269,
   "physicalAuthority": false
@@ -2591,8 +2614,8 @@ Eligible shorter parents remain available for shorter runs while each assigned p
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "0872cb819d46f0f196357b8f0d66941c7b3119a49bcc0cb565b4c481bfcee35d",
-    "resultHash": "d099aa232d1196f10641455021fa52849328b1844daa22de589d333ad5367a2d"
+    "inputHash": "5506a7d4af2d91530bd3004a3c937ce7278576bb659ae85c2863ddfdafb7853b",
+    "resultHash": "4772128c20915874e28e3463f27893cad34c6dc2a843ba1c16af5189988eec18"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -2600,25 +2623,25 @@ Eligible shorter parents remain available for shorter runs while each assigned p
     "requestId": "MASTER-WINDOW-SEAT",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "113b736703bed4d28f626009a3f43d487e6acfb0fc7b87f46b83d461f0e6fea1",
     "manifestHash": "25db633fad12c36bd6c3d8705bbfa8c38736a0652640ca4a4198479502b05810",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "0872cb819d46f0f196357b8f0d66941c7b3119a49bcc0cb565b4c481bfcee35d",
-      "resultHash": "d099aa232d1196f10641455021fa52849328b1844daa22de589d333ad5367a2d"
+      "inputHash": "5506a7d4af2d91530bd3004a3c937ce7278576bb659ae85c2863ddfdafb7853b",
+      "resultHash": "4772128c20915874e28e3463f27893cad34c6dc2a843ba1c16af5189988eec18"
     },
-    "receiptHash": "b2c085e6a2e387b8c1e041c52b8d1e658303e01789c9200aac2a9fae7476641e"
+    "receiptHash": "d4cfa1cc9dae0af7441a47ec577cac8b4eb2c2a85d4419cbf8dd278c70cdbc3b"
   },
   "ledgerRecords": 1072,
   "physicalAuthority": false
@@ -3045,8 +3068,8 @@ Current live refusals retain their reason codes, reason records and human-readab
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "8ceaef075329e80b0bc25f4a50d45b607a718ff9cea3dc39736603cb75ba6c46",
-    "resultHash": "fb83a43946882023f02621be9f2c873fc58d5a2ab696da5a1f7aef10b11d1293"
+    "inputHash": "bd815b6d7953559ff197ac81fe154e2b7ab48f57d849dc1199cd55e9801e48d5",
+    "resultHash": "7bea62b880e2e71bb106322c5d9e6b036b7a4fa17e3140bd2ef68a7fd73b47e3"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -3054,25 +3077,25 @@ Current live refusals retain their reason codes, reason records and human-readab
     "requestId": "MASTER-OUTDOOR",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "8b75dc6285c3d4b977b2e02f01b6798757a6aa4605037c3f3b6096a5b47ca39a",
     "manifestHash": "42a14bb4e3d62893c1f2440b49e82f347dd36569a30887313d619873ee8d5a9e",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "8ceaef075329e80b0bc25f4a50d45b607a718ff9cea3dc39736603cb75ba6c46",
-      "resultHash": "fb83a43946882023f02621be9f2c873fc58d5a2ab696da5a1f7aef10b11d1293"
+      "inputHash": "bd815b6d7953559ff197ac81fe154e2b7ab48f57d849dc1199cd55e9801e48d5",
+      "resultHash": "7bea62b880e2e71bb106322c5d9e6b036b7a4fa17e3140bd2ef68a7fd73b47e3"
     },
-    "receiptHash": "37ec7a5efa92f7ed16fa75c563a1b962a2571e0307a15434a39570df7aff20dd"
+    "receiptHash": "bbf4e29e41f2651fe9d090bfbf0f06d1220580d0a5c747bfa129dba6b0c65a7a"
   },
   "ledgerRecords": 392,
   "physicalAuthority": false
@@ -3216,8 +3239,8 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
     "globalManufacturingOptimalityClaimed": false
   },
   "calculationIdentity": {
-    "inputHash": "7e1ae0a82881e12e1afa44e64ec4dedece52191518890fa3f8283c4d343618bf",
-    "resultHash": "f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31"
+    "inputHash": "5ce8c01ef90f6b34c8fa18dd4a5b6b47f4ba3fbe8904852efc1a68468157db2d",
+    "resultHash": "58f058ded791c387f46932f03f31fcba27aa90d55170513eb276777e5f322fa6"
   },
   "evaluationReceipt": {
     "freshnessRule": "STB-STORE-FRESH-EVALUATION-0.1",
@@ -3225,25 +3248,25 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
     "requestId": "MASTER-PLAYHOUSE",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97",
+      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+        "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
       },
       "machineConfiguration": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
-        "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+        "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
       }
     },
     "demandHash": "7cb551e675cfa5cf7b05fac84200521d7856ac5d39a6f599a8371ecdcb853d8a",
     "manifestHash": "a0e0c9ad896830281337573e11b9b0a53aefd3f879225ccac3bbcd3a1270b009",
     "status": "SUPPORTABLE",
     "calculationIdentity": {
-      "inputHash": "7e1ae0a82881e12e1afa44e64ec4dedece52191518890fa3f8283c4d343618bf",
-      "resultHash": "f8e6c32bdaccea95ce94bcd3966099f1e8a8f8062a3ff914d09ec065a12bdb31"
+      "inputHash": "5ce8c01ef90f6b34c8fa18dd4a5b6b47f4ba3fbe8904852efc1a68468157db2d",
+      "resultHash": "58f058ded791c387f46932f03f31fcba27aa90d55170513eb276777e5f322fa6"
     },
-    "receiptHash": "9ca0e17b5bef8bdafedce515498e484e9a7ed018c0e4555b9a7c7868e879b2bc"
+    "receiptHash": "053fc82d86d0b568f4d68d3b5a9c1b2b211368c703621e40861cdc7b10e91a3b"
   },
   "ledgerRecords": 15,
   "physicalAuthority": false
@@ -3328,12 +3351,12 @@ For the current 18-inch SPF Project 1 reference packet, the regenerated binding 
     "packetId": "PACKET-CURRENT-PROJECT-1-18",
     "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
     "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-    "packetHash": "f614d09fef3516b38cfe4848add8dbf42e07b8f02dcd235c19158df6c9adbe13",
+    "packetHash": "ba513ad36885bf0482b055242c25e56ab33fbd27a502e7a1c06963b322e01b22",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
-    "machineConfigHash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884",
-    "modelHash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
-    "localJobHash": "ecf8ee790cd50940e00649059a99ba1e9a6e781387a8564515d29acaa564e5f7",
-    "motionHash": "f81da39404346583cdbb4e60a41abe8405977fd69cb9071f2d09702065c3b0e6"
+    "machineConfigHash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df",
+    "modelHash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
+    "localJobHash": "c34a046c87ccb144099d7f28c1cab5f0c2d39a0d038463f3e1958d835adb72f4",
+    "motionHash": "963c0a3834861267cbb80ba5b2b6ea11f6599729f84b446e3313b90e3eaaa609"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "expectedSeconds": 86.46953628299116,
@@ -4904,9 +4927,10 @@ The following register gives the actual core conditions, extracted from the froz
 | `AXIS_POSE_REQUIRED` | UNRESOLVED | `number(target) && number(this.state[axis])` |
 | `INDEX_WITH_TOOL_ENGAGED` | REFUSED | `this.state.S === 0 && (this.state.Z == null \|\| this.state.Z >= this.stock.actualT + d.spot.clearanceIn - EPS) && (this.state.RZ == null \|\| this.state.RZ >= this.stock.actualT + d.router.clearanceIn - EPS)` |
 | `SPOT_KIND_NOT_DECLARED` | REFUSED | `feature.kind === 'SPOT_ON_LOCATION'` |
-| `SPOT_LOCATION_RULE_NOT_DECLARED` | REFUSED | `feature.locationRule === 'CENTERED_ON_PART'` |
+| `SPOT_LOCATION_RULE_NOT_DECLARED` | REFUSED | `['CENTERED_ON_PART', 'PART_RELATIVE_FROM_START'].includes(feature.locationRule)` |
 | `SPOT_DIAMETER_NOT_DECLARED` | REFUSED | `feature.toolDiameterIn === s.diameterIn` |
-| `SPOT_DEPTH_NOT_DECLARED` | REFUSED | `feature.fullDiameterDepthIn === s.fullDiameterDepthIn` |
+| `SPOT_FULL_DIAMETER_DEPTH_INVALID` | REFUSED | `positive(feature.fullDiameterDepthIn)` |
+| `SPOT_FULL_DIAMETER_DEPTH_EXCEEDS_MAX` | REFUSED | `feature.fullDiameterDepthIn <= s.maximumFullDiameterDepthIn` |
 | `CENTERED_SPOT_HAS_INSET` | REFUSED | `feature.insetFromEdgeIn === undefined` |
 | `SPOT_INSET_NOT_DECLARED` | REFUSED | `feature.acrossWidthRule === 'INSET_FROM_EDGE' && s.insetsIn.includes(feature.insetFromEdgeIn)` |
 | `SPOT_TOOL_LEAVES_FACE` | REFUSED | `y >= s.diameterIn / 2 && y + s.diameterIn / 2 <= width + EPS` |
@@ -5067,6 +5091,14 @@ Historical custody preserves issued PDFs, publication Markdown/DOCX/ZIP, origina
 System admits meaning and maintains customer revision/decision custody. Store admits a clean manufacturing inquiry and declares its modeled feasibility/Q. The seller accepts commercial responsibility and terms; finance/inventory/scheduler supply their records. The local apparatus owner establishes commissioned configuration/readiness, material condition and applicable release; the authorized operator performs the local start under the operating procedure. Quality determines component conformance; fulfillment records staging/transfer; the owner retains the resulting project record.
 
 The current shared software never transfers physical authority to a browser or Store price. Program supplies the test plan to obtain the missing measurements and operating evidence. Each authority must be demonstrably present at the stage where its fact is used.
+
+### 12.6 Current proof and documentation maintenance
+
+*Authority category: Adopted engineering requirements*
+
+The [maintained-proof contract](docs/STORE-ZERO-SPECIFICATION.md#maintained-proof-and-release-obligations) governs this master's generated examples and the complete current Project 1 reference. Preserve the original sealed review and the current default specimens as distinct evidence, and regenerate current results from operative source whenever they change. Add the selected-depth/location specimen through request, independent manifest, receipt, acceptance, verification, lowering and replay. System's complementary published-browser proof must carry the actual selected revision through the same stages.
+
+Current descriptions are amended in place, preserving complete engineering explanations and source context. Live owner links and headings are maintained; immutable links identify historical evidence. All three root READMEs remain unchanged for this authorized work. The System conformance register owns cross-repository closure, while each specification/master owns its substantive obligations. Local navigation checks, exact-output tests and runtime tests establish different claims; report their scope separately.
 
 ## 13. Economics and operating implications
 
@@ -5292,10 +5324,15 @@ The primary audit supplied 34 document records, including static/generated HTML 
 
 *Authority category: Current System Behavior*
 
-The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `286e7dfd31d216d6937d2b58ef88b12ffeee62650302b36d397c60b468e34a97` over 21 files. Store `/health` must report the same digest for the pinned runtime.
+The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b` over 21 files. Store `/health` must report the same digest for the pinned runtime.
 
 | Path | Bytes | SHA-256 | Git blob |
 | --- | ---: | --- | --- |
+| `data/machine/manufacturing-core-0.1.json` | 315 | `69640aec1f12afceccf49eed6d662312b31572306ee5e1fe22e6a004b58e769c` | `5293c61535efed5a43bcd4431304b4d5d9b9b12b` |
+| `data/sources/store-zero-hardware-sheet-2026-09-26.csv` | 2820 | `cfd81206161350d0ff0f06473bc1c43de3c5df31425b7ec4c9261d38d26f3c96` | `dbce9dd01d8a649d9be50e5ddbfe72c2343b370a` |
+| `data/sources/store-zero-observations.json` | 4614 | `16af3ad22d851af476cfba2691343a91906aa46054e5c6644677cfe392b30eaa` | `c6262d503a78fc6843d1697a52f6f6357a4e8c18` |
+| `data/sources/store-zero-price-sheet-2026-09-26.csv` | 8991 | `896d97b76e989c350ffe1da000311680072cfe4fa8dffafb42cb92536493e80b` | `82bdcca31347c93ae46db0fa1fd0a1c11f58f156` |
+| `data/store-zero-catalog.json` | 335127 | `32f4c8bd2db59c1d1ec34ed846d732ccc2fee8ce3339a45f72f0d8bef36cc979` | `d0789826eaa7829cd4ff6bc1c84e2e4da94630a0` |
 | `package.json` | 605 | `342366bab3cbcddbb2e2967ce096b55acdeba62d798874c5ebfdb778ffd85ff6` | `cd55940923dc45bad1126e0b08bc9939584cd901` |
 | `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
 | `src/contracts/definitions.mjs` | 4407 | `2488f230590767e2e26600d16734cad81052f6e5ee437f675b347582b65e1da5` | `33e14e80beccbd5fb8f0df2abef92990bccf681f` |
@@ -5303,7 +5340,7 @@ The following identities describe the shipped executable package/source/data. Do
 | `src/contracts/machine-records.mjs` | 5106 | `bb0152f382e1d7ebe0622110024932ee187a7bf2ab2083e19c2535d7f24097f6` | `641080a0ad0a9a6938f625d346b11cf378497fac` |
 | `src/contracts/shape.mjs` | 2666 | `648773e99701b3ed7ff314786b7222c7e0f3bc15945a737cf55a1d13dd1c4cf2` | `4ecd8cf326f177fd8c70927b6f8b85251672fec3` |
 | `src/evaluation/catalog.mjs` | 12765 | `45d82d55906885a3b1c9f3dfbf4cb876a4b28dc04d145cf76a37a0970721f0a2` | `293bd99d1036b2e9a66728d3bd06286e164a4b40` |
-| `src/evaluation/engine/store-manufacturing-core.mjs` | 77059 | `b3b283d0ccee8df92ec7e8b538f169e43cf89e3f5c603d848fda4e76fccbf363` | `af74ad501cd9d2bb76886ae36f85edd19feeff1c` |
+| `src/evaluation/engine/store-manufacturing-core.mjs` | 77826 | `b5f0cefbbca8682b4765140ef9ebd311d95b97192900735db2c8097745b945af` | `8cb6d9e403317847c62ea7e93ca3c41089f66b7e` |
 | `src/machine/configuration.mjs` | 1940 | `571f669b74da0801ae90c249b3e44412ae439bb32810df1cafc73812a9f7cdbc` | `d69bd8f46eb8429d90a78f3efe26c120981999c1` |
 | `src/machine/evidence.mjs` | 2672 | `4951328cad062407a3bdf927f78ff4b1638ba16fa941e6c100113e6357955fc3` | `aa95453cbf634fb79dbaefdc76d1bf6a3765c31b` |
 | `src/machine/lowering.mjs` | 3245 | `180aebb943edc78c6a842bbb672ef27384b18f741c4c628caf05507672781555` | `4b93497bf9926423b029b25e053091f3451c9785` |
@@ -5312,11 +5349,6 @@ The following identities describe the shipped executable package/source/data. Do
 | `src/requests/offering-lookup.mjs` | 7310 | `5a7528691235228a1ae465eef3f8643a658a5b0a1582ca90daf0f06e9df85aa3` | `11d08ac1e7455f4a44e5aa0941cfb133ed959355` |
 | `src/requests/store-request.mjs` | 7010 | `a10ea147e2e0fc9acd5df3b8df9670db08443c1d04df6c7018ed2a106e82a068` | `ea700ba9c5710990752adb5c33ee5cf8439eca65` |
 | `src/service/server.mjs` | 11188 | `63f65e69128e2f201e8b6b9fd103db30786776b585a304292372083157956472` | `f9fab6ee7123a1b9f4e7ac9168a2c47ed7ba0779` |
-| `data/machine/manufacturing-core-0.1.json` | 315 | `69640aec1f12afceccf49eed6d662312b31572306ee5e1fe22e6a004b58e769c` | `5293c61535efed5a43bcd4431304b4d5d9b9b12b` |
-| `data/sources/store-zero-hardware-sheet-2026-09-26.csv` | 2820 | `cfd81206161350d0ff0f06473bc1c43de3c5df31425b7ec4c9261d38d26f3c96` | `dbce9dd01d8a649d9be50e5ddbfe72c2343b370a` |
-| `data/sources/store-zero-observations.json` | 4614 | `16af3ad22d851af476cfba2691343a91906aa46054e5c6644677cfe392b30eaa` | `c6262d503a78fc6843d1697a52f6f6357a4e8c18` |
-| `data/sources/store-zero-price-sheet-2026-09-26.csv` | 8991 | `896d97b76e989c350ffe1da000311680072cfe4fa8dffafb42cb92536493e80b` | `82bdcca31347c93ae46db0fa1fd0a1c11f58f156` |
-| `data/store-zero-catalog.json` | 335127 | `32f4c8bd2db59c1d1ec34ed846d732ccc2fee8ce3339a45f72f0d8bef36cc979` | `d0789826eaa7829cd4ff6bc1c84e2e4da94630a0` |
 
 Patents and original Project 1 publication hashes are governed by their preserved checksum/publication manifests and immutable-evidence acceptance tests. A content hash establishes bytes, not physical qualification or actor authentication.
 
@@ -5330,7 +5362,7 @@ Use Node 22 or later. Catalog/test/benchmark checks cover the current repository
 npm run check:catalog
 npm test
 node scripts/benchmark-evaluation.mjs
-node scripts/verify-deployment.mjs https://store-zero-candidate-production.up.railway.app --commit 3f813fe060f1eff46a1b3cfdad1ad41465d230e0
+node scripts/verify-deployment.mjs https://store-zero-candidate-production.up.railway.app --commit "$(git rev-parse HEAD)"
 ```
 
 The deployed-pair record in System's verification note identifies production checks. Run System's five-project browser procedure with its exact pinned Store checkout and actual hosted URL. A green historical run cannot certify later code. Historical Project 1 reproduction uses its original evidence ZIP in an extracted working copy and is not a current manufacturing acceptance run.
@@ -5343,7 +5375,7 @@ The deployed-pair record in System's verification note identifies production che
 
 *Authority category: Historical Evidence*
 
-Historical migration recordings retain the original input/output hashes and adopted-model replay classification. See `acceptance/differential/` for the immutable corpus and its explicit classification. Those recordings document provenance; the current core and contracts in sections 3–6 govern installed behavior. Previous module layouts and diagnostic repair narratives remain in Git.
+Historical migration recordings retain the original input/output hashes and adopted-model replay classification. The current replay validates today’s input/result identities before reconstructing the archived identity representation for exact comparison of the full manufacturing answer. That representation omits only the separately introduced maximum-depth model field (whose value must equal the archived nominal) and already-attributed human-readable refusal descriptions; geometry, stock, operations, duration, Q and all other recorded fields must still match. No historical corpus or baseline bytes are regenerated. See `acceptance/differential/` for the immutable corpus and its explicit classification. Those recordings document provenance; the current core and contracts in sections 3–6 govern installed behavior. Previous module layouts and diagnostic repair narratives remain in Git.
 
 ### 15.2 Audit issues and resolution status
 

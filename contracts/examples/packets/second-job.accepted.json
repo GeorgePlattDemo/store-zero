@@ -2184,7 +2184,7 @@
     },
     "model": {
       "id": "STORE-MANUFACTURING-CORE-0.1",
-      "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18",
+      "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
       "basis": "DECLARED_REFERENCE_MODEL",
       "measured": false
     },
@@ -3326,8 +3326,8 @@
       }
     ],
     "calculationIdentity": {
-      "inputHash": "a852368bb12f1c1957bd650fd1170316327d6f7af2492f5d936f1d9256c6d71a",
-      "resultHash": "ca2944ed18a7c4bf11d6821b8d49f80f4081a66f0426bf58c32e203b19fee29c"
+      "inputHash": "c69a5190102f8a0af7ae81f0955182a18bdecf4a92150da757abe822a29cc57c",
+      "resultHash": "b8020c2bf748ff458374d41d029550f5563c0d2605fd39b81104b3022b5b359e"
     },
     "freshEvaluation": true,
     "evaluationReceipt": {
@@ -3340,21 +3340,21 @@
         "catalogHash": "392e5e28f368a662508453d276a9bc502c184696ee5803ed17ef9a5fa3d4955a",
         "manufacturingModel": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "f5523fcc008d1e0bd391802977296270bbac69905a2b32e1f4e6b32da084ce18"
+          "hash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25"
         },
         "machineConfiguration": {
           "id": "STORE-MANUFACTURING-CORE-0.1",
-          "hash": "87542b1d56d7e5624d6d85557a0d213b226b9ffc4454d561fd8616379c1e6884"
+          "hash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df"
         }
       },
       "demandHash": "8b67baf7e25ac342ec77a3c23abf21731d8549357f0352d90cfff43deef7033f",
       "manifestHash": "4fa11ec139c0e4d7a87a76b3e78c17bea71b09a4900582d78b62b50a187140b7",
       "status": "SUPPORTABLE",
       "calculationIdentity": {
-        "inputHash": "a852368bb12f1c1957bd650fd1170316327d6f7af2492f5d936f1d9256c6d71a",
-        "resultHash": "ca2944ed18a7c4bf11d6821b8d49f80f4081a66f0426bf58c32e203b19fee29c"
+        "inputHash": "c69a5190102f8a0af7ae81f0955182a18bdecf4a92150da757abe822a29cc57c",
+        "resultHash": "b8020c2bf748ff458374d41d029550f5563c0d2605fd39b81104b3022b5b359e"
       },
-      "receiptHash": "e9384b47bf312bd822a273b9e44a2aaf574b8bd311d527f6b1bd4f0a39f118f4"
+      "receiptHash": "3cf230e3a02089f95f69e9d4db0c410b9da8078e59c2871c2a44fdb632174eb9"
     }
   },
   "decision": {
