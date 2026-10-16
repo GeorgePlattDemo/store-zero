@@ -7,6 +7,8 @@ test('declared manufacturing core: 22 independent guide, inventory, geometry and
 import {evaluateStoreRequest} from '../src/requests/store-request.mjs';
 import {identifiedRequest} from './fixtures/manifest.mjs';
 import {compileDefinition,evaluateManufacturingJob} from '../src/evaluation/engine/store-manufacturing-core.mjs';
+import {USER1_DIMENSIONAL_TRAVEL_DEMAND} from './fixtures/user1-dimensional-travel-fixture.mjs';
+import {loadMachineConfig} from '../src/machine/configuration.mjs';
 
 function angledBraces(angleDeg=25) {
  const demand={configurationId:'OUTDOOR-BRACE-GEOMETRY',configurationVersion:'geometry-1',
@@ -59,4 +61,38 @@ test('an unrecognized measurement datum stays unresolved without a guessed conve
  assert.ok(r.reasonCodes.includes('LENGTH_DATUM_GEOMETRY_UNRESOLVED'));
  assert.ok(r.reasonMessage.length>20);
  assert.equal(r.Q,null);
+});
+
+test('D-001 registered 3/16-in pointed-drill spot is never modeled deeper than its full-diameter reference',()=>{
+ const registered=loadMachineConfig().model.dimensional.spot;
+ assert.equal(registered.diameterIn,0.1875);
+ assert.equal(registered.fullDiameterDepthIn,0.1875);
+ assert.equal(registered.pointAngleDeg,118);
+ const nominal=structuredClone(USER1_DIMENSIONAL_TRAVEL_DEMAND);
+ nominal.materialDemand.grade='construction';
+ const ask=(d,requestId)=>evaluateStoreRequest(identifiedRequest('USER_DEFINED_BOARD_V1',d,requestId),
+   {release:'SPOT-BOUNDARY-TEST',catalog:loadCatalog(),now:()=>new Date().toISOString()});
+ const answer=ask(nominal,'nominal');
+ assert.equal(answer.status,'SUPPORTABLE',JSON.stringify(answer.reasonCodes));
+ const pointHeight=(registered.diameterIn/2)/Math.tan(registered.pointAngleDeg*Math.PI/360);
+ const plunge=registered.fullDiameterDepthIn+pointHeight;
+ const parent=answer.parents.find(p=>p.kind==='board');
+ assert.ok(parent);
+ const spotMoves=answer.operations.filter(e=>e.kind==='MOVE'&&e.axis==='Z'&&e.category==='SPOT'&&e.target<parent.actualT);
+ assert.equal(spotMoves.length,2);
+ for(const move of spotMoves) assert.ok(Math.abs(move.target-(parent.actualT-plunge))<1e-9);
+ const explicitlySame=structuredClone(nominal);
+ explicitlySame.parts[0].features[0].fullDiameterDepthIn=0.1875;
+ assert.equal(ask(explicitlySame,'exact').status,'SUPPORTABLE');
+ const deeper=structuredClone(nominal);
+ deeper.parts[0].features[0].fullDiameterDepthIn=0.25;
+ const refused=ask(deeper,'deeper');
+ assert.equal(refused.status,'REFUSED');
+ assert.ok(refused.reasonCodes.includes('SPOT_DEPTH_NOT_DECLARED'));
+ assert.equal(refused.Q,null);
+ const shallower=structuredClone(nominal);
+ shallower.parts[0].features[0].fullDiameterDepthIn=0.125;
+ const fixedRange=ask(shallower,'shallower');
+ assert.equal(fixedRange.status,'REFUSED');
+ assert.ok(fixedRange.reasonCodes.includes('SPOT_DEPTH_NOT_DECLARED'));
 });
