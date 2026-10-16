@@ -880,7 +880,11 @@ Named standalone longitudinal profiles are limited to 60 inches and the containi
 
 *Authority category: Current System Behavior*
 
+D-001's registered `SPOT_ON_LOCATION` test function is bounded **pointed-drill spotting at specified component positions**. It is not a registered flat-bottom spotface, counterbore, through-hole, or general-purpose fastening pilot. The drill diameter is exactly **0.1875 inch (3/16 inch)**, the point included angle **118°**, and the currently modeled **full-diameter penetration is 0.1875 inch beyond the drill point**. That is also the stated *maximum* for this registered test configuration, not a requirement to penetrate beyond it. The existing engine currently executes that fixed nominal depth and admits an explicitly stated `fullDiameterDepthIn` only when exactly 0.1875; independently specified shallower depths must be refused until a separately validated variable-depth transform is implemented. Missing depth currently selects the registered nominal through Store, not System.
+
 Spots are customer-named features, not a generic hole count. Across-width rule is either centered on the prepared wide face or an allowed 1.5/2-inch inset from its edge. Centered spots cannot also carry a contradictory inset. Tool diameter and full-diameter depth, when supplied, must match the registered operation. A spot must fit within the part length by at least cutter radius at each end; an explicit longitudinal center rule also requires X=`length/2`.
+
+A location may be directly selected by the customer or derived by a named project rule from a customer choice. Job 1's center coordinate comes from `xIn = partLengthIn / 2`; it is not evidence that every possible spot location is available in that one specimen. The other admitted cut-package paths preserve supported explicit X and across-width rules. Both diameter and depth constraints, if supplied, must survive System translation and Store validation intact; a received but discarded requirement cannot be treated as satisfied.
 
 The 3/16-inch drill has a 118-degree point. Point height is
 
