@@ -390,6 +390,22 @@ function routerPasses(ledger, path, y, depth, startC, subject, remaining) {
   ledger.move('C', 0, subject, 'MILL');
 }
 
+// End geometry belongs to the System definition; width and material selection belong to Store.
+function stockEnvelope(group, part, widthIn) {
+  const {angleDeg,lengthDatum,endPointOrientation} = group.endCut;
+  need(positive(widthIn) && positive(part.lengthIn), 'STOCK_ENVELOPE_INPUT_INVALID', part.partId);
+  const offset = widthIn * Math.tan(angleDeg * Math.PI / 180);
+  let length;
+  if (angleDeg === 0 || lengthDatum === 'long-long-outer-edge') length = part.lengthIn;
+  else if (lengthDatum === 'long-point-to-short-point') {
+    need(endPointOrientation === 'long-to-short', 'END_POINT_ORIENTATION_CONTRADICTS_DATUM', group.packageId, 'UNRESOLVED');
+    length = part.lengthIn + offset;
+  } else throw new Problem('LENGTH_DATUM_GEOMETRY_UNRESOLVED', group.packageId, 'UNRESOLVED',
+    {declaredLengthDatum:lengthDatum});
+  return {finishedLengthIn:part.lengthIn, stockEnvelopeLengthIn:length, endOffsetIn:length-part.lengthIn,
+    actualCutWidthIn:widthIn, lengthDatum:lengthDatum ?? 'square-end-to-square-end'};
+}
+
 function boardCycle(model, stock, group, parts, previous) {
   const d = model.dimensional, l = new Ledger(model, previous), angle = group.endCut.angleDeg;
   l.stock = stock; l.parentId = stock.storeSku + ':' + parts.map(p => p.partId).join('+');
@@ -421,8 +437,11 @@ function boardCycle(model, stock, group, parts, previous) {
     routerPasses(l, remaining, fence - d.router.diameterIn / 2, stock.actualT, d.stations.toolXIn, 'FENCE_EDGE', remaining);
   }
   let start = 0;
-  const spots = [];
-  for (const p of parts) {
+  const spots = [], envelopes = parts.map(p => stockEnvelope(group, p, width));
+  for (const [index, p] of parts.entries()) {
+    const envelope = envelopes[index];
+    if (envelope.endOffsetIn > EPS) l.event('STOCK_ENVELOPE_DERIVED', 0, p.partId,
+      {partId:p.partId, ...envelope, kerfIn:d.saw.kerfIn}, 'REFERENCE');
     for (const f of p.edgeProfiles ?? []) {
       need(f.kind === 'MILL_LONGITUDINAL_PROFILE' && positive(f.pathLengthIn) && positive(f.totalDepthIn) && number(f.yIn), 'PROFILE_GEOMETRY_REQUIRED', f.featureId);
       need(f.pathLengthIn <= p.lengthIn + EPS && f.totalDepthIn <= stock.actualT + EPS, 'PROFILE_EXCEEDS_PART', f.featureId);
@@ -442,7 +461,7 @@ function boardCycle(model, stock, group, parts, previous) {
       if (f.locationRule === 'CENTERED_ON_PART') need(Math.abs(f.xIn - p.lengthIn / 2) < EPS, 'CENTERED_SPOT_LOCATION_MISMATCH', f.featureId);
       spots.push({ ...f, partId: p.partId, globalXIn: start + f.xIn, yIn: spotY(f, width, model) + fence });
     }
-    start += p.lengthIn + d.saw.kerfIn;
+    start += envelope.stockEnvelopeLengthIn + d.saw.kerfIn;
   }
   spots.sort((a, b) => a.globalXIn - b.globalXIn || a.featureId.localeCompare(b.featureId));
   let spindleOn = false;
@@ -457,10 +476,11 @@ function boardCycle(model, stock, group, parts, previous) {
     l.move('Z', stock.actualT + d.spot.clearanceIn, f.featureId, 'SPOT');
     l.event('FEATURE_ANSWERED', 0, f.featureId, { partId: f.partId, featureId: f.featureId, coverage: true }, 'SPOT');
   }
-  for (const p of parts) {
-    l.index(-p.lengthIn, p.partId, remaining);
+  for (const [index, p] of parts.entries()) {
+    const envelope = envelopes[index];
+    l.index(-envelope.stockEnvelopeLengthIn, p.partId, remaining);
     sawEvent(l, width, angle, p.partId, 'SAW');
-    remaining -= p.lengthIn + d.saw.kerfIn; captureC(l, p.partId);
+    remaining -= envelope.stockEnvelopeLengthIn + d.saw.kerfIn; captureC(l, p.partId);
     need(remaining >= d.stock.minRetainedLengthIn - EPS, 'RETAINED_CONTROL_LENGTH_TOO_SHORT', p.partId);
   }
   if (spindleOn) l.event('SPOT_SPINDLE_OFF', 0, 'PARENT_COMPLETE', {}, 'SPOT');
@@ -469,7 +489,9 @@ function boardCycle(model, stock, group, parts, previous) {
     { code: 'SAW_STROKE_IS_VIRTUAL_BENCHMARK', subject: l.parentId });
   return { events: l.events, state: l.state, physicalGaps: l.physicalGaps, remainingLengthIn: remaining,
     parentId: l.parentId, storeSku: stock.storeSku, partIds: parts.map(p => p.partId), preparedWidthIn: width,
-    components: parts.map(p => ({ partId: p.partId, nominalFinishedLengthIn: p.lengthIn, nominalFinishedWidthIn: width,
+    components: parts.map((p,index) => ({ partId: p.partId, nominalFinishedLengthIn: p.lengthIn, nominalFinishedWidthIn: width,
+      ...(envelopes[index].endOffsetIn > EPS ? {stockEnvelopeLengthIn:envelopes[index].stockEnvelopeLengthIn,
+        endOffsetIn:envelopes[index].endOffsetIn} : {}),
       thicknessIn: stock.actualT, endCut: clone(group.endCut), features: clone([...p.spots, ...p.edgeProfiles]),
       resultClass: 'MODELED_COMPONENT_NOT_INSPECTED' })) };
 }
