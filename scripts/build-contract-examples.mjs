@@ -16,6 +16,7 @@ import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../tests/fixtures/user1-dimensi
 import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
 import { sourceDigest } from "../src/service/server.mjs";
 import { loadCatalog } from "../src/evaluation/catalog.mjs";
+import { loadMachineConfig } from "../src/machine/configuration.mjs";
 import { verifyJobPacket } from "../src/contracts/job-packet.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
@@ -204,13 +205,20 @@ export function currentProject1Review(proof=currentProject1Proof()) {
     '**Source identity:** `'+proof.source.digest+'` ('+proof.source.files+' package, source and data files). The reference release label is this source digest, not a deployed git identity. Fixed example times make reproduction deterministic; they are not transaction dates.','',
     'System supplies the live integration counterpart in its required Chromium job: the published nested application derives both revisions, receives real HTTP Store answers, records customer acceptance, exports each exact packet and submits it to the pinned Store machine-evidence endpoint. The workflow publishes the full requests, commercial source events, accepted packets and virtual evidence under its actual System and Store revisions. A reference replay alone does not establish that browser handoff.','',
     '| Requirement or result | 16-inch default | 18-inch variation |','| --- | ---: | ---: |'];
+  const registration=loadMachineConfig().model.dimensional.spot;
+  const pointHeight=(registration.diameterIn/2)/Math.tan(registration.pointAngleDeg*Math.PI/360);
   const values=proof.specimens.map(s=>({length:s.lengthIn,angle:s.request.demand.sawAngleDeg,spot:s.lengthIn/2,answer:s.packet.storeAnswer}));
   const row=(label,fn)=>lines.push('| '+label+' | '+values.map(fn).join(' | ')+' |');
   row('Face miter magnitude',s=>s.angle+'°');row('Centered spot X',s=>s.spot+' in');
+  row('Registered spot drill diameter',()=>registration.diameterIn+' in');
+  row('Drill-point included angle',()=>registration.pointAngleDeg+'°');
+  row('Nominal full-diameter depth beyond point / current maximum',()=>registration.fullDiameterDepthIn+' in');
+  row('Modeled total drill-tip plunge',()=>Number((registration.fullDiameterDepthIn+pointHeight).toFixed(9))+' in');
   row('Selected parent',s=>s.answer.selectedStock[0].storeSku);row('Material',s=>'$'+s.answer.totals.material.toFixed(2));
   row('Modeled machine service',s=>'$'+s.answer.totals.machine_service.toFixed(2));row('Manufacturing Q',s=>'$'+s.answer.Q.toFixed(2));
   row('Occupied seconds',s=>s.answer.time.totalSeconds);row('Ledger records',s=>s.answer.operations.length);row('Modeled move events',s=>s.answer.operations.filter(o=>o.kind==='MOVE').length);
   lines.push('', '## Evidence and authority','',
+    'The D-001 feature is an identified-location shallow pointed-drill spot (\`SPOT_ON_LOCATION\`), not a flat-bottom spotface, through-hole or general fastening pilot. The centered longitudinal position follows the System project rule \`L/2\` from the customer\'s selected brace length; it is not separately re-entered. Registered tool diameter and full-diameter depth are each 3/16 in; the depth is measured beyond the 118° drill point and is the current configured maximum. An independently specified nonmatching depth is refused by the current fixed-depth evaluator. The complete accepted Store plan supplies the spot Z moves. Physical inspection and commissioning remain outstanding.','',
     'The receipt binds demand, manifest, catalog, machine configuration, model and calculation. Packet verification checks that binding and independently evaluates the current definition. Lowering carries the exact selected parents and operation ledger; virtual replay consumes those records without another stock search or pricing engine. Tests reject changed definitions, altered receipts and motion records, foreign release identities and physical-release claims.','',
     'All operation times and resulting component dimensions are modeled. Datum capture is nominal; retained-face/kerf registration, saw stroke and stock-control qualification remain physical gaps. Physical admission is BLOCKED and permits zero physical motion commands. No compiled controller runtime, inspected parts, live stock reservation, actual payment or commercial return is established. The current machine functions and operating envelope are governed by Store master chapters 5, 6 and 9.','',
     '## Complete evaluated ledgers','');
