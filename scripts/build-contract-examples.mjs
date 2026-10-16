@@ -230,6 +230,9 @@ export function currentMasterExamples(text=readFileSync(join(ROOT,'STORE-ZERO-MA
     const summary=Object.fromEntries(['status','complete','Q','reasonCodes','totals','time','selectedStock','optimization','calculationIdentity','evaluationReceipt'].filter(k=>answer[k]!==undefined).map(k=>[k,answer[k]]));
     summary.ledgerRecords=answer.operations?.length??0;summary.physicalAuthority=false;
     answers.push({id,answer});
+    // The former Outdoor request and receipt are sealed revision-specific
+    // evidence. It is not rewritten as though it were a new operative quote.
+    if (id === 'MASTER-OUTDOOR') return _whole;
     return '<!-- current-request '+id+' -->\n```json\n'+JSON.stringify(request,null,2)+'\n```\n\n<!-- current-result '+id+' -->\n```json\n'+JSON.stringify(summary,null,2)+'\n```';
   });
   if(answers.length!==6)throw Error('The master requires six complete current reference requests');
