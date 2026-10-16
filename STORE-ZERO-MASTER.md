@@ -424,7 +424,7 @@ This inquiry calls the registered core through the sole request layer and return
 
 ### 3.6 Cut and sheet contracts
 
-A cut package contains `packageId`, `material`, `endCut`, and nonempty `parts`. Material names species, form `board`, positive nominal thickness and width, and grade when required by offered choices. Square work states `angleDeg:0`; omission is not square. Angled work states angle 0–45, `endRelation:parallel`, `lengthDatum:long-long-outer-edge`, `plane:miter-face`. Finished width must be positive and compatible with actual stock. Two-edge preparation states both positive removals and finished width; Store validates their sum against actual width.
+A cut package contains `packageId`, `material`, `endCut`, and nonempty `parts`. Material names species, form `board`, positive nominal thickness and width, and grade when required by offered choices. Square work states `angleDeg:0`; omission is not square. Angled work states angle 0–45, `endRelation:parallel`, a supported `lengthDatum` (`long-long-outer-edge` or `long-point-to-short-point`), and `plane:miter-face`. The long-to-short convention is evaluated against each selected stock row's actual width and the projected saw kerf; its finished length is preserved, not relabeled. Finished width must be positive and compatible with actual stock. Two-edge preparation states both positive removals and finished width; Store validates their sum against actual width. Combining width preparation and the long-to-short mode remains explicitly unresolved.
 
 Each part names `partId`, positive `lengthIn`, and optional `spots` and `edgeProfiles`. Spots carry identity, longitudinal coordinate and centered/inset placement, with optional exact diameter/depth constraints. Profiles carry identity, `MILL_LONGITUDINAL_PROFILE`, path length, Y and total depth. A source-specific profile is fulfilled by whole-parent edge preparation only when its path, prepared width and through depth agree exactly under the code's tolerance.
 
@@ -746,7 +746,7 @@ Tasks run as sorted board groups, then sheet packages, then pooled hardware sele
 
 Before searching, Store may prove a shortage using the optimistic length capacity `sum(available parents × floor((parent length − reference kerf − minimum retained length)/(part length + kerf)))` for each required part length. If this upper bound is below the required count, the job returns `UNAVAILABLE / ON_HAND_SHORT`, with its required count and candidate stock capacity. Passing the bound does not establish a plan; tooling, features, competing parts and cumulative inventory still require complete evaluation.
 
-Angles must be numeric from 0 to 45 degrees. A nonzero angle requires parallel, long-long, miter-face end meaning. Missing nonzero end meaning is unresolved; an out-of-model angle is refused. Square packages can omit those redundant end facts, but supplied facts must agree. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
+Angles must be numeric from 0 to 45 degrees. A nonzero angle requires parallel ends, `miter-face` cut-plane identity, and a supported length datum. For `long-point-to-short-point`, the two broad-face planes are parallel and the same fence-edge longitudinal separation equals the part's stated finished length. The far-side endpoint offset is actual stock width × tan(angle); projected kerf is kerf/cos(angle). Both count against stock capacity. Missing nonzero end meaning is unresolved; an out-of-model angle is refused. Square packages can omit redundant end facts, but supplied facts must agree. Actual width must be 1.5–12 inches; actual thickness must be at least 0.75 and at most 3.5 inches for sawing, and at most 1.5 inches for routing. Prepared width must remain at least 1.5 inches and cannot exceed the parent width.
 
 Hardware and sheet eligibility use their own selector and model rules. The engine does not substitute a different wood grade, change a customer's fastener finish, or shrink an aperture to rescue feasibility.
 
@@ -762,7 +762,7 @@ and each part consumes $L_i+k$. A pattern fits only when
 
 $$\sum_i(L_i+k)\le C.$$
 
-The first kerf accounts for reference-cut establishment; subsequent kerfs account for every part separation. The retained end is part of stock consumption economics and control assumptions. A 72-inch parent with two 18-inch parts consumes $0.125+2(18+0.125)=36.375$ inches and leaves 35.625 inches. A hypothetical 60-inch parent leaves 23.625 inches and fails the retained-control-length rule. Minimum parent length and capacity are separate checks.
+The first kerf accounts for reference-cut establishment; subsequent kerfs account for every part separation. The retained end is part of stock consumption economics and control assumptions. For a parallel, broad-face, long-to-short part, replace the nominal kerf with its axial projection `k/cos(angle)` and additionally reserve one `actualW × tan(angle)` end-plane sweep per parent. This envelope is applied both in parent-pattern capacity and the independent stock-shortage upper bound, using the actual offered cross-section. The part's finished same-edge length remains `L_i`. Saw diameter and thickness yield an upper-bound blade chord check; actual blade engagement, clamping and physical qualification remain separate commissioning conditions. A 72-inch parent with two 18-inch parts consumes $0.125+2(18+0.125)=36.375$ inches and leaves 35.625 inches. A hypothetical 60-inch parent leaves 23.625 inches and fails the retained-control-length rule. Minimum parent length and capacity are separate checks.
 
 For a non-atomic group, parts are clustered into geometry/feature signatures excluding feature IDs. Enumeration chooses counts from each signature, retaining the first identified instances of equal geometry. Every next parent pattern must cover the first remaining part, avoiding equivalent empty/redundant branches. A group may contain at most 20 distinct part signatures. Atomic jobs test the entire remaining list as one pattern.
 
@@ -2540,11 +2540,11 @@ Eligible shorter parents remain available for shorter runs while each assigned p
 
 ### 8.5 Outdoor
 
-The [Ana White source](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) supplies the A-frame's angled-end lengths as long-point-to-short-point dimensions and specifies a bevel for the center supports. System preserves those dimensions and the support cut plane. It supplies no unverified conversion to Store's registered long-long face-miter datum. The resulting complete request remains UNRESOLVED with no Q; its unsupported requirements are not dropped to obtain a price.
+The [current Ana White webpage](https://www.ana-white.com/woodworking-projects/easiest-build-picnic-table-plans-free-pdf) supplies the A-frame's legs and cross supports at 25° off square, parallel broad-face end planes, measured long point to short point. Its assembly wording is less precise than its manufacturing requirements; the archived downloadable PDF is a different source edition with conflicting cross-support end relations and support lengths. System adopts the identified current webpage as the demonstration source and names the broad-face plane explicitly for each part group. Store accepts that supported datum without changing the finished lengths, evaluates the actual stock cross-section, projected kerf, swept reference end and retained control, and issues a Q only when the complete inventory and capability checks succeed. Neither a mismatched cut-plane requirement nor another source edition is silently normalized.
 
 The selected wood is an application/customer variant applied across its groups. The source recommends untreated tabletop/seat boards and permits treated legs/supports; an all-treated variant is not labeled the source's wood recommendation. Screw gauge and inferred hardware counts remain attributed application choices.
 
-The separately selectable table-and-benches plan uses square cuts. Its supported definitions still receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
+The separately selectable table-and-benches plan uses square cuts. Both plans receive normal Store selection, fresh receipts, modeled Q and the simulated customer journey only when their complete definitions fit available inventory and the registered machine model. Requested spots and decorative cuts carry complete identities and must fit the registered envelope. No plan changes the Store model merely by naming a tool.
 
 **Complete reference request and current returned summary**
 
@@ -2670,7 +2670,7 @@ The separately selectable table-and-benches plan uses square cuts. Its supported
           "angleDeg": 25,
           "endRelation": "parallel",
           "lengthDatum": "long-point-to-short-point",
-          "plane": "bevel-edge"
+          "plane": "miter-face"
         },
         "parts": [
           {
@@ -4749,7 +4749,7 @@ The following register gives the actual core conditions, extracted from the froz
 | `JOB_REQUIREMENTS_REMAIN_UNEVALUATED` | UNRESOLVED | `Array.isArray(m.unresolvedRequirements) && m.unresolvedRequirements.length === 0` |
 | `BOARD_MATERIAL_REQUIRED` | UNRESOLVED | `text(b.material.species) && b.material.form === 'board' && positive(b.material.nominalT) && positive(b.material.nominalW)` |
 | `END_ANGLE_OUTSIDE_MODEL` | REFUSED | `number(b.endCut.angleDeg) && b.endCut.angleDeg >= 0 && b.endCut.angleDeg <= 45` |
-| `MITER_END_GEOMETRY_NOT_EVALUATED` | UNRESOLVED | `b.endCut.endRelation === 'parallel' && b.endCut.lengthDatum === 'long-long-outer-edge' && b.endCut.plane === 'miter-face'` |
+| `MITER_END_GEOMETRY_NOT_EVALUATED` | UNRESOLVED | Parallel ends and broad-face cut plane, with an explicitly supported long-long or long-to-short length datum |
 | `END_RELATION_NOT_DECLARED` | REFUSED | `b.endCut.endRelation === 'parallel'` |
 | `LENGTH_DATUM_NOT_DECLARED` | REFUSED | `b.endCut.lengthDatum === 'long-long-outer-edge'` |
 | `CUT_PLANE_NOT_DECLARED` | REFUSED | `b.endCut.plane === 'miter-face'` |
@@ -5293,7 +5293,7 @@ Current owner behavior is explicit:
 
 | Concern | Current governing behavior |
 | --- | --- |
-| Source end meaning | System preserves A-frame source lengths/datum and support bevel; Store returns UNRESOLVED without Q for unregistered end geometry |
+| Source end meaning | The selected current Ana White webpage is translated into individually identified 25° parallel broad-face planes. Store preserves long-to-short finished length, evaluates stock-dependent end sweep and projected kerf, and continues to refuse unsupported plane/datum combinations |
 | Material attribution | A chosen all-treated definition is an application/customer variant; it is not attributed as the source recommendation |
 | Manifest and optional fields | The independent System manifest covers all required work; System definition shapes match the inspected Store contract, including optional tooling/profile/tab/offset fields |
 | Accepted packet | Public terms export the existing accepted decision with exact manifest, demand and Store answer; Store independently verifies and requotes before lowering |
