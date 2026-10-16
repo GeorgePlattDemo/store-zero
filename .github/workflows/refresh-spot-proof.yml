@@ -4,6 +4,7 @@ on:
     branches: [feature/manufacturing-terms-spot-depth-20261016]
     paths:
       - .github/workflows/refresh-spot-proof.yml
+      - scripts/build-contract-examples.mjs
   workflow_dispatch:
 permissions:
   contents: write
