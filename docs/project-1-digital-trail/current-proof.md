@@ -12,6 +12,10 @@ System supplies the live integration counterpart in its required Chromium job: t
 | --- | ---: | ---: |
 | Face miter magnitude | 30° | 26.387799961243° |
 | Centered spot X | 8 in | 9 in |
+| Registered spot drill diameter | 0.1875 in | 0.1875 in |
+| Drill-point included angle | 118° | 118° |
+| Nominal full-diameter depth beyond point / current maximum | 0.1875 in | 0.1875 in |
+| Modeled total drill-tip plunge | 0.243830683 in | 0.243830683 in |
 | Selected parent | STB-ZERO-SPF-2X4-60-001 | STB-ZERO-SPF-2X4-72-001 |
 | Material | $2.61 | $3.13 |
 | Modeled machine service | $6.01 | $6.00 |
@@ -21,6 +25,8 @@ System supplies the live integration counterpart in its required Chromium job: t
 | Modeled move events | 22 | 22 |
 
 ## Evidence and authority
+
+The D-001 feature is an identified-location shallow pointed-drill spot (`SPOT_ON_LOCATION`), not a flat-bottom spotface, through-hole or general fastening pilot. The centered longitudinal position follows the System project rule `L/2` from the customer's selected brace length; it is not separately re-entered. Registered tool diameter and full-diameter depth are each 3/16 in; the depth is measured beyond the 118° drill point and is the current configured maximum. An independently specified nonmatching depth is refused by the current fixed-depth evaluator. The complete accepted Store plan supplies the spot Z moves. Physical inspection and commissioning remain outstanding.
 
 The receipt binds demand, manifest, catalog, machine configuration, model and calculation. Packet verification checks that binding and independently evaluates the current definition. Lowering carries the exact selected parents and operation ledger; virtual replay consumes those records without another stock search or pricing engine. Tests reject changed definitions, altered receipts and motion records, foreign release identities and physical-release claims.
 
