@@ -241,7 +241,8 @@ function validateJob(job) {
     if (b.material.grade !== undefined) identity(b.material.grade, b.packageId + '.grade');
     keys(b.endCut, ['angleDeg', 'endRelation', 'lengthDatum', 'plane'], b.packageId + '.endCut');
     need(number(b.endCut.angleDeg) && b.endCut.angleDeg >= 0 && b.endCut.angleDeg <= 45, 'END_ANGLE_OUTSIDE_MODEL', b.packageId);
-    if (b.endCut.angleDeg > 0) need(b.endCut.endRelation === 'parallel' && b.endCut.lengthDatum === 'long-long-outer-edge'
+    if (b.endCut.angleDeg > 0) need(b.endCut.endRelation === 'parallel'
+      && ['long-long-outer-edge', 'long-point-to-short-point'].includes(b.endCut.lengthDatum)
       && b.endCut.plane === 'miter-face', 'MITER_END_GEOMETRY_NOT_EVALUATED', b.packageId, 'UNRESOLVED');
     else {
       if (b.endCut.endRelation !== undefined) need(b.endCut.endRelation === 'parallel', 'END_RELATION_NOT_DECLARED', b.packageId);
@@ -376,9 +377,34 @@ function routerPasses(ledger, path, y, depth, startC, subject, remaining) {
   ledger.move('C', 0, subject, 'MILL');
 }
 
+// Parallel cuts on the broad face form a parallelogram. On each fence-side
+// longitudinal edge, one endpoint is long and the other short, so their
+// separation is exactly the requested long-to-short dimension. The far face
+// extends by actual stock width * tan(angle) at the end of each part.
+// Account for that envelope once per parent, and the axial projection of
+// each blade kerf. This convention is not imposed on older long-long jobs.
+function parallelEndGeometry(model, stock, group) {
+  if (group.endCut.lengthDatum !== 'long-point-to-short-point') return null;
+  const e = group.endCut, saw = model.dimensional.saw;
+  need(e.angleDeg > 0 && e.endRelation === 'parallel' && e.plane === 'miter-face',
+    'PARALLEL_END_DEFINITION_REQUIRED', group.packageId, 'UNRESOLVED');
+  need(group.finishedWidthIn === undefined && group.edgePreparation === undefined,
+    'PARALLEL_END_WITH_EDGE_PREPARATION_UNEVALUATED', group.packageId, 'UNRESOLVED');
+  const radians = e.angleDeg * Math.PI / 180;
+  const endSweepIn = stock.actualW * Math.tan(radians);
+  const axialKerfIn = saw.kerfIn / Math.cos(radians);
+  const cutPathIn = stock.actualW / Math.cos(radians);
+  const bladeChordIn = 2 * Math.sqrt(Math.max(0, (saw.diameterIn / 2) ** 2 - (stock.actualT / 2) ** 2));
+  need(cutPathIn <= bladeChordIn + EPS, 'SAW_BLADE_SECTION_ENVELOPE_EXCEEDED',
+    group.packageId, 'UNRESOLVED');
+  return { endSweepIn, axialKerfIn, cutPathIn, bladeChordIn };
+}
+
 function boardCycle(model, stock, group, parts, previous) {
   const d = model.dimensional, l = new Ledger(model, previous), angle = group.endCut.angleDeg;
   l.stock = stock; l.parentId = stock.storeSku + ':' + parts.map(p => p.partId).join('+');
+  const ends = parallelEndGeometry(model, stock, group);
+  const kerf = ends?.axialKerfIn ?? d.saw.kerfIn;
   for (const [axis, clearance] of [['Z', d.spot.clearanceIn], ['RZ', d.router.clearanceIn]]) {
     if (l.state[axis] === null) l.state[axis] = stock.actualT + clearance;
     else l.move(axis, Math.max(l.state[axis], stock.actualT + clearance), 'NEXT_STOCK_CLEARANCE', 'INDEX');
@@ -388,7 +414,11 @@ function boardCycle(model, stock, group, parts, previous) {
   if (l.state.A !== angle) { l.move('A', angle, 'PARENT_END_ANGLE'); l.delay('ANGLE_SETTLE', d.allowances.angleSettleSec, l.parentId, 'INDEX'); }
   l.delay('CLAMP_ALLOWANCE', d.allowances.clampSec, l.parentId, 'INDEX');
   sawEvent(l, stock.actualW, angle, 'REFERENCE_CUT', 'REFERENCE'); captureC(l, 'REFERENCE_CUT');
-  let remaining = stock.stockL_in - d.saw.kerfIn;
+  if (ends) l.event('DEFINED_END_PLANES', 0, 'REFERENCE_CUT', {
+    lengthDatum: group.endCut.lengthDatum, atFenceEdgeXIn: 0,
+    atOppositeEdgeXIn: ends.endSweepIn, cutPathIn: ends.cutPathIn,
+    bladeChordIn: ends.bladeChordIn, axialKerfIn: kerf }, 'REFERENCE');
+  let remaining = stock.stockL_in - kerf - (ends?.endSweepIn ?? 0);
   const width = group.finishedWidthIn ?? stock.actualW;
   const far = group.edgePreparation?.farEdgeRemovalIn ?? stock.actualW - width, fence = group.edgePreparation?.fenceEdgeRemovalIn ?? 0;
   need(width >= d.stock.minWidthIn - EPS && width <= stock.actualW + EPS, 'PREPARED_WIDTH_OUTSIDE_CONTROL_ENVELOPE', group.packageId);
@@ -426,9 +456,13 @@ function boardCycle(model, stock, group, parts, previous) {
       need(number(f.xIn) && f.xIn >= d.spot.diameterIn / 2 && f.xIn <= p.lengthIn - d.spot.diameterIn / 2,
         'SPOT_TOOL_LEAVES_PART_END', f.featureId);
       if (f.locationRule === 'CENTERED_ON_PART') need(Math.abs(f.xIn - p.lengthIn / 2) < EPS, 'CENTERED_SPOT_LOCATION_MISMATCH', f.featureId);
-      spots.push({ ...f, partId: p.partId, globalXIn: start + f.xIn, yIn: spotY(f, width, model) + fence });
+      const yIn = spotY(f, width, model) + fence;
+      if (ends) need(f.xIn - yIn * Math.tan(angle * Math.PI / 180) >= d.spot.diameterIn / 2 - EPS
+        && p.lengthIn + yIn * Math.tan(angle * Math.PI / 180) - f.xIn >= d.spot.diameterIn / 2 - EPS,
+        'SPOT_LEAVES_ANGLED_END_FACE', f.featureId);
+      spots.push({ ...f, partId: p.partId, globalXIn: start + f.xIn, yIn });
     }
-    start += p.lengthIn + d.saw.kerfIn;
+    start += p.lengthIn + kerf;
   }
   spots.sort((a, b) => a.globalXIn - b.globalXIn || a.featureId.localeCompare(b.featureId));
   let spindleOn = false;
@@ -446,7 +480,11 @@ function boardCycle(model, stock, group, parts, previous) {
   for (const p of parts) {
     l.index(-p.lengthIn, p.partId, remaining);
     sawEvent(l, width, angle, p.partId, 'SAW');
-    remaining -= p.lengthIn + d.saw.kerfIn; captureC(l, p.partId);
+    if (ends) l.event('DEFINED_END_PLANES', 0, p.partId, {
+      lengthDatum: group.endCut.lengthDatum, atFenceEdgeXIn: p.lengthIn,
+      atOppositeEdgeXIn: p.lengthIn + ends.endSweepIn, cutPathIn: ends.cutPathIn,
+      bladeChordIn: ends.bladeChordIn, axialKerfIn: kerf }, 'SAW');
+    remaining -= p.lengthIn + kerf; captureC(l, p.partId);
     need(remaining >= d.stock.minRetainedLengthIn - EPS, 'RETAINED_CONTROL_LENGTH_TOO_SHORT', p.partId);
   }
   if (spindleOn) l.event('SPOT_SPINDLE_OFF', 0, 'PARENT_COMPLETE', {}, 'SPOT');
@@ -730,10 +768,13 @@ function groupsFor(job, catalog, model) {
     const lengths = new Map();
     for (const part of group.parts) lengths.set(part.lengthIn, (lengths.get(part.lengthIn) ?? 0) + 1);
     for (const [partLengthIn, requiredParts] of lengths) {
-      const eligibleStock = rows.map(row => ({storeSku:row.storeSku, stockLengthIn:row.stockL_in,
-        availableParents:row.onHand-row.allocated,
-        maxPartsPerParent:Math.max(0,Math.floor((row.stockL_in-model.dimensional.saw.kerfIn
-          -model.dimensional.stock.minRetainedLengthIn+EPS)/(partLengthIn+model.dimensional.saw.kerfIn)))}));
+      const eligibleStock = rows.map(row => {
+        const ends = parallelEndGeometry(model, row, group), kerf = ends?.axialKerfIn ?? model.dimensional.saw.kerfIn;
+        return {storeSku:row.storeSku, stockLengthIn:row.stockL_in,
+          availableParents:row.onHand-row.allocated,
+          maxPartsPerParent:Math.max(0,Math.floor((row.stockL_in-kerf-(ends?.endSweepIn??0)
+            -model.dimensional.stock.minRetainedLengthIn+EPS)/(partLengthIn+kerf)))};
+      });
       const availablePartCapacity = eligibleStock.reduce((n,row)=>n+row.availableParents*row.maxPartsPerParent,0);
       if (availablePartCapacity < requiredParts) throw new Problem('ON_HAND_SHORT', group.packageId, 'UNAVAILABLE',
         {stockShortage:{partLengthIn,requiredParts,availablePartCapacity,eligibleStock,basis:'OPTIMISTIC_LENGTH_CAPACITY_BOUND'}});
@@ -765,8 +806,10 @@ function partSignature(p) {
   return canonical({ lengthIn: p.lengthIn, spots: p.spots.map(({ featureId, ...f }) => f), edgeProfiles: p.edgeProfiles.map(({ featureId, ...f }) => f) });
 }
 function* parentPatterns(task, remaining, row, model) {
-  const d = model.dimensional, capacity = row.stockL_in - d.saw.kerfIn - d.stock.minRetainedLengthIn;
-  const parts = task.group.parts, weight = i => parts[i].lengthIn + d.saw.kerfIn;
+  const d = model.dimensional, ends = parallelEndGeometry(model, row, task.group);
+  const kerf = ends?.axialKerfIn ?? d.saw.kerfIn;
+  const capacity = row.stockL_in - kerf - (ends?.endSweepIn??0) - d.stock.minRetainedLengthIn;
+  const parts = task.group.parts, weight = i => parts[i].lengthIn + kerf;
   if (task.group.singleParent) { if (remaining.reduce((s, i) => s + weight(i), 0) <= capacity + EPS) yield remaining; return; }
   const kinds = new Map();
   for (const i of remaining) { const key = task.partSignatures[i]; if (!kinds.has(key)) kinds.set(key, []); kinds.get(key).push(i); }
