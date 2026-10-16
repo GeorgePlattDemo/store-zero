@@ -890,7 +890,7 @@ The 3/16-inch drill has a 118-degree point. Point height is
 
 $$h_p={0.1875/2\over\tan(118^\circ/2)}=0.056330683\ldots\ \text{in}.$$
 
-A 3/16-inch **full-diameter** spot depth therefore requires total plunge
+The registered maximum 3/16-inch **full-diameter** spot depth therefore requires total plunge
 
 $$d_z=0.1875+h_p=0.243830683\ldots\ \text{in}.$$
 
