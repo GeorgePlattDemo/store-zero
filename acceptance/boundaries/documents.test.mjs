@@ -15,7 +15,7 @@ const SPEC = "docs/STORE-ZERO-SPECIFICATION.md";
 const anchorsOf = (markdown) =>
   new Set(markdown.split("\n").filter((l) => /^#{1,6} /.test(l)).map((l) => l.replace(/^#+ /, "").trim().toLowerCase().replace(/[^\p{L}\p{N}\- _]/gu, "").replace(/ /g, "-")));
 
-const OUR_DOCUMENTS = ["README.md", "AGENTS.md", "STORE-ZERO-MASTER.md", "docs/project-1-digital-trail/current-proof.md", SPEC, "docs/patents/README.md", "docs/project-1-digital-trail/README.md"];
+const OUR_DOCUMENTS = ["README.md", "AGENTS.md", "STORE-ZERO-MASTER.md", "docs/project-1-digital-trail/current-proof.md", SPEC, "docs/patents/README.md", "PROJECT-1-CURRENT-DIGITAL-MANUFACTURING-PROOF.md"];
 
 test("every relative link in our documents reaches a file, and every anchor a heading", () => {
   for (const doc of OUR_DOCUMENTS) {
@@ -66,5 +66,33 @@ test("the issued patents are the issued patents", () => {
 // This task's owner-approved freeze is separate from historical publication custody.
 test('the repository root README retains its approved frozen bytes',()=>{
  const bytes=readFileSync(join(ROOT,'README.md'));
- assert.equal(createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'),'35aa77cb0586b66728962e066cac129a8b92d9a2');
+ assert.equal(createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'),'d15de599d9f86f7354b7a92f56d8ca4136de7ea8');
+});
+
+
+test('complete published Project 1 proof matches current Store generated operations and totals',()=>{
+  const md=read('PROJECT-1-CURRENT-DIGITAL-MANUFACTURING-PROOF.md');
+  const cur=JSON.parse(read('docs/project-1-digital-trail/current-proof.json'));
+  assert.equal(cur.specimens.length,3);
+  assert.equal(cur.specimens.map(s=>s.id).join(','),'16,18,18-selected');
+  assert.ok(md.includes(cur.source.digest));
+  const qs='| **Whole-job manufacturing Q** | '+cur.specimens.map(s=>'**$'+s.packet.storeAnswer.Q.toFixed(2)+'**').join(' | ')+' |';
+  const seconds='| Modeled hourly seconds | '+cur.specimens.map(s=>s.packet.storeAnswer.time.totalSeconds).join(' | ')+' |';
+  assert.ok(md.includes(qs),'Store Q mismatch');
+  assert.ok(md.includes(seconds),'Store occupancy mismatch');
+  for(const [index,s] of cur.specimens.entries()){
+    const start='### 14.'+(index+1)+' ',from=md.indexOf(start);
+    const end=index<2?md.indexOf('### 14.'+(index+2)+' ',from+start.length):md.indexOf('## 15.',from+start.length);
+    assert.ok(from>=0&&end>from,'Missing full ledger '+s.id);
+    const block=md.slice(from,end),answer=s.packet.storeAnswer;
+    assert.ok(block.includes(answer.calculationIdentity.inputHash));
+    assert.ok(block.includes(answer.calculationIdentity.resultHash));
+    assert.equal(answer.operations.length,51);
+    assert.equal(answer.operations.filter(o=>o.kind==='MOVE').length,22);
+    for(const [i,op] of answer.operations.entries()){
+      const action=op.kind+(op.axis?' '+op.axis+' '+op.from+' → '+op.target:'');
+      const row='| '+(i+1)+' | '+action+' | '+op.subject+' | '+op.seconds+' |';
+      assert.ok(block.includes(row),s.id+' ledger operation '+(i+1)+' mismatch');
+    }
+  }
 });
