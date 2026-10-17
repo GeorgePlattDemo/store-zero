@@ -17,7 +17,7 @@ import { USER1_DIMENSIONAL_TRAVEL_DEMAND } from "../tests/fixtures/user1-dimensi
 import { alcoveCutPackages } from "../tests/fixtures/alcove-cut-packages.mjs";
 import { sourceDigest } from "../src/service/server.mjs";
 import { loadCatalog } from "../src/evaluation/catalog.mjs";
-import { loadMachineConfig } from "../src/machine/configuration.mjs";
+import { loadMachineConfig, machineConfigHash } from "../src/machine/configuration.mjs";
 import { verifyJobPacket } from "../src/contracts/job-packet.mjs";
 
 const ROOT = fileURLToPath(new URL("../", import.meta.url));
@@ -253,6 +253,7 @@ export function currentMasterExamples(text=readFileSync(join(ROOT,'STORE-ZERO-MA
   const list=dir=>readdirSync(join(ROOT,dir)).flatMap(name=>{const path=dir+'/'+name;return statSync(join(ROOT,path)).isDirectory()?list(path):[path];});
   const inventory=['package.json',...list('src'),...list('data')].sort().map(path=>{const bytes=readFileSync(join(ROOT,path));return '| `'+path+'` | '+bytes.length+' | `'+createHash('sha256').update(bytes).digest('hex')+'` | `'+createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex')+'` |';}).join('\n');
   text=text.replace(/The current digest is `[a-f0-9]+` over \d+ files\./,'The current digest is `'+source.digest+'` over '+source.files+' files.');
+  text=text.replace(/The current registered configuration hash is `[a-f0-9]+`/,'The current registered configuration hash is `'+machineConfigHash(loadMachineConfig())+'`');
   text=text.replace(/(### 14\.4 Content identities[^]*?\| --- \| ---: \| --- \| --- \|\n)[^]*?(\n\nPatents and original)/,'$1'+inventory+'$2');
   return text.replace(/<!-- current-examples-table -->[^]*?<!-- end-current-examples-table -->/,'<!-- current-examples-table -->\n'+table+'\n<!-- end-current-examples-table -->')
     .replace(/<!-- current-ledger-table -->[^]*?<!-- end-current-ledger-table -->/,'<!-- current-ledger-table -->\n'+ledger+'\n<!-- end-current-ledger-table -->')
