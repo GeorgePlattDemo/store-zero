@@ -1194,7 +1194,7 @@ Unselected mechanical/electrical elements remain consequential: rails/racks/pini
 
 *Authority category: Historical Evidence*
 
-The original Project 1 publication is historical evidence, not architectural authority. Sections 7.1–7.10 and 7.12 explain that specimen at its recorded revisions, including its engineering findings and uncommissioned controller reference. Section 7.11 identifies the separate comparison evaluation. Current public SPF acceptance is described in sections 8.2 and 9 and in the [current integration evidence index](docs/project-1-digital-trail/README.md).
+The original Project 1 publication is historical evidence, not architectural authority. Sections 7.1–7.10 and 7.12 explain that specimen at its recorded revisions, including its engineering findings and uncommissioned controller reference. Section 7.11 identifies the separate comparison evaluation. Current public SPF acceptance is described in sections 8.2 and 9 and in the [current integration evidence index](PROJECT-1-CURRENT-DIGITAL-MANUFACTURING-PROOF.md).
 
 ### 7.1 Specimen sources and identities
 
@@ -1395,7 +1395,7 @@ Fresh reproduction for this master passes **14/14**, with no failed checks. Scop
 
 *Authority category: Current System Behavior*
 
-The current treated-lumber comparison is a new evaluation of explicitly declared grade and end geometry, not the historical $11.09 result. It returns Q $10.81 and 86.46953628299116 modeled seconds under the adopted core. Its purpose is a comparison with the sealed specimen. The current public SPF acceptance cases and complete regenerated results are in sections 8.2 and 9 and the [current evidence index](docs/project-1-digital-trail/README.md).
+The current treated-lumber comparison is a new evaluation of explicitly declared grade and end geometry, not the historical $11.09 result. It returns Q $10.81 and 86.46953628299116 modeled seconds under the adopted core. Its purpose is a comparison with the sealed specimen. The current public SPF acceptance cases and complete regenerated results are in sections 8.2 and 9 and the [current evidence index](PROJECT-1-CURRENT-DIGITAL-MANUFACTURING-PROOF.md).
 
 Do not reuse the historical receipt or manufacture an unchanged hash for a new evaluation. New inputs, request identity, executable model and evaluation time retain their own identities.
 
@@ -1419,7 +1419,7 @@ The current commercial chain in chapter 10 consumes the appropriate current rece
 
 System owns the five project definitions. Store accepts three neutral manufacturing classes and evaluates them with one planner/time/Q engine. The six complete reference requests below cover both Project 1 settings and the other four projects. Their explicit reference IDs distinguish reproducible inputs from captured live transactions. `npm run build:examples` regenerates every returned summary and this table against the current source and catalog; acceptance rejects stale worked results. The content-addressed reference release and fixed example clock are reproduction inputs, not deployed-process identities or transaction dates.
 
-Required System Chromium checks exercise the actual nested pages, changed definitions, complete answers and refusals. Project 1 additionally exports the customer's actual simulated acceptance into the exact packet and submits it to the real pinned Store for lowering/replay. Its per-run artifact carries the actual System/Store revisions and source health identity. [Current Project 1 evidence](docs/project-1-digital-trail/README.md) explains the complete proof.
+Required System Chromium checks exercise the actual nested pages, changed definitions, complete answers and refusals. Project 1 additionally exports the customer's actual simulated acceptance into the exact packet and submits it to the real pinned Store for lowering/replay. Its per-run artifact carries the actual System/Store revisions and source health identity. [Current Project 1 evidence](PROJECT-1-CURRENT-DIGITAL-MANUFACTURING-PROOF.md) explains the complete proof.
 
 <!-- current-examples-table -->
 | Reference inquiry | Status | Manufacturing Q USD | Modeled seconds | Search complete |
