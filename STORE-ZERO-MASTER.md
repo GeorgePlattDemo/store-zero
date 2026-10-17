@@ -1596,7 +1596,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
     "requestId": "MASTER-SYO-16",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1614,7 +1614,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
       "inputHash": "8321bd81011748c11ba33cfb41d1a9c4b117f559935fe7a1cef1652e803707d6",
       "resultHash": "15ebbe3b624d15b87d0a5d953de94ee4dad8b40210b3ba1fa4d6cb28371b00ab"
     },
-    "receiptHash": "4611d8f9d12d7498985ad8dac89dbbbbdcac4168a69c303456e2568317917b61"
+    "receiptHash": "c9503d8556177e8d3eeb7d37435eba6420b4936a6a3777c583ba114300c2e1cd"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -1777,7 +1777,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
     "requestId": "MASTER-SYO-18",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1795,7 +1795,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
       "inputHash": "b963674eccd5aa85087606b6187893a05acfb24bef3f2f71b8e0403134ef3361",
       "resultHash": "1c4bf6a2261268a4daf989051d6d0137f6d0c6b707cb71a10bc0bd5fd4a1c2ac"
     },
-    "receiptHash": "0df36f47c8671213cf2a44980c1fdaaa955cfbea30f4e96e6bb35dfcca27c93f"
+    "receiptHash": "a6cbbbb6baf61b5024e6a4562cc61114f53b8ef363913ccb2476731de9f13677"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -2150,7 +2150,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
     "requestId": "MASTER-ALCOVE-ECONOMY",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2168,7 +2168,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
       "inputHash": "56929717b78d58f5ad2d7baf2ae7449724ed7ab6fe1acf4ee85a2f54f3328b9f",
       "resultHash": "4fb529b9f5e4a3a51c519b5a6be67e138f03c50aac76c035521106ac4910e779"
     },
-    "receiptHash": "49e4d0014738fce5589539618f27e2988b0670fb45e8f72dcdb743d31500408f"
+    "receiptHash": "714800dd1f8966fbacb8214a8eb7fa539cd20a0ce3e144a0c110369f71d372ca"
   },
   "ledgerRecords": 269,
   "physicalAuthority": false
@@ -2623,7 +2623,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
     "requestId": "MASTER-WINDOW-SEAT",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2641,7 +2641,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
       "inputHash": "5506a7d4af2d91530bd3004a3c937ce7278576bb659ae85c2863ddfdafb7853b",
       "resultHash": "4772128c20915874e28e3463f27893cad34c6dc2a843ba1c16af5189988eec18"
     },
-    "receiptHash": "d4cfa1cc9dae0af7441a47ec577cac8b4eb2c2a85d4419cbf8dd278c70cdbc3b"
+    "receiptHash": "53d26b18626a50a98fc0d8339c8e91f7d65023d57839a1ae0b4b9645032f5afd"
   },
   "ledgerRecords": 1072,
   "physicalAuthority": false
@@ -3077,7 +3077,7 @@ Current live refusals retain their reason codes, reason records and human-readab
     "requestId": "MASTER-OUTDOOR",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -3095,7 +3095,7 @@ Current live refusals retain their reason codes, reason records and human-readab
       "inputHash": "bd815b6d7953559ff197ac81fe154e2b7ab48f57d849dc1199cd55e9801e48d5",
       "resultHash": "7bea62b880e2e71bb106322c5d9e6b036b7a4fa17e3140bd2ef68a7fd73b47e3"
     },
-    "receiptHash": "bbf4e29e41f2651fe9d090bfbf0f06d1220580d0a5c747bfa129dba6b0c65a7a"
+    "receiptHash": "133570b4d91c742593616bbc9db07c1815cf067c777be1d0d9deced0694a062d"
   },
   "ledgerRecords": 392,
   "physicalAuthority": false
@@ -3248,7 +3248,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
     "requestId": "MASTER-PLAYHOUSE",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b",
+      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -3266,7 +3266,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
       "inputHash": "5ce8c01ef90f6b34c8fa18dd4a5b6b47f4ba3fbe8904852efc1a68468157db2d",
       "resultHash": "58f058ded791c387f46932f03f31fcba27aa90d55170513eb276777e5f322fa6"
     },
-    "receiptHash": "053fc82d86d0b568f4d68d3b5a9c1b2b211368c703621e40861cdc7b10e91a3b"
+    "receiptHash": "641dee442be91a39ecad9aca8ef5a39cbdc866d16bb983f7ca52a2383b1ba946"
   },
   "ledgerRecords": 15,
   "physicalAuthority": false
@@ -3351,12 +3351,12 @@ For the current 18-inch SPF Project 1 reference packet, the regenerated binding 
     "packetId": "PACKET-CURRENT-PROJECT-1-18",
     "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
     "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-    "packetHash": "ba513ad36885bf0482b055242c25e56ab33fbd27a502e7a1c06963b322e01b22",
+    "packetHash": "6d518dc9f9dac2e74e3a5c4034da902696499bd44e2da334017a55367847641a",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
     "machineConfigHash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df",
     "modelHash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
-    "localJobHash": "c34a046c87ccb144099d7f28c1cab5f0c2d39a0d038463f3e1958d835adb72f4",
-    "motionHash": "963c0a3834861267cbb80ba5b2b6ea11f6599729f84b446e3313b90e3eaaa609"
+    "localJobHash": "b401e6ecf871420609e500b455bd68e40d77926c6c5782622cdda6d4eb196c5e",
+    "motionHash": "5990c347bd0355a94265d8514ee8baf3493d21dd980dc6a111936bf1ed183bdb"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "expectedSeconds": 86.46953628299116,
@@ -5324,7 +5324,7 @@ The primary audit supplied 34 document records, including static/generated HTML 
 
 *Authority category: Current System Behavior*
 
-The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `0864544c1169cf5b891bc99629ee52d64c62719c704747dcbda33e358f539b1b` over 21 files. Store `/health` must report the same digest for the pinned runtime.
+The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377` over 21 files. Store `/health` must report the same digest for the pinned runtime.
 
 | Path | Bytes | SHA-256 | Git blob |
 | --- | ---: | --- | --- |
@@ -5335,7 +5335,7 @@ The following identities describe the shipped executable package/source/data. Do
 | `data/store-zero-catalog.json` | 335127 | `32f4c8bd2db59c1d1ec34ed846d732ccc2fee8ce3339a45f72f0d8bef36cc979` | `d0789826eaa7829cd4ff6bc1c84e2e4da94630a0` |
 | `package.json` | 605 | `342366bab3cbcddbb2e2967ce096b55acdeba62d798874c5ebfdb778ffd85ff6` | `cd55940923dc45bad1126e0b08bc9939584cd901` |
 | `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
-| `src/contracts/definitions.mjs` | 4407 | `2488f230590767e2e26600d16734cad81052f6e5ee437f675b347582b65e1da5` | `33e14e80beccbd5fb8f0df2abef92990bccf681f` |
+| `src/contracts/definitions.mjs` | 4314 | `21afeb299e62ede1d38f6700ad14dc4693c91b6a286c6b9fad971a807b45143b` | `55cd1fa8f2de6c373d78db35797f84ac9645eb5a` |
 | `src/contracts/job-packet.mjs` | 9585 | `4b1e52abac19ed3a3569b5028a2c63672ac33200ed2398f97ae315913041cf0b` | `c06deea4706a86e0bc695821e746ca41a4aebd4d` |
 | `src/contracts/machine-records.mjs` | 5106 | `bb0152f382e1d7ebe0622110024932ee187a7bf2ab2083e19c2535d7f24097f6` | `641080a0ad0a9a6938f625d346b11cf378497fac` |
 | `src/contracts/shape.mjs` | 2666 | `648773e99701b3ed7ff314786b7222c7e0f3bc15945a737cf55a1d13dd1c4cf2` | `4ecd8cf326f177fd8c70927b6f8b85251672fec3` |
