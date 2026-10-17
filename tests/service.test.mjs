@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import http from "node:http";
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
-import { createHandler, PATHS, PROTOCOL, releaseFromEnvironment, allowedOriginsFromEnvironment, startServer, sourceDigest } from "../src/service/server.mjs";
+import { createHandler, PATHS, PROTOCOL, LIMITS, releaseFromEnvironment, allowedOriginsFromEnvironment, startServer, sourceDigest } from "../src/service/server.mjs";
 import { recordedCatalog } from "../acceptance/fixtures/recorded-catalog.mjs";
 
 const ALLOWED = "https://georgeplattdemo.github.io";
@@ -121,6 +121,70 @@ test("the started service answers on its port", async () => {
 const packetExample = (name) => JSON.parse(readFileSync(new URL(`../contracts/examples/packets/${name}.accepted.json`, import.meta.url)));
 const packetRelease = packetExample("project-1").storeAnswer.evaluationReceipt.authority.storeRevision;
 const evidencePost = (base, body, origin = ALLOWED) => fetch(base + PATHS.machineEvidence, { method: "POST", headers: { "Content-Type": "application/json", Origin: origin }, body: typeof body === "string" ? body : JSON.stringify(body) });
+
+test("complete published Alcove, Window Seat and Outdoor ledgers survive HTTP packet lowering", async () => {
+  // Reuse the maintained complete inquiries, not shortened substitutes or padded Project 1 packets.
+  const master = readFileSync(new URL("../STORE-ZERO-MASTER.md", import.meta.url), "utf8");
+  const inquiries = [...master.matchAll(/<!-- current-request ([\w-]+) -->\n```json\n([^]*?)\n```/g)]
+    .filter(([, id]) => ["MASTER-ALCOVE-ECONOMY", "MASTER-WINDOW-SEAT", "MASTER-OUTDOOR"].includes(id))
+    .map(([, , json]) => JSON.parse(json));
+  assert.equal(inquiries.length, 3);
+  await withService({}, async (base) => {
+    const identity = (await (await fetch(base + PATHS.health)).json()).machineEvidence;
+    for (const inquiry of inquiries) {
+      const quoted = await (await post(base, inquiry)).json();
+      assert.equal(quoted.answer.status, "SUPPORTABLE");
+      // The existing packet fixture supplies explicit SIMULATED test acceptance only.
+      const packet = packetExample("project-1");
+      packet.definition = { definitionId: inquiry.demand.configurationId, revisionId: inquiry.demand.configurationVersion, requestType: inquiry.requestType, demand: inquiry.demand, manifest: inquiry.manifest };
+      packet.storeAnswer = quoted.answer;
+      const raw = JSON.stringify({ packet, expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash });
+      assert.ok(Buffer.byteLength(raw) > LIMITS.maxBodyBytes, inquiry.requestId);
+      assert.ok(Buffer.byteLength(raw) < 2 * 1024 * 1024, inquiry.requestId);
+      const response = await evidencePost(base, raw);
+      assert.equal(response.status, 200, inquiry.requestId);
+      const reply = await response.json();
+      assert.equal(reply.payloadDigest, createHash("sha256").update(raw).digest("hex"));
+      assert.equal(reply.answer.status, "VIRTUAL_EVIDENCE_READY", inquiry.requestId);
+      assert.deepEqual(reply.answer.localJob.operations, quoted.answer.operations);
+      assert.deepEqual(reply.answer.localJob.parents, quoted.answer.parents);
+      if (inquiry.requestId === "MASTER-OUTDOOR") {
+        const envelopes = reply.answer.records.sequence.filter(event => event.kind === "STOCK_ENVELOPE_DERIVED");
+        assert.ok(envelopes.length > 0);
+        assert.deepEqual(envelopes, quoted.answer.operations.filter(event => event.kind === "STOCK_ENVELOPE_DERIVED"));
+      }
+      assert.equal(reply.answer.run.status, "VIRTUAL_MODEL_COMPLETE");
+      assert.equal(reply.answer.admission.status, "BLOCKED");
+      assert.equal(reply.answer.admission.motionCommands, 0);
+      assert.equal(reply.answer.physicalAuthority, false);
+      packet.definition.demand.configurationVersion += "-ALTERED";
+      const altered = await (await evidencePost(base, { packet, expectedMachineConfigId: identity.machineConfigId, expectedMachineConfigHash: identity.machineConfigHash })).json();
+      assert.equal(altered.answer.status, "REFUSED");
+      assert.equal(altered.answer.records, undefined);
+    }
+  });
+});
+
+test("endpoint body bounds remain finite, count bytes and preserve the inquiry/commercial limit", async () => {
+  await withService({}, async (base) => {
+    assert.equal(LIMITS.maxBodyBytes, 256 * 1024);
+    assert.equal(LIMITS.maxMachineEvidenceBodyBytes, 2 * 1024 * 1024);
+    for (const path of [PATHS.requests, PATHS.commercial, PATHS.machineEvidence]) {
+      const limit = path === PATHS.machineEvidence ? LIMITS.maxMachineEvidenceBodyBytes : LIMITS.maxBodyBytes;
+      // At the exact byte boundary, valid JSON reaches semantic validation and is refused.
+      const raw = ' '.repeat(limit - 2) + '{}';
+      const send = (body) => fetch(base + path, { method: "POST", headers: { "Content-Type": "application/json", Origin: ALLOWED }, body });
+      const atLimit = await send(raw);
+      assert.equal(atLimit.status, 200, path);
+      assert.equal((await atLimit.json()).answer.status, "REFUSED");
+      const overLimit = await send(raw + ' ');
+      assert.equal(overLimit.status, 413, path);
+      assert.equal((await overLimit.json()).error, "REQUEST_TOO_LARGE");
+      assert.equal(overLimit.headers.get("access-control-allow-origin"), ALLOWED);
+      assert.equal(overLimit.headers.get("connection"), "close");
+    }
+  });
+});
 
 test("machine evidence over HTTP binds exact request bytes, release, configuration and both independent jobs", async () => {
   await withService({ release: packetRelease, catalog: recordedCatalog() }, async (base) => {

@@ -1596,7 +1596,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
     "requestId": "MASTER-SYO-16",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1614,7 +1614,7 @@ The 16-inch default selects the 60-inch parent, leaving 27.625 inches after two 
       "inputHash": "8321bd81011748c11ba33cfb41d1a9c4b117f559935fe7a1cef1652e803707d6",
       "resultHash": "15ebbe3b624d15b87d0a5d953de94ee4dad8b40210b3ba1fa4d6cb28371b00ab"
     },
-    "receiptHash": "c9503d8556177e8d3eeb7d37435eba6420b4936a6a3777c583ba114300c2e1cd"
+    "receiptHash": "2cd86f95257e03d9124fe8dcebad01d275a14072a502b41fddade207c7b80386"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -1777,7 +1777,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
     "requestId": "MASTER-SYO-18",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -1795,7 +1795,7 @@ The second current Project 1 setting is a separate definition, inquiry, receipt 
       "inputHash": "b963674eccd5aa85087606b6187893a05acfb24bef3f2f71b8e0403134ef3361",
       "resultHash": "1c4bf6a2261268a4daf989051d6d0137f6d0c6b707cb71a10bc0bd5fd4a1c2ac"
     },
-    "receiptHash": "a6cbbbb6baf61b5024e6a4562cc61114f53b8ef363913ccb2476731de9f13677"
+    "receiptHash": "9926327950be0ede2425dea9e70843957e1abb7b3ca3b41cff07ab6613edf8a5"
   },
   "ledgerRecords": 51,
   "physicalAuthority": false
@@ -2150,7 +2150,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
     "requestId": "MASTER-ALCOVE-ECONOMY",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2168,7 +2168,7 @@ Parent planning considers mixed lengths cumulatively. Full-width uprights and sh
       "inputHash": "56929717b78d58f5ad2d7baf2ae7449724ed7ab6fe1acf4ee85a2f54f3328b9f",
       "resultHash": "4fb529b9f5e4a3a51c519b5a6be67e138f03c50aac76c035521106ac4910e779"
     },
-    "receiptHash": "714800dd1f8966fbacb8214a8eb7fa539cd20a0ce3e144a0c110369f71d372ca"
+    "receiptHash": "6134abc04a0f4232ee6c2226008021a257ff8986af39c64e3e381f7415e039dd"
   },
   "ledgerRecords": 269,
   "physicalAuthority": false
@@ -2623,7 +2623,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
     "requestId": "MASTER-WINDOW-SEAT",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -2641,7 +2641,7 @@ Eligible shorter parents remain available for shorter runs while each assigned p
       "inputHash": "5506a7d4af2d91530bd3004a3c937ce7278576bb659ae85c2863ddfdafb7853b",
       "resultHash": "4772128c20915874e28e3463f27893cad34c6dc2a843ba1c16af5189988eec18"
     },
-    "receiptHash": "53d26b18626a50a98fc0d8339c8e91f7d65023d57839a1ae0b4b9645032f5afd"
+    "receiptHash": "c790c61806b57de9c87da4b50c2da335407b3507b580232bbf0e85948a25a6c7"
   },
   "ledgerRecords": 1072,
   "physicalAuthority": false
@@ -3077,7 +3077,7 @@ Current live refusals retain their reason codes, reason records and human-readab
     "requestId": "MASTER-OUTDOOR",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -3095,7 +3095,7 @@ Current live refusals retain their reason codes, reason records and human-readab
       "inputHash": "bd815b6d7953559ff197ac81fe154e2b7ab48f57d849dc1199cd55e9801e48d5",
       "resultHash": "7bea62b880e2e71bb106322c5d9e6b036b7a4fa17e3140bd2ef68a7fd73b47e3"
     },
-    "receiptHash": "133570b4d91c742593616bbc9db07c1815cf067c777be1d0d9deced0694a062d"
+    "receiptHash": "46e00a3b9f2cf9ead1fe72793f90a2bb9274b285793292a9968a83d6c5aa16c8"
   },
   "ledgerRecords": 392,
   "physicalAuthority": false
@@ -3248,7 +3248,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
     "requestId": "MASTER-PLAYHOUSE",
     "evaluatedAt": "2026-10-08T12:00:00.000Z",
     "authority": {
-      "storeRevision": "source-sha256:cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377",
+      "storeRevision": "source-sha256:deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb",
       "catalogHash": "09b16ea250e7b445964a9555153387e86adb62851cd41adc0ad77cb3cb105321",
       "manufacturingModel": {
         "id": "STORE-MANUFACTURING-CORE-0.1",
@@ -3266,7 +3266,7 @@ Hourly work and separately billed panel cuts remain distinct. The current refere
       "inputHash": "5ce8c01ef90f6b34c8fa18dd4a5b6b47f4ba3fbe8904852efc1a68468157db2d",
       "resultHash": "58f058ded791c387f46932f03f31fcba27aa90d55170513eb276777e5f322fa6"
     },
-    "receiptHash": "641dee442be91a39ecad9aca8ef5a39cbdc866d16bb983f7ca52a2383b1ba946"
+    "receiptHash": "95beeb5d13b7d4db957f75ecfe6d1180950fc1607bf985b008c2a9f37f9f0dbf"
   },
   "ledgerRecords": 15,
   "physicalAuthority": false
@@ -3340,6 +3340,8 @@ The current Project 1 case has 51 ledger records and 22 replayed move events; hi
 
 `POST /v1/machine-evidence` uses `STORE-ZERO-MACHINE-EVIDENCE-2`. Its complete input is `{packet, expectedMachineConfigId, expectedMachineConfigHash}`. It rejects missing/extra/mistyped fields and configuration mismatch before lowering. A successful answer is `{status: 'VIRTUAL_EVIDENCE_READY', physicalAuthority: false, localJob, records, run, admission}`; all six fields are serialized under the transport envelope with protocol, Store release, byte payload digest and respondedAt.
 
+The machine-record validator preserves `STOCK_ENVELOPE_DERIVED` with its existing core operands: part identity, finished length, stock-envelope length, end offset, actual cut width, length datum and kerf. Task 8's complete A-frame inquiry exposed its former omission from the validator, which caused machine evidence to fail after successful quotation. Registering this zero-duration explanatory record leaves the evaluated geometry, operations, Q and occupied time unchanged. It adds no controller operation; unknown event kinds and extra fields remain rejected.
+
 For the current 18-inch SPF Project 1 reference packet, the regenerated binding and disposition values are:
 
 <!-- current-machine-example -->
@@ -3351,12 +3353,12 @@ For the current 18-inch SPF Project 1 reference packet, the regenerated binding 
     "packetId": "PACKET-CURRENT-PROJECT-1-18",
     "demandHash": "6a45d87ff5ab902561af6df6dc91413d16e6c99db9aa245bb7358544157ebf16",
     "manifestHash": "35ef3558ca1b5a9c6321f8d8da6e6f3dca8e88e24e1b09bb37383ecb5c01797f",
-    "packetHash": "6d518dc9f9dac2e74e3a5c4034da902696499bd44e2da334017a55367847641a",
+    "packetHash": "39be0f62548a707bb22a26d43d1333f17d038fd24072041a8fe19000b123fcda",
     "machineConfigId": "STORE-MANUFACTURING-CORE-0.1",
     "machineConfigHash": "0394f8ac97eb89191b94fb83fd7390049ddd68e427a91629a1a14c98dce814df",
     "modelHash": "d4e9068afc99319f33afcee15ce5a4733c5a2ed5046d6c3fa7613b7a4ca2cb25",
-    "localJobHash": "b401e6ecf871420609e500b455bd68e40d77926c6c5782622cdda6d4eb196c5e",
-    "motionHash": "5990c347bd0355a94265d8514ee8baf3493d21dd980dc6a111936bf1ed183bdb"
+    "localJobHash": "df513dc9e094294e187de40b7ac2f15510b70f6aa76227b2ca783e661870a786",
+    "motionHash": "f3d78647b2e0156e2421afc80337c1e30ed771c8e7737680306dd08565606abb"
   },
   "evidenceClass": "PREDICTED_OCCUPANCY_ONLY",
   "expectedSeconds": 86.46953628299116,
@@ -4685,7 +4687,7 @@ A complete refusal example is the evidence request `{"packet":{},"expectedMachin
 
 *Authority category: Current System Behavior*
 
-The HTTP process uses protocol `STORE-ZERO-REQUEST-2`, with health, inquiry, machine-evidence and commercial endpoints. Maximum body is 256 KiB, request timeout 15 seconds and headers timeout 10 seconds. CORS defaults to `https://georgeplattdemo.github.io` or configured allowed origins; a no-Origin server request is accepted. CORS is a browser-origin restriction, not authentication of a seller/operator. Cache-Control is no-store.
+The HTTP process uses protocol `STORE-ZERO-REQUEST-2`, with health, inquiry, machine-evidence and commercial endpoints. Inquiry and commercial bodies remain limited to 256 KiB; machine-evidence bodies have a separate 2 MiB maximum to carry complete accepted packets and their ledgers. Task 8 reproduced HTTP 413 for actual published Alcove, Window Seat and Outdoor packets under the former shared 256 KiB limit. This transport correction preserves every accepted component and operation; it changes no manufacturing limit or physical authority. Bodies exceeding the applicable finite bound still receive HTTP 413 `REQUEST_TOO_LARGE`. Request timeout remains 15 seconds and headers timeout 10 seconds. CORS defaults to `https://georgeplattdemo.github.io` or configured allowed origins; a no-Origin server request is accepted. CORS is a browser-origin restriction, not authentication of a seller/operator. Cache-Control is no-store.
 
 Release is the host commit (`RENDER_GIT_COMMIT` or `RAILWAY_GIT_COMMIT_SHA`), or required `STORE_ZERO_RELEASE` where the host supplies none. A contradictory host/label refuses startup. Health reports a digest of **actual runtime bytes**, computed as SHA-256 over sorted lines `<path> NUL <sha256(file bytes)> LF` for package.json and every file under src/ and data/. Section 14.4 contains the generated digest and complete shipped-source inventory for this checkout. An inspected or deployed older revision requires its own recomputed digest; a newer main digest cannot identify that runtime. Documentation is excluded. The service recalculates this digest before answering; changed runtime bytes produce a service error instead of continuing under the old startup identity.
 
@@ -5324,7 +5326,7 @@ The primary audit supplied 34 document records, including static/generated HTML 
 
 *Authority category: Current System Behavior*
 
-The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `cd6c298668212aa7b6e6131c9e01e06fc9db955ef614e85c3bd99a454ffdb377` over 21 files. This identifies the current Store checkout, not System's older inspected Store revision. A running Store's `/health` must match the digest recomputed from its own exact release checkout; comparison with another main revision cannot establish that identity.
+The following identities describe the shipped executable package/source/data. Documentation and example-generation scripts are outside the service's shipped-source digest. The current digest is `deebb9921ea1a406249e3d4817f4fd16845760a4618b8f8d2c01e581a5464efb` over 21 files. This identifies the current Store checkout, not System's older inspected Store revision. A running Store's `/health` must match the digest recomputed from its own exact release checkout; comparison with another main revision cannot establish that identity.
 
 | Path | Bytes | SHA-256 | Git blob |
 | --- | ---: | --- | --- |
@@ -5337,7 +5339,7 @@ The following identities describe the shipped executable package/source/data. Do
 | `src/contracts/commercial-sequence.js` | 15007 | `583fa9ffe657fb14b643aed3e9997940e657a33a74d5507d4e4cf97006ac1ec9` | `b48f8768dae43f6fd4b1f459fd13acd141d91b4b` |
 | `src/contracts/definitions.mjs` | 4314 | `21afeb299e62ede1d38f6700ad14dc4693c91b6a286c6b9fad971a807b45143b` | `55cd1fa8f2de6c373d78db35797f84ac9645eb5a` |
 | `src/contracts/job-packet.mjs` | 9585 | `4b1e52abac19ed3a3569b5028a2c63672ac33200ed2398f97ae315913041cf0b` | `c06deea4706a86e0bc695821e746ca41a4aebd4d` |
-| `src/contracts/machine-records.mjs` | 5106 | `bb0152f382e1d7ebe0622110024932ee187a7bf2ab2083e19c2535d7f24097f6` | `641080a0ad0a9a6938f625d346b11cf378497fac` |
+| `src/contracts/machine-records.mjs` | 5239 | `af87ed967b1f0b84c171c9f156423a40bc36ba95b121a411de3eecadd974c12d` | `74781fd91f5c1faef976581278fce7c93da3d111` |
 | `src/contracts/shape.mjs` | 2666 | `648773e99701b3ed7ff314786b7222c7e0f3bc15945a737cf55a1d13dd1c4cf2` | `4ecd8cf326f177fd8c70927b6f8b85251672fec3` |
 | `src/evaluation/catalog.mjs` | 12765 | `45d82d55906885a3b1c9f3dfbf4cb876a4b28dc04d145cf76a37a0970721f0a2` | `293bd99d1036b2e9a66728d3bd06286e164a4b40` |
 | `src/evaluation/engine/store-manufacturing-core.mjs` | 77826 | `b5f0cefbbca8682b4765140ef9ebd311d95b97192900735db2c8097745b945af` | `8cb6d9e403317847c62ea7e93ca3c41089f66b7e` |
@@ -5348,7 +5350,7 @@ The following identities describe the shipped executable package/source/data. Do
 | `src/requests/commercial-request.mjs` | 1334 | `ec977bcea0a803315492286ca90fbdcb0b846750bb9b53daa78fde51045155a9` | `025c9d55a7f9d139a7b24f82a3ae9c3fdedfc896` |
 | `src/requests/offering-lookup.mjs` | 7310 | `5a7528691235228a1ae465eef3f8643a658a5b0a1582ca90daf0f06e9df85aa3` | `11d08ac1e7455f4a44e5aa0941cfb133ed959355` |
 | `src/requests/store-request.mjs` | 7010 | `a10ea147e2e0fc9acd5df3b8df9670db08443c1d04df6c7018ed2a106e82a068` | `ea700ba9c5710990752adb5c33ee5cf8439eca65` |
-| `src/service/server.mjs` | 11188 | `63f65e69128e2f201e8b6b9fd103db30786776b585a304292372083157956472` | `f9fab6ee7123a1b9f4e7ac9168a2c47ed7ba0779` |
+| `src/service/server.mjs` | 11395 | `1d2e6815ef8c84dc8d686a5a7b4c5b0eb6e4f615b1c889de46d9c3213b228ac8` | `701ae01e9b0dcc584f2422c4d78a29b1aa69400d` |
 
 Patents and original Project 1 publication hashes are governed by their preserved checksum/publication manifests and immutable-evidence acceptance tests. A content hash establishes bytes, not physical qualification or actor authentication.
 
