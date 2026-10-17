@@ -5,6 +5,7 @@
  */
 
 const strings = { array: "string" };
+const BOARD_MATERIAL = { object: { species: "string", form: "string", nominalT: "number", nominalW: "number", grade: "string" } };
 
 const USER_DEFINED_BOARD_V1 = {
   object: {
@@ -13,7 +14,7 @@ const USER_DEFINED_BOARD_V1 = {
     configurationVersion: "string",
     classId: "string",
     // The grade is the customer's; when the wood comes in more than one grade it must be named.
-    materialDemand: { object: { species: "string", form: "string", nominalT: "number", nominalW: "number", grade: "string" } },
+    materialDemand: BOARD_MATERIAL,
     definedWorkpieceLengthIn: "number",
     requiredOps: strings,
     sawAngleDeg: "number",
@@ -50,8 +51,6 @@ const USER_DEFINED_BOARD_V1 = {
     }
   }
 };
-
-const BOARD_MATERIAL = { object: { species: "string", form: "string", nominalT: "number", nominalW: "number", grade: "string" } };
 
 const CUT_PACKAGE_V1 = {
   object: {
