@@ -31,7 +31,18 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 | Fresh performance measurement | `scripts/benchmark-evaluation.mjs` |
 | Deployment verification | `scripts/verify-deployment.mjs`, `Dockerfile`, `railway.json`, `.github/workflows/acceptance.yml` |
 
-`README.md` is the public entrance; `STORE-ZERO-MASTER.md` contains the complete explanation; `docs/STORE-ZERO-SPECIFICATION.md` states adopted technical contracts. Shared job vocabulary is governed by System's `docs/DEFINITIONS.md`. When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient.
+[README.md](README.md) is the public entrance. Keep the following existing sources separate:
+
+| Authority | Owns |
+| --- | --- |
+| [Store specification](docs/STORE-ZERO-SPECIFICATION.md) | Adopted Store admission, evaluation, registration and evidence contracts |
+| [Store master](STORE-ZERO-MASTER.md) | Complete manufacturing and technical explanation, functional patent treatment and source context |
+| [System definitions](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) | The sole authoritative shared manufacturing meanings; Store's executable contracts implement them |
+| [Catalog](data/store-zero-catalog.json) and [registered machine](data/machine/manufacturing-core-0.1.json) | Store material/stock facts and declared machine parameters; their executable owners are mapped above |
+| [Current and sealed Project 1 evidence](docs/project-1-digital-trail/README.md) | Maintained proof and separately preserved original publications; regenerate current outputs through [the existing generator](scripts/build-contract-examples.mjs) |
+| [Issued patent custody](docs/patents/README.md) | Original patent documents, attribution and checksum identities |
+
+When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient. Program's current [maintenance and ownership instructions](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/AGENTS.md) and [supervised trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) own research and physical validation, rather than Store's detailed engineering.
 
 ## Current integrated proof
 
