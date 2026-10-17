@@ -31,15 +31,18 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 | Fresh performance measurement | `scripts/benchmark-evaluation.mjs` |
 | Deployment verification | `scripts/verify-deployment.mjs`, `Dockerfile`, `railway.json`, `.github/workflows/acceptance.yml` |
 
-`README.md` is the public entrance; `STORE-ZERO-MASTER.md` contains the complete explanation; `docs/STORE-ZERO-SPECIFICATION.md` states adopted technical contracts. Shared job vocabulary is governed by System's `docs/DEFINITIONS.md`. When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient.
+[README.md](README.md) is the public entrance. Keep the following existing sources separate:
 
-## Current integrated proof
+| Authority | Owns |
+| --- | --- |
+| [Store specification](docs/STORE-ZERO-SPECIFICATION.md) | Adopted Store admission, evaluation, registration and evidence contracts |
+| [Store master](STORE-ZERO-MASTER.md) | Complete manufacturing and technical explanation, functional patent treatment and source context |
+| [System definitions](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/DEFINITIONS.md) | The sole authoritative shared manufacturing meanings; Store's executable contracts implement them |
+| [Catalog](data/store-zero-catalog.json) and [registered machine](data/machine/manufacturing-core-0.1.json) | Store material/stock facts and declared machine parameters; their executable owners are mapped above |
+| [Current and sealed Project 1 evidence](docs/project-1-digital-trail/README.md) | Maintained proof and separately preserved original publications; regenerate current outputs through [the existing generator](scripts/build-contract-examples.mjs) |
+| [Issued patent custody](docs/patents/README.md) | Original patent documents, attribution and checksum identities |
 
-*Authority category: Current System Behavior*
-
-The adopted definitions and specifications govern required behavior. Executable source, identified configuration and verified outputs establish what a particular revision actually implements. A disagreement is a conformance defect: preserve the requirement, identify the affected owner and evidence, and repair the implementation or obtain an explicit requirement decision. Neither a passing test nor existing code silently overrides the adopted contract. Documentation must distinguish adopted requirements, verified implementation, proposed capability and physical qualification.
-
-The current Project 1 proof is maintained acceptance evidence, regenerated from the operative source and configuration when consequential behavior changes. Original sealed publications retain their source identities and historical results. Consequential changes must reconcile the affected definitions, specifications, masters, Program descriptions, current proof, tests, links and operational identities before completion. Preserve full technical content and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
+When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient. Program's current [maintenance and ownership instructions](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/AGENTS.md) and [supervised trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) own research and physical validation, rather than Store's detailed engineering.
 
 ## Unbreakable boundaries
 
