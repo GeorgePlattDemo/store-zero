@@ -44,14 +44,6 @@ Store Zero evaluates identified neutral manufacturing definitions against its ow
 
 When prose and executable code disagree, fix the contradiction at its actual owner and revise the affected tests and references; never choose whichever description is convenient. Program's current [maintenance and ownership instructions](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/AGENTS.md) and [supervised trial](https://github.com/GeorgePlattDemo/3d-solutions-program/blob/main/SUPERVISED-LABORATORY-CELL-TRIAL.md) own research and physical validation, rather than Store's detailed engineering.
 
-## Current integrated proof
-
-*Authority category: Current System Behavior*
-
-The adopted definitions and specifications govern required behavior. Executable source, identified configuration and verified outputs establish what a particular revision actually implements. A disagreement is a conformance defect: preserve the requirement, identify the affected owner and evidence, and repair the implementation or obtain an explicit requirement decision. Neither a passing test nor existing code silently overrides the adopted contract. Documentation must distinguish adopted requirements, verified implementation, proposed capability and physical qualification.
-
-The current Project 1 proof is maintained acceptance evidence, regenerated from the operative source and configuration when consequential behavior changes. Original sealed publications retain their source identities and historical results. Consequential changes must reconcile the affected definitions, specifications, masters, Program descriptions, current proof, tests, links and operational identities before completion. Preserve full technical content and distinguish modeled results, simulated commerce, commissioned execution and inspected output.
-
 ## Unbreakable boundaries
 
 *Authority category: Current System Behavior*
