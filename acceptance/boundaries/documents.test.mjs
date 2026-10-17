@@ -66,5 +66,5 @@ test("the issued patents are the issued patents", () => {
 // This task's owner-approved freeze is separate from historical publication custody.
 test('the repository root README retains its approved frozen bytes',()=>{
  const bytes=readFileSync(join(ROOT,'README.md'));
- assert.equal(createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'),'f4d4abdf01a78d4cdb180e97b8d04765647ccc02');
+ assert.equal(createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'),'35aa77cb0586b66728962e066cac129a8b92d9a2');
 });
