@@ -74,7 +74,7 @@ Physical admission remains blocked. The proof establishes a digital manufacturin
 | [**System**](https://github.com/GeorgePlattDemo/new-system) | The customer’s project definition, application, shared job meaning, and consequential records. |
 | **Store** | Its material, capability, modeled work, economics, and answers for that definition. |
 
-The replacement application consumes the exact Store version recorded in System’s [`STORE_CANDIDATE`](https://github.com/GeorgePlattDemo/new-system/blob/main/src/system/store-candidate.ts). Publishing a Store document does not move that runtime version.
+The System application consumes the exact Store version recorded in System’s [`STORE_CANDIDATE`](https://github.com/GeorgePlattDemo/new-system/blob/main/src/system/store-candidate.ts). Publishing a Store document does not move that runtime version.
 
 ## Explore the implementation
 
@@ -83,12 +83,12 @@ The replacement application consumes the exact Store version recorded in System�
 | Surface | What to inspect |
 | --- | --- |
 | [Catalog](data/store-zero-catalog.json) | Offerings, item identities, declared stock, and material prices. |
-| [Pricing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Material and modeled machine-work economics. |
-| [Dimensional travel standard](src/evaluation/engine/store-manufacturing-core.mjs) | Fit, travel, modeled work, and the dimensional completion calculation. |
-| [Cut-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Multi-part dimensional requests, an alcove among them. |
-| [Sheet-package evaluator](src/evaluation/engine/store-manufacturing-core.mjs) | Routed sheet work, tabs, and supported panel cuts. |
-| [D-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) · [S-001 declarations](src/evaluation/engine/store-manufacturing-core.mjs) | Machine-readable capability facts. |
-| [Adopted shared manufacturing engine](src/evaluation/engine/store-manufacturing-core.mjs) | Store-owned engine for neutral-job SKU selection, handling, modeled machine time and Q; active under protocol 2. |
+| [Manufacturing core](src/evaluation/engine/store-manufacturing-core.mjs) | One engine for board, multi-part dimensional and sheet work: stock search, complete operation sequence, travel, occupancy and Q. |
+| [Machine registration](data/machine/manufacturing-core-0.1.json) and [configuration reader](src/machine/configuration.mjs) | Declared D-001/S-001 model, tooling, datums and configuration identity; exact envelopes are in [master chapter 6](STORE-ZERO-MASTER.md#6-registered-machine-functions). |
+| [HTTP service](src/service/server.mjs) and [request boundary](src/requests/store-request.mjs) | Protocol, independent manifest, catalog/configuration identity, fresh evaluation receipts and attributable refusals. |
+| [Packet verifier](src/contracts/job-packet.mjs), [lowering](src/machine/lowering.mjs) and [virtual replay](src/machine/virtual-run.mjs) | Exact accepted plan binding, complete modeled evidence and blocked physical admission. |
+| [Current Project 1 proof](docs/project-1-digital-trail/current-proof.md) and [generator](scripts/build-contract-examples.mjs) | Regenerating current reference evidence; [the evidence index](docs/project-1-digital-trail/README.md) separately preserves the sealed publication. |
+| [Acceptance](acceptance/), [benchmark](scripts/benchmark-evaluation.mjs), [deployment verifier](scripts/verify-deployment.mjs) and [CI](.github/workflows/acceptance.yml) | Manufacturing, contract, refusal, custody, performance and running-source checks. |
 | [Commercial event contract](src/contracts/commercial-sequence.js) | Executable prerequisites, events, evidence identities and custody; the [System-owned design map](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/commercial-sequence-template.md) retains its source context. |
 
 The active request path is [the Store request layer](src/requests/store-request.mjs), which compiles admitted neutral definitions into [the single manufacturing core](src/evaluation/engine/store-manufacturing-core.mjs). Its catalog, operation sequence, modeled time and Q are Store-owned. Commercial events have their own [executable gate](src/contracts/commercial-sequence.js), separate from evaluation; System owns the definition and shared workflow meaning.
@@ -98,8 +98,12 @@ Code is in [`src/`](src/), catalog and price sheets in [`data/`](data/), and che
 Run the repository tests on Node 22:
 
 ```sh
+npm run check:catalog
 npm test
+node scripts/benchmark-evaluation.mjs
 ```
+
+Regenerate maintained reference evidence with `npm run build:examples`. Verify a deployment from a clean exact checkout with `node scripts/verify-deployment.mjs <base-url> --commit <sha>`; the [release procedure](https://github.com/GeorgePlattDemo/new-system/blob/main/docs/verification/start-your-own.md#release-configuration-and-rollback-procedure) coordinates System and Store. These checks preserve the same stock, operations, Q and refusals; they do not commission equipment.
 
 ## Reference status and further reading
 
