@@ -30,7 +30,8 @@ import { evaluateMachineEvidence, machineEvidenceIdentity, MACHINE_EVIDENCE_PROT
 
 export const PROTOCOL = "STORE-ZERO-REQUEST-2";
 export const PATHS = Object.freeze({ health: "/health", requests: "/v1/requests", machineEvidence: "/v1/machine-evidence",commercial:"/v1/commercial-events" });
-export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, requestTimeoutMs: 15_000, headersTimeoutMs: 10_000 });
+// Evidence carries the complete accepted answer/ledger, not only the smaller inquiry.
+export const LIMITS = Object.freeze({ maxBodyBytes: 256 * 1024, maxMachineEvidenceBodyBytes: 2 * 1024 * 1024, requestTimeoutMs: 15_000, headersTimeoutMs: 10_000 });
 export const DEFAULT_ALLOWED_ORIGINS = Object.freeze(["https://georgeplattdemo.github.io"]);
 
 export function releaseFromEnvironment(env = process.env) {
@@ -147,7 +148,7 @@ export function createHandler({ release, allowedOrigins = DEFAULT_ALLOWED_ORIGIN
 
     let body;
     try {
-      body = await readBody(req, LIMITS.maxBodyBytes);
+      body = await readBody(req, pathname === PATHS.machineEvidence ? LIMITS.maxMachineEvidenceBodyBytes : LIMITS.maxBodyBytes);
     } catch (error) {
       return httpError(res, error.status === 413 ? 413 : 400, error.status === 413 ? "REQUEST_TOO_LARGE" : "REQUEST_NOT_READ", { Connection: "close", ...cors });
     }

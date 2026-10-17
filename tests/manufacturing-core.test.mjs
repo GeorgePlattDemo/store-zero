@@ -9,6 +9,7 @@ import {identifiedRequest} from './fixtures/manifest.mjs';
 import {compileDefinition,evaluateManufacturingJob} from '../src/evaluation/engine/store-manufacturing-core.mjs';
 import {USER1_DIMENSIONAL_TRAVEL_DEMAND} from './fixtures/user1-dimensional-travel-fixture.mjs';
 import {loadMachineConfig} from '../src/machine/configuration.mjs';
+import {operationProblems} from '../src/contracts/machine-records.mjs';
 
 function angledBraces(angleDeg=25) {
  const demand={configurationId:'OUTDOOR-BRACE-GEOMETRY',configurationVersion:'geometry-1',
@@ -24,6 +25,11 @@ test('the 25-degree parallel cross support derives stock envelope from the actua
  const envelope=32.875+3.5*Math.tan(25*Math.PI/180);
  const events=r.operations.filter(e=>e.kind==='STOCK_ENVELOPE_DERIVED');
  assert.equal(events.length,2);
+ assert.deepEqual(operationProblems(r.operations),[]);
+ const unknown=structuredClone(r.operations);unknown.find(e=>e.kind==='STOCK_ENVELOPE_DERIVED').kind='UNREGISTERED_ENVELOPE';
+ assert.ok(operationProblems(unknown).includes('OPERATION_KIND_NOT_DECLARED'));
+ const extra=structuredClone(r.operations);extra.find(e=>e.kind==='STOCK_ENVELOPE_DERIVED').machineCommand='MOVE';
+ assert.ok(operationProblems(extra).includes('OCCUPANCY_SEQUENCE_INVALID'));
  for(const event of events){
   assert.ok(Math.abs(event.stockEnvelopeLengthIn-envelope)<1e-9);
   assert.ok(Math.abs(event.endOffsetIn-(envelope-32.875))<1e-9);
