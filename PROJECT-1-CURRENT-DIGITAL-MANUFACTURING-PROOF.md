@@ -465,7 +465,7 @@ The generator writes the verified reference specimens and their exact serialized
 
 **Reader's audit procedure:** (i) identify the customer's exact revision and complete manifest; (ii) inspect the Store request, response and receipt under its release identity; (iii) cross-check selected SKU, 51-operation ledger, occupied seconds and Q; (iv) inspect the exact accepted packet and bound local job; (v) confirm virtual replay result and physical BLOCKED admission; (vi) inspect the adverse refusal with **no** simulated acceptance; (vii) verify that actual browser proof corresponds to its declared revision and Store pin. The absence of any link in that chain is a stated limitation, never a reason to fill the gap with inference.
 
-**Verification status for this manuscript:** The calculations and specimen identities above were transcribed from the current committed Store proof and Store/System master/acceptance records. The new long-form manuscript has **not yet been committed or executed through repository CI**. It must not be represented as already published or endorsed by the live Railway service.
+**Verification status for this manuscript:** The calculations and specimen identities above were transcribed from the current committed Store proof and Store/System master/acceptance records. The long-form manuscript entered Store `main` in commit [`6b8ea077`](https://github.com/GeorgePlattDemo/store-zero/commit/6b8ea07730516b58155fb1ead930556511bf0c50). Repository publication alone does not establish a verified CI result or a verified live Railway release; each requires its own identified evidence.
 
 ## 21. Complete source and output register
 
